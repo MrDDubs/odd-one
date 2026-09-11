@@ -3,37 +3,30 @@
   "version": "1.0.0",
   "description": "Ally's Odd One Out - TikTok Live interactive game with TikFinity integration and Admin Panel",
   "main": "electron/main.js",
+  "bin": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
     "electron": "electron .",
-    "dist:mac": "electron-builder --mac",
-    "dist:mac:dir": "electron-builder --mac --dir"
+    "build-exe": "electron-builder --win",
+    "build-mac": "electron-builder --mac"
   },
   "build": {
-    "appId": "com.ally.oddoneout",
+    "appId": "com.mrddubs.oddoneout",
     "productName": "Allys Odd One Out",
-    "directories": {
-      "output": "dist"
+    "win": {
+      "target": "portable",
+      "icon": "build/icon.ico"
+    },
+    "portable": {
+      "artifactName": "allys-odd-one-out.exe"
     },
     "mac": {
-      "category": "public.app-category.games",
-      "target": [
-        "dmg",
-        "zip"
-      ],
-      "identity": null,
-      "hardenedRuntime": false,
-      "gatekeeperAssess": false
+      "target": "dmg"
     },
-    "files": [
-      "server.js",
-      "state.js",
-      "providers/**/*",
-      "public/**/*",
-      "electron/**/*",
-      "package.json"
+    "asarUnpack": [
+      "node_modules/**/*"
     ]
   },
   "dependencies": {
@@ -53,7 +46,7 @@
   "license": "ISC",
   "devDependencies": {
     "@electron/packager": "^20.3.0",
-    "electron": "^44.3.0",
+    "electron": "^33.4.11",
     "electron-builder": "^26.15.3",
     "socket.io-client": "^4.8.3"
   }
