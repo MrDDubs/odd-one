@@ -16,13 +16,16 @@ export class GameState {
     this.round = 0;
     this.level = 1;
     this.autoLevel = true;
+    this.manualLevel = null;
     this.streak = 0;
     this.category = "fruit";
+    this.categoryOverride = null; // null = random auto, or "fruit", "bear", etc.
     this.target = "A1";
     this.active = false;
     this.revealed = false;
     this.paused = false;
     this.time = 20;
+    this.customDurationSec = null; // null = level preset, or manual number e.g. 30
     this.roundDurationSec = 20;
     this.statusMessage = "Press START to begin!";
     this.mockMode = false;
@@ -38,13 +41,16 @@ export class GameState {
   }
 
   calculateLevel() {
-    if (!this.autoLevel) return this.level;
+    if (!this.autoLevel && this.manualLevel !== null) return this.manualLevel;
     const computed = Math.min(5, 1 + Math.floor(this.streak / 3));
     this.level = computed;
     return computed;
   }
 
   getPresetTime() {
+    if (this.customDurationSec && this.customDurationSec > 0) {
+      return this.customDurationSec;
+    }
     const lvlConfig = LEVELS.find(l => l.level === this.level) || LEVELS[0];
     return lvlConfig.sec;
   }
@@ -55,34 +61,85 @@ export class GameState {
     this.roundWinners = [];
     this.paused = false;
 
+    // 1. Determine Level
     if (options.level) {
       this.level = Math.max(1, Math.min(5, options.level));
+    } else if (this.manualLevel !== null) {
+      this.level = this.manualLevel;
     } else {
       this.calculateLevel();
     }
 
+    // 2. Determine Category
     if (options.category && CATEGORIES.includes(options.category.toLowerCase())) {
       this.category = options.category.toLowerCase();
+    } else if (this.categoryOverride && CATEGORIES.includes(this.categoryOverride.toLowerCase())) {
+      this.category = this.categoryOverride.toLowerCase();
     } else {
       this.category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
     }
 
-    // Pick random target from A1 to F4
+    // 3. Pick random target from A1 to F4
     const randCol = COLS[Math.floor(Math.random() * COLS.length)];
     const randRow = ROWS[Math.floor(Math.random() * ROWS.length)];
     this.target = randCol + randRow;
 
-    // Determine round duration
+    // 4. Determine Round Duration
     if (options.duration && Number(options.duration) > 0) {
-      this.roundDurationSec = Number(options.duration);
+      this.customDurationSec = Number(options.duration);
+      this.roundDurationSec = this.customDurationSec;
+    } else if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
     } else {
       this.roundDurationSec = this.getPresetTime();
     }
+
     this.time = this.roundDurationSec;
     this.active = true;
 
     const lvlObj = LEVELS.find(l => l.level === this.level) || LEVELS[0];
     this.statusMessage = `${lvlObj.name}: First 2 to find the odd ${this.category} get points! 👀`;
+
+    return this.getPublicPayload();
+  }
+
+  setOptions(opts = {}) {
+    // Duration
+    if (opts.duration !== undefined) {
+      const dur = parseInt(opts.duration, 10);
+      if (dur > 0) {
+        this.customDurationSec = dur;
+        this.roundDurationSec = dur;
+        this.time = dur; // Immediately set active timer!
+      }
+    }
+
+    // Category
+    if (opts.category !== undefined) {
+      if (opts.category === "random" || !opts.category) {
+        this.categoryOverride = null;
+      } else if (CATEGORIES.includes(opts.category.toLowerCase())) {
+        this.categoryOverride = opts.category.toLowerCase();
+        this.category = this.categoryOverride;
+      }
+    }
+
+    // Level
+    if (opts.autoLevel !== undefined) {
+      this.autoLevel = !!opts.autoLevel;
+      if (this.autoLevel) {
+        this.manualLevel = null;
+        this.calculateLevel();
+      }
+    }
+    if (opts.level !== undefined) {
+      const lvl = parseInt(opts.level, 10);
+      if (lvl >= 1 && lvl <= 5) {
+        this.manualLevel = lvl;
+        this.autoLevel = false;
+        this.level = lvl;
+      }
+    }
 
     return this.getPublicPayload();
   }
@@ -275,6 +332,9 @@ export class GameState {
       ...this.getPublicPayload(),
       secretTarget: this.target,
       autoLevel: this.autoLevel,
+      manualLevel: this.manualLevel,
+      categoryOverride: this.categoryOverride,
+      customDurationSec: this.customDurationSec,
       mockMode: this.mockMode,
       guesses: this.guesses.slice(0, 30),
       leaderboard: this.getLeaderboard(15)

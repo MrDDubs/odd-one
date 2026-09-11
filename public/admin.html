@@ -84,6 +84,16 @@
             </div>
           </div>
 
+          <!-- Custom Duration Input -->
+          <div class="form-group" style="margin-top:4px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <label for="customSecInput" style="margin:0">Custom Duration:</label>
+              <input type="number" id="customSecInput" min="5" max="180" value="20" style="width:90px;padding:6px 10px" />
+              <span style="font-size:12px;color:var(--muted)">seconds</span>
+              <button type="button" id="btnSaveCustomSec" class="secondary" style="padding:6px 14px">Set Time</button>
+            </div>
+          </div>
+
           <div class="input-row">
             <div class="form-group">
               <label for="selectLevel">Level Mode</label>

@@ -260,19 +260,7 @@ adminNSP.on("connection", (socket) => {
   socket.on("resetGame", () => actionResetGame());
 
   socket.on("setOptions", (opts) => {
-    if (opts.category && CATEGORIES.includes(opts.category)) {
-      state.category = opts.category;
-    }
-    if (opts.level) {
-      state.level = Math.max(1, Math.min(5, parseInt(opts.level, 10)));
-    }
-    if (opts.autoLevel !== undefined) {
-      state.autoLevel = !!opts.autoLevel;
-    }
-    if (opts.duration) {
-      state.roundDurationSec = parseInt(opts.duration, 10);
-      if (!state.active) state.time = state.roundDurationSec;
-    }
+    state.setOptions(opts);
     broadcastState();
   });
 

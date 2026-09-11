@@ -97,6 +97,19 @@ function renderState(state) {
     btn.classList.toggle("active", sec === state.roundDurationSec);
   });
 
+  const customSecInput = document.getElementById("customSecInput");
+  if (customSecInput && document.activeElement !== customSecInput) {
+    customSecInput.value = state.roundDurationSec || 20;
+  }
+
+  if (selectCategory && document.activeElement !== selectCategory) {
+    selectCategory.value = state.categoryOverride || "random";
+  }
+
+  if (selectLevel && document.activeElement !== selectLevel) {
+    selectLevel.value = state.autoLevel ? "auto" : String(state.manualLevel || state.level);
+  }
+
   renderLeaderboard(state.leaderboard || []);
 }
 
@@ -206,10 +219,26 @@ btnResetGame.addEventListener("click", () => {
   }
 });
 
-// Timer Presets
+// Timer Presets & Custom Duration
+const customSecInputEl = document.getElementById("customSecInput");
+const btnSaveCustomSecEl = document.getElementById("btnSaveCustomSec");
+
+if (btnSaveCustomSecEl && customSecInputEl) {
+  btnSaveCustomSecEl.addEventListener("click", () => {
+    const val = parseInt(customSecInputEl.value, 10);
+    if (val && val >= 5) {
+      socket.emit("setOptions", { duration: val });
+      showToast(`Timer set to ${val}s`);
+    } else {
+      alert("Please enter a valid time (at least 5 seconds)");
+    }
+  });
+}
+
 document.querySelectorAll("[data-sec]").forEach(btn => {
   btn.addEventListener("click", () => {
     const duration = parseInt(btn.getAttribute("data-sec"), 10);
+    if (customSecInputEl) customSecInputEl.value = duration;
     socket.emit("setOptions", { duration });
     showToast(`Timer set to ${duration}s`);
   });
