@@ -300,17 +300,26 @@ function showLeaderboardPopup(data) {
   }, 4000);
 }
 
+let lastRenderedRound = -1;
 let lastRenderedTarget = "";
 let lastRenderedCategory = "";
 let lastRenderedLevel = 0;
 
+function clearAllHighlights() {
+  document.querySelectorAll(".cell").forEach(cell => {
+    cell.classList.remove("correct");
+  });
+}
+
 function applyGameState(data) {
+  const roundChanged = data.round !== lastRenderedRound;
   round = data.round || 1;
   level = data.level || 1;
   category = data.category || "fruit";
   streak = data.streak || 0;
   time = data.time !== undefined ? data.time : 20;
   active = !!data.active;
+  target = data.target || target;
 
   elRound.textContent = `ROUND ${round}`;
   const lvlName = LEVELS[level - 1]?.name || "EASY";
@@ -336,16 +345,33 @@ function applyGameState(data) {
     updateTikStatus(data.tikfinityConnected);
   }
 
-  const serverTarget = data.target || data.secretTarget || "";
-  if (serverTarget && (serverTarget !== lastRenderedTarget || category !== lastRenderedCategory || level !== lastRenderedLevel)) {
-    lastRenderedTarget = serverTarget;
-    lastRenderedCategory = category;
-    lastRenderedLevel = level;
-    drawGrid(serverTarget, category, level);
+  // If a new round started, ensure modal is closed and highlights are removed
+  if (roundChanged) {
+    elModal.classList.remove("active");
+    clearAllHighlights();
   }
 
-  if (data.revealed && serverTarget) {
-    highlightTarget(serverTarget);
+  // Redraw grid whenever round, target, category, or level changes
+  const curTarget = data.target || target;
+  if (
+    roundChanged ||
+    curTarget !== lastRenderedTarget ||
+    category !== lastRenderedCategory ||
+    level !== lastRenderedLevel ||
+    !document.querySelector(".cell")
+  ) {
+    lastRenderedRound = round;
+    lastRenderedTarget = curTarget;
+    lastRenderedCategory = category;
+    lastRenderedLevel = level;
+    drawGrid(curTarget, category, level);
+  }
+
+  // Only highlight the block when revealed is TRUE
+  if (data.revealed) {
+    highlightTarget(curTarget);
+  } else {
+    clearAllHighlights();
   }
 }
 

@@ -264,7 +264,7 @@ export class GameState {
       paused: this.paused,
       roundWinners: this.roundWinners,
       statusMessage: this.statusMessage,
-      target: this.revealed ? this.target : null,
+      target: this.target,
       leaderboard: this.getLeaderboard(5)
     };
   }
