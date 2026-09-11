@@ -78,3 +78,36 @@ You don't need to be live on TikTok to test the game:
    - Click **"🎯 Simulate Correct Guess"** to test a winning viewer trigger.
    - Click **"🎲 Random Guess"** or type a custom coordinate like `A4` and click **"Submit Guess"**.
 3. Watch the game screen update with sounds, box highlights, streak updates, and next round transitions!
+
+---
+
+## 🍏 Running on macOS
+
+### Option 1: 1-Click Desktop App (Electron)
+```bash
+npm run electron
+```
+Or simply double-click `start-mac-electron.command` in macOS Finder!
+
+### Option 2: 1-Click Web & Server Launcher
+Double-click `start-mac.command` in macOS Finder:
+- Automatically checks Node.js & dependencies
+- Starts the server on port `3000`
+- Automatically opens both the Game Overlay and Host Admin Panel in Safari or Chrome
+
+### Option 3: Terminal
+```bash
+cd path/to/odd-one
+npm install
+npm start
+```
+To stop the server at any time on Mac, press `Ctrl + C` in the Terminal window.
+
+---
+
+## 📦 Automated Mac Electron Build (.dmg & .zip)
+
+This repository includes a GitHub Actions workflow (`.github/workflows/build-mac.yml`):
+1. Go to the **Actions** tab in the GitHub repo: [https://github.com/MrDDubs/odd-one/actions](https://github.com/MrDDubs/odd-one/actions).
+2. Every push automatically builds native macOS `.dmg` and `.zip` packages on Apple Silicon and Intel.
+3. Download the artifact `Allys-Odd-One-Out-macOS` with one click!
