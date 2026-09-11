@@ -28,26 +28,27 @@ body{font-family:Arial,sans-serif;background:#211951;color:#fff}
   overflow:visible;padding:2.2% 4% 2.8%;
   background:linear-gradient(145deg,rgba(80,53,157,.96),rgba(64,45,135,.92));
   border:2px solid #9e82ff;
-  box-shadow:0 0 10px #7358ff,0 0 22px #bd6fff,inset 0 0 16px rgba(255,255,255,.18)
+  box-shadow:0 0 10px #7358ff,0 0 22px #bd6fff,inset 0 0 16px rgba(255,255,255,.18);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
 }
 .allyword{
   font-family:"Brush Script MT","Segoe Script","Arial Rounded MT Bold",cursive;
   font-size:4.2vh;line-height:.72;color:#fff;
   -webkit-text-stroke:1.5px #b35ee8;
   text-shadow:0 3px 0 #7b46b5,0 0 6px #fff,0 0 15px #f17bff,0 0 28px #8d65ff;
-  transform:rotate(-4deg);margin-left:4%;display:inline-block
+  transform:rotate(-3deg);margin-bottom:0.4vh;display:inline-block;text-align:center;
 }
 .oddtitle{
   font-family:"Arial Rounded MT Bold","Trebuchet MS",Arial,sans-serif;
   font-size:2.55vh;line-height:.92;font-weight:1000;letter-spacing:-.045em;color:#fff;
   -webkit-text-stroke:1.5px #7659cf;
   text-shadow:0 3px 0 #5a48b4,0 0 5px #fff,0 0 13px #79a7ff,0 0 22px #9b63ff;
-  white-space:nowrap
+  white-space:nowrap;text-align:center;
 }
 .tagline{
-  display:inline-block;margin-top:3%;padding:1.4% 4%;border:1.5px solid #a7b6ff;
+  display:inline-block;margin-top:2.5%;padding:1.4% 4%;border:1.5px solid #a7b6ff;
   border-radius:999px;font-size:.72vh;font-weight:900;letter-spacing:.04em;color:#fff;
-  background:rgba(44,31,103,.58);box-shadow:0 0 8px #779cff;white-space:nowrap
+  background:rgba(44,31,103,.58);box-shadow:0 0 8px #779cff;white-space:nowrap;text-align:center;
 }
 .timerbox{text-align:center;padding:4% 2%}
 .timer{font-size:3.4vh;font-weight:1000;color:#8e49a8;transition:color 0.2s}
@@ -349,7 +350,6 @@ body{font-family:Arial,sans-serif;background:#211951;color:#fff}
 
   <div class="status" id="status">24 boxes • exactly ONE odd image per round</div>
   <div class="foot">COMMENT TO PLAY • A1–F4 • TOP 2 GET POINTS ♡</div>
-  <div id="tikStatus" style="text-align:center;font-size:.9vh;font-weight:900;padding:.7%">🟡 Connecting to TikFinity…</div>
 
   <!-- 4-Second Leaderboard Modal -->
   <div class="modal-overlay" id="leaderboardModal">

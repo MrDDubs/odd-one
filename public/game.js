@@ -200,6 +200,7 @@ const elModalTopList = document.getElementById("modalTopList");
 const elModalProgressBar = document.getElementById("modalProgressBar");
 
 function updateTikStatus(connected) {
+  if (!elTikStatus) return;
   if (connected) {
     elTikStatus.textContent = "🟢 TikFinity Connected • LIVE chat ready";
     elTikStatus.style.color = "#48df83";
