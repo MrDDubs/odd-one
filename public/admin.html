@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ally's Odd One Out — Admin Control Panel</title>
+  <link rel="stylesheet" href="/admin.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Top Bar -->
+    <header class="admin-header">
+      <div class="brand-wrap">
+        <h1>Ally's Odd One Out — Host Panel</h1>
+      </div>
+      <div class="header-badges">
+        <span id="badgeTikfinity" class="badge badge-red">
+          <span class="dot"></span>
+          <span id="textTikfinity">TikFinity Disconnected</span>
+        </span>
+        <span id="badgeSocket" class="badge badge-green">
+          <span class="dot"></span>
+          <span>Host Connected</span>
+        </span>
+        <span class="badge badge-purple">
+          <span id="badgeRound">Round 1</span>
+        </span>
+        <span class="badge badge-purple">
+          <span id="badgeStreak">🔥 Streak 0</span>
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="admin-grid">
+      <!-- Left Column: Game Control & Cheat Box -->
+      <section style="display:flex;flex-direction:column;gap:20px;">
+        <!-- Host Peek / Cheat Card -->
+        <div class="card cheat-card">
+          <div class="card-title">
+            <span>🎯 Host Cheat Sheet (Secret Answer)</span>
+            <span style="font-size:12px;color:var(--muted)">Streamer Only</span>
+          </div>
+          <div class="secret-display">
+            <div>
+              <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Current Odd One Out</div>
+              <div class="target-badge" id="secretTarget">--</div>
+            </div>
+            <div class="target-meta">
+              <div>Category: <strong id="secretCategory">FRUIT</strong></div>
+              <div>Difficulty: <strong id="secretLevel">LEVEL 1 (EASY)</strong></div>
+              <div>Time Left: <strong id="secretTimer">20s</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Round Action Controls -->
+        <div class="card">
+          <div class="card-title">Round Management</div>
+          <div class="btn-row">
+            <button class="primary" id="btnStartRound">▶ Start / Restart</button>
+            <button class="secondary" id="btnNextRound">⏭ Next Round</button>
+            <button class="secondary" id="btnReveal">👁 Reveal Answer</button>
+            <button class="secondary" id="btnTogglePause">⏸ Pause / Resume</button>
+            <button class="danger" id="btnResetGame">🔄 Reset Game & Streak</button>
+          </div>
+        </div>
+
+        <!-- Presets & Difficulty Options -->
+        <div class="card">
+          <div class="card-title">Timer & Difficulty Configuration</div>
+          
+          <!-- Timer Presets -->
+          <div class="form-group">
+            <label>Timer Presets (Seconds)</label>
+            <div class="btn-row" id="presetRow">
+              <button type="button" class="chip" data-sec="12">12s (Chaos)</button>
+              <button type="button" class="chip" data-sec="14">14s (Expert)</button>
+              <button type="button" class="chip" data-sec="16">16s (Hard)</button>
+              <button type="button" class="chip" data-sec="18">18s (Med)</button>
+              <button type="button" class="chip active" data-sec="20">20s (Easy)</button>
+              <button type="button" class="chip" data-sec="30">30s (Casual)</button>
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="form-group">
+              <label for="selectLevel">Level Mode</label>
+              <select id="selectLevel">
+                <option value="auto">Auto (Increases with Streak)</option>
+                <option value="1">Level 1 - Easy</option>
+                <option value="2">Level 2 - Medium</option>
+                <option value="3">Level 3 - Hard</option>
+                <option value="4">Level 4 - Expert</option>
+                <option value="5">Level 5 - Chaos</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="selectCategory">Category</label>
+              <select id="selectCategory">
+                <option value="random">Random (Auto)</option>
+                <option value="fruit">Fruit</option>
+                <option value="bear">Bear</option>
+                <option value="cloud">Cloud</option>
+                <option value="flower">Flower</option>
+                <option value="boba">Boba</option>
+                <option value="cupcake">Cupcake</option>
+                <option value="controller">Controller</option>
+                <option value="star">Star</option>
+              </select>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button id="btnApplySettings" class="secondary">Apply Settings</button>
+          </div>
+        </div>
+
+        <!-- TikFinity Connection Settings -->
+        <div class="card">
+          <div class="card-title">TikFinity Connection</div>
+          <div class="form-group">
+            <label for="inputTikfinityUrl">WebSocket URL</label>
+            <input type="text" id="inputTikfinityUrl" value="ws://localhost:21213/">
+          </div>
+          <div class="btn-row">
+            <button id="btnReconnectTikfinity" class="secondary">🔄 Reconnect TikFinity</button>
+            <a href="http://localhost:3000/" target="_blank" style="text-decoration:none">
+              <button type="button" class="secondary">📺 Open Game Overlay</button>
+            </a>
+          </div>
+          <p style="font-size:12px;color:var(--muted)">
+            Tip: In TikFinity desktop app, navigate to <strong>Event API / Actions</strong>, ensure WebSocket is running on port <code>21213</code>.
+          </p>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Feed, Simulator & Leaderboard -->
+      <section style="display:flex;flex-direction:column;gap:20px;">
+        <!-- Test Simulator -->
+        <div class="card">
+          <div class="card-title">Live Test Simulator</div>
+          <div class="input-row">
+            <div class="form-group">
+              <label for="simUser">Username</label>
+              <input type="text" id="simUser" value="TikTokFan">
+            </div>
+            <div class="form-group">
+              <label for="simGuess">Guess (e.g. A4)</label>
+              <input type="text" id="simGuess" placeholder="e.g. A4" maxlength="4">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button id="btnSimulateGuess" class="primary">Submit Guess</button>
+            <button id="btnSimulateWin" class="chip">🎯 Simulate Correct Guess</button>
+            <button id="btnSimulateRandom" class="chip">🎲 Random Guess</button>
+          </div>
+        </div>
+
+        <!-- Live Guesses Feed -->
+        <div class="card">
+          <div class="card-title">
+            <span>Incoming Chat Guesses</span>
+            <button id="btnClearFeed" class="chip" style="font-size:11px">Clear</button>
+          </div>
+          <div class="guess-feed" id="guessFeed">
+            <div style="color:var(--muted);text-align:center;padding:12px">Waiting for viewer guesses...</div>
+          </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="card">
+          <div class="card-title">
+            <span>Top Community Winners</span>
+            <button id="btnResetLeaderboard" class="chip" style="font-size:11px">Reset</button>
+          </div>
+          <ul class="leaderboard-list" id="leaderboardList">
+            <li style="color:var(--muted);font-size:12px">No winners yet.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast">Action Saved</div>
+
+  <script src="/admin.js"></script>
+</body>
+</html>

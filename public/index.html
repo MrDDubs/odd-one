@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ally's Odd One Out — Live Game</title>
+<script src="/socket.io/socket.io.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{font-family:Arial,sans-serif;background:#211951;color:#fff}
+.app{
+  width:min(100vw,56.25vh);height:100vh;margin:auto;padding:3.2%;
+  display:flex;flex-direction:column;gap:1.5%;
+  background:
+    radial-gradient(circle at 15% 10%,#795ee0 0,transparent 24%),
+    radial-gradient(circle at 88% 22%,#e66fcf 0,transparent 26%),
+    linear-gradient(160deg,#241a59,#4c3b94 52%,#25205c);
+  position:relative;
+}
+.glass{
+  background:linear-gradient(145deg,rgba(247,242,255,.96),rgba(222,212,255,.94));
+  color:#30235e;border:2px solid #c8b9ff;border-radius:24px;
+  box-shadow:0 0 18px #a66cff80,inset 0 0 18px #fff8
+}
+.head{display:grid;grid-template-columns:1fr .44fr;gap:2%}
+.brand{
+  overflow:visible;padding:2.2% 4% 2.8%;
+  background:linear-gradient(145deg,rgba(80,53,157,.96),rgba(64,45,135,.92));
+  border:2px solid #9e82ff;
+  box-shadow:0 0 10px #7358ff,0 0 22px #bd6fff,inset 0 0 16px rgba(255,255,255,.18)
+}
+.allyword{
+  font-family:"Brush Script MT","Segoe Script","Arial Rounded MT Bold",cursive;
+  font-size:4.2vh;line-height:.72;color:#fff;
+  -webkit-text-stroke:1.5px #b35ee8;
+  text-shadow:0 3px 0 #7b46b5,0 0 6px #fff,0 0 15px #f17bff,0 0 28px #8d65ff;
+  transform:rotate(-4deg);margin-left:4%;display:inline-block
+}
+.oddtitle{
+  font-family:"Arial Rounded MT Bold","Trebuchet MS",Arial,sans-serif;
+  font-size:2.55vh;line-height:.92;font-weight:1000;letter-spacing:-.045em;color:#fff;
+  -webkit-text-stroke:1.5px #7659cf;
+  text-shadow:0 3px 0 #5a48b4,0 0 5px #fff,0 0 13px #79a7ff,0 0 22px #9b63ff;
+  white-space:nowrap
+}
+.tagline{
+  display:inline-block;margin-top:3%;padding:1.4% 4%;border:1.5px solid #a7b6ff;
+  border-radius:999px;font-size:.72vh;font-weight:900;letter-spacing:.04em;color:#fff;
+  background:rgba(44,31,103,.58);box-shadow:0 0 8px #779cff;white-space:nowrap
+}
+.timerbox{text-align:center;padding:4% 2%}
+.timer{font-size:3.4vh;font-weight:1000;color:#8e49a8;transition:color 0.2s}
+.timer.danger{color:#ff3b5c;animation:pulseTimer 0.6s infinite alternate}
+@keyframes pulseTimer{from{transform:scale(1)}to{transform:scale(1.08)}}
+
+.round,.lvl{font-size:1.15vh;font-weight:900}
+.lvl{margin-top:2%;color:#6c4ca6}
+.board{flex:1;min-height:0;padding:3%}
+.cols{display:grid;grid-template-columns:repeat(6,1fr);margin-left:6%;text-align:center;font-weight:1000;font-size:1.75vh}
+.boardbody{display:grid;grid-template-columns:5% 95%;height:94%}
+.rows{display:grid;grid-template-rows:repeat(4,1fr);place-items:center;font-weight:1000;font-size:1.75vh}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,1fr);gap:1.5%;padding:1.5%}
+.cell{
+  border:1px solid #b8a4ed;border-radius:15px;
+  background:linear-gradient(145deg,#d8cfff,#eee9ff);
+  display:grid;place-items:center;cursor:pointer;box-shadow:inset 0 0 9px #fff;
+  padding:6%;position:relative;transition:transform 0.15s ease,box-shadow 0.2s ease
+}
+.cell:active{transform:scale(0.94)}
+.cell svg{width:82%;height:82%;filter:drop-shadow(0 3px 3px rgba(67,45,100,.20))}
+.correct{
+  outline:5px solid #48df83;box-shadow:0 0 25px #48df83,inset 0 0 15px #48df8380!important;
+  animation:winPop 0.8s ease infinite alternate;
+  z-index:2
+}
+@keyframes winPop{
+  from{transform:scale(1.02)}
+  to{transform:scale(1.08)}
+}
+.info{display:flex;justify-content:center}
+.panel{padding:3.5%;min-height:10vh}
+.scorepanel{width:76%;text-align:center}
+.pt{font-size:1.25vh;font-weight:1000;margin-bottom:1.5%}
+.small{font-size:1.05vh;line-height:1.4}
+.score{font-size:2.3vh;font-weight:1000;color:#ff7836;text-shadow:0 0 10px rgba(255,120,54,.4)}
+.winner{font-size:1.15vh;font-weight:800;color:#43297a;margin-top:2px}
+.controls{text-align:center}
+.controls button{
+  border:0;border-radius:999px;padding:2% 5%;margin:0 .7%;
+  font-weight:900;color:#48356f;background:#f7f3ff;box-shadow:0 0 12px #bb83ff;
+  cursor:pointer;transition:transform 0.1s
+}
+.controls button:hover{transform:scale(1.05)}
+.controls .primary{background:#7456b6;color:#fff}
+.status{text-align:center;font-size:1.15vh;font-weight:900;min-height:1.4em}
+.foot{text-align:center;font-size:.95vh;font-weight:800;opacity:.88}
+.badge{
+  display:inline-block;margin-top:2%;padding:1% 4%;border-radius:999px;
+  background:#efe8ff;border:1px solid #bda8ef;font-size:.95vh;font-weight:900
+}
+.cell-guess-indicator{
+  position:absolute;top:2px;right:4px;font-size:0.8vh;font-weight:900;
+  background:rgba(116,86,182,.85);color:#fff;border-radius:4px;padding:1px 3px;
+  opacity:0;transition:opacity 0.2s
+}
+.cell.flash-guess{
+  animation:guessFlash 0.35s ease-out;
+}
+@keyframes guessFlash{
+  0%{background:#ffec8b}
+  100%{background:linear-gradient(145deg,#d8cfff,#eee9ff)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="head">
+    <div class="glass brand">
+      <div class="allyword">Ally's ♡</div>
+      <div class="oddtitle">ODD ONE OUT</div>
+      <div class="tagline">SPOT IT • COMMENT IT • GET IT RIGHT ♡</div>
+    </div>
+    <div class="glass timerbox">
+      <div class="round" id="round">ROUND 1</div>
+      <div class="timer" id="timer">00:20</div>
+      <div class="lvl" id="level">LEVEL 1 • EASY</div>
+      <div class="badge" id="category">FRUIT</div>
+    </div>
+  </div>
+
+  <div class="glass board">
+    <div class="cols"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+    <div class="boardbody">
+      <div class="rows"><span>1</span><span>2</span><span>3</span><span>4</span></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+  <div class="info">
+    <div class="glass panel scorepanel">
+      <div class="pt">🏆 SCORE</div>
+      <div class="small">Community Streak</div>
+      <div class="score" id="streak">🔥 0</div>
+      <div class="winner" id="winner">No winner yet</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="btnStart">START</button>
+    <button id="btnReveal">REVEAL</button>
+    <button id="btnNext">NEXT</button>
+  </div>
+
+  <div class="status" id="status">24 boxes • exactly ONE odd image per round</div>
+  <div class="foot">COMMENT TO PLAY • A1–F4 • LEVELS GET HARDER AS THE STREAK GROWS ♡</div>
+  <div id="tikStatus" style="text-align:center;font-size:.9vh;font-weight:900;padding:.7%">🟡 Connecting to TikFinity…</div>
+</div>
+
+<script src="/game.js"></script>
+</body>
+</html>
