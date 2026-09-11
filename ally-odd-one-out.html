@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ally's Odd One Out — All-in-One Mac Edition</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{font-family:Arial,-apple-system,BlinkMacSystemFont,sans-serif;background:#211951;color:#fff}
+
+.app{
+  width:min(100vw,56.25vh);height:100vh;margin:auto;padding:3.2%;
+  display:flex;flex-direction:column;gap:1.5%;
+  background:
+    radial-gradient(circle at 15% 10%,#795ee0 0,transparent 24%),
+    radial-gradient(circle at 88% 22%,#e66fcf 0,transparent 26%),
+    linear-gradient(160deg,#241a59,#4c3b94 52%,#25205c);
+  position:relative;
+}
+
+.glass{
+  background:linear-gradient(145deg,rgba(247,242,255,.96),rgba(222,212,255,.94));
+  color:#30235e;border:2px solid #c8b9ff;border-radius:24px;
+  box-shadow:0 0 18px #a66cff80,inset 0 0 18px #fff8;
+}
+
+.head{display:grid;grid-template-columns:1fr .44fr;gap:2%}
+.brand{
+  overflow:visible;padding:2.2% 4% 2.8%;
+  background:linear-gradient(145deg,rgba(80,53,157,.96),rgba(64,45,135,.92));
+  border:2px solid #9e82ff;
+  box-shadow:0 0 10px #7358ff,0 0 22px #bd6fff,inset 0 0 16px rgba(255,255,255,.18);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+}
+.allyword{
+  font-family:"Brush Script MT","Segoe Script","Arial Rounded MT Bold",cursive;
+  font-size:4.2vh;line-height:.72;color:#fff;
+  -webkit-text-stroke:1.5px #b35ee8;
+  text-shadow:0 3px 0 #7b46b5,0 0 6px #fff,0 0 15px #f17bff,0 0 28px #8d65ff;
+  transform:rotate(-3deg);margin-bottom:0.4vh;display:inline-block;text-align:center;
+}
+.oddtitle{
+  font-family:"Arial Rounded MT Bold","Trebuchet MS",Arial,sans-serif;
+  font-size:2.55vh;line-height:.92;font-weight:1000;letter-spacing:-.045em;color:#fff;
+  -webkit-text-stroke:1.5px #7659cf;
+  text-shadow:0 3px 0 #5a48b4,0 0 5px #fff,0 0 13px #79a7ff,0 0 22px #9b63ff;
+  white-space:nowrap;text-align:center;
+}
+.tagline{
+  display:inline-block;margin-top:2.5%;padding:1.4% 4%;border:1.5px solid #a7b6ff;
+  border-radius:999px;font-size:.72vh;font-weight:900;letter-spacing:.04em;color:#fff;
+  background:rgba(44,31,103,.58);box-shadow:0 0 8px #779cff;white-space:nowrap;text-align:center;
+}
+
+.timerbox{text-align:center;padding:4% 2%}
+.timer{font-size:3.4vh;font-weight:1000;color:#8e49a8;transition:color 0.2s}
+.timer.danger{color:#ff3b5c;animation:pulseTimer 0.6s infinite alternate}
+@keyframes pulseTimer{from{transform:scale(1)}to{transform:scale(1.08)}}
+
+.round,.lvl{font-size:1.15vh;font-weight:900}
+.lvl{margin-top:2%;color:#6c4ca6}
+.board{flex:1;min-height:0;padding:3%}
+.cols{display:grid;grid-template-columns:repeat(6,1fr);margin-left:6%;text-align:center;font-weight:1000;font-size:1.75vh}
+.boardbody{display:grid;grid-template-columns:5% 95%;height:94%}
+.rows{display:grid;grid-template-rows:repeat(4,1fr);place-items:center;font-weight:1000;font-size:1.75vh}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,1fr);gap:1.5%;padding:1.5%}
+.cell{
+  border:1px solid #b8a4ed;border-radius:15px;
+  background:linear-gradient(145deg,#d8cfff,#eee9ff);
+  display:grid;place-items:center;cursor:pointer;box-shadow:inset 0 0 9px #fff;
+  padding:6%;position:relative;transition:transform 0.15s ease,box-shadow 0.2s ease
+}
+.cell:active{transform:scale(0.94)}
+.cell svg{width:82%;height:82%;filter:drop-shadow(0 3px 3px rgba(67,45,100,.20))}
+.correct{
+  outline:5px solid #48df83;box-shadow:0 0 25px #48df83,inset 0 0 15px #48df8380!important;
+  animation:winPop 0.8s ease infinite alternate;
+  z-index:2
+}
+@keyframes winPop{
+  from{transform:scale(1.02)}
+  to{transform:scale(1.08)}
+}
+
+.cell.flash-guess{animation:guessFlash 0.35s ease-out;}
+@keyframes guessFlash{0%{background:#ffec8b}100%{background:linear-gradient(145deg,#d8cfff,#eee9ff)}}
+
+.info{display:flex;justify-content:center}
+.panel{padding:3%;min-height:11vh}
+.scorepanel{width:84%;text-align:center}
+.pt{font-size:1.25vh;font-weight:1000;margin-bottom:1.5%}
+.small{font-size:1.05vh;line-height:1.4}
+.score{font-size:2.3vh;font-weight:1000;color:#ff7836;text-shadow:0 0 10px rgba(255,120,54,.4)}
+
+.winners-box{
+  display:flex;justify-content:center;gap:8px;margin-top:4px;flex-wrap:wrap;
+}
+.winner-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,0.7);padding:2px 8px;border-radius:999px;
+  font-size:1.05vh;font-weight:900;color:#352063;border:1px solid #c8b9ff;
+}
+.winner-pill .avatar-mini{
+  width:1.6vh;height:1.6vh;border-radius:50%;object-fit:cover;
+}
+
+.guess-pill-wrap{display:flex;justify-content:center;margin-top:2px;min-height:2.6vh}
+.guess-pill{
+  display:inline-flex;align-items:center;gap:6px;padding:2px 10px;
+  border-radius:999px;font-size:1.1vh;font-weight:900;background:rgba(255,255,255,0.92);
+  color:#352063;box-shadow:0 0 10px rgba(187,131,255,0.6);
+  animation:pillPop 0.25s ease-out;
+}
+.guess-pill.correct{background:#10b981;color:#fff;box-shadow:0 0 14px #10b981}
+@keyframes pillPop{0%{transform:scale(0.85);opacity:0}100%{transform:scale(1);opacity:1}}
+
+.status{text-align:center;font-size:1.15vh;font-weight:900;min-height:1.4em}
+.foot{text-align:center;font-size:.95vh;font-weight:800;opacity:.88}
+.badge{
+  display:inline-block;margin-top:2%;padding:1% 4%;border-radius:999px;
+  background:#efe8ff;border:1px solid #bda8ef;font-size:.95vh;font-weight:900
+}
+
+/* 4-SECOND LEADERBOARD POPUP */
+.modal-overlay {
+  position: absolute;top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(18, 12, 45, 0.88);backdrop-filter: blur(8px);
+  display: flex;align-items: center;justify-content: center;padding: 5%;
+  z-index: 100;opacity: 0;pointer-events: none;transition: opacity 0.3s ease;
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+.modal-content {
+  width: 100%;max-width: 90%;
+  background: linear-gradient(160deg, rgba(55, 38, 110, 0.96), rgba(30, 21, 68, 0.98));
+  border: 2px solid #bba3ff;border-radius: 28px;
+  box-shadow: 0 0 35px #a66cff, inset 0 0 20px rgba(255, 255, 255, 0.2);
+  padding: 6% 5%;text-align: center;transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal-overlay.active .modal-content { transform: scale(1); }
+.modal-title {
+  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+  font-size: 2.8vh;font-weight: 1000;letter-spacing: -0.02em;color: #fff;
+  text-shadow: 0 0 15px #bb83ff;margin-bottom: 2%;
+}
+.round-winners-row { display: flex; justify-content: center; gap: 4%; margin: 4% 0; }
+.podium-card {
+  flex: 1;background: rgba(255, 255, 255, 0.1);border: 1.5px solid #a68bf5;
+  border-radius: 18px;padding: 4% 2%;display: flex;flex-direction: column;
+  align-items: center;gap: 4px;position: relative;
+}
+.podium-card.first {
+  border-color: #ffd700;
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.2), rgba(45, 30, 90, 0.4));
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+}
+.podium-card.second {
+  border-color: #c0c0c0;
+  background: linear-gradient(180deg, rgba(192, 192, 192, 0.2), rgba(45, 30, 90, 0.4));
+}
+.podium-rank { font-size: 1.8vh; font-weight: 1000; }
+.avatar-wrap { position: relative; width: 5.5vh; height: 5.5vh; margin: 2px 0; }
+.avatar-img {
+  width: 100%;height: 100%;border-radius: 50%;object-fit: cover;
+  border: 2px solid #fff;box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.avatar-letter {
+  width: 100%;height: 100%;border-radius: 50%;
+  background: linear-gradient(135deg, #ff72b6, #8e54e9);
+  display: grid;place-items: center;font-size: 2.2vh;font-weight: 1000;
+  color: #fff;border: 2px solid #fff;
+}
+.podium-name {
+  font-size: 1.35vh;font-weight: 900;max-width: 90%;white-space: nowrap;
+  overflow: hidden;text-overflow: ellipsis;color: #fff;
+}
+.podium-pts {
+  font-size: 1.15vh;font-weight: 1000;color: #48df83;background: rgba(72, 223, 131, 0.15);
+  padding: 1px 6px;border-radius: 999px;
+}
+.top-table {
+  background: rgba(0, 0, 0, 0.3);border-radius: 14px;padding: 3% 4%;
+  margin: 3% 0;display: flex;flex-direction: column;gap: 5px;text-align: left;
+}
+.top-title {
+  font-size: 1.1vh;font-weight: 900;color: #bda8ef;text-transform: uppercase;
+  letter-spacing: 0.05em;text-align: center;margin-bottom: 2px;
+}
+.top-row {
+  display: flex;align-items: center;justify-content: space-between;
+  font-size: 1.2vh;font-weight: 800;padding: 2px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.top-row:last-child { border-bottom: none; }
+.top-user-wrap { display: flex; align-items: center; gap: 6px; }
+.top-user-wrap .avatar-img,
+.top-user-wrap .avatar-letter { width: 2.2vh; height: 2.2vh; font-size: 1vh; }
+.top-score { color: #ffd700; font-weight: 1000; }
+.countdown-bar-wrap {
+  width: 100%;height: 6px;background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;overflow: hidden;margin-top: 4%;
+}
+.countdown-bar {
+  height: 100%;width: 100%;background: linear-gradient(90deg, #48df83, #ffd700);
+  transition: width 4s linear;
+}
+.countdown-txt { font-size: 1vh; font-weight: 800; color: #bda8ef; margin-top: 5px; }
+
+/* STREAMER TOOLBAR (Integrated Host Controls) */
+.streamer-bar {
+  background: rgba(20, 14, 46, 0.95);
+  border-top: 2px solid #8561db;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 50;
+  border-radius: 16px 16px 0 0;
+}
+.streamer-bar.hidden { display: none; }
+.streamer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.streamer-btn {
+  border: 0;border-radius: 8px;padding: 6px 12px;
+  font-size: 11px;font-weight: 900;color: #fff;background: #6042b3;
+  cursor: pointer;transition: transform 0.1s, background 0.15s;
+}
+.streamer-btn:hover { background: #7655d6; transform: scale(1.03); }
+.streamer-btn.primary { background: #ff4785; }
+.streamer-btn.secondary { background: #3c2a6e; }
+.streamer-btn.chip {
+  padding: 4px 8px;font-size: 10px;background: #2d1f54;border: 1px solid #6b4ca6;
+}
+.streamer-btn.chip.active { background: #8561db; border-color: #fff; }
+
+.tik-status-dot {
+  width: 8px;height: 8px;border-radius: 50%;background: #ff3b5c;display: inline-block;margin-right: 4px;
+}
+.tik-status-dot.connected { background: #48df83; box-shadow: 0 0 6px #48df83; }
+
+.host-peek-badge {
+  font-size: 11px;font-weight: 900;color: #ffd700;background: rgba(255,215,0,0.15);
+  border: 1px solid #ffd700;padding: 3px 8px;border-radius: 6px;display: none;
+}
+.toggle-controls-btn {
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  opacity: 0.35;
+  font-size: 9px;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+}
+.toggle-controls-btn:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Top Bar -->
+  <div class="head">
+    <div class="glass brand">
+      <div class="allyword">Ally's ♡</div>
+      <div class="oddtitle">ODD ONE OUT</div>
+      <div class="tagline">SPOT IT • COMMENT IT • GET IT RIGHT ♡</div>
+    </div>
+    <div class="glass timerbox">
+      <div class="round" id="round">ROUND 1</div>
+      <div class="timer" id="timer">00:20</div>
+      <div class="lvl" id="level">LEVEL 1 • EASY</div>
+      <div class="badge" id="category">FRUIT</div>
+    </div>
+  </div>
+
+  <!-- Grid Board -->
+  <div class="glass board">
+    <div class="cols"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+    <div class="boardbody">
+      <div class="rows"><span>1</span><span>2</span><span>3</span><span>4</span></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+  <!-- Winners & Score -->
+  <div class="info">
+    <div class="glass panel scorepanel">
+      <div class="pt">🏆 SCORE & WINNERS</div>
+      <div class="small">Community Streak</div>
+      <div class="score" id="streak">🔥 0</div>
+      <div class="winners-box" id="winnerBox">
+        <span style="font-size:1.05vh;color:#6c4ca6">First 2 to comment the odd box win points!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Guess Pill -->
+  <div class="guess-pill-wrap">
+    <div class="guess-pill" id="liveGuessPill" style="display:none"></div>
+  </div>
+
+  <div class="status" id="status">24 boxes • exactly ONE odd image per round</div>
+  <div class="foot">COMMENT TO PLAY • A1–F4 • TOP 2 GET POINTS ♡</div>
+
+  <!-- Built-In Streamer Controls -->
+  <div class="streamer-bar" id="streamerBar">
+    <div class="streamer-row">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="tik-status-dot" id="tikDot"></span>
+        <span style="font-size:10px;font-weight:800;" id="tikText">Connecting TikFinity...</span>
+      </div>
+      <span class="host-peek-badge" id="hostPeek">Answer: --</span>
+      <button class="streamer-btn secondary" id="btnTogglePeek" style="padding:3px 8px">👁 Peek Answer</button>
+    </div>
+
+    <div class="streamer-row">
+      <button class="streamer-btn primary" id="btnStart">▶ START</button>
+      <button class="streamer-btn" id="btnNext">⏭ NEXT</button>
+      <button class="streamer-btn" id="btnReveal">👁 REVEAL</button>
+      <button class="streamer-btn secondary" id="btnPause">⏸ PAUSE</button>
+      
+      <!-- Quick Timer Presets -->
+      <div style="display:flex;gap:3px;">
+        <button class="streamer-btn chip" data-sec="12">12s</button>
+        <button class="streamer-btn chip" data-sec="16">16s</button>
+        <button class="streamer-btn chip active" data-sec="20">20s</button>
+        <button class="streamer-btn chip" data-sec="30">30s</button>
+      </div>
+    </div>
+  </div>
+
+  <button class="toggle-controls-btn" id="btnToggleBar" title="Hide/Show Host Bar">⚙️</button>
+
+  <!-- 4-Second Leaderboard Modal -->
+  <div class="modal-overlay" id="leaderboardModal">
+    <div class="modal-content">
+      <div class="modal-title">🏆 ROUND RESULTS</div>
+      <div class="round-winners-row" id="modalPodium"></div>
+      <div class="top-table">
+        <div class="top-title">🌟 Community Leaderboard</div>
+        <div id="modalTopList"></div>
+      </div>
+      <div class="countdown-bar-wrap">
+        <div class="countdown-bar" id="modalProgressBar"></div>
+      </div>
+      <div class="countdown-txt">Next round starting automatically...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==========================================
+// ALL-IN-ONE STANDALONE ENGINE FOR MAC & PC
+// ==========================================
+const C = ["A", "B", "C", "D", "E", "F"];
+const R = [1, 2, 3, 4];
+const CATEGORIES = ["fruit", "bear", "cloud", "flower", "boba", "cupcake", "controller", "star"];
+const LEVELS = [
+  { name: "EASY", sec: 20 },
+  { name: "MEDIUM", sec: 18 },
+  { name: "HARD", sec: 16 },
+  { name: "EXPERT", sec: 14 },
+  { name: "CHAOS", sec: 12 }
+];
+
+let target = "A1";
+let round = 1;
+let level = 1;
+let category = "fruit";
+let streak = 0;
+let time = 20;
+let roundDurationSec = 20;
+let customDurationSec = 20;
+let active = true;
+let paused = false;
+let revealed = false;
+let roundWinners = [];
+let guessedUsers = new Set();
+let leaderboard = {}; // username -> { nickname, score, avatar }
+
+let timerInterval = null;
+let autoNextTimer = null;
+let pillHideTimeout = null;
+let modalTimer = null;
+let hostPeekVisible = false;
+
+// DOM Elements
+const elRound = document.getElementById("round");
+const elTimer = document.getElementById("timer");
+const elLevel = document.getElementById("level");
+const elCategory = document.getElementById("category");
+const elStreak = document.getElementById("streak");
+const elWinnerBox = document.getElementById("winnerBox");
+const elStatus = document.getElementById("status");
+const elLiveGuessPill = document.getElementById("liveGuessPill");
+const elHostPeek = document.getElementById("hostPeek");
+const elTikDot = document.getElementById("tikDot");
+const elTikText = document.getElementById("tikText");
+const elStreamerBar = document.getElementById("streamerBar");
+const elModal = document.getElementById("leaderboardModal");
+const elModalPodium = document.getElementById("modalPodium");
+const elModalTopList = document.getElementById("modalTopList");
+const elModalProgressBar = document.getElementById("modalProgressBar");
+
+// Web Audio API Sound Synthesizer
+let audioCtx = null;
+function playSound(type) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === "win") {
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.1);
+      osc.frequency.setValueAtTime(783.99, now + 0.2);
+      osc.frequency.setValueAtTime(1046.50, now + 0.3);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.65);
+      osc.start(now);
+      osc.stop(now + 0.65);
+    } else if (type === "timeout") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(140, now + 0.4);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+      osc.start(now);
+      osc.stop(now + 0.4);
+    } else if (type === "tick") {
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(880, now);
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+      osc.start(now);
+      osc.stop(now + 0.05);
+    }
+  } catch (e) {}
+}
+
+function esc(s) {
+  return String(s || "").replace(/[&<>"']/g, m => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[m]));
+}
+
+function svgWrap(content) {
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+}
+
+function iconSVG(t, odd, lvl) {
+  const subtle = lvl >= 4;
+  if (t === "fruit") {
+    const fill = odd ? (lvl === 1 ? "#8ed36f" : "#ff7d8b") : "#ff7d8b";
+    const leaf = odd && lvl >= 2 ? "#b685d9" : "#72b95e";
+    const dot = odd && lvl >= 3 ? `<circle cx="63" cy="48" r="${subtle ? 2 : 4}" fill="#fff"/>` : "";
+    return svgWrap(`<path d="M50 24 C70 18 83 34 80 56 C77 78 63 88 50 88 C37 88 23 78 20 56 C17 34 30 18 50 24Z" fill="${fill}" stroke="#583d6f" stroke-width="4"/><path d="M49 26 C50 14 61 11 70 16 C62 18 56 22 51 30Z" fill="${leaf}" stroke="#583d6f" stroke-width="3"/>${dot}`);
+  }
+  if (t === "bear") {
+    const ear = odd && lvl === 1 ? "#e49ac3" : "#c99b74";
+    const eye = odd && lvl >= 2 ? 1 : 2;
+    const mark = odd && lvl >= 3 ? `<circle cx="67" cy="58" r="${subtle ? 2 : 4}" fill="#f6b7c8"/>` : "";
+    return svgWrap(`<circle cx="30" cy="28" r="13" fill="${ear}" stroke="#5b416b" stroke-width="4"/><circle cx="70" cy="28" r="13" fill="${ear}" stroke="#5b416b" stroke-width="4"/><circle cx="50" cy="55" r="31" fill="#c99b74" stroke="#5b416b" stroke-width="4"/><circle cx="39" cy="52" r="${eye}" fill="#35243f"/><circle cx="61" cy="52" r="2" fill="#35243f"/><ellipse cx="50" cy="65" rx="11" ry="8" fill="#f2d7c4"/><circle cx="50" cy="62" r="3.5" fill="#35243f"/>${mark}`);
+  }
+  if (t === "cloud") {
+    const fill = odd && lvl === 1 ? "#caa9ff" : "#ffffff";
+    const drop = odd && lvl >= 2 ? `<circle cx="${subtle ? 70 : 74}" cy="78" r="${subtle ? 2.5 : 5}" fill="#7bc6ff"/>` : "";
+    const eye2 = odd && lvl >= 3 ? 0 : 3;
+    return svgWrap(`<path d="M24 68 C10 68 10 47 25 45 C26 28 47 22 57 35 C70 27 86 39 82 53 C94 57 89 69 78 69Z" fill="${fill}" stroke="#66538c" stroke-width="4"/><circle cx="42" cy="55" r="3" fill="#4e3d66"/><circle cx="60" cy="55" r="${eye2}" fill="#4e3d66"/>${drop}`);
+  }
+  if (t === "flower") {
+    const petal = odd && lvl === 1 ? "#ffce6e" : "#f1a6d8";
+    const center = odd && lvl >= 2 ? "#95d36e" : "#ffd56a";
+    const missing = odd && lvl >= 3;
+    let petals = "";
+    [[50, 20], [72, 32], [78, 56], [61, 75], [36, 75], [22, 56], [28, 32]].forEach((p, i) => {
+      if (!(missing && i === 0)) petals += `<circle cx="${p[0]}" cy="${p[1]}" r="${subtle ? 13 : 14}" fill="${petal}" stroke="#6b4d7c" stroke-width="3"/>`;
+    });
+    return svgWrap(`${petals}<circle cx="50" cy="50" r="17" fill="${center}" stroke="#6b4d7c" stroke-width="3"/>`);
+  }
+  if (t === "boba") {
+    const drink = odd && lvl === 1 ? "#f5a1ba" : "#e9ad5e";
+    const straw = odd && lvl >= 2 ? "#ff7697" : "#7657d1";
+    const pearls = odd && lvl >= 3 ? 7 : 8;
+    let ps = "";
+    for (let i = 0; i < pearls; i++) {
+      let x = 30 + (i % 4) * 13, y = 69 + Math.floor(i / 4) * 10;
+      ps += `<circle cx="${x}" cy="${y}" r="${subtle ? 3.2 : 4}" fill="#4d2d22"/>`;
+    }
+    return svgWrap(`<path d="M28 30 H72 L68 88 H32Z" fill="${drink}" stroke="#583d6f" stroke-width="4"/><rect x="51" y="9" width="9" height="30" rx="3" fill="${straw}" stroke="#583d6f" stroke-width="3" transform="rotate(7 55 24)"/><ellipse cx="50" cy="30" rx="24" ry="7" fill="#f8ead7" stroke="#583d6f" stroke-width="4"/>${ps}`);
+  }
+  if (t === "cupcake") {
+    const frosting = odd && lvl === 1 ? "#b9a3ff" : "#f6a6ce";
+    const cherry = odd && lvl >= 2 ? "#7acb75" : "#ff667a";
+    const sprinkle = odd && lvl >= 3 ? `<rect x="${subtle ? 63 : 68}" y="38" width="3" height="8" rx="1" fill="#fff"/>` : "";
+    return svgWrap(`<path d="M29 52 H71 L65 87 H35Z" fill="#d69d63" stroke="#604468" stroke-width="4"/><path d="M30 55 C22 47 27 36 38 36 C38 24 52 19 59 29 C70 25 79 35 75 46 C84 50 78 59 68 57Z" fill="${frosting}" stroke="#604468" stroke-width="4"/><circle cx="55" cy="23" r="7" fill="${cherry}" stroke="#604468" stroke-width="3"/>${sprinkle}`);
+  }
+  if (t === "controller") {
+    const body = odd && lvl === 1 ? "#9dd7ff" : "#b9a4ff";
+    const btn = odd && lvl >= 2 ? "#ff9cb7" : "#6650a6";
+    const tiny = odd && lvl >= 3 ? `<circle cx="${subtle ? 75 : 78}" cy="58" r="${subtle ? 2 : 4}" fill="#fff"/>` : "";
+    return svgWrap(`<path d="M26 38 C18 42 17 66 25 73 C32 80 39 69 44 64 H56 C61 69 68 80 75 73 C83 66 82 42 74 38 C66 34 58 38 54 42 H46 C42 38 34 34 26 38Z" fill="${body}" stroke="#55406f" stroke-width="4"/><rect x="31" y="49" width="17" height="5" rx="2" fill="#55406f"/><rect x="37" y="43" width="5" height="17" rx="2" fill="#55406f"/><circle cx="65" cy="49" r="4" fill="${btn}"/><circle cx="72" cy="57" r="4" fill="${btn}"/>${tiny}`);
+  }
+  const fill = odd && lvl === 1 ? "#9cd8ff" : "#ffd96e";
+  const point = odd && lvl >= 2
+    ? "50,13 60,40 89,40 66,57 75,85 50,68 25,85 34,57 11,40 40,40"
+    : "50,10 61,38 91,38 67,56 76,87 50,69 24,87 33,56 9,38 39,38";
+  const mark = odd && lvl >= 3 ? `<circle cx="${subtle ? 66 : 71}" cy="54" r="${subtle ? 2 : 4}" fill="#fff"/>` : "";
+  return svgWrap(`<polygon points="${point}" fill="${fill}" stroke="#634c7a" stroke-width="4" stroke-linejoin="round"/>${mark}`);
+}
+
+function drawGrid(activeTarget, curCategory, curLevel) {
+  const g = document.getElementById("grid");
+  if (!g) return;
+  g.innerHTML = "";
+  R.forEach(r => {
+    C.forEach(c => {
+      const code = c + r;
+      const b = document.createElement("button");
+      b.className = "cell";
+      b.dataset.code = code;
+      const isOdd = code === activeTarget;
+      b.innerHTML = iconSVG(curCategory, isOdd, curLevel);
+      b.onclick = () => onCellClick(code);
+      g.appendChild(b);
+    });
+  });
+}
+
+function renderUI() {
+  elRound.textContent = `ROUND ${round}`;
+  const m = String(Math.floor(time / 60)).padStart(2, "0");
+  const s = String(time % 60).padStart(2, "0");
+  elTimer.textContent = `${m}:${s}`;
+  if (time <= 5 && active) elTimer.classList.add("danger");
+  else elTimer.classList.remove("danger");
+
+  const lvlObj = LEVELS[level - 1] || LEVELS[0];
+  elLevel.textContent = `LEVEL ${level} • ${lvlObj.name}`;
+  elCategory.textContent = category.toUpperCase();
+  elStreak.textContent = `🔥 ${streak}`;
+  elHostPeek.textContent = `Answer: ${target}`;
+
+  renderWinnersBox(roundWinners);
+}
+
+function renderWinnersBox(winners) {
+  if (!winners || winners.length === 0) {
+    elWinnerBox.innerHTML = `<span style="font-size:1.05vh;color:#6c4ca6">First 2 to comment the odd box win points!</span>`;
+    return;
+  }
+  elWinnerBox.innerHTML = winners.map(w => {
+    const medal = w.place === 1 ? "🥇" : "🥈";
+    const pts = w.points === 1 ? "+1pt" : `+${w.points}pts`;
+    const avatar = w.avatar ? `<img src="${esc(w.avatar)}" class="avatar-mini">` : "";
+    return `<span class="winner-pill">${medal} ${avatar}@${esc(w.nickname)} <strong>${pts}</strong></span>`;
+  }).join("");
+}
+
+function highlightTarget(code) {
+  document.querySelectorAll(".cell").forEach(cell => {
+    if (cell.dataset.code === code) cell.classList.add("correct");
+  });
+}
+
+function clearHighlights() {
+  document.querySelectorAll(".cell").forEach(cell => cell.classList.remove("correct"));
+}
+
+function flashCellGuess(code) {
+  const cell = document.querySelector(`.cell[data-code="${code}"]`);
+  if (cell) {
+    cell.classList.remove("flash-guess");
+    void cell.offsetWidth;
+    cell.classList.add("flash-guess");
+  }
+}
+
+function showLiveGuessPill(username, code, isCorrect) {
+  clearTimeout(pillHideTimeout);
+  if (isCorrect) {
+    elLiveGuessPill.className = "guess-pill correct";
+    elLiveGuessPill.innerHTML = `🎉 <strong>@${esc(username)}</strong> guessed <strong>${code}</strong> ✓ Correct!`;
+  } else {
+    elLiveGuessPill.className = "guess-pill";
+    elLiveGuessPill.innerHTML = `💬 <strong>@${esc(username)}</strong> guessed <span style="color:#e64980">${code}</span>`;
+  }
+  elLiveGuessPill.style.display = "inline-flex";
+  pillHideTimeout = setTimeout(() => {
+    elLiveGuessPill.style.display = "none";
+  }, 3500);
+}
+
+function onCellClick(code) {
+  handleGuess("Host", "Host", code);
+}
+
+// Game Flow Logic
+function newRound() {
+  clearTimeout(autoNextTimer);
+  clearHighlights();
+  elModal.classList.remove("active");
+
+  const randC = C[Math.floor(Math.random() * C.length)];
+  const randR = R[Math.floor(Math.random() * R.length)];
+  target = randC + randR;
+  category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
+
+  // Difficulty scale
+  level = Math.min(5, Math.floor(streak / 2) + 1);
+  roundDurationSec = customDurationSec || LEVELS[level - 1].sec;
+  time = roundDurationSec;
+
+  active = true;
+  paused = false;
+  revealed = false;
+  roundWinners = [];
+  guessedUsers.clear();
+  round++;
+
+  drawGrid(target, category, level);
+  renderUI();
+  elStatus.textContent = "Round live! Comment the odd coordinate (A1–F4) ♡";
+}
+
+function handleGuess(user, nick, text, avatar = null) {
+  if (!active || paused) return;
+
+  const match = String(text).toUpperCase().match(/(?:^|[^A-Z0-9])([A-F])[\s\-_]?([1-4])(?![0-9])/);
+  if (!match) return;
+
+  const code = match[1] + match[2];
+  const uKey = String(user).toLowerCase();
+  if (guessedUsers.has(uKey)) return; // 1 guess per viewer per round
+  guessedUsers.add(uKey);
+
+  flashCellGuess(code);
+
+  if (code === target) {
+    // Winner!
+    playSound("win");
+    highlightTarget(target);
+
+    const place = roundWinners.length + 1;
+    const points = place === 1 ? 3 : 2;
+    const winnerData = {
+      username: user,
+      nickname: nick || user,
+      code,
+      place,
+      points,
+      avatar
+    };
+    roundWinners.push(winnerData);
+
+    // Update community leaderboard
+    if (!leaderboard[uKey]) {
+      leaderboard[uKey] = { username: user, nickname: nick || user, score: 0, avatar };
+    }
+    leaderboard[uKey].score += points;
+
+    showLiveGuessPill(nick || user, code, true);
+    renderWinnersBox(roundWinners);
+
+    if (roundWinners.length >= 2) {
+      // 2 winners found -> Round complete!
+      active = false;
+      streak++;
+      elStatus.textContent = `Round won! Winners found! 🔥 Streak: ${streak}`;
+      triggerLeaderboardPopup();
+    } else {
+      elStatus.textContent = `Winner #1 found! Waiting for 2nd winner!`;
+    }
+  } else {
+    showLiveGuessPill(nick || user, code, false);
+  }
+}
+
+function triggerLeaderboardPopup() {
+  clearTimeout(autoNextTimer);
+
+  // Populate Podium
+  elModalPodium.innerHTML = roundWinners.map(w => {
+    const isFirst = w.place === 1;
+    const cls = isFirst ? "podium-card first" : "podium-card second";
+    const medal = isFirst ? "🥇 1st Place" : "🥈 2nd Place";
+    const pts = `+${w.points} pts`;
+    const avatarHTML = w.avatar
+      ? `<img src="${esc(w.avatar)}" class="avatar-img">`
+      : `<div class="avatar-letter">${esc(w.nickname[0].toUpperCase())}</div>`;
+    return `
+      <div class="${cls}">
+        <div class="podium-rank">${medal}</div>
+        <div class="avatar-wrap">${avatarHTML}</div>
+        <div class="podium-name">@${esc(w.nickname)}</div>
+        <div class="podium-pts">${pts}</div>
+      </div>
+    `;
+  }).join("");
+
+  // Top community list
+  const topList = Object.values(leaderboard).sort((a, b) => b.score - a.score).slice(0, 5);
+  elModalTopList.innerHTML = topList.map((u, i) => {
+    const avatarHTML = u.avatar
+      ? `<img src="${esc(u.avatar)}" class="avatar-img">`
+      : `<div class="avatar-letter">${esc(u.nickname[0].toUpperCase())}</div>`;
+    return `
+      <div class="top-row">
+        <div class="top-user-wrap">
+          <span>#${i + 1}</span>
+          ${avatarHTML}
+          <span>@${esc(u.nickname)}</span>
+        </div>
+        <div class="top-score">${u.score} pts</div>
+      </div>
+    `;
+  }).join("");
+
+  // Progress Bar Animation
+  elModalProgressBar.style.transition = "none";
+  elModalProgressBar.style.width = "100%";
+  void elModalProgressBar.offsetWidth;
+  elModalProgressBar.style.transition = "width 4s linear";
+  elModalProgressBar.style.width = "0%";
+
+  elModal.classList.add("active");
+
+  autoNextTimer = setTimeout(() => {
+    newRound();
+  }, 4000);
+}
+
+function tickTimer() {
+  if (!active || paused) return;
+  if (time > 0) {
+    time--;
+    if (time <= 5 && time > 0) playSound("tick");
+    renderUI();
+    if (time === 0) {
+      active = false;
+      playSound("timeout");
+      highlightTarget(target);
+      if (roundWinners.length > 0) {
+        streak++;
+        elStatus.textContent = `Time's up! ${roundWinners.length} winner found. Answer: ${target}`;
+        triggerLeaderboardPopup();
+      } else {
+        streak = 0;
+        elStatus.textContent = `Time's up! No one guessed ${target}. Showing answer...`;
+        autoNextTimer = setTimeout(() => {
+          newRound();
+        }, 4000);
+      }
+      renderUI();
+    }
+  }
+}
+
+// TikFinity Direct WebSocket Client
+let tikSocket = null;
+let tikRetryTimer = null;
+
+function connectTikFinity() {
+  clearTimeout(tikRetryTimer);
+  try {
+    tikSocket = new WebSocket("ws://localhost:21213/");
+    
+    tikSocket.onopen = () => {
+      elTikDot.classList.add("connected");
+      elTikText.textContent = "TikFinity Connected ✓";
+      console.log("[TikFinity] Connected to ws://localhost:21213/");
+    };
+
+    tikSocket.onmessage = (event) => {
+      try {
+        const raw = JSON.parse(event.data);
+        const events = Array.isArray(raw) ? raw : [raw];
+        for (const evt of events) {
+          const d = evt.data || evt.payload || evt.Payload || evt;
+          const text = String(d.comment || d.message || d.text || evt.comment || evt.message || d.Message || "").trim();
+          const user = String(d.uniqueId || d.username || d.user?.uniqueId || evt.uniqueId || "viewer").trim();
+          const nick = String(d.nickname || d.user?.nickname || evt.nickname || user).trim();
+          const avatar = d.profilePictureUrl || d.avatarUrl || d.profileImageUrl || null;
+
+          if (text) {
+            handleGuess(user, nick, text, avatar);
+          }
+        }
+      } catch (err) {}
+    };
+
+    tikSocket.onclose = () => {
+      elTikDot.classList.remove("connected");
+      elTikText.textContent = "TikFinity Reconnecting...";
+      tikRetryTimer = setTimeout(connectTikFinity, 3000);
+    };
+
+    tikSocket.onerror = () => {
+      elTikDot.classList.remove("connected");
+      elTikText.textContent = "TikFinity Disconnected";
+      tikRetryTimer = setTimeout(connectTikFinity, 3000);
+    };
+  } catch (err) {
+    elTikDot.classList.remove("connected");
+    elTikText.textContent = "TikFinity Disconnected";
+    tikRetryTimer = setTimeout(connectTikFinity, 3000);
+  }
+}
+
+// Host Controls Wire-up
+document.getElementById("btnStart").onclick = () => {
+  newRound();
+};
+document.getElementById("btnNext").onclick = () => {
+  newRound();
+};
+document.getElementById("btnReveal").onclick = () => {
+  highlightTarget(target);
+  elStatus.textContent = `Secret Answer revealed: ${target}!`;
+};
+document.getElementById("btnPause").onclick = function() {
+  paused = !paused;
+  this.textContent = paused ? "▶ RESUME" : "⏸ PAUSE";
+  elStatus.textContent = paused ? "⏸ Game paused" : "▶ Game resumed";
+};
+
+document.querySelectorAll("#streamerBar .chip").forEach(chip => {
+  chip.onclick = () => {
+    document.querySelectorAll("#streamerBar .chip").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    const sec = parseInt(chip.dataset.sec, 10);
+    customDurationSec = sec;
+    roundDurationSec = sec;
+    time = sec;
+    renderUI();
+  };
+});
+
+document.getElementById("btnTogglePeek").onclick = function() {
+  hostPeekVisible = !hostPeekVisible;
+  elHostPeek.style.display = hostPeekVisible ? "inline-block" : "none";
+  this.textContent = hostPeekVisible ? "🙈 Hide Peek" : "👁 Peek Answer";
+};
+
+document.getElementById("btnToggleBar").onclick = () => {
+  elStreamerBar.classList.toggle("hidden");
+};
+
+// Keyboard Shortcuts for Host
+window.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.code === "Space") {
+    e.preventDefault();
+    document.getElementById("btnPause").click();
+  } else if (e.key === "n" || e.key === "N") {
+    newRound();
+  } else if (e.key === "r" || e.key === "R") {
+    document.getElementById("btnReveal").click();
+  } else if (e.key === "h" || e.key === "H") {
+    document.getElementById("btnTogglePeek").click();
+  }
+});
+
+// Bootstrap
+drawGrid(target, category, level);
+renderUI();
+timerInterval = setInterval(tickTimer, 1000);
+connectTikFinity();
+</script>
+
+</body>
+</html>
