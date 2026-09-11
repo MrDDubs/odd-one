@@ -40,6 +40,12 @@ const toast = document.getElementById("toast");
 
 let currentState = null;
 
+function esc(s) {
+  return String(s || "").replace(/[&<>"']/g, m => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[m]));
+}
+
 function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add("show");
@@ -56,15 +62,21 @@ function updateTikStatus(connected) {
   }
 }
 
+function renderAvatarHTML(avatarUrl, nickname) {
+  const initial = (nickname || "?")[0].toUpperCase();
+  if (avatarUrl) {
+    return `<img src="${esc(avatarUrl)}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid #7456b6" alt="${esc(nickname)}" onerror="this.outerHTML='<span style=\\'display:inline-block;width:24px;height:24px;border-radius:50%;background:#8e54e9;color:#fff;text-align:center;line-height:24px;font-size:12px;font-weight:bold\\'>${initial}</span>'">`;
+  }
+  return `<span style="display:inline-block;width:24px;height:24px;border-radius:50%;background:#8e54e9;color:#fff;text-align:center;line-height:24px;font-size:12px;font-weight:bold">${initial}</span>`;
+}
+
 function renderState(state) {
   currentState = state;
 
-  // Badges
   badgeRound.textContent = `Round ${state.round || 1}`;
   badgeStreak.textContent = `🔥 Streak ${state.streak || 0}`;
   updateTikStatus(state.tikfinityConnected);
 
-  // Cheat Sheet
   secretTarget.textContent = state.secretTarget || state.target || "--";
   secretCategory.textContent = (state.category || "FRUIT").toUpperCase();
   secretLevel.textContent = `LEVEL ${state.level || 1} (${state.levelName || "EASY"})`;
@@ -80,18 +92,15 @@ function renderState(state) {
     btnTogglePause.classList.remove("primary");
   }
 
-  // Active preset chip
   document.querySelectorAll("[data-sec]").forEach(btn => {
     const sec = parseInt(btn.getAttribute("data-sec"), 10);
     btn.classList.toggle("active", sec === state.roundDurationSec);
   });
 
-  // Leaderboard
   renderLeaderboard(state.leaderboard || []);
 }
 
 function addGuessToFeed(guessItem) {
-  // If first item is placeholder, clear it
   if (guessFeed.children.length === 1 && guessFeed.children[0].textContent.includes("Waiting")) {
     guessFeed.innerHTML = "";
   }
@@ -101,19 +110,22 @@ function addGuessToFeed(guessItem) {
   
   const timeStr = new Date(guessItem.timestamp || Date.now()).toLocaleTimeString();
   const mark = guessItem.isCorrect ? "✓ WINNER!" : "• Incorrect";
-  
+  const avatar = renderAvatarHTML(guessItem.avatar, guessItem.nickname);
+
   div.innerHTML = `
-    <div>
-      <strong>@${guessItem.nickname || guessItem.user}</strong>: 
-      <span style="font-weight:bold;letter-spacing:1px">${guessItem.code}</span>
-      <span style="font-size:11px;opacity:0.85;margin-left:4px">${mark}</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      ${avatar}
+      <div>
+        <strong>@${esc(guessItem.nickname || guessItem.user)}</strong>: 
+        <span style="font-weight:bold;letter-spacing:1px">${esc(guessItem.code)}</span>
+        <span style="font-size:11px;opacity:0.85;margin-left:4px">${mark}</span>
+      </div>
     </div>
     <div class="guess-meta">${timeStr}</div>
   `;
 
   guessFeed.insertBefore(div, guessFeed.firstChild);
 
-  // Limit feed items to 50
   if (guessFeed.children.length > 50) {
     guessFeed.removeChild(guessFeed.lastChild);
   }
@@ -125,12 +137,20 @@ function renderLeaderboard(list) {
     return;
   }
 
-  leaderboardList.innerHTML = list.map((item, index) => `
-    <li class="leaderboard-item">
-      <span>#${index + 1} <strong>@${item.nickname || item.user}</strong></span>
-      <span>${item.score} wins 🏆</span>
-    </li>
-  `).join("");
+  leaderboardList.innerHTML = list.map((item, index) => {
+    const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `#${index + 1}`;
+    const avatar = renderAvatarHTML(item.avatar, item.nickname);
+    return `
+      <li class="leaderboard-item">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-weight:bold;width:24px">${medal}</span>
+          ${avatar}
+          <span><strong>@${esc(item.nickname || item.user)}</strong></span>
+        </div>
+        <div style="font-weight:bold;color:#ffd700">${item.score} pts</div>
+      </li>
+    `;
+  }).join("");
 }
 
 // Socket events
@@ -146,8 +166,9 @@ socket.on("chatGuess", (guessItem) => {
   addGuessToFeed(guessItem);
 });
 
-socket.on("correctGuess", (payload) => {
-  showToast(`🎉 @${payload.winner?.nickname || payload.winner?.user} won Round with ${payload.target}!`);
+socket.on("winnerFound", (payload) => {
+  const medal = payload.place === 1 ? "🥇 1st" : "🥈 2nd";
+  showToast(`${medal} Winner: @${payload.winner?.nickname || payload.winner?.user} (+${payload.points} pts)!`);
 });
 
 socket.on("timeExpired", (payload) => {
@@ -240,16 +261,24 @@ btnSimulateGuess.addEventListener("click", () => {
     alert("Please enter a coordinate to guess, e.g. A4");
     return;
   }
-  socket.emit("simulateGuess", { username: user, message: guess });
+  socket.emit("simulateGuess", { username: user, nickname: user, message: guess });
   simGuess.value = "";
   showToast(`Simulated guess: ${guess} by @${user}`);
 });
 
 btnSimulateWin.addEventListener("click", () => {
   if (!currentState?.secretTarget) return;
-  const user = simUser.value.trim() || "LuckyViewer";
-  socket.emit("simulateGuess", { username: user, message: currentState.secretTarget });
-  showToast(`Simulated WINNING guess: ${currentState.secretTarget} by @${user}`);
+  // Automatically pick a different name if 1st winner already exists
+  const isFirst = !currentState.roundWinners || currentState.roundWinners.length === 0;
+  const defaultUser = isFirst ? "SpeedyWinner" : "SecondWinner";
+  const user = simUser.value.trim() || defaultUser;
+  
+  socket.emit("simulateGuess", {
+    username: user,
+    nickname: user,
+    message: currentState.secretTarget
+  });
+  showToast(`Simulated WIN (${isFirst ? '🥇 1st' : '🥈 2nd'}): ${currentState.secretTarget} by @${user}`);
 });
 
 btnSimulateRandom.addEventListener("click", () => {
@@ -257,6 +286,6 @@ btnSimulateRandom.addEventListener("click", () => {
   const ROWS = [1, 2, 3, 4];
   const rand = COLS[Math.floor(Math.random() * COLS.length)] + ROWS[Math.floor(Math.random() * ROWS.length)];
   const user = simUser.value.trim() || "Viewer" + Math.floor(Math.random() * 100);
-  socket.emit("simulateGuess", { username: user, message: rand });
+  socket.emit("simulateGuess", { username: user, nickname: user, message: rand });
   showToast(`Simulated guess: ${rand} by @${user}`);
 });

@@ -2,13 +2,12 @@
 import WebSocket from "ws";
 
 /**
- * Connect to TikFinity Developer API WebSocket and surface chat messages.
- * Handles multiple known payload shapes across TikFinity versions.
+ * Connect to TikFinity Developer API WebSocket and surface chat messages with avatar extraction.
  *
  * @param {Object} options
  * @param {string} options.wsUrl - TikFinity WebSocket URL (e.g., ws://localhost:21213/)
  * @param {string} [options.token] - Optional API token
- * @param {Function} options.onChat - Callback receiving ({ username, nickname, text, raw })
+ * @param {Function} options.onChat - Callback receiving ({ username, nickname, text, avatar, raw })
  * @param {Function} [options.onLog] - Callback for logging status messages
  * @param {Function} [options.onStatusChange] - Callback receiving boolean isConnected
  */
@@ -34,7 +33,7 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
           targetUrl = u.toString();
         }
       } catch (e) {
-        // Ignored if relative/invalid URL
+        // Ignored
       }
     }
 
@@ -73,7 +72,6 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
         const lower = (v) => (typeof v === "string" ? v.toLowerCase() : v);
         const t = lower(evt.type || evt.event || evt.Event || evt.eventType);
 
-        // Check if event looks like a chat message
         const isChatLike =
           t === "chat" ||
           t === "chatmessage" ||
@@ -87,37 +85,65 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
 
         if (!isChatLike) return;
 
+        const d = evt?.data || evt?.payload || evt?.Payload || evt;
+
         const username =
-          evt?.data?.uniqueId ||
-          evt?.data?.username ||
-          evt?.data?.user?.uniqueId ||
-          evt?.data?.user?.username ||
+          d?.uniqueId ||
+          d?.username ||
+          d?.user?.uniqueId ||
+          d?.user?.username ||
           evt?.username ||
           evt?.user ||
           evt?.displayName ||
-          evt?.Payload?.User?.Name ||
-          evt?.Payload?.User?.DisplayName ||
+          d?.User?.Name ||
+          d?.User?.DisplayName ||
           "viewer";
 
         const nickname =
-          evt?.data?.nickname ||
-          evt?.data?.user?.nickname ||
+          d?.nickname ||
+          d?.user?.nickname ||
+          d?.nickName ||
           evt?.nickname ||
+          d?.User?.NickName ||
           username;
 
         const text =
-          evt?.data?.comment ||
-          evt?.data?.message ||
-          evt?.data?.text ||
+          d?.comment ||
+          d?.message ||
+          d?.text ||
           evt?.comment ||
           evt?.message ||
           evt?.text ||
-          evt?.Payload?.Message ||
+          d?.Message ||
           "";
+
+        // Comprehensive extraction of avatar / profile picture URL
+        const avatar =
+          d?.profilePictureUrl ||
+          d?.profileImageUrl ||
+          d?.avatarUrl ||
+          d?.userPictureUrl ||
+          d?.user?.profilePictureUrl ||
+          d?.user?.avatarUrl ||
+          d?.user?.profileImageUrl ||
+          d?.user?.avatarThumb?.urlList?.[0] ||
+          d?.user?.avatarMedium?.urlList?.[0] ||
+          evt?.profilePictureUrl ||
+          evt?.profileImageUrl ||
+          evt?.avatarUrl ||
+          d?.User?.ProfilePictureUrl ||
+          d?.User?.AvatarUrl ||
+          null;
 
         if (!text) return;
 
-        onChat?.({ username, nickname, text: String(text).trim(), raw: evt });
+        onChat?.({
+          username: String(username).trim(),
+          nickname: String(nickname).trim(),
+          text: String(text).trim(),
+          avatar: avatar ? String(avatar).trim() : null,
+          raw: evt
+        });
       } catch (err) {
         log(`Error parsing message: ${err.message}`);
       }

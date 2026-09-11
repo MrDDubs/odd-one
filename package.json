@@ -22,5 +22,8 @@
     "odd-one-out"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "socket.io-client": "^4.8.3"
+  }
 }

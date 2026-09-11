@@ -79,12 +79,22 @@ body{font-family:Arial,sans-serif;background:#211951;color:#fff}
   to{transform:scale(1.08)}
 }
 .info{display:flex;justify-content:center}
-.panel{padding:3.5%;min-height:10vh}
-.scorepanel{width:76%;text-align:center}
+.panel{padding:3%;min-height:11vh}
+.scorepanel{width:84%;text-align:center}
 .pt{font-size:1.25vh;font-weight:1000;margin-bottom:1.5%}
 .small{font-size:1.05vh;line-height:1.4}
 .score{font-size:2.3vh;font-weight:1000;color:#ff7836;text-shadow:0 0 10px rgba(255,120,54,.4)}
-.winner{font-size:1.15vh;font-weight:800;color:#43297a;margin-top:2px}
+.winners-box{
+  display:flex;justify-content:center;gap:8px;margin-top:4px;flex-wrap:wrap;
+}
+.winner-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,0.7);padding:2px 8px;border-radius:999px;
+  font-size:1.05vh;font-weight:900;color:#352063;border:1px solid #c8b9ff;
+}
+.winner-pill .avatar-mini{
+  width:1.6vh;height:1.6vh;border-radius:50%;object-fit:cover;
+}
 .controls{text-align:center}
 .controls button{
   border:0;border-radius:999px;padding:2% 5%;margin:0 .7%;
@@ -99,17 +109,200 @@ body{font-family:Arial,sans-serif;background:#211951;color:#fff}
   display:inline-block;margin-top:2%;padding:1% 4%;border-radius:999px;
   background:#efe8ff;border:1px solid #bda8ef;font-size:.95vh;font-weight:900
 }
-.cell-guess-indicator{
-  position:absolute;top:2px;right:4px;font-size:0.8vh;font-weight:900;
-  background:rgba(116,86,182,.85);color:#fff;border-radius:4px;padding:1px 3px;
-  opacity:0;transition:opacity 0.2s
-}
+
+/* Flash on guess attempt */
 .cell.flash-guess{
   animation:guessFlash 0.35s ease-out;
 }
 @keyframes guessFlash{
   0%{background:#ffec8b}
   100%{background:linear-gradient(145deg,#d8cfff,#eee9ff)}
+}
+
+/* ================= 4-SECOND LEADERBOARD MODAL ================= */
+.modal-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(18, 12, 45, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5%;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-content {
+  width: 100%;
+  max-width: 90%;
+  background: linear-gradient(160deg, rgba(55, 38, 110, 0.96), rgba(30, 21, 68, 0.98));
+  border: 2px solid #bba3ff;
+  border-radius: 28px;
+  box-shadow: 0 0 35px #a66cff, inset 0 0 20px rgba(255, 255, 255, 0.2);
+  padding: 6% 5%;
+  text-align: center;
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+.modal-title {
+  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+  font-size: 2.8vh;
+  font-weight: 1000;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: 0 0 15px #bb83ff;
+  margin-bottom: 2%;
+}
+.round-winners-row {
+  display: flex;
+  justify-content: center;
+  gap: 4%;
+  margin: 4% 0;
+}
+.podium-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid #a68bf5;
+  border-radius: 18px;
+  padding: 4% 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.1);
+}
+.podium-card.first {
+  border-color: #ffd700;
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.2), rgba(45, 30, 90, 0.4));
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+}
+.podium-card.second {
+  border-color: #c0c0c0;
+  background: linear-gradient(180deg, rgba(192, 192, 192, 0.2), rgba(45, 30, 90, 0.4));
+}
+.podium-rank {
+  font-size: 1.8vh;
+  font-weight: 1000;
+}
+.avatar-wrap {
+  position: relative;
+  width: 5.5vh;
+  height: 5.5vh;
+  margin: 2px 0;
+}
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.avatar-letter {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff72b6, #8e54e9);
+  display: grid;
+  place-items: center;
+  font-size: 2.2vh;
+  font-weight: 1000;
+  color: #fff;
+  border: 2px solid #fff;
+}
+.podium-name {
+  font-size: 1.35vh;
+  font-weight: 900;
+  max-width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+.podium-pts {
+  font-size: 1.15vh;
+  font-weight: 1000;
+  color: #48df83;
+  background: rgba(72, 223, 131, 0.15);
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+.top-table {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 14px;
+  padding: 3% 4%;
+  margin: 3% 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+.top-title {
+  font-size: 1.1vh;
+  font-weight: 900;
+  color: #bda8ef;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin-bottom: 2px;
+}
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2vh;
+  font-weight: 800;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.top-row:last-child { border-bottom: none; }
+.top-user-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.top-user-wrap .avatar-img,
+.top-user-wrap .avatar-letter {
+  width: 2.2vh;
+  height: 2.2vh;
+  font-size: 1vh;
+}
+.top-score {
+  color: #ffd700;
+  font-weight: 1000;
+}
+
+/* Progress bar */
+.countdown-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 4%;
+}
+.countdown-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #48df83, #ffd700);
+  transition: width 4s linear;
+}
+.countdown-txt {
+  font-size: 1vh;
+  font-weight: 800;
+  color: #bda8ef;
+  margin-top: 5px;
 }
 </style>
 </head>
@@ -139,10 +332,12 @@ body{font-family:Arial,sans-serif;background:#211951;color:#fff}
 
   <div class="info">
     <div class="glass panel scorepanel">
-      <div class="pt">🏆 SCORE</div>
+      <div class="pt">🏆 SCORE & WINNERS</div>
       <div class="small">Community Streak</div>
       <div class="score" id="streak">🔥 0</div>
-      <div class="winner" id="winner">No winner yet</div>
+      <div class="winners-box" id="winnerBox">
+        <span style="font-size:1.05vh;color:#6c4ca6">First 2 to comment the odd box win points!</span>
+      </div>
     </div>
   </div>
 
@@ -153,8 +348,34 @@ body{font-family:Arial,sans-serif;background:#211951;color:#fff}
   </div>
 
   <div class="status" id="status">24 boxes • exactly ONE odd image per round</div>
-  <div class="foot">COMMENT TO PLAY • A1–F4 • LEVELS GET HARDER AS THE STREAK GROWS ♡</div>
+  <div class="foot">COMMENT TO PLAY • A1–F4 • TOP 2 GET POINTS ♡</div>
   <div id="tikStatus" style="text-align:center;font-size:.9vh;font-weight:900;padding:.7%">🟡 Connecting to TikFinity…</div>
+
+  <!-- 4-Second Leaderboard Modal -->
+  <div class="modal-overlay" id="leaderboardModal">
+    <div class="modal-content">
+      <div class="modal-title">🏆 ROUND RESULTS</div>
+      
+      <!-- Top 2 Round Winners -->
+      <div class="round-winners-row" id="modalPodium">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Community Top Leaderboard -->
+      <div class="top-table">
+        <div class="top-title">🌟 Community Leaderboard</div>
+        <div id="modalTopList">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- 4-Second Countdown bar -->
+      <div class="countdown-bar-wrap">
+        <div class="countdown-bar" id="modalProgressBar"></div>
+      </div>
+      <div class="countdown-txt">Next round starting automatically...</div>
+    </div>
+  </div>
 </div>
 
 <script src="/game.js"></script>

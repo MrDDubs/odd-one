@@ -31,7 +31,7 @@ let tikfinityClient = null;
 let currentWsUrl = process.env.TIKFINITY_WS_URL || "ws://localhost:21213/";
 let timerInterval = null;
 let autoNextTimer = null;
-let autoNextDelayMs = 4000;
+const LEADERBOARD_POPUP_MS = 4000;
 
 // Broadcast state to all connected game screens and admin panels
 function broadcastState() {
@@ -49,6 +49,28 @@ function broadcastState() {
   io.of("/admin").emit("gameState", adminData);
 }
 
+// Trigger showing the 4-second leaderboard popup and auto-advance
+function triggerLeaderboardAndNextRound() {
+  if (autoNextTimer) clearTimeout(autoNextTimer);
+
+  const payload = {
+    roundWinners: state.roundWinners,
+    leaderboard: state.getLeaderboard(5),
+    durationMs: LEADERBOARD_POPUP_MS,
+    target: state.target
+  };
+
+  io.emit("showLeaderboardPopup", payload);
+  io.of("/admin").emit("showLeaderboardPopup", payload);
+
+  autoNextTimer = setTimeout(() => {
+    state.newRound();
+    broadcastState();
+    io.emit("roundStarted", state.getPublicPayload());
+    io.of("/admin").emit("roundStarted", state.getAdminPayload());
+  }, LEADERBOARD_POPUP_MS);
+}
+
 // Timer tick loop
 function startTimerLoop() {
   if (timerInterval) clearInterval(timerInterval);
@@ -56,56 +78,69 @@ function startTimerLoop() {
     const result = state.tick();
     if (result.changed) {
       if (result.timeExpired) {
-        io.emit("timeExpired", { target: state.target });
-        io.of("/admin").emit("timeExpired", { target: state.target });
-        // After time expires, wait 4 seconds and auto-start next round if enabled
-        scheduleAutoNext(4000);
+        io.emit("timeExpired", {
+          target: state.target,
+          hadWinners: result.hadWinners,
+          roundWinners: result.roundWinners
+        });
+        io.of("/admin").emit("timeExpired", {
+          target: state.target,
+          hadWinners: result.hadWinners,
+          roundWinners: result.roundWinners
+        });
+
+        if (result.hadWinners) {
+          triggerLeaderboardAndNextRound();
+        } else {
+          // If no winners, show answer for 4s then next round
+          if (autoNextTimer) clearTimeout(autoNextTimer);
+          autoNextTimer = setTimeout(() => {
+            state.newRound();
+            broadcastState();
+            io.emit("roundStarted", state.getPublicPayload());
+            io.of("/admin").emit("roundStarted", state.getAdminPayload());
+          }, 4000);
+        }
       }
       broadcastState();
     }
   }, 1000);
 }
 
-function scheduleAutoNext(delay = 4000) {
-  if (autoNextTimer) clearTimeout(autoNextTimer);
-  autoNextTimer = setTimeout(() => {
-    state.newRound();
-    broadcastState();
-    io.emit("roundStarted", state.getPublicPayload());
-  }, delay);
-}
-
 // Handle an incoming guess
-function handleIncomingGuess(username, nickname, text) {
-  const result = state.processGuess(username, nickname, text);
+function handleIncomingGuess(username, nickname, text, avatar = null) {
+  const result = state.processGuess(username, nickname, text, avatar);
   if (!result.valid) return;
 
   // Broadcast guess to admin feed
   io.of("/admin").emit("chatGuess", result.guessItem);
 
   if (result.isCorrect) {
-    console.log(`[Game] Correct guess by @${result.winner.nickname}: ${result.winner.code}! Target was ${state.target}`);
+    console.log(`[Game] Winner #${result.place} found it: @${result.winner.nickname} (${result.winner.code})!`);
     
     // Broadcast win event
-    io.emit("correctGuess", {
+    const winPayload = {
       winner: result.winner,
+      place: result.place,
+      points: result.points,
       target: state.target,
       streak: result.newStreak,
       levelUp: result.levelUp,
-      statusMessage: state.statusMessage
-    });
-    io.of("/admin").emit("correctGuess", {
-      winner: result.winner,
-      target: state.target,
-      streak: result.newStreak,
-      levelUp: result.levelUp
-    });
+      statusMessage: state.statusMessage,
+      roundWinners: result.roundWinners
+    };
+
+    io.emit("winnerFound", winPayload);
+    io.of("/admin").emit("winnerFound", winPayload);
 
     broadcastState();
-    // Schedule next round
-    scheduleAutoNext(autoNextDelayMs);
+
+    if (result.roundComplete) {
+      // 2 winners found! Show leaderboard for 4s, then next round!
+      triggerLeaderboardAndNextRound();
+    }
   } else {
-    // Notify overlay of a guess attempt (optional subtle UI flash or count)
+    // Notify overlay of a guess attempt
     io.emit("guessAttempt", {
       code: result.guessItem.code,
       user: result.guessItem.nickname
@@ -124,8 +159,8 @@ function initTikFinity(url) {
   tikfinityClient = connectTikFinity({
     wsUrl: currentWsUrl,
     token: process.env.TIKFINITY_TOKEN,
-    onChat: ({ username, nickname, text }) => {
-      handleIncomingGuess(username, nickname, text);
+    onChat: ({ username, nickname, text, avatar }) => {
+      handleIncomingGuess(username, nickname, text, avatar);
     },
     onLog: (msg) => {
       console.log(`[TikFinity] ${msg}`);
@@ -138,17 +173,55 @@ function initTikFinity(url) {
   });
 }
 
-// REST API for external triggers or quick testing
+// REST API for external triggers or testing
 app.get("/api/state", (_req, res) => {
   res.json(state.getAdminPayload());
 });
 
 app.post("/api/simulate", (req, res) => {
-  const { user = "Viewer", nickname, guess } = req.body || {};
+  const { user = "Viewer", nickname, guess, avatar } = req.body || {};
   if (!guess) return res.status(400).json({ error: "Missing guess coordinate (e.g. A4)" });
-  handleIncomingGuess(user, nickname || user, guess);
+  handleIncomingGuess(user, nickname || user, guess, avatar || null);
   res.json({ ok: true, state: state.getPublicPayload() });
 });
+
+// Helper for shared game actions (callable by Game Screen or Admin)
+function actionStartRound(options = {}) {
+  if (autoNextTimer) clearTimeout(autoNextTimer);
+  state.newRound(options);
+  broadcastState();
+  io.emit("roundStarted", state.getPublicPayload());
+  io.of("/admin").emit("roundStarted", state.getAdminPayload());
+}
+
+function actionNextRound(options = {}) {
+  if (autoNextTimer) clearTimeout(autoNextTimer);
+  state.newRound(options);
+  broadcastState();
+  io.emit("roundStarted", state.getPublicPayload());
+  io.of("/admin").emit("roundStarted", state.getAdminPayload());
+}
+
+function actionReveal() {
+  if (autoNextTimer) clearTimeout(autoNextTimer);
+  state.reveal();
+  broadcastState();
+  io.emit("answerRevealed", { target: state.target });
+  io.of("/admin").emit("answerRevealed", { target: state.target });
+}
+
+function actionTogglePause() {
+  state.setPaused(!state.paused);
+  broadcastState();
+}
+
+function actionResetGame() {
+  if (autoNextTimer) clearTimeout(autoNextTimer);
+  state.resetGame();
+  broadcastState();
+  io.emit("roundStarted", state.getPublicPayload());
+  io.of("/admin").emit("roundStarted", state.getAdminPayload());
+}
 
 // Socket.IO: Game Overlay Namespace
 io.on("connection", (socket) => {
@@ -159,8 +232,15 @@ io.on("connection", (socket) => {
   });
 
   socket.on("manualGuess", (code) => {
-    handleIncomingGuess("Host", "Host", code);
+    if (code) handleIncomingGuess("Host", "Host", code);
   });
+
+  // Wire up game screen buttons so START, REVEAL, and NEXT work directly from the overlay!
+  socket.on("startRound", () => actionStartRound());
+  socket.on("nextRound", () => actionNextRound());
+  socket.on("reveal", () => actionReveal());
+  socket.on("togglePause", () => actionTogglePause());
+  socket.on("resetGame", () => actionResetGame());
 });
 
 // Socket.IO: Admin Namespace
@@ -173,38 +253,11 @@ adminNSP.on("connection", (socket) => {
     tikfinityWsUrl: currentWsUrl
   });
 
-  socket.on("startRound", (options) => {
-    if (autoNextTimer) clearTimeout(autoNextTimer);
-    state.newRound(options || {});
-    broadcastState();
-    io.emit("roundStarted", state.getPublicPayload());
-  });
-
-  socket.on("nextRound", (options) => {
-    if (autoNextTimer) clearTimeout(autoNextTimer);
-    state.newRound(options || {});
-    broadcastState();
-    io.emit("roundStarted", state.getPublicPayload());
-  });
-
-  socket.on("reveal", () => {
-    if (autoNextTimer) clearTimeout(autoNextTimer);
-    state.reveal();
-    broadcastState();
-    io.emit("answerRevealed", { target: state.target });
-  });
-
-  socket.on("togglePause", () => {
-    state.setPaused(!state.paused);
-    broadcastState();
-  });
-
-  socket.on("resetGame", () => {
-    if (autoNextTimer) clearTimeout(autoNextTimer);
-    state.resetGame();
-    broadcastState();
-    io.emit("roundStarted", state.getPublicPayload());
-  });
+  socket.on("startRound", (options) => actionStartRound(options));
+  socket.on("nextRound", (options) => actionNextRound(options));
+  socket.on("reveal", () => actionReveal());
+  socket.on("togglePause", () => actionTogglePause());
+  socket.on("resetGame", () => actionResetGame());
 
   socket.on("setOptions", (opts) => {
     if (opts.category && CATEGORIES.includes(opts.category)) {
@@ -223,8 +276,8 @@ adminNSP.on("connection", (socket) => {
     broadcastState();
   });
 
-  socket.on("simulateGuess", ({ username, message }) => {
-    handleIncomingGuess(username || "TestViewer", username || "TestViewer", message);
+  socket.on("simulateGuess", ({ username, nickname, message, avatar }) => {
+    handleIncomingGuess(username || "TestViewer", nickname || username || "TestViewer", message, avatar || null);
   });
 
   socket.on("reconnectTikfinity", (customUrl) => {

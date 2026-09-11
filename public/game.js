@@ -16,6 +16,7 @@ let category = "fruit";
 let streak = 0;
 let time = 20;
 let active = false;
+let modalTimer = null;
 
 // Audio context for sound effects
 let audioCtx = null;
@@ -31,18 +32,16 @@ function playSound(type) {
     gain.connect(audioCtx.destination);
 
     if (type === 'win') {
-      // Happy major chord fanfare
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(523.25, now); // C5
-      osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
-      osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
-      osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.1);
+      osc.frequency.setValueAtTime(783.99, now + 0.2);
+      osc.frequency.setValueAtTime(1046.50, now + 0.3);
       gain.gain.setValueAtTime(0.2, now);
       gain.gain.exponentialRampToValueAtTime(0.01, now + 0.65);
       osc.start(now);
       osc.stop(now + 0.65);
     } else if (type === 'timeout') {
-      // Descending buzzer tone
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(320, now);
       osc.frequency.exponentialRampToValueAtTime(140, now + 0.4);
@@ -51,7 +50,6 @@ function playSound(type) {
       osc.start(now);
       osc.stop(now + 0.4);
     } else if (type === 'tick') {
-      // Subtle clock click
       osc.type = 'sine';
       osc.frequency.setValueAtTime(880, now);
       gain.gain.setValueAtTime(0.06, now);
@@ -59,9 +57,7 @@ function playSound(type) {
       osc.start(now);
       osc.stop(now + 0.05);
     }
-  } catch (e) {
-    // Audio context may be blocked before user interaction
-  }
+  } catch (e) {}
 }
 
 function esc(s) {
@@ -165,9 +161,17 @@ function onCellClick(code) {
   if (socket && socket.connected) {
     socket.emit("manualGuess", code);
   } else {
-    // Local fallback
     localGuess("Host", code);
   }
+}
+
+// Avatar helper
+function renderAvatarHTML(avatarUrl, nickname) {
+  const initial = (nickname || "?")[0].toUpperCase();
+  if (avatarUrl) {
+    return `<img src="${esc(avatarUrl)}" class="avatar-img" alt="${esc(nickname)}" onerror="this.outerHTML='<div class=\\'avatar-letter\\'>${initial}</div>'">`;
+  }
+  return `<div class="avatar-letter">${initial}</div>`;
 }
 
 // Socket.IO Integration
@@ -177,7 +181,7 @@ try {
     socket = io();
   }
 } catch (e) {
-  console.warn("Socket.IO client not found, operating in standalone fallback mode.");
+  console.warn("Socket.IO client not found");
 }
 
 const elRound = document.getElementById("round");
@@ -185,9 +189,15 @@ const elTimer = document.getElementById("timer");
 const elLevel = document.getElementById("level");
 const elCategory = document.getElementById("category");
 const elStreak = document.getElementById("streak");
-const elWinner = document.getElementById("winner");
+const elWinnerBox = document.getElementById("winnerBox");
 const elStatus = document.getElementById("status");
 const elTikStatus = document.getElementById("tikStatus");
+
+// Modal elements
+const elModal = document.getElementById("leaderboardModal");
+const elModalPodium = document.getElementById("modalPodium");
+const elModalTopList = document.getElementById("modalTopList");
+const elModalProgressBar = document.getElementById("modalProgressBar");
 
 function updateTikStatus(connected) {
   if (connected) {
@@ -197,6 +207,97 @@ function updateTikStatus(connected) {
     elTikStatus.textContent = "🟡 TikFinity Disconnected • Check app";
     elTikStatus.style.color = "#ffb052";
   }
+}
+
+function renderWinnersBox(winners) {
+  if (!winners || winners.length === 0) {
+    elWinnerBox.innerHTML = `<span style="font-size:1.05vh;color:#6c4ca6">First 2 to comment the odd box win points!</span>`;
+    return;
+  }
+
+  elWinnerBox.innerHTML = winners.map(w => {
+    const medal = w.place === 1 ? "🥇" : "🥈";
+    const pts = w.points === 1 ? "+1pt" : `+${w.points}pts`;
+    const avatar = w.avatar
+      ? `<img src="${esc(w.avatar)}" class="avatar-mini" onerror="this.style.display='none'">`
+      : "";
+    return `
+      <div class="winner-pill">
+        ${medal} ${avatar} <span>@${esc(w.nickname)} (${w.code})</span> <strong style="color:#723eb5">${pts}</strong>
+      </div>
+    `;
+  }).join("");
+}
+
+function showLeaderboardPopup(data) {
+  const winners = data.roundWinners || [];
+  const topList = data.leaderboard || [];
+
+  // Populate Podium (Round Winners)
+  let podiumHTML = "";
+  if (winners.length > 0) {
+    const first = winners[0];
+    podiumHTML += `
+      <div class="podium-card first">
+        <div class="podium-rank">🥇 1st Place</div>
+        <div class="avatar-wrap">${renderAvatarHTML(first.avatar, first.nickname)}</div>
+        <div class="podium-name">@${esc(first.nickname)}</div>
+        <div class="podium-pts">+${first.points} Points</div>
+      </div>
+    `;
+  } else {
+    podiumHTML += `
+      <div class="podium-card">
+        <div class="podium-rank">⏰ No Winners</div>
+        <div style="font-size:1.1vh;color:#c8b9ff;margin:8px 0">Time expired!</div>
+      </div>
+    `;
+  }
+
+  if (winners.length > 1) {
+    const second = winners[1];
+    podiumHTML += `
+      <div class="podium-card second">
+        <div class="podium-rank">🥈 2nd Place</div>
+        <div class="avatar-wrap">${renderAvatarHTML(second.avatar, second.nickname)}</div>
+        <div class="podium-name">@${esc(second.nickname)}</div>
+        <div class="podium-pts">+${second.points} Point</div>
+      </div>
+    `;
+  }
+
+  elModalPodium.innerHTML = podiumHTML;
+
+  // Populate Community Top Leaderboard
+  if (topList.length === 0) {
+    elModalTopList.innerHTML = `<div style="text-align:center;font-size:1.1vh;color:#bda8ef">No scores yet. Be the first to win!</div>`;
+  } else {
+    elModalTopList.innerHTML = topList.slice(0, 4).map((p, idx) => `
+      <div class="top-row">
+        <div class="top-user-wrap">
+          <span>#${idx + 1}</span>
+          ${renderAvatarHTML(p.avatar, p.nickname)}
+          <span>@${esc(p.nickname || p.user)}</span>
+        </div>
+        <div class="top-score">${p.score} pts 🏆</div>
+      </div>
+    `).join("");
+  }
+
+  // Reset and animate progress bar
+  elModalProgressBar.style.transition = "none";
+  elModalProgressBar.style.width = "100%";
+  void elModalProgressBar.offsetWidth; // force reflow
+  elModalProgressBar.style.transition = "width 4s linear";
+  elModalProgressBar.style.width = "0%";
+
+  // Show modal
+  elModal.classList.add("active");
+
+  if (modalTimer) clearTimeout(modalTimer);
+  modalTimer = setTimeout(() => {
+    elModal.classList.remove("active");
+  }, 4000);
 }
 
 let lastRenderedTarget = "";
@@ -225,11 +326,7 @@ function applyGameState(data) {
     elTimer.classList.remove("danger");
   }
 
-  if (data.winner) {
-    elWinner.innerHTML = `@${esc(data.winner.nickname || data.winner.user)} • ${data.winner.code} ✓`;
-  } else {
-    elWinner.textContent = "No winner yet";
-  }
+  renderWinnersBox(data.roundWinners || []);
 
   if (data.statusMessage) {
     elStatus.textContent = data.statusMessage;
@@ -239,7 +336,6 @@ function applyGameState(data) {
     updateTikStatus(data.tikfinityConnected);
   }
 
-  // Redraw grid if category or round changed
   const serverTarget = data.target || data.secretTarget || "";
   if (serverTarget && (serverTarget !== lastRenderedTarget || category !== lastRenderedCategory || level !== lastRenderedLevel)) {
     lastRenderedTarget = serverTarget;
@@ -253,6 +349,26 @@ function applyGameState(data) {
   }
 }
 
+// Hook up action buttons cleanly!
+const btnStart = document.getElementById("btnStart");
+const btnReveal = document.getElementById("btnReveal");
+const btnNext = document.getElementById("btnNext");
+
+btnStart.onclick = () => {
+  if (socket && socket.connected) socket.emit("startRound");
+  else resetLocalGame();
+};
+
+btnReveal.onclick = () => {
+  if (socket && socket.connected) socket.emit("reveal");
+  else highlightTarget(target);
+};
+
+btnNext.onclick = () => {
+  if (socket && socket.connected) socket.emit("nextRound");
+  else newLocalRound();
+};
+
 if (socket) {
   socket.on("connect", () => {
     console.log("[Game] Connected to server Socket.IO");
@@ -262,12 +378,15 @@ if (socket) {
     applyGameState(data);
   });
 
-  socket.on("correctGuess", (payload) => {
+  socket.on("roundStarted", (data) => {
+    elModal.classList.remove("active");
+    applyGameState(data);
+  });
+
+  socket.on("winnerFound", (payload) => {
     playSound("win");
     highlightTarget(payload.target);
-    if (payload.winner) {
-      elWinner.innerHTML = `@${esc(payload.winner.nickname || payload.winner.user)} • ${payload.winner.code} ✓`;
-    }
+    renderWinnersBox(payload.roundWinners || []);
   });
 
   socket.on("timeExpired", (payload) => {
@@ -275,39 +394,41 @@ if (socket) {
     highlightTarget(payload.target);
   });
 
+  socket.on("answerRevealed", (payload) => {
+    highlightTarget(payload.target);
+  });
+
+  socket.on("showLeaderboardPopup", (payload) => {
+    showLeaderboardPopup(payload);
+  });
+
   socket.on("guessAttempt", (payload) => {
     const cell = document.querySelector(`.cell[data-code="${payload.code}"]`);
     if (cell) {
       cell.classList.remove("flash-guess");
-      void cell.offsetWidth; // retrigger animation
+      void cell.offsetWidth;
       cell.classList.add("flash-guess");
     }
   });
-
-  document.getElementById("btnStart").onclick = () => socket.emit("manualGuess", "");
-  document.getElementById("btnReveal").onclick = () => socket.emit("manualGuess", "");
-  document.getElementById("btnNext").onclick = () => socket.emit("manualGuess", "");
 } else {
-  // Local fallback mode
   startLocalGame();
 }
 
-// Local standalone fallback logic
+// Standalone fallback
 let localTimer = null;
+let localWinners = [];
 function startLocalGame() {
   updateTikStatus(false);
   newLocalRound();
-
-  document.getElementById("btnStart").onclick = resetLocalGame;
-  document.getElementById("btnReveal").onclick = () => highlightTarget(target);
-  document.getElementById("btnNext").onclick = newLocalRound;
   initDirectTikFinityFallback();
 }
 
 function newLocalRound() {
   clearInterval(localTimer);
+  elModal.classList.remove("active");
   round++;
   active = true;
+  localWinners = [];
   level = Math.min(5, 1 + Math.floor(streak / 3));
   time = LEVELS[level - 1].sec;
   const TYPES = ["fruit", "bear", "cloud", "flower", "boba", "cupcake", "controller", "star"];
@@ -323,29 +444,21 @@ function newLocalRound() {
     active: true,
     revealed: false,
     target,
+    roundWinners: [],
     statusMessage: `${LEVELS[level - 1].name}: find the ONE odd ${category} 👀`
   });
 
   localTimer = setInterval(() => {
     time--;
-    applyGameState({ round, level, category, streak, time, active, target });
+    applyGameState({ round, level, category, streak, time, active, target, roundWinners: localWinners });
     if (time <= 0) {
       clearInterval(localTimer);
       active = false;
-      streak = 0;
+      if (localWinners.length === 0) streak = 0;
       playSound("timeout");
       highlightTarget(target);
-      applyGameState({
-        round,
-        level,
-        category,
-        streak: 0,
-        time: 0,
-        active: false,
-        revealed: true,
-        target,
-        statusMessage: `Time! The answer was ${target} • streak reset`
-      });
+      showLeaderboardPopup({ roundWinners: localWinners, leaderboard: [] });
+      setTimeout(newLocalRound, 4000);
     }
   }, 1000);
 }
@@ -356,30 +469,29 @@ function resetLocalGame() {
   newLocalRound();
 }
 
-function localGuess(user, msg) {
+function localGuess(user, msg, avatar = null) {
   if (!active) return;
   const m = String(msg).toUpperCase().match(/\b[A-F][1-4]\b/);
   if (!m) return;
   const code = m[0];
   if (code === target) {
-    active = false;
-    clearInterval(localTimer);
-    streak++;
+    if (localWinners.some(w => w.user === user)) return;
+    const place = localWinners.length + 1;
+    const points = place === 1 ? 2 : 1;
+    localWinners.push({ user, nickname: user, avatar, code, place, points });
+
     playSound("win");
     highlightTarget(target);
-    applyGameState({
-      round,
-      level,
-      category,
-      streak,
-      time,
-      active: false,
-      revealed: true,
-      target,
-      winner: { user, nickname: user, code },
-      statusMessage: `🎉 @${esc(user)} found it! ${code}`
-    });
-    setTimeout(newLocalRound, 4000);
+
+    if (place === 1) streak++;
+
+    if (localWinners.length >= 2) {
+      active = false;
+      clearInterval(localTimer);
+      showLeaderboardPopup({ roundWinners: localWinners, leaderboard: [] });
+      setTimeout(newLocalRound, 4000);
+    }
+    renderWinnersBox(localWinners);
   }
 }
 
@@ -394,7 +506,8 @@ function initDirectTikFinityFallback() {
           const d = p.data || p;
           const comment = d.comment || d.message || d.text || "";
           const user = d.uniqueId || d.nickname || "viewer";
-          if (comment) localGuess(user, comment);
+          const avatar = d.profilePictureUrl || d.avatarUrl || null;
+          if (comment) localGuess(user, comment, avatar);
         }
       } catch {}
     };
