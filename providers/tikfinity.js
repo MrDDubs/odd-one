@@ -62,88 +62,105 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
         if (data instanceof Buffer) str = data.toString("utf8");
         if (typeof str !== "string") return;
 
-        let evt;
+        let parsed;
         try {
-          evt = JSON.parse(str);
+          parsed = JSON.parse(str);
         } catch {
           return;
         }
 
-        const lower = (v) => (typeof v === "string" ? v.toLowerCase() : v);
-        const t = lower(evt.type || evt.event || evt.Event || evt.eventType);
+        // TikFinity may send an array of events or a single event
+        const events = Array.isArray(parsed) ? parsed : [parsed];
 
-        const isChatLike =
-          t === "chat" ||
-          t === "chatmessage" ||
-          t === "message" ||
-          t === "comment" ||
-          typeof evt.message === "string" ||
-          typeof evt.comment === "string" ||
-          evt?.data?.message ||
-          evt?.data?.comment ||
-          evt?.Payload?.Message;
+        for (const evt of events) {
+          if (!evt) continue;
 
-        if (!isChatLike) return;
+          const lower = (v) => (typeof v === "string" ? v.toLowerCase() : v);
+          const t = lower(evt.type || evt.event || evt.Event || evt.eventType || "");
 
-        const d = evt?.data || evt?.payload || evt?.Payload || evt;
+          // Check if event is chat-related
+          const isChatLike =
+            !t || // if no explicit type, check fields
+            t === "chat" ||
+            t === "chatmessage" ||
+            t === "message" ||
+            t === "comment" ||
+            typeof evt.message === "string" ||
+            typeof evt.comment === "string" ||
+            evt?.data?.message ||
+            evt?.data?.comment ||
+            evt?.Payload?.Message;
 
-        const username =
-          d?.uniqueId ||
-          d?.username ||
-          d?.user?.uniqueId ||
-          d?.user?.username ||
-          evt?.username ||
-          evt?.user ||
-          evt?.displayName ||
-          d?.User?.Name ||
-          d?.User?.DisplayName ||
-          "viewer";
+          if (!isChatLike) continue;
 
-        const nickname =
-          d?.nickname ||
-          d?.user?.nickname ||
-          d?.nickName ||
-          evt?.nickname ||
-          d?.User?.NickName ||
-          username;
+          const d = evt?.data || evt?.payload || evt?.Payload || evt;
 
-        const text =
-          d?.comment ||
-          d?.message ||
-          d?.text ||
-          evt?.comment ||
-          evt?.message ||
-          evt?.text ||
-          d?.Message ||
-          "";
+          const text = String(
+            d?.comment ||
+            d?.message ||
+            d?.text ||
+            d?.msg ||
+            d?.data?.comment ||
+            d?.data?.message ||
+            evt?.comment ||
+            evt?.message ||
+            evt?.text ||
+            d?.Message ||
+            ""
+          ).trim();
 
-        // Comprehensive extraction of avatar / profile picture URL
-        const avatar =
-          d?.profilePictureUrl ||
-          d?.profileImageUrl ||
-          d?.avatarUrl ||
-          d?.userPictureUrl ||
-          d?.user?.profilePictureUrl ||
-          d?.user?.avatarUrl ||
-          d?.user?.profileImageUrl ||
-          d?.user?.avatarThumb?.urlList?.[0] ||
-          d?.user?.avatarMedium?.urlList?.[0] ||
-          evt?.profilePictureUrl ||
-          evt?.profileImageUrl ||
-          evt?.avatarUrl ||
-          d?.User?.ProfilePictureUrl ||
-          d?.User?.AvatarUrl ||
-          null;
+          if (!text) continue;
 
-        if (!text) return;
+          const username = String(
+            d?.uniqueId ||
+            d?.username ||
+            d?.user?.uniqueId ||
+            d?.user?.username ||
+            evt?.uniqueId ||
+            evt?.username ||
+            evt?.user ||
+            evt?.displayName ||
+            d?.User?.Name ||
+            d?.User?.DisplayName ||
+            "viewer"
+          ).trim();
 
-        onChat?.({
-          username: String(username).trim(),
-          nickname: String(nickname).trim(),
-          text: String(text).trim(),
-          avatar: avatar ? String(avatar).trim() : null,
-          raw: evt
-        });
+          const nickname = String(
+            d?.nickname ||
+            d?.user?.nickname ||
+            d?.nickName ||
+            evt?.nickname ||
+            d?.User?.NickName ||
+            username
+          ).trim();
+
+          // Comprehensive avatar / profile picture extraction
+          const avatar =
+            d?.profilePictureUrl ||
+            d?.profileImageUrl ||
+            d?.avatarUrl ||
+            d?.userPictureUrl ||
+            d?.user?.profilePictureUrl ||
+            d?.user?.avatarUrl ||
+            d?.user?.profileImageUrl ||
+            d?.user?.avatarThumb?.urlList?.[0] ||
+            d?.user?.avatarMedium?.urlList?.[0] ||
+            evt?.profilePictureUrl ||
+            evt?.profileImageUrl ||
+            evt?.avatarUrl ||
+            d?.User?.ProfilePictureUrl ||
+            d?.User?.AvatarUrl ||
+            null;
+
+          log(`[Chat Received] @${nickname}: "${text}"`);
+          onChat?.({
+            username,
+            nickname,
+            text,
+            avatar: avatar ? String(avatar).trim() : null,
+            raw: evt
+          });
+        }
       } catch (err) {
         log(`Error parsing message: ${err.message}`);
       }

@@ -138,10 +138,11 @@ export class GameState {
 
   extractGuessCode(msg) {
     if (!msg) return null;
-    const str = String(msg).toUpperCase();
-    const match = str.match(/\b([A-F])[\s\-_]?([1-4])\b/);
+    const str = String(msg).toUpperCase().trim();
+    // Matches A1 to F4 anywhere, with optional spaces/dashes, even next to emojis or punctuation:
+    const match = str.match(/(?:^|[^A-Z0-9])([A-F])[\s\-_]?([1-4])(?![0-9])/i);
     if (match) {
-      return match[1] + match[2];
+      return match[1].toUpperCase() + match[2];
     }
     return null;
   }
