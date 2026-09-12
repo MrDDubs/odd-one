@@ -146,6 +146,11 @@ function updateActiveGameUI(gameId) {
     }
   });
 
+  const oddSettingsCard = document.getElementById("oddOneOutSettingsCard");
+  if (oddSettingsCard) {
+    oddSettingsCard.style.display = (gameId === "odd-one-out") ? "flex" : "none";
+  }
+
   const gameNames = {
     "odd-one-out": { name: "Ally's Odd One Out", icon: "🧩" },
     "think-like-ally": { name: "Think Like Ally", icon: "💡" },
@@ -155,6 +160,32 @@ function updateActiveGameUI(gameId) {
   const current = gameNames[gameId] || { name: gameId, icon: "🎮" };
   if (activeGameText) activeGameText.textContent = current.name;
   if (activeGameIcon) activeGameIcon.textContent = current.icon;
+}
+
+// --------------------------------------------------------------------------
+// Odd One Out Settings
+// --------------------------------------------------------------------------
+const btnApplySettings = document.getElementById("btnApplySettings");
+if (btnApplySettings) {
+  btnApplySettings.addEventListener("click", () => {
+    const selectCategory = document.getElementById("selectCategory");
+    const selectLevel = document.getElementById("selectLevel");
+    
+    const cat = selectCategory ? selectCategory.value : "random";
+    const lvlVal = selectLevel ? selectLevel.value : "auto";
+    const opts = {};
+
+    if (cat !== "random") opts.category = cat;
+    if (lvlVal === "auto") {
+      opts.autoLevel = true;
+    } else {
+      opts.autoLevel = false;
+      opts.level = parseInt(lvlVal, 10);
+    }
+
+    sendGameAction("setOptions", opts);
+    showToast("✅ Settings Applied!");
+  });
 }
 
 // --------------------------------------------------------------------------
@@ -345,6 +376,18 @@ function updateGameStateUI(data) {
 
   if (data.activeGameId) {
     updateActiveGameUI(data.activeGameId);
+  }
+
+  // Sync Selects for Odd One Out
+  const selectCategory = document.getElementById("selectCategory");
+  const selectLevel = document.getElementById("selectLevel");
+  if (data.gameId === "odd-one-out") {
+    if (selectCategory && document.activeElement !== selectCategory) {
+      selectCategory.value = data.categoryOverride || "random";
+    }
+    if (selectLevel && document.activeElement !== selectLevel) {
+      selectLevel.value = data.autoLevel ? "auto" : String(data.manualLevel || data.level || "auto");
+    }
   }
 
   // Header Round & Streak

@@ -154,6 +154,57 @@
           </div>
         </div>
 
+        <!-- Panel Section 2.5: Odd One Out Settings -->
+        <div class="panel-card odd-settings-card" id="oddOneOutSettingsCard" style="display: none;">
+          <div class="card-header">
+            <h3>⚙️ Odd One Out Settings</h3>
+          </div>
+          <div class="settings-grid" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="selectLevel" style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Level Mode</label>
+              <select id="selectLevel" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 6px; padding: 6px 10px; font-size: 13px; outline: none;">
+                <option value="auto">Auto (Increases with Streak)</option>
+                <option value="1">Level 1 - Easy</option>
+                <option value="2">Level 2 - Medium</option>
+                <option value="3">Level 3 - Hard</option>
+                <option value="4">Level 4 - Expert</option>
+                <option value="5">Level 5 - Chaos</option>
+              </select>
+            </div>
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="selectCategory" style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Category</label>
+              <select id="selectCategory" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 6px; padding: 6px 10px; font-size: 13px; outline: none;">
+                <option value="random">Random (Auto)</option>
+                <option value="fruit">🍓 Fruit</option>
+                <option value="bear">🐻 Bear</option>
+                <option value="cloud">☁️ Cloud</option>
+                <option value="flower">🌸 Flower</option>
+                <option value="boba">🧋 Boba</option>
+                <option value="cupcake">🧁 Cupcake</option>
+                <option value="controller">🎮 Controller</option>
+                <option value="star">⭐ Star</option>
+                <option value="pizza">🍕 Pizza</option>
+                <option value="donut">🍩 Donut</option>
+                <option value="cat">🐱 Cat</option>
+                <option value="diamond">💎 Diamond</option>
+                <option value="coffee">☕ Coffee</option>
+                <option value="icecream">🍦 Ice Cream</option>
+                <option value="avocado">🥑 Avocado</option>
+                <option value="cookie">🍪 Cookie</option>
+                <option value="ghost">👻 Ghost</option>
+                <option value="crown">👑 Crown</option>
+                <option value="planet">🪐 Planet</option>
+                <option value="balloon">🎈 Balloon</option>
+                <option value="butterfly">🦋 Butterfly</option>
+                <option value="mushroom">🍄 Mushroom</option>
+                <option value="camera">📷 Camera</option>
+                <option value="heart">💖 Heart</option>
+              </select>
+            </div>
+          </div>
+          <button id="btnApplySettings" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 8px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="this.style.background='rgba(255,255,255,0.05)';">Apply Settings</button>
+        </div>
+
         <!-- Panel Section 3: Live Round Flow Controls -->
         <div class="panel-card round-controls-card">
           <div class="card-header">
