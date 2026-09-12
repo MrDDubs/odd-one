@@ -148,7 +148,7 @@ function updateActiveGameUI(gameId) {
 
   const oddSettingsCard = document.getElementById("oddOneOutSettingsCard");
   if (oddSettingsCard) {
-    oddSettingsCard.style.display = (gameId === "odd-one-out") ? "flex" : "none";
+    oddSettingsCard.style.display = (gameId === "odd-one-out") ? "block" : "none";
   }
 
   const gameNames = {

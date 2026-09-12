@@ -159,11 +159,11 @@
           <div class="card-header">
             <h3>⚙️ Odd One Out Settings</h3>
           </div>
-          <div class="settings-grid" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
+          <div class="settings-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 10px;">
             <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
-              <label for="selectLevel" style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Level Mode</label>
-              <select id="selectLevel" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 6px; padding: 6px 10px; font-size: 13px; outline: none;">
-                <option value="auto">Auto (Increases with Streak)</option>
+              <label for="selectLevel" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Level Mode</label>
+              <select id="selectLevel" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="auto">Auto (Streak)</option>
                 <option value="1">Level 1 - Easy</option>
                 <option value="2">Level 2 - Medium</option>
                 <option value="3">Level 3 - Hard</option>
@@ -172,8 +172,8 @@
               </select>
             </div>
             <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
-              <label for="selectCategory" style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Category</label>
-              <select id="selectCategory" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 6px; padding: 6px 10px; font-size: 13px; outline: none;">
+              <label for="selectCategory" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Category</label>
+              <select id="selectCategory" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
                 <option value="random">Random (Auto)</option>
                 <option value="fruit">🍓 Fruit</option>
                 <option value="bear">🐻 Bear</option>
@@ -202,7 +202,10 @@
               </select>
             </div>
           </div>
-          <button id="btnApplySettings" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 8px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="this.style.background='rgba(255,255,255,0.05)';">Apply Settings</button>
+          <button id="btnApplySettings" class="btn-apply-time" style="width: 100%; padding: 7px 10px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.2s;">
+            <span>💾</span>
+            <span>Apply Settings</span>
+          </button>
         </div>
 
         <!-- Panel Section 3: Live Round Flow Controls -->
