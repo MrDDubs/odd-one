@@ -1,397 +1,181 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ally's Odd One Out — Live Game</title>
-<script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden}
-body{font-family:Arial,sans-serif;background:#211951;color:#fff}
-.app{
-  width:min(100vw,56.25vh);height:100vh;margin:auto;padding:3.2%;
-  display:flex;flex-direction:column;gap:1.5%;
-  background:
-    radial-gradient(circle at 15% 10%,#795ee0 0,transparent 24%),
-    radial-gradient(circle at 88% 22%,#e66fcf 0,transparent 26%),
-    linear-gradient(160deg,#241a59,#4c3b94 52%,#25205c);
-  position:relative;
-}
-.glass{
-  background:linear-gradient(145deg,rgba(247,242,255,.96),rgba(222,212,255,.94));
-  color:#30235e;border:2px solid #c8b9ff;border-radius:24px;
-  box-shadow:0 0 18px #a66cff80,inset 0 0 18px #fff8
-}
-.head{display:grid;grid-template-columns:1fr .44fr;gap:2%}
-.brand{
-  overflow:visible;padding:2.2% 4% 2.8%;
-  background:linear-gradient(145deg,rgba(80,53,157,.96),rgba(64,45,135,.92));
-  border:2px solid #9e82ff;
-  box-shadow:0 0 10px #7358ff,0 0 22px #bd6fff,inset 0 0 16px rgba(255,255,255,.18);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-}
-.allyword{
-  font-family:"Brush Script MT","Segoe Script","Arial Rounded MT Bold",cursive;
-  font-size:4.2vh;line-height:.72;color:#fff;
-  -webkit-text-stroke:1.5px #b35ee8;
-  text-shadow:0 3px 0 #7b46b5,0 0 6px #fff,0 0 15px #f17bff,0 0 28px #8d65ff;
-  transform:rotate(-3deg);margin-bottom:0.4vh;display:inline-block;text-align:center;
-}
-.oddtitle{
-  font-family:"Arial Rounded MT Bold","Trebuchet MS",Arial,sans-serif;
-  font-size:2.55vh;line-height:.92;font-weight:1000;letter-spacing:-.045em;color:#fff;
-  -webkit-text-stroke:1.5px #7659cf;
-  text-shadow:0 3px 0 #5a48b4,0 0 5px #fff,0 0 13px #79a7ff,0 0 22px #9b63ff;
-  white-space:nowrap;text-align:center;
-}
-.tagline{
-  display:inline-block;margin-top:2.5%;padding:1.4% 4%;border:1.5px solid #a7b6ff;
-  border-radius:999px;font-size:.72vh;font-weight:900;letter-spacing:.04em;color:#fff;
-  background:rgba(44,31,103,.58);box-shadow:0 0 8px #779cff;white-space:nowrap;text-align:center;
-}
-.timerbox{text-align:center;padding:4% 2%}
-.timer{font-size:3.4vh;font-weight:1000;color:#8e49a8;transition:color 0.2s}
-.timer.danger{color:#ff3b5c;animation:pulseTimer 0.6s infinite alternate}
-@keyframes pulseTimer{from{transform:scale(1)}to{transform:scale(1.08)}}
-
-.round,.lvl{font-size:1.15vh;font-weight:900}
-.lvl{margin-top:2%;color:#6c4ca6}
-.board{flex:1;min-height:0;padding:3%}
-.cols{display:grid;grid-template-columns:repeat(6,1fr);margin-left:6%;text-align:center;font-weight:1000;font-size:1.75vh}
-.boardbody{display:grid;grid-template-columns:5% 95%;height:94%}
-.rows{display:grid;grid-template-rows:repeat(4,1fr);place-items:center;font-weight:1000;font-size:1.75vh}
-.grid{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,1fr);gap:1.5%;padding:1.5%}
-.cell{
-  border:1px solid #b8a4ed;border-radius:15px;
-  background:linear-gradient(145deg,#d8cfff,#eee9ff);
-  display:grid;place-items:center;cursor:pointer;box-shadow:inset 0 0 9px #fff;
-  padding:6%;position:relative;transition:transform 0.15s ease,box-shadow 0.2s ease
-}
-.cell:active{transform:scale(0.94)}
-.cell svg{width:82%;height:82%;filter:drop-shadow(0 3px 3px rgba(67,45,100,.20))}
-.correct{
-  outline:5px solid #48df83;box-shadow:0 0 25px #48df83,inset 0 0 15px #48df8380!important;
-  animation:winPop 0.8s ease infinite alternate;
-  z-index:2
-}
-@keyframes winPop{
-  from{transform:scale(1.02)}
-  to{transform:scale(1.08)}
-}
-.info{display:flex;justify-content:center}
-.panel{padding:3%;min-height:11vh}
-.scorepanel{width:84%;text-align:center}
-.pt{font-size:1.25vh;font-weight:1000;margin-bottom:1.5%}
-.small{font-size:1.05vh;line-height:1.4}
-.score{font-size:2.3vh;font-weight:1000;color:#ff7836;text-shadow:0 0 10px rgba(255,120,54,.4)}
-.winners-box{
-  display:flex;justify-content:center;gap:8px;margin-top:4px;flex-wrap:wrap;
-}
-.winner-pill{
-  display:inline-flex;align-items:center;gap:5px;
-  background:rgba(255,255,255,0.7);padding:2px 8px;border-radius:999px;
-  font-size:1.05vh;font-weight:900;color:#352063;border:1px solid #c8b9ff;
-}
-.winner-pill .avatar-mini{
-  width:1.6vh;height:1.6vh;border-radius:50%;object-fit:cover;
-}
-.controls{text-align:center}
-.controls button{
-  border:0;border-radius:999px;padding:2% 5%;margin:0 .7%;
-  font-weight:900;color:#48356f;background:#f7f3ff;box-shadow:0 0 12px #bb83ff;
-  cursor:pointer;transition:transform 0.1s
-}
-.controls button:hover{transform:scale(1.05)}
-.controls .primary{background:#7456b6;color:#fff}
-.status{text-align:center;font-size:1.15vh;font-weight:900;min-height:1.4em}
-.foot{text-align:center;font-size:.95vh;font-weight:800;opacity:.88}
-.badge{
-  display:inline-block;margin-top:2%;padding:1% 4%;border-radius:999px;
-  background:#efe8ff;border:1px solid #bda8ef;font-size:.95vh;font-weight:900
-}
-
-/* Flash on guess attempt */
-.cell.flash-guess{
-  animation:guessFlash 0.35s ease-out;
-}
-@keyframes guessFlash{
-  0%{background:#ffec8b}
-  100%{background:linear-gradient(145deg,#d8cfff,#eee9ff)}
-}
-
-.guess-pill-wrap{display:flex;justify-content:center;margin-top:2px;min-height:2.6vh}
-.guess-pill{
-  display:inline-flex;align-items:center;gap:6px;padding:2px 10px;
-  border-radius:999px;font-size:1.1vh;font-weight:900;background:rgba(255,255,255,0.92);
-  color:#352063;box-shadow:0 0 10px rgba(187,131,255,0.6);
-  animation:pillPop 0.25s ease-out;
-}
-.guess-pill.correct{background:#10b981;color:#fff;box-shadow:0 0 14px #10b981}
-@keyframes pillPop{0%{transform:scale(0.85);opacity:0}100%{transform:scale(1);opacity:1}}
-
-/* ================= 4-SECOND LEADERBOARD MODAL ================= */
-.modal-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(18, 12, 45, 0.88);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5%;
-  z-index: 100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-.modal-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-.modal-content {
-  width: 100%;
-  max-width: 90%;
-  background: linear-gradient(160deg, rgba(55, 38, 110, 0.96), rgba(30, 21, 68, 0.98));
-  border: 2px solid #bba3ff;
-  border-radius: 28px;
-  box-shadow: 0 0 35px #a66cff, inset 0 0 20px rgba(255, 255, 255, 0.2);
-  padding: 6% 5%;
-  text-align: center;
-  transform: scale(0.9);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.modal-overlay.active .modal-content {
-  transform: scale(1);
-}
-.modal-title {
-  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
-  font-size: 2.8vh;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-shadow: 0 0 15px #bb83ff;
-  margin-bottom: 2%;
-}
-.round-winners-row {
-  display: flex;
-  justify-content: center;
-  gap: 4%;
-  margin: 4% 0;
-}
-.podium-card {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1.5px solid #a68bf5;
-  border-radius: 18px;
-  padding: 4% 2%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  position: relative;
-  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.1);
-}
-.podium-card.first {
-  border-color: #ffd700;
-  background: linear-gradient(180deg, rgba(255, 215, 0, 0.2), rgba(45, 30, 90, 0.4));
-  box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
-}
-.podium-card.second {
-  border-color: #c0c0c0;
-  background: linear-gradient(180deg, rgba(192, 192, 192, 0.2), rgba(45, 30, 90, 0.4));
-}
-.podium-rank {
-  font-size: 1.8vh;
-  font-weight: 1000;
-}
-.avatar-wrap {
-  position: relative;
-  width: 5.5vh;
-  height: 5.5vh;
-  margin: 2px 0;
-}
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-}
-.avatar-letter {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ff72b6, #8e54e9);
-  display: grid;
-  place-items: center;
-  font-size: 2.2vh;
-  font-weight: 1000;
-  color: #fff;
-  border: 2px solid #fff;
-}
-.podium-name {
-  font-size: 1.35vh;
-  font-weight: 900;
-  max-width: 90%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #fff;
-}
-.podium-pts {
-  font-size: 1.15vh;
-  font-weight: 1000;
-  color: #48df83;
-  background: rgba(72, 223, 131, 0.15);
-  padding: 1px 6px;
-  border-radius: 999px;
-}
-
-.top-table {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 14px;
-  padding: 3% 4%;
-  margin: 3% 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  text-align: left;
-}
-.top-title {
-  font-size: 1.1vh;
-  font-weight: 900;
-  color: #bda8ef;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-align: center;
-  margin-bottom: 2px;
-}
-.top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 1.2vh;
-  font-weight: 800;
-  padding: 2px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-.top-row:last-child { border-bottom: none; }
-.top-user-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.top-user-wrap .avatar-img,
-.top-user-wrap .avatar-letter {
-  width: 2.2vh;
-  height: 2.2vh;
-  font-size: 1vh;
-}
-.top-score {
-  color: #ffd700;
-  font-weight: 1000;
-}
-
-/* Progress bar */
-.countdown-bar-wrap {
-  width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 4%;
-}
-.countdown-bar {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #48df83, #ffd700);
-  transition: width 4s linear;
-}
-.countdown-txt {
-  font-size: 1vh;
-  font-weight: 800;
-  color: #bda8ef;
-  margin-top: 5px;
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ally's Stream Hub — Host Control Center</title>
+  <link rel="stylesheet" href="./hub.css">
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
 </head>
 <body>
-<div class="app">
-  <div class="head">
-    <div class="glass brand">
-      <div class="allyword">Ally's ♡</div>
-      <div class="oddtitle">ODD ONE OUT</div>
-      <div class="tagline">SPOT IT • COMMENT IT • GET IT RIGHT ♡</div>
-    </div>
-    <div class="glass timerbox">
-      <div class="round" id="round">ROUND 1</div>
-      <div class="timer" id="timer">00:20</div>
-      <div class="lvl" id="level">LEVEL 1 • EASY</div>
-      <div class="badge" id="category">FRUIT</div>
-    </div>
-  </div>
-
-  <div class="glass board">
-    <div class="cols"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
-    <div class="boardbody">
-      <div class="rows"><span>1</span><span>2</span><span>3</span><span>4</span></div>
-      <div class="grid" id="grid"></div>
-    </div>
-  </div>
-
-  <div class="info">
-    <div class="glass panel scorepanel">
-      <div class="pt">🏆 SCORE & WINNERS</div>
-      <div class="small">Community Streak</div>
-      <div class="score" id="streak">🔥 0</div>
-      <div class="winners-box" id="winnerBox">
-        <span style="font-size:1.05vh;color:#6c4ca6">First 2 to comment the odd box win points!</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="controls">
-    <button class="primary" id="btnStart">START</button>
-    <button id="btnReveal">REVEAL</button>
-    <button id="btnNext">NEXT</button>
-  </div>
-
-  <div class="guess-pill-wrap">
-    <div class="guess-pill" id="liveGuessPill" style="display:none"></div>
-  </div>
-
-  <div class="status" id="status">24 boxes • exactly ONE odd image per round</div>
-  <div class="foot">COMMENT TO PLAY • A1–F4 • TOP 2 GET POINTS ♡</div>
-
-  <!-- 4-Second Leaderboard Modal -->
-  <div class="modal-overlay" id="leaderboardModal">
-    <div class="modal-content">
-      <div class="modal-title">🏆 ROUND RESULTS</div>
-      
-      <!-- Top 2 Round Winners -->
-      <div class="round-winners-row" id="modalPodium">
-        <!-- Injected via JS -->
-      </div>
-
-      <!-- Community Top Leaderboard -->
-      <div class="top-table">
-        <div class="top-title">🌟 Community Leaderboard</div>
-        <div id="modalTopList">
-          <!-- Injected via JS -->
+  <div class="hub-container">
+    <!-- Top Navigation & Compact TikTok Toolbar -->
+    <header class="hub-header">
+      <div class="brand-wrap">
+        <span class="hub-logo">🎮</span>
+        <div>
+          <h1>Ally's Stream Hub</h1>
+          <div class="hub-sub">TikTok Live Game Launcher</div>
         </div>
       </div>
 
-      <!-- 4-Second Countdown bar -->
-      <div class="countdown-bar-wrap">
-        <div class="countdown-bar" id="modalProgressBar"></div>
+      <!-- Compact Direct TikTok Live Connection Toolbar -->
+      <div class="header-tiktok-toolbar">
+        <div class="header-tiktok-input-wrap">
+          <span class="header-tiktok-at">@</span>
+          <input type="text" id="inputTikTokUser" placeholder="TikTok username" class="header-tiktok-input" />
+          <button id="btnConnectTikTok" class="header-btn-connect">CONNECT</button>
+          <button id="btnDisconnectTikTok" class="header-btn-disconnect" style="display:none">DISCONNECT</button>
+        </div>
+
+        <!-- Live Connection Status Pill with Avatar -->
+        <span id="badgeTikTok" class="badge badge-red">
+          <span class="dot"></span>
+          <span id="avatarTikTokMini" style="display:none"></span>
+          <span id="textTikTok">Disconnected</span>
+        </span>
       </div>
-      <div class="countdown-txt">Next round starting automatically...</div>
+
+      <div class="header-right-actions">
+        <!-- Active Game Pill -->
+        <span class="badge badge-purple" id="badgeActiveGame">
+          <span>Active: Odd One Out</span>
+        </span>
+
+        <!-- Admin Studio Overlay Button -->
+        <a href="/admin-overlay" class="header-overlay-btn" style="background: linear-gradient(135deg, #10b981, #059669); text-decoration:none">
+          🎛️ Live Admin Overlay Studio
+        </a>
+
+        <!-- Stream Overlay Links Button -->
+        <button id="btnOpenOverlayLinks" class="header-overlay-btn">
+          📺 Overlay Links
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="hub-grid">
+      <!-- Left Column: Game Launcher & Active Game Workspace -->
+      <section class="left-col">
+        <!-- 1. Game Catalog & Launcher -->
+        <div class="card game-launcher-card">
+          <div class="card-title">
+            <span>🕹️ Game Suite Catalog</span>
+            <span class="badge badge-purple" style="font-size:10px">1-Click Switch</span>
+          </div>
+          <div class="game-cards-grid" id="gameCardsGrid">
+            <!-- Dynamically populated via hub.js -->
+          </div>
+        </div>
+
+        <!-- 2. Active Game Dynamic Workspace -->
+        <div id="activeGameWorkspace">
+          <!-- Dynamically loaded game controls (Odd One Out or Think Like Ally) -->
+          <div style="color:var(--muted);text-align:center;padding:24px">Loading active game controls...</div>
+        </div>
+
+        <!-- 3. TikFinity Connection Settings (Alternative) -->
+        <div class="card">
+          <div class="card-title">
+            <span>⚙️ TikFinity Connection (Alternative)</span>
+            <span id="badgeTikfinityCard" class="badge badge-red" style="font-size:10px;padding:3px 8px">Disconnected</span>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
+            Optional: Use TikFinity desktop app WebSocket if you prefer not using direct connection.
+          </p>
+          <div class="form-group">
+            <label for="inputTikfinityUrl">WebSocket URL</label>
+            <div style="display:flex;align-items:center;gap:8px">
+              <input type="text" id="inputTikfinityUrl" value="ws://localhost:21213/" style="flex:1">
+              <button id="btnConnectTikfinity" class="primary" style="padding:8px 16px">CONNECT</button>
+              <button id="btnDisconnectTikfinity" class="danger" style="padding:8px 14px">DISCONNECT</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Guesses Feed & Community Leaderboard -->
+      <section class="right-col">
+        <!-- Live Incoming Guesses Feed -->
+        <div class="card">
+          <div class="card-title">
+            <span>💬 Live Incoming Guesses</span>
+            <button id="btnClearFeed" class="chip" style="font-size:11px">Clear</button>
+          </div>
+          <div class="guess-feed" id="guessFeed">
+            <div style="color:var(--muted);text-align:center;padding:16px">Waiting for viewer guesses in TikTok chat...</div>
+          </div>
+        </div>
+
+        <!-- Community Leaderboard -->
+        <div class="card">
+          <div class="card-title">
+            <span>🏆 Top Community Winners</span>
+            <button id="btnResetLeaderboard" class="chip" style="font-size:11px">Reset</button>
+          </div>
+          <ul class="leaderboard-list" id="leaderboardList">
+            <li style="color:var(--muted);font-size:12px">No winners yet.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Overlay Links Modal -->
+  <div id="overlayModal" class="modal-overlay" style="display:none">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>📺 Stream Overlay Browser Sources</h2>
+        <button id="btnCloseModal" class="close-btn">&times;</button>
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">
+        Add these URLs as <strong>Browser Sources</strong> in TikTok Live Studio.
+      </p>
+
+      <div class="link-item">
+        <div>
+          <div class="link-title">🌟 Universal Stream Overlay (Recommended)</div>
+          <div class="link-desc">Automatically switches to whichever game is active in the Hub!</div>
+          <code id="linkUniversal">http://localhost:4000/overlay</code>
+        </div>
+        <button class="primary copy-btn" data-copy="linkUniversal">Copy Link</button>
+      </div>
+
+      <div class="link-item">
+        <div>
+          <div class="link-title">🧩 Ally's Odd One Out (Dedicated)</div>
+          <code id="linkOddOne">http://localhost:4000/games/odd-one-out/overlay.html</code>
+        </div>
+        <button class="secondary copy-btn" data-copy="linkOddOne">Copy Link</button>
+      </div>
+
+      <div class="link-item">
+        <div>
+          <div class="link-title">💡 Think Like Ally (Dedicated)</div>
+          <code id="linkThinkLikeAlly">http://localhost:4000/games/think-like-ally/overlay.html</code>
+        </div>
+        <button class="secondary copy-btn" data-copy="linkThinkLikeAlly">Copy Link</button>
+      </div>
+
+      <div class="link-item">
+        <div>
+          <div class="link-title">💜 Think &amp; Link (Dedicated)</div>
+          <code id="linkThinkAndLink">http://localhost:4000/games/think-and-link/overlay.html</code>
+        </div>
+        <button class="secondary copy-btn" data-copy="linkThinkAndLink">Copy Link</button>
+      </div>
+
+      <div class="obs-specs">
+        <strong>Recommended Live Studio / TikTok Settings:</strong>
+        <div>Width: <code>1080</code> | Height: <code>1920</code> (9:16 Portrait) or fit to screen</div>
+      </div>
     </div>
   </div>
-</div>
 
-<script src="./game.js"></script>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Action Saved</div>
+
+  <script type="module" src="./hub.js"></script>
 </body>
 </html>

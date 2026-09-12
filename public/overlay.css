@@ -1,0 +1,79 @@
+/* public/overlay.css - Universal Stream Overlay */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #120924;
+}
+
+.universal-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: #120924;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+iframe.fading {
+  opacity: 0;
+}
+
+/* Switch Banner */
+.switch-banner {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: linear-gradient(135deg, rgba(30, 21, 72, 0.95), rgba(76, 43, 148, 0.95));
+  border: 2px solid #a855f7;
+  padding: 10px 24px;
+  border-radius: 999px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.4);
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 9999;
+}
+
+.switch-banner.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.banner-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
+.banner-sub {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #c4b5fd;
+}
+
+.banner-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+}

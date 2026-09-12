@@ -1,0 +1,128 @@
+<!-- games/odd-one-out/controls.html -->
+<div class="game-controls-container">
+  <!-- Secret Cheat Sheet Card -->
+  <div class="card cheat-card">
+    <div class="card-title">
+      <span>🎯 Host Cheat Sheet (Secret Target)</span>
+      <span class="badge badge-purple" style="font-size:10px">Odd One Out</span>
+    </div>
+    <div class="secret-display">
+      <div>
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Current Target</div>
+        <div class="target-badge" id="secretTarget">--</div>
+      </div>
+      <div class="target-meta">
+        <div>Category: <strong id="secretCategory">FRUIT</strong></div>
+        <div>Difficulty: <strong id="secretLevel">LEVEL 1 (EASY)</strong></div>
+        <div>Time Left: <strong id="secretTimer">20s</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Round Action Controls -->
+  <div class="card">
+    <div class="card-title">Round Management</div>
+    <div class="btn-row">
+      <button class="primary" id="btnStartRound">▶ Start / Restart</button>
+      <button class="secondary" id="btnNextRound">⏭ Next Round</button>
+      <button class="secondary" id="btnReveal">👁 Reveal Answer</button>
+      <button class="secondary" id="btnTogglePause">⏸ Pause / Resume</button>
+      <button class="danger" id="btnResetGame">🔄 Reset Game & Streak</button>
+    </div>
+  </div>
+
+  <!-- Presets & Difficulty Options -->
+  <div class="card">
+    <div class="card-title">Timer & Difficulty Configuration</div>
+    
+    <!-- Timer Presets -->
+    <div class="form-group">
+      <label>Timer Presets (Seconds)</label>
+      <div class="btn-row" id="presetRow">
+        <button type="button" class="chip" data-sec="12">12s (Chaos)</button>
+        <button type="button" class="chip" data-sec="14">14s (Expert)</button>
+        <button type="button" class="chip" data-sec="16">16s (Hard)</button>
+        <button type="button" class="chip" data-sec="18">18s (Med)</button>
+        <button type="button" class="chip active" data-sec="20">20s (Easy)</button>
+        <button type="button" class="chip" data-sec="30">30s (Casual)</button>
+      </div>
+    </div>
+
+    <!-- Custom Duration Input -->
+    <div class="form-group" style="margin-top:4px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <label for="customSecInput" style="margin:0">Custom Duration:</label>
+        <input type="number" id="customSecInput" min="5" max="180" value="20" style="width:90px;padding:6px 10px" />
+        <span style="font-size:12px;color:var(--muted)">seconds</span>
+        <button type="button" id="btnSaveCustomSec" class="secondary" style="padding:6px 14px">Set Time</button>
+      </div>
+    </div>
+
+    <div class="input-row">
+      <div class="form-group">
+        <label for="selectLevel">Level Mode</label>
+        <select id="selectLevel">
+          <option value="auto">Auto (Increases with Streak)</option>
+          <option value="1">Level 1 - Easy</option>
+          <option value="2">Level 2 - Medium</option>
+          <option value="3">Level 3 - Hard</option>
+          <option value="4">Level 4 - Expert</option>
+          <option value="5">Level 5 - Chaos</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="selectCategory">Category</label>
+        <select id="selectCategory">
+          <option value="random">Random (Auto)</option>
+          <option value="fruit">🍓 Fruit</option>
+          <option value="bear">🐻 Bear</option>
+          <option value="cloud">☁️ Cloud</option>
+          <option value="flower">🌸 Flower</option>
+          <option value="boba">🧋 Boba</option>
+          <option value="cupcake">🧁 Cupcake</option>
+          <option value="controller">🎮 Controller</option>
+          <option value="star">⭐ Star</option>
+          <option value="pizza">🍕 Pizza</option>
+          <option value="donut">🍩 Donut</option>
+          <option value="cat">🐱 Cat</option>
+          <option value="diamond">💎 Diamond</option>
+          <option value="coffee">☕ Coffee</option>
+          <option value="icecream">🍦 Ice Cream</option>
+          <option value="avocado">🥑 Avocado</option>
+          <option value="cookie">🍪 Cookie</option>
+          <option value="ghost">👻 Ghost</option>
+          <option value="crown">👑 Crown</option>
+          <option value="planet">🪐 Planet</option>
+          <option value="balloon">🎈 Balloon</option>
+          <option value="butterfly">🦋 Butterfly</option>
+          <option value="mushroom">🍄 Mushroom</option>
+          <option value="camera">📷 Camera</option>
+          <option value="heart">💖 Heart</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button id="btnApplySettings" class="secondary">Apply Settings</button>
+    </div>
+  </div>
+
+  <!-- Test Simulator -->
+  <div class="card">
+    <div class="card-title">Live Test Simulator</div>
+    <div class="input-row">
+      <div class="form-group">
+        <label for="simUser">Username</label>
+        <input type="text" id="simUser" value="TikTokFan">
+      </div>
+      <div class="form-group">
+        <label for="simGuess">Guess (e.g. A4)</label>
+        <input type="text" id="simGuess" placeholder="e.g. A4" maxlength="4">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button id="btnSimulateGuess" class="primary">Submit Guess</button>
+      <button id="btnSimulateWin" class="chip">🎯 Simulate Correct Guess</button>
+      <button id="btnSimulateRandom" class="chip">🎲 Random Guess</button>
+    </div>
+  </div>
+</div>

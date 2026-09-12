@@ -1,0 +1,9 @@
+{
+  "id": "think-and-link",
+  "name": "Think & Link",
+  "icon": "💜",
+  "description": "Word Association Live Game. Viewers in chat guess the 6 words linked to the topic with letter hints before time runs out!",
+  "category": "Word / Association",
+  "author": "Ally & Mr D Dubs",
+  "version": "1.0.0"
+}

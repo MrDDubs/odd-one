@@ -1,0 +1,581 @@
+/* games/think-like-ally/overlay.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #120924;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-app {
+  width: min(100vw, 56.25vh);
+  height: 100vh;
+  margin: auto;
+  padding: 3.2%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5%;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.45) 0, transparent 30%),
+    radial-gradient(circle at 85% 25%, rgba(236, 72, 153, 0.4) 0, transparent 32%),
+    linear-gradient(165deg, #1e1548, #3b2a75 48%, #1b1642);
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.glass {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(238, 230, 255, 0.92));
+  color: #2e1d5e;
+  border: 2px solid #cbb8ff;
+  border-radius: 20px;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+/* Header: Brand Card (Warm Yellow Sunflower Theme) */
+.brand-card {
+  width: 100%;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #facc15 0%, #eab308 45%, #ca8a04 100%);
+  border: 2px solid #fef08a;
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.5), inset 0 0 14px rgba(255, 255, 255, 0.35);
+  color: #451a03;
+  text-align: center;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Subtle Sunflower Pattern */
+.brand-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg transform='translate(30,30)'%3E%3Cpath d='M0 -14 C-3 -9 -3 -4 0 0 C3 -4 3 -9 0 -14' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M0 14 C-3 9 -3 4 0 0 C3 4 3 9 0 14' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M-14 0 C-9 -3 -4 -3 0 0 C-4 3 -9 3 -14 0' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M14 0 C9 -3 4 -3 0 0 C4 3 9 3 14 0' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M-10 -10 C-8 -4 -4 -8 0 0 C-8 -4 -4 -8 -10 -10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M10 10 C8 4 4 8 0 0 C8 4 4 8 10 10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M-10 10 C-8 -4 -4 -8 0 0 C-8 4 -4 8 -10 10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M10 -10 C8 -4 4 -8 0 0 C8 -4 4 -8 10 -10' fill='%23fde047' opacity='0.9'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23854d0e' opacity='0.95'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%23451a03' opacity='0.95'/%3E%3C/g%3E%3Cg transform='translate(6,6)'%3E%3Ccircle cx='0' cy='0' r='6' fill='none' stroke='%23fef08a' stroke-width='1.8' stroke-dasharray='2,2' opacity='0.75'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%2378350f' opacity='0.85'/%3E%3C/g%3E%3Cg transform='translate(54,54)'%3E%3Ccircle cx='0' cy='0' r='6' fill='none' stroke='%23fef08a' stroke-width='1.8' stroke-dasharray='2,2' opacity='0.75'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%2378350f' opacity='0.85'/%3E%3C/g%3E%3Ccircle cx='50' cy='12' r='1.5' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='12' cy='48' r='1.5' fill='%23ffffff' opacity='0.7'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 54px 54px;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brand-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-avatar-wrap {
+  width: clamp(72px, 10vh, 96px);
+  height: clamp(72px, 10vh, 96px);
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #fef08a, #f59e0b);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.85), 0 4px 12px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: avatarGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes avatarGlow {
+  from { box-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 2px 6px rgba(0,0,0,0.2); }
+  to { box-shadow: 0 0 24px rgba(245, 158, 11, 0.95), 0 4px 14px rgba(0,0,0,0.35); }
+}
+
+.brand-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  border: 2.5px solid #ffffff;
+}
+
+.brand-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-ally {
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: clamp(32px, 4.3vh, 42px);
+  line-height: 1;
+  color: #3f1902;
+  text-shadow: 0 2px 0 #fde047, 0 0 8px rgba(255, 255, 255, 0.9), 0 0 16px #f59e0b;
+  transform: rotate(-1.5deg);
+  display: inline-block;
+}
+
+.brand-sub {
+  font-size: clamp(10px, 1.25vh, 12px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #78350f;
+  margin-top: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Sub Header Row (Game Info Pill + Timer Pill side-by-side) */
+.sub-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Standalone Game Info Pill */
+.game-info-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(243, 235, 255, 0.92));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 5px 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.meta-pill {
+  background: rgba(107, 33, 168, 0.08);
+  border: 1.5px solid rgba(124, 58, 237, 0.35);
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 1.2vh;
+  font-weight: 900;
+  color: #4c1d95;
+  letter-spacing: 0.5px;
+}
+
+/* Standalone Timer Pill (Light Purple with Darker Text) */
+.timer-pill, .timer-badge {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(238, 226, 255, 0.94));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 4px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  color: #3b0764;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.timer-num {
+  font-size: 2.2vh;
+  line-height: 1;
+  font-weight: 900;
+  color: #3b0764;
+}
+
+.timer-unit {
+  font-size: 1.15vh;
+  font-weight: 800;
+  color: #6b21a8;
+  margin-left: 2px;
+  opacity: 0.9;
+}
+
+.timer-pill.danger, .timer-badge.danger {
+  background: linear-gradient(145deg, #fff1f2, #fee2e2);
+  border-color: #f87171;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+  animation: pulseTimer 0.6s infinite alternate;
+}
+
+.timer-pill.danger .timer-num, .timer-badge.danger .timer-num {
+  color: #b91c1c;
+}
+
+.timer-pill.danger .timer-unit, .timer-badge.danger .timer-unit {
+  color: #dc2626;
+}
+
+@keyframes pulseTimer {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+/* White Pill Rule Banner */
+.rule-banner {
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 4px 18px;
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.rule-text {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 800;
+  font-size: 1.15vh;
+  letter-spacing: 0.5px;
+  color: #17022d;
+  text-transform: uppercase;
+}
+
+.rule-heart {
+  font-size: 1.3vh;
+}
+
+/* Question Box (Standardized Board Height exactly matching Odd One Out: 46.5vh) */
+.question-card {
+  padding: 4% 5%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 43vh;
+  min-height: 43vh;
+  max-height: 43vh;
+  flex: none;
+  box-sizing: border-box;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.question-card.revealed {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(236, 253, 245, 0.96));
+  border: 2.5px solid #34d399;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.45), inset 0 0 16px rgba(255, 255, 255, 0.8);
+}
+
+.question-icon-wrap {
+  font-size: 4.8vh;
+  margin-bottom: 2px;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.question-label {
+  font-size: clamp(10px, 1.2vh, 13px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #7c3aed;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.question-label.revealed-label {
+  color: #059669;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+  animation: pulseLabel 1.5s infinite alternate;
+}
+
+@keyframes pulseLabel {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+
+.question-text {
+  font-size: clamp(20px, 3.2vh, 32px);
+  font-weight: 900;
+  line-height: 1.25;
+  color: #2e1065;
+  margin-top: 8px;
+  text-transform: uppercase;
+  word-break: break-word;
+  transition: all 0.3s ease;
+}
+
+.question-text.answer-revealed-text {
+  color: #047857;
+  font-size: clamp(24px, 3.8vh, 38px);
+  text-shadow: 0 2px 10px rgba(16, 185, 129, 0.4), 0 0 20px rgba(52, 211, 153, 0.6);
+  animation: popAnswerText 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popAnswerText {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.answer-sparkle {
+  color: #10b981;
+  display: inline-block;
+  animation: spinSparkle 2s linear infinite;
+}
+
+@keyframes spinSparkle {
+  0% { transform: rotate(0deg) scale(0.9); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(0.9); }
+}
+
+/* MCQ Grid */
+.mcq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin-top: 18px;
+}
+
+.mcq-option {
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid #c4b5fd;
+  border-radius: 14px;
+  padding: 10px 12px;
+  font-size: clamp(12px, 1.6vh, 16px);
+  font-weight: 800;
+  color: #3b0764;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.12);
+  transition: all 0.3s ease;
+}
+
+.mcq-badge {
+  background: #7c3aed;
+  color: #fff;
+  border-radius: 8px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(11px, 1.3vh, 14px);
+  font-weight: 900;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+/* Correct Option Highlight on Reveal */
+.mcq-option.correct {
+  background: linear-gradient(145deg, #10b981, #059669);
+  border-color: #6ee7b7;
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.4);
+  transform: scale(1.04);
+  animation: mcqCorrectPop 0.8s ease infinite alternate;
+  z-index: 2;
+}
+
+.mcq-option.correct .mcq-badge {
+  background: #ffffff;
+  color: #065f46;
+  font-weight: 1000;
+}
+
+@keyframes mcqCorrectPop {
+  from { transform: scale(1.02); box-shadow: 0 0 14px rgba(16, 185, 129, 0.6); }
+  to { transform: scale(1.06); box-shadow: 0 0 24px rgba(16, 185, 129, 0.95); }
+}
+
+/* Dim non-correct options on reveal */
+.mcq-option.dimmed {
+  opacity: 0.38;
+  filter: grayscale(40%);
+  transform: scale(0.97);
+}
+
+/* Toast */
+.guess-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: rgba(16, 185, 129, 0.95);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 1.5vh;
+  font-weight: 800;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 100;
+  white-space: nowrap;
+}
+
+.guess-toast.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Community Streak Pill (Full Width Across Screen - Light Purple Glass Theme) */
+.streak-pill {
+  width: 100%;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(238, 230, 255, 0.92));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 5px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.streak-label {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #7c3aed;
+  text-transform: uppercase;
+}
+
+.streak-val {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.streak-num {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #2e1d5e;
+  line-height: 1;
+}
+
+.flame-icon {
+  font-size: 17px;
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.8));
+}
+
+/* Leaderboard (Light Purple Glass Theme - exactly matching Think & Link) */
+.leaderboard-section, .leaderboard-card {
+  width: 100%;
+  padding: 2.2% 3%;
+  background: linear-gradient(145deg, rgba(247, 242, 255, 0.96), rgba(222, 212, 255, 0.94));
+  border: 2px solid #c8b9ff;
+  border-radius: 20px;
+  box-shadow: 0 0 16px rgba(166, 108, 255, 0.45), inset 0 0 14px rgba(255, 255, 255, 0.6);
+  color: #30235e;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.leaderboard-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(11px, 1.3vh, 13px);
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #30235e;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+
+.podium-card {
+  background: linear-gradient(145deg, #ffffff 0%, #ede6ff 100%);
+  border: 1.5px solid #c4b5fd;
+  border-radius: 14px;
+  padding: 5px 3px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 58px;
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.12), inset 0 0 6px rgba(255, 255, 255, 0.8);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.podium-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.22), inset 0 0 6px #ffffff;
+}
+
+.podium-card.rank-1 {
+  border-color: #facc15;
+  background: linear-gradient(145deg, #ffffff 0%, #fef9c3 100%);
+  box-shadow: 0 3px 8px rgba(234, 179, 8, 0.25), inset 0 0 6px #ffffff;
+}
+
+.podium-card.rank-2 {
+  border-color: #cbd5e1;
+  background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+}
+
+.podium-card.rank-3 {
+  border-color: #fdba74;
+  background: linear-gradient(145deg, #ffffff 0%, #ffedd5 100%);
+}
+
+.podium-rank-icon {
+  font-size: clamp(14px, 1.8vh, 18px);
+  line-height: 1;
+}
+
+.podium-user {
+  font-size: clamp(9px, 1.1vh, 11px);
+  font-weight: 800;
+  color: #30235e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 85px;
+  margin: 2px 0;
+}
+
+.podium-points {
+  font-size: clamp(11px, 1.4vh, 14px);
+  font-weight: 900;
+  color: #7c3aed;
+  line-height: 1;
+}
+
+.foot {
+  text-align: center;
+  font-size: 0.95vh;
+  font-weight: 800;
+  opacity: 0.88;
+  color: #c4b5fd;
+  margin-top: 2px;
+}

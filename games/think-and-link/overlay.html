@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Think & Link — Live Stream Overlay</title>
+  <link rel="stylesheet" href="./overlay.css">
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+</head>
+<body>
+  <div class="overlay-app">
+    <!-- Top Header: Consistent with Think Like Ally -->
+    <header class="glass brand-card">
+      <div class="brand-header-top">
+        <div class="brand-avatar-wrap">
+          <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
+        </div>
+        <div class="brand-title-wrap">
+          <span class="brand-ally">Think &amp; Link</span>
+          <span class="brand-sub">LIVE TIKTOK GAME SHOW</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sub Header Row: Game Info + Standalone Timer Pill -->
+    <div class="sub-header-row">
+      <div class="game-info-pill">
+        <div class="meta-pill" id="roundPill">ROUND 1</div>
+      </div>
+      <div class="timer-pill" id="timerBox">
+        <span class="timer-num" id="timerNum">24</span><span class="timer-unit">s</span>
+      </div>
+    </div>
+
+    <!-- White Pill Rule Banner -->
+    <div class="rule-banner">
+      <span class="rule-text">TYPE YOUR ANSWER IN CHAT</span>
+      <span class="rule-heart">💜</span>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+      <!-- Main Topic Card -->
+      <section class="topic-card" id="topicBox">
+        <div class="topic-label">TOPIC</div>
+        <div class="topic-text-wrap">
+          <span class="topic-name" id="topicName">PIZZA</span>
+          <span class="topic-emoji" id="topicEmoji">🍕</span>
+        </div>
+      </section>
+
+      <!-- 2x3 Word Association Slots Grid -->
+      <section class="slots-grid" id="slotsGrid">
+        <!-- 6 Word Slot Cards -->
+        <div class="slot-card" id="slot-0">
+          <div class="slot-inner">
+            <div class="slot-hint">
+              <span class="hint-char hint-letter">C</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span>
+            </div>
+          </div>
+        </div>
+        <div class="slot-card" id="slot-1">
+          <div class="slot-inner">
+            <div class="slot-hint hint-long">
+              <span class="hint-char hint-letter">P</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span>
+            </div>
+          </div>
+        </div>
+        <div class="slot-card" id="slot-2">
+          <div class="slot-inner">
+            <div class="slot-hint">
+              <span class="hint-char hint-letter">C</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span>
+            </div>
+          </div>
+        </div>
+        <div class="slot-card" id="slot-3">
+          <div class="slot-inner">
+            <div class="slot-hint">
+              <span class="hint-char hint-letter">T</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span>
+            </div>
+          </div>
+        </div>
+        <div class="slot-card" id="slot-4">
+          <div class="slot-inner">
+            <div class="slot-hint">
+              <span class="hint-char hint-letter">O</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span>
+            </div>
+          </div>
+        </div>
+        <div class="slot-card" id="slot-5">
+          <div class="slot-inner">
+            <div class="slot-hint">
+              <span class="hint-char hint-letter">S</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span><span class="hint-char hint-blank">_</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Community Streak Pill (Full Width Across Screen) -->
+    <div class="streak-pill" id="streakCard">
+      <span class="streak-label">COMMUNITY STREAK</span>
+      <div class="streak-val">
+        <span class="flame-icon">🔥</span>
+        <span class="streak-num" id="streakValue">0</span>
+      </div>
+    </div>
+
+    <!-- Bottom Top 5 Leaderboard -->
+    <footer class="leaderboard-section">
+      <div class="leaderboard-title">
+        <span>🏆 TOP 5 LEADERBOARD</span>
+      </div>
+      <div class="leaderboard-grid" id="leaderboardPodium">
+        <!-- 5 Podium Cards -->
+      </div>
+    </footer>
+
+    <!-- Floating Live Guess Toast -->
+    <div id="guessToast" class="guess-toast">
+      <span class="toast-icon" id="toastIcon">💬</span>
+      <span class="toast-user" id="toastUser">@viewer</span>:
+      <strong class="toast-word" id="toastWord">pizza</strong>
+    </div>
+  </div>
+
+  <script src="./overlay.js"></script>
+</body>
+</html>

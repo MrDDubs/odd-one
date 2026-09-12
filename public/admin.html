@@ -15,14 +15,25 @@
         <h1>Ally's Odd One Out — Host Panel</h1>
       </div>
       <div class="header-badges">
+        <!-- Direct TikTok Badge -->
+        <span id="badgeTikTok" class="badge badge-red">
+          <span class="dot"></span>
+          <span id="avatarTikTokMini" style="display:none"></span>
+          <span id="textTikTok">TikTok Disconnected</span>
+        </span>
+
+        <!-- TikFinity Badge -->
         <span id="badgeTikfinity" class="badge badge-red">
           <span class="dot"></span>
           <span id="textTikfinity">TikFinity Disconnected</span>
         </span>
+
+        <!-- Host Socket Badge -->
         <span id="badgeSocket" class="badge badge-green">
           <span class="dot"></span>
           <span>Host Connected</span>
         </span>
+
         <span class="badge badge-purple">
           <span id="badgeRound">Round 1</span>
         </span>
@@ -34,7 +45,7 @@
 
     <!-- Main Grid -->
     <main class="admin-grid">
-      <!-- Left Column: Game Control & Cheat Box -->
+      <!-- Left Column: Game Control & Connection Settings -->
       <section style="display:flex;flex-direction:column;gap:20px;">
         <!-- Host Peek / Cheat Card -->
         <div class="card cheat-card">
@@ -64,6 +75,58 @@
             <button class="secondary" id="btnReveal">👁 Reveal Answer</button>
             <button class="secondary" id="btnTogglePause">⏸ Pause / Resume</button>
             <button class="danger" id="btnResetGame">🔄 Reset Game & Streak</button>
+          </div>
+        </div>
+
+        <!-- Direct TikTok Connection -->
+        <div class="card" style="border:1.5px solid #8e54e9">
+          <div class="card-title">
+            <span>🔴 Direct TikTok Live Connection</span>
+            <span class="badge badge-purple" style="font-size:10px;padding:3px 8px">Direct Stream</span>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
+            Connect directly using your TikTok username — captures live chat guesses in real-time with zero extra tools.
+          </p>
+          <div class="form-group">
+            <label for="inputTikTokUser">TikTok Streamer Username</label>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="color:#b18cfe;font-weight:bold;font-size:1.1rem">@</span>
+              <input type="text" id="inputTikTokUser" placeholder="username (e.g. allystreamer)" style="flex:1" />
+              <button id="btnConnectTikTok" class="primary" style="padding:8px 16px">CONNECT</button>
+              <button id="btnDisconnectTikTok" class="danger" style="padding:8px 14px">DISCONNECT</button>
+            </div>
+          </div>
+          
+          <div id="tiktokInfoBox" class="streamer-info-box" style="display:none;margin-top:12px">
+            <div id="tiktokAvatarWrap" class="avatar-wrap"></div>
+            <div>
+              <div id="tiktokStreamerName" style="font-weight:bold;font-size:14px"></div>
+              <div id="tiktokStreamerStatus" style="font-size:12px;color:#48df83">Connected & Listening for Guesses</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TikFinity Connection Settings (Alternative) -->
+        <div class="card">
+          <div class="card-title">
+            <span>⚙️ TikFinity Connection (Alternative)</span>
+            <span id="badgeTikfinityCard" class="badge badge-red" style="font-size:10px;padding:3px 8px">Disconnected</span>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
+            Requires TikFinity desktop app running in the background with WebSocket Server enabled (Event API / Actions).
+          </p>
+          <div class="form-group">
+            <label for="inputTikfinityUrl">WebSocket URL</label>
+            <div style="display:flex;align-items:center;gap:8px">
+              <input type="text" id="inputTikfinityUrl" value="ws://localhost:21213/" style="flex:1">
+              <button id="btnConnectTikfinity" class="primary" style="padding:8px 16px">CONNECT</button>
+              <button id="btnDisconnectTikfinity" class="danger" style="padding:8px 14px">DISCONNECT</button>
+            </div>
+          </div>
+          <div class="btn-row" style="margin-top:4px">
+            <a href="http://localhost:3000/" target="_blank" style="text-decoration:none">
+              <button type="button" class="secondary">📺 Open Game Overlay</button>
+            </a>
           </div>
         </div>
 
@@ -110,38 +173,36 @@
               <label for="selectCategory">Category</label>
               <select id="selectCategory">
                 <option value="random">Random (Auto)</option>
-                <option value="fruit">Fruit</option>
-                <option value="bear">Bear</option>
-                <option value="cloud">Cloud</option>
-                <option value="flower">Flower</option>
-                <option value="boba">Boba</option>
-                <option value="cupcake">Cupcake</option>
-                <option value="controller">Controller</option>
-                <option value="star">Star</option>
+                <option value="fruit">🍓 Fruit</option>
+                <option value="bear">🐻 Bear</option>
+                <option value="cloud">☁️ Cloud</option>
+                <option value="flower">🌸 Flower</option>
+                <option value="boba">🧋 Boba</option>
+                <option value="cupcake">🧁 Cupcake</option>
+                <option value="controller">🎮 Controller</option>
+                <option value="star">⭐ Star</option>
+                <option value="pizza">🍕 Pizza</option>
+                <option value="donut">🍩 Donut</option>
+                <option value="cat">🐱 Cat</option>
+                <option value="diamond">💎 Diamond</option>
+                <option value="coffee">☕ Coffee</option>
+                <option value="icecream">🍦 Ice Cream</option>
+                <option value="avocado">🥑 Avocado</option>
+                <option value="cookie">🍪 Cookie</option>
+                <option value="ghost">👻 Ghost</option>
+                <option value="crown">👑 Crown</option>
+                <option value="planet">🪐 Planet</option>
+                <option value="balloon">🎈 Balloon</option>
+                <option value="butterfly">🦋 Butterfly</option>
+                <option value="mushroom">🍄 Mushroom</option>
+                <option value="camera">📷 Camera</option>
+                <option value="heart">💖 Heart</option>
               </select>
             </div>
           </div>
           <div class="btn-row">
             <button id="btnApplySettings" class="secondary">Apply Settings</button>
           </div>
-        </div>
-
-        <!-- TikFinity Connection Settings -->
-        <div class="card">
-          <div class="card-title">TikFinity Connection</div>
-          <div class="form-group">
-            <label for="inputTikfinityUrl">WebSocket URL</label>
-            <input type="text" id="inputTikfinityUrl" value="ws://localhost:21213/">
-          </div>
-          <div class="btn-row">
-            <button id="btnReconnectTikfinity" class="secondary">🔄 Reconnect TikFinity</button>
-            <a href="http://localhost:3000/" target="_blank" style="text-decoration:none">
-              <button type="button" class="secondary">📺 Open Game Overlay</button>
-            </a>
-          </div>
-          <p style="font-size:12px;color:var(--muted)">
-            Tip: In TikFinity desktop app, navigate to <strong>Event API / Actions</strong>, ensure WebSocket is running on port <code>21213</code>.
-          </p>
         </div>
       </section>
 

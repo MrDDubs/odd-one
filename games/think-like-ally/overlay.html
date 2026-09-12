@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Think Like Ally — Live Stream Overlay</title>
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+  <link rel="stylesheet" href="./overlay.css">
+</head>
+<body>
+  <div class="overlay-app">
+    <!-- Top Header & Brand -->
+    <header class="glass brand-card">
+      <div class="brand-header-top">
+        <div class="brand-avatar-wrap">
+          <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
+        </div>
+        <div class="brand-title-wrap">
+          <span class="brand-ally">Think Like Ally</span>
+          <span class="brand-sub">LIVE TIKTOK GAME SHOW</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sub Header Row: Game Info + Standalone Timer Pill -->
+    <div class="sub-header-row">
+      <div class="game-info-pill">
+        <div class="meta-pill" id="roundPill">ROUND 1</div>
+      </div>
+      <div class="timer-pill" id="timerBox">
+        <span class="timer-num" id="timerNum">15</span><span class="timer-unit">s</span>
+      </div>
+    </div>
+
+    <!-- White Pill Rule Banner -->
+    <div class="rule-banner">
+      <span class="rule-text">TYPE YOUR ANSWER IN CHAT</span>
+      <span class="rule-heart">💜</span>
+    </div>
+
+    <!-- Main Question / Secret Answer Card -->
+    <section class="glass question-card" id="questionCard">
+      <div class="question-icon-wrap" id="questionIcon">💡</div>
+      <div class="question-label" id="questionLabel">QUESTION</div>
+      <h1 class="question-text" id="questionText">NAME A PIZZA TOPPING</h1>
+      
+      <!-- MCQ Options (if applicable) -->
+      <div class="mcq-grid" id="mcqGrid" style="display:none"></div>
+    </section>
+
+    <!-- Community Streak Pill (Full Width Across Screen) -->
+    <div class="streak-pill" id="streakCard">
+      <span class="streak-label">COMMUNITY STREAK</span>
+      <div class="streak-val">
+        <span class="flame-icon">🔥</span>
+        <span class="streak-num" id="streakValue">0</span>
+      </div>
+    </div>
+
+    <!-- Leaderboard / Community Standings -->
+    <footer class="leaderboard-section">
+      <div class="leaderboard-title">
+        <span>🏆 TOP 5 LEADERBOARD</span>
+      </div>
+      <div class="leaderboard-grid" id="leaderboardPodium">
+        <!-- Injected via JS (5 cards) -->
+      </div>
+    </footer>
+
+    <!-- Live Guess Toast Notification -->
+    <div id="guessToast" class="guess-toast">
+      <span id="toastUser">@viewer</span>: <strong id="toastText">Pepperoni</strong>
+    </div>
+  </div>
+
+  <script src="./overlay.js"></script>
+</body>
+</html>

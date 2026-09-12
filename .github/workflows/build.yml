@@ -34,7 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Mac DMG
+      - name: Build Mac Universal (Intel + Apple Silicon) DMG & ZIP
         if: matrix.os == 'macos-latest'
         run: npm run build-mac
         env:
@@ -43,7 +43,8 @@ jobs:
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: allys-oddone-builds-${{ matrix.os }}
+          name: allys-stream-hub-${{ matrix.os }}
           path: |
             dist/*.exe
             dist/*.dmg
+            dist/*.zip

@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ally's Odd One Out — Live Game</title>
+<script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#120924;color:#fff;display:flex;align-items:center;justify-content:center}
+body{font-family:Arial,sans-serif}
+.app{
+  width:min(100vw,56.25vh);height:100vh;margin:auto;padding:3.2%;
+  display:flex;flex-direction:column;gap:1.5%;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.45) 0, transparent 30%),
+    radial-gradient(circle at 85% 25%, rgba(236, 72, 153, 0.4) 0, transparent 32%),
+    linear-gradient(165deg, #1e1548, #3b2a75 48%, #1b1642);
+  position:relative;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+}
+.glass{
+  background:linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(238, 230, 255, 0.92));
+  color:#2e1d5e;border:2px solid #cbb8ff;border-radius:20px;
+  box-shadow:0 0 16px rgba(168, 85, 247, 0.4),inset 0 0 12px rgba(255, 255, 255, 0.6);
+}
+/* Header: Brand Card (Warm Yellow Sunflower Theme) */
+.brand-card {
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #facc15 0%, #eab308 45%, #ca8a04 100%);
+  border: 2px solid #fef08a;
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.5), inset 0 0 14px rgba(255, 255, 255, 0.35);
+  color: #451a03;
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Subtle Sunflower Pattern */
+.brand-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg transform='translate(30,30)'%3E%3Cpath d='M0 -14 C-3 -9 -3 -4 0 0 C3 -4 3 -9 0 -14' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M0 14 C-3 9 -3 4 0 0 C3 4 3 9 0 14' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M-14 0 C-9 -3 -4 -3 0 0 C-4 3 -9 3 -14 0' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M14 0 C9 -3 4 -3 0 0 C4 3 9 3 14 0' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M-10 -10 C-8 -4 -4 -8 0 0 C-8 -4 -4 -8 -10 -10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M10 10 C8 4 4 8 0 0 C8 4 4 8 10 10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M-10 10 C-8 -4 -4 8 0 0 C-8 4 -4 8 -10 10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M10 -10 C8 -4 4 -8 0 0 C8 -4 4 -8 10 -10' fill='%23fde047' opacity='0.9'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23854d0e' opacity='0.95'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%23451a03' opacity='0.95'/%3E%3C/g%3E%3Cg transform='translate(6,6)'%3E%3Ccircle cx='0' cy='0' r='6' fill='none' stroke='%23fef08a' stroke-width='1.8' stroke-dasharray='2,2' opacity='0.75'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%2378350f' opacity='0.85'/%3E%3C/g%3E%3Cg transform='translate(54,54)'%3E%3Ccircle cx='0' cy='0' r='6' fill='none' stroke='%23fef08a' stroke-width='1.8' stroke-dasharray='2,2' opacity='0.75'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%2378350f' opacity='0.85'/%3E%3C/g%3E%3Ccircle cx='50' cy='12' r='1.5' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='12' cy='48' r='1.5' fill='%23ffffff' opacity='0.7'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 54px 54px;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brand-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-avatar-wrap {
+  width: clamp(72px, 10vh, 96px);
+  height: clamp(72px, 10vh, 96px);
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #fef08a, #f59e0b);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.85), 0 4px 12px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: avatarGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes avatarGlow {
+  from { box-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 2px 6px rgba(0,0,0,0.2); }
+  to { box-shadow: 0 0 24px rgba(245, 158, 11, 0.95), 0 4px 14px rgba(0,0,0,0.35); }
+}
+
+.brand-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  border: 2.5px solid #ffffff;
+}
+
+.brand-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-ally {
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: clamp(32px, 4.3vh, 42px);
+  line-height: 1;
+  color: #3f1902;
+  text-shadow: 0 2px 0 #fde047, 0 0 8px rgba(255, 255, 255, 0.9), 0 0 16px #f59e0b;
+  transform: rotate(-1.5deg);
+  display: inline-block;
+}
+
+.brand-sub {
+  font-size: clamp(10px, 1.25vh, 12px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #78350f;
+  margin-top: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Sub Header Row (Game Info Pill + Timer Pill side-by-side) */
+.sub-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Standalone Game Info Pill */
+.game-info-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(243, 235, 255, 0.92));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 5px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.meta-pill {
+  background: rgba(107, 33, 168, 0.08);
+  border: 1.5px solid rgba(124, 58, 237, 0.35);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 1.15vh;
+  font-weight: 900;
+  color: #4c1d95;
+  letter-spacing: 0.5px;
+}
+
+/* Standalone Timer Pill (Light Purple with Darker Text) */
+.timer-pill, .timer-badge {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(238, 226, 255, 0.94));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 4px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  color: #3b0764;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.timer-num {
+  font-size: 2.2vh;
+  line-height: 1;
+  font-weight: 900;
+  color: #3b0764;
+}
+
+.timer-unit {
+  font-size: 1.15vh;
+  font-weight: 800;
+  color: #6b21a8;
+  margin-left: 2px;
+  opacity: 0.9;
+}
+
+.timer-pill.danger, .timer-badge.danger {
+  background: linear-gradient(145deg, #fff1f2, #fee2e2);
+  border-color: #f87171;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+  animation: pulseTimer 0.6s infinite alternate;
+}
+
+.timer-pill.danger .timer-num, .timer-badge.danger .timer-num {
+  color: #b91c1c;
+}
+
+.timer-pill.danger .timer-unit, .timer-badge.danger .timer-unit {
+  color: #dc2626;
+}
+
+@keyframes pulseTimer{from{transform:scale(1)}to{transform:scale(1.08)}}
+
+/* White Pill Rule Banner */
+.rule-banner {
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 4px 18px;
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.rule-text {
+  font-family: Arial, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  font-size: 1.15vh;
+  letter-spacing: 0.5px;
+  color: #17022d;
+  text-transform: uppercase;
+}
+
+.rule-heart {
+  font-size: 1.3vh;
+}
+.board{height:43vh;min-height:43vh;max-height:43vh;flex:none;padding:3%}
+.cols{display:grid;grid-template-columns:repeat(6,1fr);margin-left:6%;text-align:center;font-weight:1000;font-size:1.75vh;color:#4c1d95}
+.boardbody{display:grid;grid-template-columns:5% 95%;height:94%}
+.rows{display:grid;grid-template-rows:repeat(4,1fr);place-items:center;font-weight:1000;font-size:1.75vh;color:#4c1d95}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,1fr);gap:1.5%;padding:1.5%}
+.cell{
+  border:1.5px solid #cbb8ff;border-radius:14px;
+  background:linear-gradient(145deg, #ffffff 0%, #f4eeff 100%);
+  display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 2px 8px rgba(124, 58, 237, 0.12), inset 0 0 8px rgba(255, 255, 255, 0.9);
+  padding:6%;position:relative;transition:transform 0.15s ease,box-shadow 0.2s ease
+}
+.cell:active{transform:scale(0.94)}
+.cell svg{width:82%;height:82%;filter:drop-shadow(0 3px 3px rgba(67,45,100,.18))}
+.correct{
+  outline:5px solid #48df83;box-shadow:0 0 25px #48df83,inset 0 0 15px #48df8380!important;
+  animation:winPop 0.8s ease infinite alternate;
+  z-index:2
+}
+@keyframes winPop{
+  from{transform:scale(1.02)}
+  to{transform:scale(1.08)}
+}
+
+/* Community Streak Pill (Full Width Across Screen - Light Purple Glass Theme) */
+.streak-pill {
+  width: 100%;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(238, 230, 255, 0.92));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 5px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.streak-label {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #7c3aed;
+  text-transform: uppercase;
+}
+
+.streak-val {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.streak-num {
+  font-family: Arial, -apple-system, sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #2e1d5e;
+  line-height: 1;
+}
+
+.flame-icon {
+  font-size: 17px;
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.8));
+}
+
+/* Leaderboard (Light Purple Glass Theme - exactly matching Think & Link) */
+.leaderboard-section, .leaderboard-card {
+  width: 100%;
+  padding: 2.2% 3%;
+  background: linear-gradient(145deg, rgba(247, 242, 255, 0.96), rgba(222, 212, 255, 0.94));
+  border: 2px solid #c8b9ff;
+  border-radius: 20px;
+  box-shadow: 0 0 16px rgba(166, 108, 255, 0.45), inset 0 0 14px rgba(255, 255, 255, 0.6);
+  color: #30235e;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.leaderboard-title {
+  font-family: Arial, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(11px, 1.3vh, 13px);
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #30235e;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.leaderboard-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+
+.podium-card {
+  background: linear-gradient(145deg, #ffffff 0%, #ede6ff 100%);
+  border: 1.5px solid #c8b9ff;
+  border-radius: 14px;
+  padding: 8% 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.podium-card.rank-1 {
+  border-color: #ffd700;
+  background: linear-gradient(145deg, #fffdf0 0%, #fef3c7 100%);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+.podium-card.rank-2 {
+  border-color: #cbd5e1;
+  background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
+}
+.podium-card.rank-3 {
+  border-color: #f97316;
+  background: linear-gradient(145deg, #fff7ed 0%, #ffedd5 100%);
+}
+
+.podium-rank-icon {
+  font-size: 1.5vh;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.podium-user {
+  font-size: 1.05vh;
+  font-weight: 800;
+  color: #30235e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95%;
+  line-height: 1.2;
+}
+
+.podium-points {
+  font-size: 1.3vh;
+  font-weight: 1000;
+  color: #6d28d9;
+  line-height: 1;
+  margin-top: 3px;
+}
+.controls { display: none; }
+.status { display: none; }
+.foot { text-align: center; font-size: 0.95vh; font-weight: 800; opacity: 0.88; margin-top: auto; }
+.badge {
+  display: inline-block; margin-top: 2%; padding: 1% 4%; border-radius: 999px;
+  background: #efe8ff; border: 1px solid #bda8ef; font-size: 0.95vh; font-weight: 900;
+}
+
+/* Flash on guess attempt */
+.cell.flash-guess {
+  animation: guessFlash 0.35s ease-out;
+}
+@keyframes guessFlash {
+  0% { background: #fef08a; }
+  100% { background: linear-gradient(145deg, #ffffff 0%, #f4eeff 100%); }
+}
+
+.guess-pill-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  z-index: 50;
+  pointer-events: none;
+}
+.guess-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 1.3vh;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.96);
+  color: #352063;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), 0 0 12px rgba(187, 131, 255, 0.8);
+  animation: pillPop 0.25s ease-out;
+}
+.guess-pill.correct { background: #10b981; color: #fff; box-shadow: 0 0 16px #10b981; }
+@keyframes pillPop{0%{transform:scale(0.85);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* ================= 4-SECOND LEADERBOARD MODAL ================= */
+.modal-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(18, 12, 45, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5%;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-content {
+  width: 100%;
+  max-width: 90%;
+  background: linear-gradient(160deg, rgba(55, 38, 110, 0.96), rgba(30, 21, 68, 0.98));
+  border: 2px solid #bba3ff;
+  border-radius: 28px;
+  box-shadow: 0 0 35px #a66cff, inset 0 0 20px rgba(255, 255, 255, 0.2);
+  padding: 6% 5%;
+  text-align: center;
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+.modal-title {
+  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+  font-size: 2.8vh;
+  font-weight: 1000;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: 0 0 15px #bb83ff;
+  margin-bottom: 2%;
+}
+.round-winners-row {
+  display: flex;
+  justify-content: center;
+  gap: 4%;
+  margin: 4% 0;
+}
+.podium-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid #a68bf5;
+  border-radius: 18px;
+  padding: 4% 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.1);
+}
+.podium-card.first {
+  border-color: #ffd700;
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.2), rgba(45, 30, 90, 0.4));
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+}
+.podium-card.second {
+  border-color: #c0c0c0;
+  background: linear-gradient(180deg, rgba(192, 192, 192, 0.2), rgba(45, 30, 90, 0.4));
+}
+.podium-rank {
+  font-size: 1.8vh;
+  font-weight: 1000;
+}
+.avatar-wrap {
+  position: relative;
+  width: 5.5vh;
+  height: 5.5vh;
+  margin: 2px 0;
+}
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.avatar-letter {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff72b6, #8e54e9);
+  display: grid;
+  place-items: center;
+  font-size: 2.2vh;
+  font-weight: 1000;
+  color: #fff;
+  border: 2px solid #fff;
+}
+.podium-name {
+  font-size: 1.35vh;
+  font-weight: 900;
+  max-width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #fff;
+}
+.podium-pts {
+  font-size: 1.15vh;
+  font-weight: 1000;
+  color: #48df83;
+  background: rgba(72, 223, 131, 0.15);
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+.top-table {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 14px;
+  padding: 3% 4%;
+  margin: 3% 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+.top-title {
+  font-size: 1.1vh;
+  font-weight: 900;
+  color: #bda8ef;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin-bottom: 2px;
+}
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2vh;
+  font-weight: 800;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.top-row:last-child { border-bottom: none; }
+.top-user-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.top-user-wrap .avatar-img,
+.top-user-wrap .avatar-letter {
+  width: 2.2vh;
+  height: 2.2vh;
+  font-size: 1vh;
+}
+.top-score {
+  color: #ffd700;
+  font-weight: 1000;
+}
+
+/* Progress bar */
+.countdown-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 4%;
+}
+.countdown-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #48df83, #ffd700);
+  transition: width 4s linear;
+}
+.countdown-txt {
+  font-size: 1vh;
+  font-weight: 800;
+  color: #bda8ef;
+  margin-top: 5px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="glass brand-card">
+    <div class="brand-header-top">
+      <div class="brand-avatar-wrap">
+        <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
+      </div>
+      <div class="brand-title-wrap">
+        <span class="brand-ally">Ally's Odd One Out</span>
+        <span class="brand-sub">LIVE TIKTOK GAME SHOW</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sub Header Row: Game Info + Standalone Timer Pill -->
+  <div class="sub-header-row">
+    <div class="game-info-pill">
+      <div class="meta-pill" id="category">FRUIT</div>
+      <div class="meta-pill" id="level">LVL 1</div>
+      <div class="meta-pill" id="round">ROUND 1</div>
+    </div>
+    <div class="timer-pill" id="timerBox">
+      <span class="timer-num" id="timer">20</span><span class="timer-unit">s</span>
+    </div>
+  </div>
+
+  <!-- White Pill Rule Banner -->
+  <div class="rule-banner">
+    <span class="rule-text">TYPE YOUR ANSWER IN CHAT</span>
+    <span class="rule-heart">💜</span>
+  </div>
+
+  <div class="glass board">
+    <div class="cols"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+    <div class="boardbody">
+      <div class="rows"><span>1</span><span>2</span><span>3</span><span>4</span></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+  <!-- Community Streak Pill (Full Width Across Screen) -->
+  <div class="streak-pill" id="streakCard">
+    <span class="streak-label">COMMUNITY STREAK</span>
+    <div class="streak-val">
+      <span class="flame-icon">🔥</span>
+      <span class="streak-num" id="streakValue">0</span>
+    </div>
+  </div>
+
+  <!-- Leaderboard / Community Standings -->
+  <footer class="leaderboard-section">
+    <div class="leaderboard-title">
+      <span>🏆 TOP 5 LEADERBOARD</span>
+    </div>
+    <div class="leaderboard-grid" id="leaderboardPodium">
+      <!-- Injected via JS (5 cards) -->
+    </div>
+  </footer>
+
+  <div class="controls">
+    <button class="primary" id="btnStart">START</button>
+    <button id="btnReveal">REVEAL</button>
+    <button id="btnNext">NEXT</button>
+  </div>
+
+  <div class="guess-pill-wrap">
+    <div class="guess-pill" id="liveGuessPill" style="display:none"></div>
+  </div>
+
+  <div class="status" id="status">24 boxes • exactly ONE odd image per round</div>
+
+  <!-- 4-Second Leaderboard Modal -->
+  <div class="modal-overlay" id="leaderboardModal">
+    <div class="modal-content">
+      <div class="modal-title">🏆 ROUND RESULTS</div>
+      
+      <!-- Top 2 Round Winners -->
+      <div class="round-winners-row" id="modalPodium">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Community Top Leaderboard -->
+      <div class="top-table">
+        <div class="top-title">🌟 Community Leaderboard</div>
+        <div id="modalTopList">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- 4-Second Countdown bar -->
+      <div class="countdown-bar-wrap">
+        <div class="countdown-bar" id="modalProgressBar"></div>
+      </div>
+      <div class="countdown-txt">Next round starting automatically...</div>
+    </div>
+  </div>
+</div>
+
+<script src="./overlay.js"></script>
+</body>
+</html>

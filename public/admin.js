@@ -1,36 +1,56 @@
 // public/admin.js
 const socket = io("/admin");
 
-// DOM elements
+// DOM elements - Badges
+const badgeTikTok = document.getElementById("badgeTikTok");
+const textTikTok = document.getElementById("textTikTok");
+const avatarTikTokMini = document.getElementById("avatarTikTokMini");
+
 const badgeTikfinity = document.getElementById("badgeTikfinity");
 const textTikfinity = document.getElementById("textTikfinity");
 const badgeRound = document.getElementById("badgeRound");
 const badgeStreak = document.getElementById("badgeStreak");
 
+// Secret Display
 const secretTarget = document.getElementById("secretTarget");
 const secretCategory = document.getElementById("secretCategory");
 const secretLevel = document.getElementById("secretLevel");
 const secretTimer = document.getElementById("secretTimer");
 
+// Action Buttons
 const btnStartRound = document.getElementById("btnStartRound");
 const btnNextRound = document.getElementById("btnNextRound");
 const btnReveal = document.getElementById("btnReveal");
 const btnTogglePause = document.getElementById("btnTogglePause");
 const btnResetGame = document.getElementById("btnResetGame");
 
+// TikTok Connection Controls
+const inputTikTokUser = document.getElementById("inputTikTokUser");
+const btnConnectTikTok = document.getElementById("btnConnectTikTok");
+const btnDisconnectTikTok = document.getElementById("btnDisconnectTikTok");
+const tiktokInfoBox = document.getElementById("tiktokInfoBox");
+const tiktokAvatarWrap = document.getElementById("tiktokAvatarWrap");
+const tiktokStreamerName = document.getElementById("tiktokStreamerName");
+const tiktokStreamerStatus = document.getElementById("tiktokStreamerStatus");
+
+// Configuration Controls
 const selectLevel = document.getElementById("selectLevel");
 const selectCategory = document.getElementById("selectCategory");
 const btnApplySettings = document.getElementById("btnApplySettings");
 
 const inputTikfinityUrl = document.getElementById("inputTikfinityUrl");
-const btnReconnectTikfinity = document.getElementById("btnReconnectTikfinity");
+const btnConnectTikfinity = document.getElementById("btnConnectTikfinity");
+const btnDisconnectTikfinity = document.getElementById("btnDisconnectTikfinity");
+const badgeTikfinityCard = document.getElementById("badgeTikfinityCard");
 
+// Simulator Controls
 const simUser = document.getElementById("simUser");
 const simGuess = document.getElementById("simGuess");
 const btnSimulateGuess = document.getElementById("btnSimulateGuess");
 const btnSimulateWin = document.getElementById("btnSimulateWin");
 const btnSimulateRandom = document.getElementById("btnSimulateRandom");
 
+// Live Feeds
 const guessFeed = document.getElementById("guessFeed");
 const btnClearFeed = document.getElementById("btnClearFeed");
 const leaderboardList = document.getElementById("leaderboardList");
@@ -39,10 +59,15 @@ const btnResetLeaderboard = document.getElementById("btnResetLeaderboard");
 const toast = document.getElementById("toast");
 
 let currentState = null;
+let lastTikTokStatus = { connected: false, connecting: false, nickname: "", avatar: "", username: "" };
 
 function esc(s) {
-  return String(s || "").replace(/[&<>"']/g, m => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  return String(s || "").replace(/[&<>"']/g, (m) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
   }[m]));
 }
 
@@ -56,9 +81,69 @@ function updateTikStatus(connected) {
   if (connected) {
     badgeTikfinity.className = "badge badge-green";
     textTikfinity.textContent = "TikFinity Connected";
+    if (badgeTikfinityCard) {
+      badgeTikfinityCard.className = "badge badge-green";
+      badgeTikfinityCard.textContent = "Connected";
+    }
   } else {
     badgeTikfinity.className = "badge badge-red";
     textTikfinity.textContent = "TikFinity Disconnected";
+    if (badgeTikfinityCard) {
+      badgeTikfinityCard.className = "badge badge-red";
+      badgeTikfinityCard.textContent = "Disconnected";
+    }
+  }
+}
+
+function updateTikTokStatus(status) {
+  lastTikTokStatus = status || { connected: false, connecting: false, nickname: "", avatar: "", username: "" };
+
+  if (lastTikTokStatus.connected) {
+    badgeTikTok.className = "badge badge-green";
+    const displayName = lastTikTokStatus.nickname || `@${lastTikTokStatus.username}` || "Live Stream";
+    textTikTok.textContent = `TikTok: ${displayName}`;
+
+    if (lastTikTokStatus.avatar) {
+      avatarTikTokMini.style.display = "inline-flex";
+      avatarTikTokMini.innerHTML = `<img src="${esc(lastTikTokStatus.avatar)}" class="avatar-mini" alt="${esc(displayName)}">`;
+    } else {
+      avatarTikTokMini.style.display = "none";
+      avatarTikTokMini.innerHTML = "";
+    }
+
+    if (tiktokInfoBox) {
+      tiktokInfoBox.style.display = "flex";
+      tiktokStreamerName.textContent = displayName;
+      tiktokStreamerStatus.textContent = "Connected & Listening for Guesses";
+      tiktokStreamerStatus.style.color = "#48df83";
+
+      if (lastTikTokStatus.avatar) {
+        tiktokAvatarWrap.innerHTML = `<img src="${esc(lastTikTokStatus.avatar)}" alt="${esc(displayName)}">`;
+      } else {
+        const initial = (lastTikTokStatus.username || "T")[0].toUpperCase();
+        tiktokAvatarWrap.innerHTML = `<span style="display:inline-block;width:36px;height:36px;border-radius:50%;background:#8e54e9;color:#fff;text-align:center;line-height:36px;font-weight:bold;font-size:16px">${initial}</span>`;
+      }
+    }
+  } else if (lastTikTokStatus.connecting) {
+    badgeTikTok.className = "badge badge-yellow";
+    textTikTok.textContent = `Connecting @${lastTikTokStatus.username || ""}...`;
+    avatarTikTokMini.style.display = "none";
+
+    if (tiktokInfoBox) {
+      tiktokInfoBox.style.display = "flex";
+      tiktokStreamerName.textContent = `@${lastTikTokStatus.username || "TikTok User"}`;
+      tiktokStreamerStatus.textContent = "Connecting to TikTok live...";
+      tiktokStreamerStatus.style.color = "#f59e0b";
+      tiktokAvatarWrap.innerHTML = `<span style="display:inline-block;width:36px;height:36px;border-radius:50%;background:#78350f;color:#fef08a;text-align:center;line-height:36px;font-weight:bold">⏳</span>`;
+    }
+  } else {
+    badgeTikTok.className = "badge badge-red";
+    textTikTok.textContent = "TikTok Disconnected";
+    avatarTikTokMini.style.display = "none";
+
+    if (tiktokInfoBox) {
+      tiktokInfoBox.style.display = "none";
+    }
   }
 }
 
@@ -77,6 +162,19 @@ function renderState(state) {
   badgeStreak.textContent = `🔥 Streak ${state.streak || 0}`;
   updateTikStatus(state.tikfinityConnected);
 
+  // TikTok connection status
+  updateTikTokStatus({
+    connected: !!state.tiktokConnected,
+    connecting: !!state.tiktokConnecting,
+    nickname: state.tiktokLiveStreamerName || "",
+    avatar: state.tiktokLiveStreamerAvatar || "",
+    username: state.tiktokLiveUsername || ""
+  });
+
+  if (inputTikTokUser && state.tiktokLiveUsername && document.activeElement !== inputTikTokUser) {
+    inputTikTokUser.value = state.tiktokLiveUsername;
+  }
+
   secretTarget.textContent = state.secretTarget || state.target || "--";
   secretCategory.textContent = (state.category || "FRUIT").toUpperCase();
   secretLevel.textContent = `LEVEL ${state.level || 1} (${state.levelName || "EASY"})`;
@@ -92,7 +190,7 @@ function renderState(state) {
     btnTogglePause.classList.remove("primary");
   }
 
-  document.querySelectorAll("[data-sec]").forEach(btn => {
+  document.querySelectorAll("[data-sec]").forEach((btn) => {
     const sec = parseInt(btn.getAttribute("data-sec"), 10);
     btn.classList.toggle("active", sec === state.roundDurationSec);
   });
@@ -175,6 +273,14 @@ socket.on("gameState", (data) => {
   renderState(data);
 });
 
+socket.on("tiktokConnectionStatus", (status) => {
+  updateTikTokStatus(status);
+});
+
+socket.on("tikfinityConnectionStatus", (connected) => {
+  updateTikStatus(connected);
+});
+
 socket.on("chatGuess", (guessItem) => {
   addGuessToFeed(guessItem);
 });
@@ -192,7 +298,43 @@ socket.on("tikfinityLog", (msg) => {
   console.log(`[TikFinity Log] ${msg}`);
 });
 
-// Admin Controls
+socket.on("tiktokLog", (msg) => {
+  console.log(`[TikTok Log] ${msg}`);
+});
+
+// Admin Controls - Direct TikTok Connection
+if (btnConnectTikTok) {
+  btnConnectTikTok.addEventListener("click", async () => {
+    const username = (inputTikTokUser?.value || "").trim().replace(/^@/, "");
+    if (!username) {
+      alert("Please enter your TikTok username (e.g. allystreamer)");
+      return;
+    }
+    showToast(`Connecting to TikTok @${username}...`);
+    try {
+      await fetch("/admin/connect-tiktok", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username })
+      });
+    } catch {
+      socket.emit("connectTikTok", { username });
+    }
+  });
+}
+
+if (btnDisconnectTikTok) {
+  btnDisconnectTikTok.addEventListener("click", async () => {
+    showToast("Disconnecting TikTok...");
+    try {
+      await fetch("/admin/disconnect-tiktok", { method: "POST" });
+    } catch {
+      socket.emit("disconnectTikTok");
+    }
+  });
+}
+
+// Round Management Controls
 btnStartRound.addEventListener("click", () => {
   socket.emit("startRound");
   showToast("Round Started");
@@ -235,7 +377,7 @@ if (btnSaveCustomSecEl && customSecInputEl) {
   });
 }
 
-document.querySelectorAll("[data-sec]").forEach(btn => {
+document.querySelectorAll("[data-sec]").forEach((btn) => {
   btn.addEventListener("click", () => {
     const duration = parseInt(btn.getAttribute("data-sec"), 10);
     if (customSecInputEl) customSecInputEl.value = duration;
@@ -262,12 +404,33 @@ btnApplySettings.addEventListener("click", () => {
   showToast("Settings Applied");
 });
 
-// Reconnect TikFinity
-btnReconnectTikfinity.addEventListener("click", () => {
-  const url = inputTikfinityUrl.value.trim();
-  socket.emit("reconnectTikfinity", url);
-  showToast("Reconnecting TikFinity...");
-});
+// TikFinity Connection Controls
+if (btnConnectTikfinity) {
+  btnConnectTikfinity.addEventListener("click", async () => {
+    const url = (inputTikfinityUrl?.value || "").trim() || "ws://localhost:21213/";
+    showToast(`Connecting to TikFinity at ${url}...`);
+    try {
+      await fetch("/admin/connect-tikfinity", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url })
+      });
+    } catch {
+      socket.emit("connectTikfinity", { url });
+    }
+  });
+}
+
+if (btnDisconnectTikfinity) {
+  btnDisconnectTikfinity.addEventListener("click", async () => {
+    showToast("Disconnecting TikFinity...");
+    try {
+      await fetch("/admin/disconnect-tikfinity", { method: "POST" });
+    } catch {
+      socket.emit("disconnectTikfinity");
+    }
+  });
+}
 
 // Clear Feed
 btnClearFeed.addEventListener("click", () => {
@@ -297,7 +460,6 @@ btnSimulateGuess.addEventListener("click", () => {
 
 btnSimulateWin.addEventListener("click", () => {
   if (!currentState?.secretTarget) return;
-  // Automatically pick a different name if 1st winner already exists
   const isFirst = !currentState.roundWinners || currentState.roundWinners.length === 0;
   const defaultUser = isFirst ? "SpeedyWinner" : "SecondWinner";
   const user = simUser.value.trim() || defaultUser;

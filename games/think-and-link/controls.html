@@ -1,0 +1,138 @@
+<!-- games/think-and-link/controls.html -->
+<div class="game-controls-container">
+  <!-- Host Secret Cheat Sheet -->
+  <div class="card cheat-card">
+    <div class="card-title">
+      <span>💜 Host Cheat Sheet (Secret 6 Words)</span>
+      <span class="badge badge-purple" style="font-size:10px">Think &amp; Link</span>
+    </div>
+
+    <div class="secret-display" style="margin-bottom:14px">
+      <div style="flex:1">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Current Topic</div>
+        <div class="target-badge" id="talTopicDisplay" style="font-size:26px">PIZZA 🍕</div>
+        <div style="font-size:12px;color:#cbb2ff;margin-top:4px" id="talCategoryDisplay">Category: Food &amp; Drink</div>
+      </div>
+      <div class="target-meta">
+        <div>Timer: <strong id="talTimerText">30s</strong></div>
+        <div>Streak: <strong id="talStreakText">🔥 0</strong></div>
+        <div>Found: <strong id="talFoundCountText">0/6</strong></div>
+      </div>
+    </div>
+
+    <!-- 6 Words Secret Mini-Grid with Per-Word Manual Reveal -->
+    <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">
+      6 Target Words &amp; Individual Host Reveals
+    </div>
+    <div class="tal-secret-grid" id="talSecretSlotsGrid">
+      <!-- 6 mini cards injected via controls.js -->
+    </div>
+  </div>
+
+  <!-- Round & Timer Management -->
+  <div class="card">
+    <div class="card-title">Round &amp; Timer Management</div>
+    <div class="btn-row">
+      <button class="primary" id="talBtnStartTimer">▶ Start Timer</button>
+      <button class="secondary" id="talBtnPauseTimer">⏸ Pause Timer</button>
+      <button class="secondary" id="talBtnRevealAll">👁 Reveal All</button>
+      <button class="secondary" id="talBtnHideUnsolved">🙈 Hide Unsolved</button>
+      <button class="secondary" id="talBtnNextPuzzle">⏭ Next Puzzle</button>
+      <button class="danger" id="talBtnResetGame">🔄 Reset Game</button>
+    </div>
+  </div>
+
+  <!-- Curated Puzzles Library (100 Puzzles) -->
+  <div class="card">
+    <div class="card-title">Curated Puzzles Library (100+ Topics)</div>
+    <div class="input-row">
+      <div class="form-group" style="flex:2">
+        <label for="talPuzzleSelect">Select Puzzle Topic</label>
+        <select id="talPuzzleSelect">
+          <option value="">Loading puzzles list...</option>
+        </select>
+      </div>
+      <div class="form-group" style="flex:1">
+        <label>Actions</label>
+        <div style="display:flex;gap:6px">
+          <button id="talBtnLoadPuzzle" class="secondary" style="height:42px;flex:1">📚 Load</button>
+          <button id="talBtnRandomPuzzle" class="chip" style="height:42px;flex:1">🎲 Random</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Topic & Words Builder -->
+  <div class="card">
+    <div class="card-title">Custom Topic &amp; 6 Words Builder</div>
+    <div class="input-row">
+      <div class="form-group" style="flex:2">
+        <label for="talCustomTopic">Topic Name</label>
+        <input type="text" id="talCustomTopic" placeholder="e.g. BREAKFAST" />
+      </div>
+      <div class="form-group" style="flex:1">
+        <label for="talCustomEmoji">Emoji</label>
+        <input type="text" id="talCustomEmoji" placeholder="🍳" value="🍳" maxlength="4" />
+      </div>
+      <div class="form-group" style="flex:1.5">
+        <label for="talCustomCategory">Category</label>
+        <input type="text" id="talCustomCategory" placeholder="e.g. Food" value="Food" />
+      </div>
+    </div>
+
+    <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin:8px 0 6px">
+      6 Associated Words
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-bottom:12px">
+      <div class="form-group">
+        <label for="talWord0">Word #1</label>
+        <input type="text" id="talWord0" placeholder="e.g. EGGS" />
+      </div>
+      <div class="form-group">
+        <label for="talWord1">Word #2</label>
+        <input type="text" id="talWord1" placeholder="e.g. BACON" />
+      </div>
+      <div class="form-group">
+        <label for="talWord2">Word #3</label>
+        <input type="text" id="talWord2" placeholder="e.g. PANCAKE" />
+      </div>
+      <div class="form-group">
+        <label for="talWord3">Word #4</label>
+        <input type="text" id="talWord3" placeholder="e.g. TOAST" />
+      </div>
+      <div class="form-group">
+        <label for="talWord4">Word #5</label>
+        <input type="text" id="talWord4" placeholder="e.g. COFFEE" />
+      </div>
+      <div class="form-group">
+        <label for="talWord5">Word #6</label>
+        <input type="text" id="talWord5" placeholder="e.g. WAFFLE" />
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button id="talBtnSetCustom" class="primary">✨ Launch Custom Puzzle</button>
+    </div>
+  </div>
+
+  <!-- Live Test Simulator -->
+  <div class="card">
+    <div class="card-title">Live Test Simulator</div>
+    <div class="input-row">
+      <div class="form-group">
+        <label for="talSimUser">Username</label>
+        <input type="text" id="talSimUser" value="TikTokFan">
+      </div>
+      <div class="form-group">
+        <label for="talSimGuess">Chat Message / Word Guess</label>
+        <input type="text" id="talSimGuess" placeholder="e.g. Pepperoni">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button id="talBtnSimGuess" class="primary">Submit Guess</button>
+      <button id="talBtnSimNextWin" class="chip">🎯 Guess Next Unrevealed Word</button>
+      <button id="talBtnSimSolveAll" class="chip">⚡ Solve All 6 Words</button>
+      <button id="talBtnSimRandom" class="chip">🎲 Random Incorrect Word</button>
+    </div>
+  </div>
+</div>

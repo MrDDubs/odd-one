@@ -1,0 +1,9 @@
+{
+  "id": "odd-one-out",
+  "name": "Ally's Odd One Out",
+  "icon": "🧩",
+  "description": "Visual spot-the-difference game on a 6x4 grid with difficulty levels, streaks, and timer.",
+  "category": "Visual / Pattern",
+  "author": "Ally & Mr D Dubs",
+  "version": "1.0.0"
+}

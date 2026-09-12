@@ -167,13 +167,19 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
     });
 
     ws.on("close", () => {
-      log("Disconnected from TikFinity. Will retry in 3s...");
+      if (isClosedExplicitly) {
+        log("TikFinity disconnected cleanly.");
+      } else {
+        log("Disconnected from TikFinity. Will retry in 3s...");
+        scheduleRetry();
+      }
       onStatusChange?.(false);
-      scheduleRetry();
     });
 
     ws.on("error", (err) => {
-      log(`Connection error: ${err.message}`);
+      if (!isClosedExplicitly) {
+        log(`Connection error: ${err.message}`);
+      }
       onStatusChange?.(false);
     });
   };
@@ -188,6 +194,7 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
 
   return {
     reconnect: () => {
+      isClosedExplicitly = false;
       clearTimeout(retryTimer);
       try {
         if (ws) ws.terminate();
@@ -198,8 +205,12 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
       isClosedExplicitly = true;
       clearTimeout(retryTimer);
       try {
-        if (ws) ws.close();
+        if (ws) {
+          ws.removeAllListeners?.();
+          ws.terminate();
+        }
       } catch {}
+      onStatusChange?.(false);
     }
   };
 }

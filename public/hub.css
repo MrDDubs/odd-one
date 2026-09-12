@@ -1,3 +1,4 @@
+/* public/hub.css - Ally's Stream Hub Dashboard */
 :root {
   --bg: #0b0d17;
   --card: #151a2e;
@@ -15,7 +16,11 @@
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   font-family: var(--font);
@@ -25,8 +30,8 @@ body {
   line-height: 1.5;
 }
 
-.admin-container {
-  max-width: 1200px;
+.hub-container {
+  max-width: 1300px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -34,13 +39,13 @@ body {
 }
 
 /* Header */
-.admin-header {
+.hub-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
-  padding: 16px 22px;
+  gap: 16px;
+  padding: 18px 24px;
   background: var(--card);
   border: 1px solid var(--card-border);
   border-radius: 16px;
@@ -50,22 +55,125 @@ body {
 .brand-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+}
+
+.hub-logo {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 8px rgba(142, 84, 233, 0.5));
 }
 
 .brand-wrap h1 {
   font-size: 22px;
-  font-weight: 800;
+  font-weight: 900;
   background: linear-gradient(135deg, #fff, #c8b9ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  line-height: 1.1;
 }
 
-.header-badges {
+.hub-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.header-tiktok-toolbar {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1.5px solid #6d28d9;
+  padding: 5px 12px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 10px rgba(109, 40, 217, 0.2);
+}
+
+.header-tiktok-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-tiktok-at {
+  color: #c4b5fd;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.header-tiktok-input {
+  background: transparent !important;
+  border: none !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  width: 150px;
+  padding: 4px 6px !important;
+  outline: none !important;
+}
+
+.header-tiktok-input::placeholder {
+  color: #71717a;
+}
+
+.header-btn-connect {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border: none;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  transition: all 0.15s ease;
+}
+
+.header-btn-connect:hover {
+  filter: brightness(1.15);
+  transform: scale(1.03);
+}
+
+.header-btn-disconnect {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.15s ease;
+}
+
+.header-btn-disconnect:hover {
+  filter: brightness(1.15);
+}
+
+.header-right-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-overlay-btn {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: #fff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
+  transition: all 0.15s ease;
+}
+
+.header-overlay-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
 }
 
 .badge {
@@ -138,16 +246,22 @@ body {
 }
 
 /* Grid Layout */
-.admin-grid {
+.hub-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1.35fr 1fr;
   gap: 20px;
 }
 
-@media (max-width: 900px) {
-  .admin-grid {
+@media (max-width: 980px) {
+  .hub-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.left-col, .right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .card {
@@ -172,6 +286,79 @@ body {
   justify-content: space-between;
 }
 
+/* Game Launcher Cards */
+.game-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.game-card {
+  background: #0f1426;
+  border: 2px solid #232b4a;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.game-card:hover {
+  border-color: #7952b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(142, 84, 233, 0.25);
+}
+
+.game-card.active {
+  border-color: #8e54e9;
+  background: linear-gradient(145deg, #1b1638, #13172e);
+  box-shadow: 0 0 20px rgba(142, 84, 233, 0.4);
+}
+
+.game-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-icon {
+  font-size: 26px;
+}
+
+.game-badge-active {
+  background: #10b981;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+
+.game-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.game-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.btn-activate {
+  margin-top: 6px;
+  width: 100%;
+  justify-content: center;
+  font-size: 12px;
+  padding: 8px;
+}
+
 /* Cheat Sheet Peek Card */
 .cheat-card {
   background: linear-gradient(145deg, #1b1638, #161c36);
@@ -187,6 +374,7 @@ body {
   background: rgba(0, 0, 0, 0.35);
   border-radius: 12px;
   border: 1px dashed #7456b6;
+  gap: 16px;
 }
 
 .target-badge {
@@ -307,7 +495,7 @@ input:focus, select:focus {
   background: #0d1120;
   border: 1px solid #1f2742;
   border-radius: 12px;
-  height: 240px;
+  height: 280px;
   overflow-y: auto;
   padding: 8px;
   display: flex;
@@ -361,6 +549,94 @@ input:focus, select:focus {
   color: #ffd96e;
 }
 
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: grid;
+  place-items: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.modal-card {
+  background: #151a2e;
+  border: 2px solid #8e54e9;
+  border-radius: 18px;
+  max-width: 600px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  color: #c8b9ff;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.link-item {
+  background: #0f1426;
+  border: 1px solid #232b4a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.link-title {
+  font-weight: 800;
+  font-size: 14px;
+  color: #fff;
+}
+
+.link-desc {
+  font-size: 11px;
+  color: #a78bfa;
+  margin-bottom: 4px;
+}
+
+.link-item code {
+  font-family: monospace;
+  font-size: 12px;
+  color: #5eead4;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.obs-specs {
+  background: rgba(142, 84, 233, 0.15);
+  border: 1px solid #7952b3;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #e0e7ff;
+}
+
 /* Toast */
 .toast {
   position: fixed;
@@ -382,3 +658,24 @@ input:focus, select:focus {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Think & Link Host Controls */
+.tal-secret-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.tal-secret-slot-card {
+  background: #0f1426;
+  border: 1px solid #232b4a;
+  border-radius: 8px;
+  padding: 8px 10px;
+  transition: all 0.2s ease;
+}
+
+.tal-secret-slot-card.revealed {
+  border-color: rgba(16, 185, 129, 0.6);
+  background: rgba(16, 185, 129, 0.08);
+}
+

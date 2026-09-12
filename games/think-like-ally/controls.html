@@ -1,0 +1,94 @@
+<!-- games/think-like-ally/controls.html -->
+<div class="game-controls-container">
+  <!-- Host Secret Cheat Sheet -->
+  <div class="card cheat-card">
+    <div class="card-title">
+      <span>💡 Host Cheat Sheet (Secret Answer)</span>
+      <span class="badge badge-purple" style="font-size:10px">Think Like Ally</span>
+    </div>
+    <div class="secret-display">
+      <div style="flex:1">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Ally's Secret Answer</div>
+        <div class="target-badge" id="tlaSecretAnswer" style="font-size:24px;word-break:break-word">--</div>
+        <div style="font-size:12px;color:#cbb2ff;margin-top:4px" id="tlaQuestionPeek">Question: --</div>
+      </div>
+      <div class="target-meta">
+        <div>Timer: <strong id="tlaTimerText">15s</strong></div>
+        <div>Type: <strong id="tlaTypePeek">OPEN</strong></div>
+        <div>Winners This Round: <strong id="tlaWinnersCount">0</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Round & Timer Management -->
+  <div class="card">
+    <div class="card-title">Round & Timer Management</div>
+    <div class="btn-row">
+      <button class="primary" id="tlaBtnStartTimer">▶ Start Timer</button>
+      <button class="secondary" id="tlaBtnPauseTimer">⏸ Pause Timer</button>
+      <button class="secondary" id="tlaBtnReveal">👁 Reveal Answer</button>
+      <button class="secondary" id="tlaBtnHide">🙈 Hide Answer</button>
+      <button class="secondary" id="tlaBtnNextQuestion">⏭ Next Question</button>
+      <button class="danger" id="tlaBtnResetGame">🔄 Reset Game</button>
+    </div>
+  </div>
+
+  <!-- Question Pack Selector -->
+  <div class="card">
+    <div class="card-title">Trivia Question Packs</div>
+    <div class="input-row">
+      <div class="form-group">
+        <label for="tlaPackSelect">Select Question Pack</label>
+        <select id="tlaPackSelect">
+          <option value="">Loading question packs...</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Actions</label>
+        <button id="tlaBtnLoadPack" class="secondary" style="height:42px">📚 Load Pack</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Question Builder -->
+  <div class="card">
+    <div class="card-title">Custom Question & Answer Builder</div>
+    <div class="form-group">
+      <label for="tlaCustomQuestion">Question Prompt</label>
+      <input type="text" id="tlaCustomQuestion" placeholder="e.g. NAME A SUMMER FRUIT" />
+    </div>
+    <div class="input-row">
+      <div class="form-group">
+        <label for="tlaCustomAnswer">Secret Answer(s)</label>
+        <input type="text" id="tlaCustomAnswer" placeholder="e.g. Watermelon (or Watermelon, Mango)" />
+      </div>
+      <div class="form-group">
+        <label for="tlaCustomIcon">Emoji / Icon</label>
+        <input type="text" id="tlaCustomIcon" placeholder="🍉" value="🍉" maxlength="4" />
+      </div>
+    </div>
+    <div class="btn-row">
+      <button id="tlaBtnSetCustom" class="primary">✨ Set Custom Question</button>
+    </div>
+  </div>
+
+  <!-- Live Test Simulator -->
+  <div class="card">
+    <div class="card-title">Live Test Simulator</div>
+    <div class="input-row">
+      <div class="form-group">
+        <label for="tlaSimUser">Username</label>
+        <input type="text" id="tlaSimUser" value="TikTokFan">
+      </div>
+      <div class="form-group">
+        <label for="tlaSimGuess">Chat Message / Guess</label>
+        <input type="text" id="tlaSimGuess" placeholder="e.g. Pepperoni">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button id="tlaBtnSimGuess" class="primary">Submit Guess</button>
+      <button id="tlaBtnSimWin" class="chip">🎯 Simulate Correct Guess</button>
+      <button id="tlaBtnSimRandom" class="chip">🎲 Random Incorrect Guess</button>
+    </div>
+  </div>
+</div>

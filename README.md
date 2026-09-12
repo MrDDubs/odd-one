@@ -5,7 +5,7 @@ Interactive TikTok Live odd-one-out guessing game with real-time **TikFinity** i
 ---
 
 ## 🎮 Features
-- **Faithful 9:16 Vertical Design**: Tailored for TikTok Live & OBS overlays with high-resolution SVG artwork.
+- **Faithful 9:16 Vertical Design**: Tailored for TikTok Live & Live Studio overlays with high-resolution SVG artwork.
 - **6×4 Grid (24 Cells)**: Columns A–F and Rows 1–4 (e.g., A1 to F4).
 - **8 Dynamic Categories**: Fruit, Bear, Cloud, Flower, Boba, Cupcake, Controller, and Star.
 - **5 Progressive Difficulty Levels**:
@@ -55,9 +55,9 @@ By default, the server runs on port `3000`.
 
 ---
 
-## 🎥 OBS Studio Setup
+## 🎥 Live Studio Setup
 
-1. In OBS Studio, add a new **Browser Source**.
+1. In Live Studio, add a new **Browser Source**.
 2. Set the **URL** to:
    ```
    http://localhost:3000/

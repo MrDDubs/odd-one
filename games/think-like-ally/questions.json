@@ -1,0 +1,696 @@
+[
+  {
+    "id": "tla-official-full",
+    "name": "Think Like Ally — Official Answer Sheet",
+    "questions": [
+      {
+        "round": 1,
+        "type": "open",
+        "question": "Name a pizza topping",
+        "icon": "🍕",
+        "options": [],
+        "answer": "pineapple"
+      },
+      {
+        "round": 2,
+        "type": "open",
+        "question": "Name a fast-food restaurant",
+        "icon": "🍔",
+        "options": [],
+        "answer": "kfc / kentucky fried chicken"
+      },
+      {
+        "round": 3,
+        "type": "open",
+        "question": "Name a chocolate bar",
+        "icon": "🍫",
+        "options": [],
+        "answer": "kitkat / kit kat"
+      },
+      {
+        "round": 4,
+        "type": "open",
+        "question": "Name an ice-cream flavour",
+        "icon": "🍦",
+        "options": [],
+        "answer": "choc mint / chocolate mint / mint chocolate / mint choc"
+      },
+      {
+        "round": 5,
+        "type": "open",
+        "question": "Name a fruit",
+        "icon": "🍓",
+        "options": [],
+        "answer": "lychee / litchi"
+      },
+      {
+        "round": 6,
+        "type": "open",
+        "question": "Name a breakfast food",
+        "icon": "🍳",
+        "options": [],
+        "answer": "bacon"
+      },
+      {
+        "round": 7,
+        "type": "open",
+        "question": "Name a takeaway food",
+        "icon": "🥡",
+        "options": [],
+        "answer": "fried rice"
+      },
+      {
+        "round": 8,
+        "type": "open",
+        "question": "Name a soft drink",
+        "icon": "🥤",
+        "options": [],
+        "answer": "sprite"
+      },
+      {
+        "round": 9,
+        "type": "open",
+        "question": "Name something you put on fries",
+        "icon": "🍟",
+        "options": [],
+        "answer": "chicken salt"
+      },
+      {
+        "round": 10,
+        "type": "open",
+        "question": "Name a coffee order",
+        "icon": "☕",
+        "options": [],
+        "answer": "caramel latte"
+      },
+      {
+        "round": 11,
+        "type": "open",
+        "question": "Name a colour",
+        "icon": "💜",
+        "options": [],
+        "answer": "lilac"
+      },
+      {
+        "round": 12,
+        "type": "open",
+        "question": "Name an animal",
+        "icon": "🐶",
+        "options": [],
+        "answer": "whale"
+      },
+      {
+        "round": 13,
+        "type": "open",
+        "question": "Name something you wear on your feet",
+        "icon": "👟",
+        "options": [],
+        "answer": "stockings / stocking"
+      },
+      {
+        "round": 14,
+        "type": "open",
+        "question": "Name something you take on holiday",
+        "icon": "✈️",
+        "options": [],
+        "answer": "money / cash"
+      },
+      {
+        "round": 15,
+        "type": "open",
+        "question": "Name something found in a handbag",
+        "icon": "👜",
+        "options": [],
+        "answer": "lip balm / lipbalm / chapstick"
+      },
+      {
+        "round": 16,
+        "type": "open",
+        "question": "Name something in a bedroom",
+        "icon": "🛏️",
+        "options": [],
+        "answer": "bed"
+      },
+      {
+        "round": 17,
+        "type": "open",
+        "question": "Name something you do before bed",
+        "icon": "🌙",
+        "options": [],
+        "answer": "brush your teeth / brush teeth / brushing teeth"
+      },
+      {
+        "round": 18,
+        "type": "open",
+        "question": "Name something you lose all the time",
+        "icon": "😂",
+        "options": [],
+        "answer": "keys / key"
+      },
+      {
+        "round": 19,
+        "type": "open",
+        "question": "Name something you charge every day",
+        "icon": "🔋",
+        "options": [],
+        "answer": "ipad / tablet"
+      },
+      {
+        "round": 20,
+        "type": "open",
+        "question": "Name an app you open every day",
+        "icon": "📱",
+        "options": [],
+        "answer": "whatsapp / whats app"
+      },
+      {
+        "round": 21,
+        "type": "open",
+        "question": "Name a country you would love to visit",
+        "icon": "🌏",
+        "options": [],
+        "answer": "switzerland"
+      },
+      {
+        "round": 22,
+        "type": "open",
+        "question": "Name a city people want to visit",
+        "icon": "🏙️",
+        "options": [],
+        "answer": "paris"
+      },
+      {
+        "round": 23,
+        "type": "open",
+        "question": "Name something you do at the airport",
+        "icon": "✈️",
+        "options": [],
+        "answer": "cry / crying"
+      },
+      {
+        "round": 24,
+        "type": "open",
+        "question": "Name something you pack but barely use",
+        "icon": "🧳",
+        "options": [],
+        "answer": "nail clipper / nail clippers"
+      },
+      {
+        "round": 25,
+        "type": "open",
+        "question": "Name a holiday essential",
+        "icon": "☀️",
+        "options": [],
+        "answer": "sunscreen / sunblock / sun cream"
+      },
+      {
+        "round": 26,
+        "type": "open",
+        "question": "Name something you buy at duty free",
+        "icon": "🛍️",
+        "options": [],
+        "answer": "perfume / fragrance / cologne"
+      },
+      {
+        "round": 27,
+        "type": "open",
+        "question": "Beach or mountains?",
+        "icon": "🏖️",
+        "options": [],
+        "answer": "mountains / mountain"
+      },
+      {
+        "round": 28,
+        "type": "open",
+        "question": "Window or aisle seat?",
+        "icon": "✈️",
+        "options": [],
+        "answer": "aisle seat / aisle"
+      },
+      {
+        "round": 29,
+        "type": "open",
+        "question": "Hotel or Airbnb?",
+        "icon": "🏨",
+        "options": [],
+        "answer": "hotel"
+      },
+      {
+        "round": 30,
+        "type": "open",
+        "question": "Sunrise or sunset?",
+        "icon": "🌅",
+        "options": [],
+        "answer": "sunset"
+      },
+      {
+        "round": 31,
+        "type": "open",
+        "question": "Sweet or salty?",
+        "icon": "🍭",
+        "options": [],
+        "answer": "sweet / sweets"
+      },
+      {
+        "round": 32,
+        "type": "open",
+        "question": "Coffee or tea?",
+        "icon": "☕",
+        "options": [],
+        "answer": "tea"
+      },
+      {
+        "round": 33,
+        "type": "open",
+        "question": "Summer or winter?",
+        "icon": "❄️",
+        "options": [],
+        "answer": "winter"
+      },
+      {
+        "round": 34,
+        "type": "open",
+        "question": "Morning or night?",
+        "icon": "🌙",
+        "options": [],
+        "answer": "night"
+      },
+      {
+        "round": 35,
+        "type": "open",
+        "question": "Texting or calling?",
+        "icon": "💬",
+        "options": [],
+        "answer": "texting / text / texts"
+      },
+      {
+        "round": 36,
+        "type": "open",
+        "question": "Netflix or TikTok?",
+        "icon": "📺",
+        "options": [],
+        "answer": "netflix"
+      },
+      {
+        "round": 37,
+        "type": "open",
+        "question": "Shower morning or night?",
+        "icon": "🚿",
+        "options": [],
+        "answer": "night"
+      },
+      {
+        "round": 38,
+        "type": "open",
+        "question": "Stay in or go out?",
+        "icon": "🏠",
+        "options": [],
+        "answer": "stay in / staying in"
+      },
+      {
+        "round": 39,
+        "type": "open",
+        "question": "Sneakers or Crocs?",
+        "icon": "👟",
+        "options": [],
+        "answer": "crocs / croc"
+      },
+      {
+        "round": 40,
+        "type": "open",
+        "question": "Chocolate or vanilla?",
+        "icon": "🍫",
+        "options": [],
+        "answer": "chocolate / choc"
+      },
+      {
+        "round": 41,
+        "type": "open",
+        "question": "Name something people pretend to like",
+        "icon": "😂",
+        "options": [],
+        "answer": "exercise / gym / workout / working out"
+      },
+      {
+        "round": 42,
+        "type": "open",
+        "question": "Name an excuse for being late",
+        "icon": "⏰",
+        "options": [],
+        "answer": "slept in / sleeping in / oversleeping / overslept"
+      },
+      {
+        "round": 43,
+        "type": "open",
+        "question": "Name something you should not do on a first date",
+        "icon": "😭",
+        "options": [],
+        "answer": "fart / farting"
+      },
+      {
+        "round": 44,
+        "type": "open",
+        "question": "Name something you would grab during a fire",
+        "icon": "🔥",
+        "options": [],
+        "answer": "marshmallow / marshmellow / marshmallows"
+      },
+      {
+        "round": 45,
+        "type": "open",
+        "question": "Name something you would buy if you won $1 million",
+        "icon": "💰",
+        "options": [],
+        "answer": "one way plane ticket / plane ticket / flight / ticket"
+      },
+      {
+        "round": 46,
+        "type": "open",
+        "question": "Name something annoying people do on planes",
+        "icon": "😭",
+        "options": [],
+        "answer": "scream / screaming / crying / cry"
+      },
+      {
+        "round": 47,
+        "type": "open",
+        "question": "Name something you would not share with anyone",
+        "icon": "👀",
+        "options": [],
+        "answer": "toothbrush / tooth brush"
+      },
+      {
+        "round": 48,
+        "type": "open",
+        "question": "Name something you would hate to find in your bed",
+        "icon": "😭",
+        "options": [],
+        "answer": "spiders / spider"
+      },
+      {
+        "round": 49,
+        "type": "open",
+        "question": "Name something people do when nobody is watching",
+        "icon": "😂",
+        "options": [],
+        "answer": "pick their nose / pick nose / picking nose / nose picking"
+      },
+      {
+        "round": 50,
+        "type": "open",
+        "question": "You have $10 left — what are you spending it on?",
+        "icon": "💸",
+        "options": [],
+        "answer": "bubble tea / boba / bubbletea / boba tea"
+      },
+      {
+        "round": 51,
+        "type": "open",
+        "question": "Cats or Dogs?",
+        "icon": "🐱",
+        "options": [],
+        "answer": "neither / none / both"
+      },
+      {
+        "round": 52,
+        "type": "open",
+        "question": "Pizza or Burgers?",
+        "icon": "🍕",
+        "options": [],
+        "answer": "pizza"
+      },
+      {
+        "round": 53,
+        "type": "open",
+        "question": "Fries or Onion Rings?",
+        "icon": "🍟",
+        "options": [],
+        "answer": "fries / french fries / chips"
+      },
+      {
+        "round": 54,
+        "type": "open",
+        "question": "Coke or Sprite?",
+        "icon": "🥤",
+        "options": [],
+        "answer": "sprite"
+      },
+      {
+        "round": 55,
+        "type": "open",
+        "question": "Pancakes or Waffles?",
+        "icon": "🥞",
+        "options": [],
+        "answer": "pancakes / pancake"
+      },
+      {
+        "round": 56,
+        "type": "open",
+        "question": "Rice or Noodles?",
+        "icon": "🍚",
+        "options": [],
+        "answer": "rice"
+      },
+      {
+        "round": 57,
+        "type": "open",
+        "question": "Cake or Ice Cream?",
+        "icon": "🎂",
+        "options": [],
+        "answer": "cake"
+      },
+      {
+        "round": 58,
+        "type": "open",
+        "question": "Spicy or Mild?",
+        "icon": "🌶️",
+        "options": [],
+        "answer": "mild"
+      },
+      {
+        "round": 59,
+        "type": "open",
+        "question": "Ketchup or Mayo?",
+        "icon": "🍅",
+        "options": [],
+        "answer": "ketchup / tomato sauce / sauce"
+      },
+      {
+        "round": 60,
+        "type": "open",
+        "question": "Chicken or Beef?",
+        "icon": "🥩",
+        "options": [],
+        "answer": "beef"
+      },
+      {
+        "round": 61,
+        "type": "open",
+        "question": "Dine In or Takeaway?",
+        "icon": "🥡",
+        "options": [],
+        "answer": "takeaway / takeway / take away"
+      },
+      {
+        "round": 62,
+        "type": "open",
+        "question": "Breakfast or Dinner?",
+        "icon": "🍽️",
+        "options": [],
+        "answer": "dinner"
+      },
+      {
+        "round": 63,
+        "type": "open",
+        "question": "Hot Coffee or Iced Coffee?",
+        "icon": "☕",
+        "options": [],
+        "answer": "hot coffee / hot"
+      },
+      {
+        "round": 64,
+        "type": "open",
+        "question": "TikTok or YouTube?",
+        "icon": "▶️",
+        "options": [],
+        "answer": "youtube / yt"
+      },
+      {
+        "round": 65,
+        "type": "open",
+        "question": "iPhone or Samsung?",
+        "icon": "📱",
+        "options": [],
+        "answer": "samsung"
+      },
+      {
+        "round": 66,
+        "type": "open",
+        "question": "Music or Podcasts?",
+        "icon": "🎵",
+        "options": [],
+        "answer": "music"
+      },
+      {
+        "round": 67,
+        "type": "open",
+        "question": "Movies or Series?",
+        "icon": "📺",
+        "options": [],
+        "answer": "series / tv series / show"
+      },
+      {
+        "round": 68,
+        "type": "open",
+        "question": "Online Shopping or In-Store Shopping?",
+        "icon": "📦",
+        "options": [],
+        "answer": "online / online shopping"
+      },
+      {
+        "round": 69,
+        "type": "open",
+        "question": "Photos or Videos?",
+        "icon": "📸",
+        "options": [],
+        "answer": "photos / photo / picture / pictures"
+      },
+      {
+        "round": 70,
+        "type": "open",
+        "question": "Gaming or Movies?",
+        "icon": "🍿",
+        "options": [],
+        "answer": "movies / movie"
+      },
+      {
+        "round": 71,
+        "type": "open",
+        "question": "Spotify or YouTube Music?",
+        "icon": "🎵",
+        "options": [],
+        "answer": "spotify"
+      },
+      {
+        "round": 72,
+        "type": "open",
+        "question": "Plane or Road Trip?",
+        "icon": "🚗",
+        "options": [],
+        "answer": "road trip / roadtrip"
+      },
+      {
+        "round": 73,
+        "type": "open",
+        "question": "City Holiday or Island Holiday?",
+        "icon": "🏝️",
+        "options": [],
+        "answer": "island holiday / island"
+      },
+      {
+        "round": 74,
+        "type": "open",
+        "question": "Pool or Beach?",
+        "icon": "🏊",
+        "options": [],
+        "answer": "pool"
+      },
+      {
+        "round": 75,
+        "type": "open",
+        "question": "Backpack or Suitcase?",
+        "icon": "🧳",
+        "options": [],
+        "answer": "suitcase / suit case"
+      },
+      {
+        "round": 76,
+        "type": "open",
+        "question": "Luxury Hotel or Luxury Flight?",
+        "icon": "🏨",
+        "options": [],
+        "answer": "luxury hotel / hotel"
+      },
+      {
+        "round": 77,
+        "type": "open",
+        "question": "Travel Alone or With Someone?",
+        "icon": "👯",
+        "options": [],
+        "answer": "both / someone"
+      },
+      {
+        "round": 78,
+        "type": "open",
+        "question": "Adventure Holiday or Relaxing Holiday?",
+        "icon": "🧖",
+        "options": [],
+        "answer": "relaxing / relaxing holiday / relax"
+      },
+      {
+        "round": 79,
+        "type": "open",
+        "question": "Explore or Stay at the Resort?",
+        "icon": "🌏",
+        "options": [],
+        "answer": "explore / exploring"
+      },
+      {
+        "round": 80,
+        "type": "open",
+        "question": "Early Bird or Night Owl?",
+        "icon": "🦉",
+        "options": [],
+        "answer": "night owl / night"
+      },
+      {
+        "round": 81,
+        "type": "open",
+        "question": "Hoodie or T-Shirt?",
+        "icon": "🧥",
+        "options": [],
+        "answer": "hoodie"
+      },
+      {
+        "round": 82,
+        "type": "open",
+        "question": "Money or Free Travel Forever?",
+        "icon": "💰",
+        "options": [],
+        "answer": "money / cash"
+      },
+      {
+        "round": 83,
+        "type": "open",
+        "question": "Rich or Famous?",
+        "icon": "💰",
+        "options": [],
+        "answer": "rich"
+      },
+      {
+        "round": 84,
+        "type": "open",
+        "question": "Love or Money?",
+        "icon": "❤️",
+        "options": [],
+        "answer": "love"
+      },
+      {
+        "round": 85,
+        "type": "open",
+        "question": "Read Minds or Be Invisible?",
+        "icon": "🧠",
+        "options": [],
+        "answer": "read minds / read mind / mind reading"
+      },
+      {
+        "round": 86,
+        "type": "open",
+        "question": "Give up your phone or give up junk food for a year?",
+        "icon": "🍕",
+        "options": [],
+        "answer": "give up junk food / junk food / food"
+      }
+    ]
+  }
+]
