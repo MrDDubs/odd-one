@@ -1,5 +1,6 @@
-// games/think-and-link/overlay.js
-const socket = io();
+const urlParams = new URLSearchParams(window.location.search);
+const isAdmin = urlParams.get("admin") === "true";
+const socket = isAdmin ? io("/admin") : io();
 
 // DOM References
 const elRoundPill = document.getElementById("roundPill");
@@ -199,12 +200,19 @@ function renderSlots(slots) {
     } else {
       card.classList.remove("revealed");
       const currentHint = s.hint || "_";
-      if (card.dataset.lastHint !== currentHint || !card.querySelector(".slot-hint")) {
-        const prevHint = card.dataset.lastHint || "";
+      const prevHint = card.dataset.lastHint || "";
+      
+      let extraAdminHtml = "";
+      if (typeof isAdmin !== "undefined" && isAdmin && s.word) {
+        extraAdminHtml = `<div style="position: absolute; bottom: 8px; right: 12px; font-size: 16px; color: rgba(124, 58, 237, 0.6); font-weight: bold; z-index: 10;">${s.word}</div>`;
+      }
+      
+      if (card.dataset.lastHint !== currentHint || !card.querySelector(".slot-hint") || extraAdminHtml) {
         card.dataset.lastHint = currentHint;
         card.innerHTML = `
           <div class="slot-inner">
             ${formatHintHtml(currentHint, prevHint)}
+            ${extraAdminHtml}
           </div>
         `;
       }
@@ -281,8 +289,9 @@ function handleState(state) {
   if (elTopicEmoji) elTopicEmoji.textContent = state.emoji || "🍕";
 
   // Slots Grid
-  if (state.slots) {
-    renderSlots(state.slots);
+  const activeSlots = (isAdmin && state.secretSlots) ? state.secretSlots : state.slots;
+  if (activeSlots) {
+    renderSlots(activeSlots);
   }
 
   // Counters

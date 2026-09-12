@@ -49,10 +49,17 @@ function loadGame(gameId, gameDef = null) {
     icon: gameDef?.icon || "🎮"
   };
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const isAdmin = urlParams.get("admin") === "true";
+  let targetPath = config.path;
+  if (isAdmin) {
+    targetPath += "?admin=true";
+  }
+
   gameFrame.classList.add("fading");
 
   setTimeout(() => {
-    gameFrame.src = config.path;
+    gameFrame.src = targetPath;
     gameFrame.onload = () => {
       gameFrame.classList.remove("fading");
     };
