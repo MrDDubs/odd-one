@@ -50,8 +50,28 @@ export class ThinkAndLinkEngine {
     this.roundWinners = [];
     this.guesses = [];
     this.leaderboard = new Map();
+    this.playedPuzzleIndices = [];
 
-    this.loadPuzzleByIndex(0, false);
+    const startIdx = this.getRandomPuzzleIndex();
+    this.loadPuzzleByIndex(startIdx, false);
+  }
+
+  getRandomPuzzleIndex() {
+    if (!this.puzzles || this.puzzles.length <= 1) return 0;
+    if (this.playedPuzzleIndices.length >= this.puzzles.length) {
+      this.playedPuzzleIndices = [];
+    }
+    const playedSet = new Set(this.playedPuzzleIndices);
+    const available = [];
+    for (let i = 0; i < this.puzzles.length; i++) {
+      if (!playedSet.has(i) && i !== this.currentPuzzleIndex) {
+        available.push(i);
+      }
+    }
+    const pool = available.length > 0 ? available : this.puzzles.map((_, i) => i).filter((i) => i !== this.currentPuzzleIndex);
+    const chosen = pool[Math.floor(Math.random() * pool.length)];
+    this.playedPuzzleIndices.push(chosen);
+    return chosen;
   }
 
   generateHint(word, revealedLettersCount = 1) {
@@ -199,7 +219,8 @@ export class ThinkAndLinkEngine {
   }
 
   advancePuzzle() {
-    return this.loadPuzzleByIndex(this.currentPuzzleIndex + 1, true);
+    const nextIdx = this.getRandomPuzzleIndex();
+    return this.loadPuzzleByIndex(nextIdx, true);
   }
 
   loadPuzzleById(id) {
@@ -494,10 +515,11 @@ export class ThinkAndLinkEngine {
   resetGame() {
     this.round = 1;
     this.streak = 0;
-    this.currentPuzzleIndex = 0;
+    this.playedPuzzleIndices = [];
     this.roundWinners = [];
     this.guesses = [];
-    this.loadPuzzleByIndex(0, false);
+    const startIdx = this.getRandomPuzzleIndex();
+    this.loadPuzzleByIndex(startIdx, false);
     return this.getPublicPayload();
   }
 
