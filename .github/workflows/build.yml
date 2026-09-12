@@ -12,6 +12,7 @@ jobs:
     name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [windows-latest, macos-latest]
 
@@ -22,7 +23,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install Dependencies
@@ -33,12 +34,15 @@ jobs:
         run: npm run build-exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CI: false
 
       - name: Build Mac Universal (Intel + Apple Silicon) DMG & ZIP
         if: matrix.os == 'macos-latest'
         run: npm run build-mac
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+          CI: false
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4

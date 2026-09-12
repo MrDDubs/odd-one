@@ -10,7 +10,7 @@
     "dev": "node --watch server.js",
     "electron": "electron .",
     "build-exe": "electron-builder --win",
-    "build-mac": "electron-builder --mac",
+    "build-mac": "electron-builder --mac -c.mac.identity=null",
     "build-all": "electron-builder -mw"
   },
   "build": {
@@ -42,7 +42,8 @@
           ]
         }
       ],
-      "category": "public.app-category.games"
+      "category": "public.app-category.games",
+      "identity": null
     },
     "asarUnpack": [
       "node_modules/**/*",
@@ -69,6 +70,7 @@
   "license": "ISC",
   "devDependencies": {
     "@electron/packager": "^20.3.0",
+    "@electron/universal": "^3.0.6",
     "electron": "^33.4.11",
     "electron-builder": "^26.15.3",
     "socket.io-client": "^4.8.3"
