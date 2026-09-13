@@ -266,16 +266,27 @@ btnResetGame?.addEventListener("click", () => {
 });
 
 // Simulate Guess
+let simUserCounter = 1;
 btnSimulateGuess?.addEventListener("click", () => {
-  const guess = inputSimulateGuess?.value?.trim();
-  if (guess) {
-    socket.emit("simulateGuess", {
-      username: "TestViewer",
-      nickname: "TestViewer",
-      message: guess
-    });
-    if (inputSimulateGuess) inputSimulateGuess.value = "";
+  const raw = inputSimulateGuess?.value?.trim();
+  if (!raw) return;
+
+  let user = `Viewer${simUserCounter++}`;
+  let guess = raw;
+
+  // Support syntax like "@Alice: B2" or "Alice: B2"
+  if (raw.includes(":")) {
+    const parts = raw.split(":");
+    user = parts[0].replace(/^@/, "").trim() || user;
+    guess = parts.slice(1).join(":").trim();
   }
+
+  socket.emit("simulateGuess", {
+    username: user,
+    nickname: user,
+    message: guess
+  });
+  if (inputSimulateGuess) inputSimulateGuess.value = "";
 });
 
 inputSimulateGuess?.addEventListener("keydown", (e) => {
@@ -405,6 +416,15 @@ function updateGameStateUI(data) {
       liveTimerBadge.style.color = "#fbbf24";
       liveTimerBadge.style.borderColor = "rgba(245, 158, 11, 0.4)";
     }
+  }
+
+  // Active Preset Button Highlight
+  const activeDuration = data.roundDurationSec || data.customDurationSec || data.time;
+  if (activeDuration) {
+    document.querySelectorAll(".preset-btn").forEach((btn) => {
+      const sec = parseInt(btn.getAttribute("data-sec"), 10);
+      btn.classList.toggle("active", sec === activeDuration);
+    });
   }
 
   // Pause State

@@ -108,8 +108,25 @@ export function connectTikTokLive({ username, onChat, onLog, onStatusChange }) {
           "";
 
         const chatPayload = {
-          username: String(user.uniqueId || data.uniqueId || "viewer").trim(),
-          nickname: String(user.nickname || data.nickname || user.uniqueId || data.uniqueId || "Viewer").trim(),
+          username: String(
+            user.displayId ||
+            user.uniqueId ||
+            data.displayId ||
+            data.uniqueId ||
+            user.id ||
+            data.userId ||
+            user.nickname ||
+            "viewer"
+          ).trim(),
+          nickname: String(
+            user.nickname ||
+            data.nickname ||
+            user.displayId ||
+            user.uniqueId ||
+            data.displayId ||
+            data.uniqueId ||
+            "Viewer"
+          ).trim(),
           text: chatText,
           avatar: avatarUrl || null,
           isSubscriber: !!(data.isSubscriber || user.isSubscriber),
@@ -117,7 +134,7 @@ export function connectTikTokLive({ username, onChat, onLog, onStatusChange }) {
           raw: data
         };
 
-        log(`[Chat Received] @${chatPayload.nickname}: "${chatPayload.text}"`);
+        log(`[Chat Received] @${chatPayload.nickname} (${chatPayload.username}): "${chatPayload.text}"`);
         onChat?.(chatPayload);
       });
 

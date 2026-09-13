@@ -151,7 +151,6 @@ export class OddOneOutEngine {
       const hadWinners = this.roundWinners.length > 0;
       if (!hadWinners) {
         this.streak = 0;
-        this.calculateLevel();
         this.statusMessage = `⏰ Time's up! The answer was ${this.target} (Streak reset)`;
       } else {
         this.statusMessage = `⏰ Time's up! The answer was ${this.target}`;
@@ -274,26 +273,28 @@ export class OddOneOutEngine {
 
       this.roundWinners.push(winnerData);
 
-      const existing = this.leaderboard.get(cleanUser) || {
+      const userKey = cleanUser.toLowerCase();
+      const existing = this.leaderboard.get(userKey) || {
         user: cleanUser,
         nickname: cleanNick,
         avatar: avatar || null,
         score: 0,
         wins: 0
       };
+      existing.user = cleanUser;
       existing.nickname = cleanNick;
       if (avatar) existing.avatar = avatar;
       existing.score += points;
       existing.wins += 1;
       existing.lastWonAt = Date.now();
-      this.leaderboard.set(cleanUser, existing);
+      this.leaderboard.set(userKey, existing);
 
       let levelUp = false;
       if (place === 1) {
         this.streak++;
         const prevLevel = this.level;
-        const newLevel = this.calculateLevel();
-        levelUp = newLevel > prevLevel;
+        const nextComputedLevel = !this.autoLevel && this.manualLevel !== null ? this.manualLevel : Math.min(5, 1 + Math.floor(this.streak / 3));
+        levelUp = nextComputedLevel > prevLevel;
       }
 
       const roundComplete = this.roundWinners.length >= 2;

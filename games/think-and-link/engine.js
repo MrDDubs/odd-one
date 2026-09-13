@@ -373,10 +373,12 @@ export class ThinkAndLinkEngine {
       return {
         changed: true,
         timeExpired: true,
+        hadWinners: this.roundWinners.length > 0,
         allFound: this.allFound,
         foundCount: this.foundCount,
         streak: this.streak,
-        roundWinners: this.roundWinners
+        roundWinners: this.roundWinners,
+        target: this.topic
       };
     }
 
@@ -450,7 +452,8 @@ export class ThinkAndLinkEngine {
       this.roundWinners.push(winnerData);
 
       // Update community leaderboard
-      const existing = this.leaderboard.get(cleanUser) || {
+      const userKey = cleanUser.toLowerCase();
+      const existing = this.leaderboard.get(userKey) || {
         user: cleanUser,
         nickname: cleanNick,
         avatar: avatar || null,
@@ -458,6 +461,7 @@ export class ThinkAndLinkEngine {
         wordsFound: 0,
         puzzlesCleared: 0
       };
+      existing.user = cleanUser;
       existing.nickname = cleanNick;
       if (avatar) existing.avatar = avatar;
       existing.score += pointsAwarded;
@@ -474,7 +478,7 @@ export class ThinkAndLinkEngine {
         this.statusMessage = `🎯 @${cleanNick} found "${slot.word}"! (+${pointsAwarded}💜) [${this.foundCount}/${this.totalWords}]`;
       }
 
-      this.leaderboard.set(cleanUser, existing);
+      this.leaderboard.set(userKey, existing);
 
       return {
         valid: true,

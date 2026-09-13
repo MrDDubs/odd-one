@@ -112,10 +112,13 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
           if (!text) continue;
 
           const username = String(
+            d?.displayId ||
+            d?.user?.displayId ||
             d?.uniqueId ||
             d?.username ||
             d?.user?.uniqueId ||
             d?.user?.username ||
+            evt?.displayId ||
             evt?.uniqueId ||
             evt?.username ||
             evt?.user ||
@@ -131,6 +134,7 @@ export function connectTikFinity({ wsUrl, token, onChat, onLog, onStatusChange }
             d?.nickName ||
             evt?.nickname ||
             d?.User?.NickName ||
+            d?.displayName ||
             username
           ).trim();
 

@@ -122,6 +122,32 @@
       <span class="toast-user" id="toastUser">@viewer</span>:
       <strong class="toast-word" id="toastWord">pizza</strong>
     </div>
+
+    <!-- 4-Second Round Results Modal -->
+    <div class="modal-overlay" id="leaderboardModal">
+      <div class="modal-content">
+        <div class="modal-title">🏆 ROUND RESULTS</div>
+        
+        <!-- Round Winners / Word Finders Podium -->
+        <div class="round-winners-row" id="modalPodium">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Community Top Leaderboard -->
+        <div class="top-table">
+          <div class="top-title">🌟 Community Leaderboard</div>
+          <div id="modalTopList">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- 4-Second Countdown bar -->
+        <div class="countdown-bar-wrap">
+          <div class="countdown-bar" id="modalProgressBar"></div>
+        </div>
+        <div class="countdown-txt">Next puzzle starting automatically...</div>
+      </div>
+    </div>
   </div>
 
   <script src="./overlay.js"></script>

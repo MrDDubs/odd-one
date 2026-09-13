@@ -17,7 +17,14 @@ const statusMsg = document.getElementById("statusMsg");
 const streakValue = document.getElementById("streakValue");
 const leaderboardPodium = document.getElementById("leaderboardPodium");
 
+const elModal = document.getElementById("leaderboardModal");
+const elModalPodium = document.getElementById("modalPodium");
+const elModalTopList = document.getElementById("modalTopList");
+const elModalProgressBar = document.getElementById("modalProgressBar");
+
 let toastTimer = null;
+let modalTimer = null;
+let lastRenderedRound = -1;
 
 function normStr(str) {
   return String(str || "")
@@ -235,6 +242,104 @@ function renderState(state) {
 
     leaderboardPodium.innerHTML = html;
   }
+
+  if (state.round && state.round !== lastRenderedRound) {
+    lastRenderedRound = state.round;
+    if (elModal) elModal.classList.remove("active");
+  }
+}
+
+function renderAvatarHTML(url, name) {
+  const cleanName = esc(name || "V");
+  const firstLetter = cleanName.charAt(0).toUpperCase() || "V";
+  if (url) {
+    return `<img src="${esc(url)}" class="avatar-img" alt="${cleanName}" onerror="this.outerHTML='<div class=\\'avatar-letter\\'>${firstLetter}</div>'">`;
+  }
+  return `<div class="avatar-letter">${firstLetter}</div>`;
+}
+
+function showLeaderboardPopup(data) {
+  if (!elModal || !elModalPodium || !elModalTopList) return;
+
+  const winners = data.roundWinners || [];
+  const topList = data.leaderboard || [];
+  const targetAnswer = data.target || "";
+
+  let podiumHTML = "";
+  if (winners.length > 0) {
+    const first = winners[0];
+    podiumHTML += `
+      <div class="podium-card first">
+        <div class="podium-rank">🥇 1st Place</div>
+        <div class="avatar-wrap">${renderAvatarHTML(first.avatar, first.nickname || first.user)}</div>
+        <div class="podium-name">@${esc(first.nickname || first.user)}</div>
+        <div class="podium-pts">+${first.points || 3} Points</div>
+      </div>
+    `;
+
+    if (winners.length > 1) {
+      const second = winners[1];
+      podiumHTML += `
+        <div class="podium-card second">
+          <div class="podium-rank">🥈 2nd Place</div>
+          <div class="avatar-wrap">${renderAvatarHTML(second.avatar, second.nickname || second.user)}</div>
+          <div class="podium-name">@${esc(second.nickname || second.user)}</div>
+          <div class="podium-pts">+${second.points || 2} Points</div>
+        </div>
+      `;
+    }
+
+    if (winners.length > 2) {
+      const third = winners[2];
+      podiumHTML += `
+        <div class="podium-card third">
+          <div class="podium-rank">🥉 3rd Place</div>
+          <div class="avatar-wrap">${renderAvatarHTML(third.avatar, third.nickname || third.user)}</div>
+          <div class="podium-name">@${esc(third.nickname || third.user)}</div>
+          <div class="podium-pts">+${third.points || 1} Point</div>
+        </div>
+      `;
+    }
+  } else {
+    podiumHTML += `
+      <div class="podium-card" style="border-color:#a855f7">
+        <div class="podium-rank">⏰ No Winners</div>
+        <div style="font-size:1.1vh;color:#c8b9ff;margin:8px 0">${targetAnswer ? `Answer: <strong>${esc(targetAnswer)}</strong>` : "Time expired!"}</div>
+      </div>
+    `;
+  }
+
+  elModalPodium.innerHTML = podiumHTML;
+
+  if (topList.length === 0) {
+    elModalTopList.innerHTML = `<div style="text-align:center;font-size:1.1vh;color:#bda8ef">No scores yet. Be the first to win!</div>`;
+  } else {
+    elModalTopList.innerHTML = topList.slice(0, 4).map((p, idx) => `
+      <div class="top-row">
+        <div class="top-user-wrap">
+          <span>#${idx + 1}</span>
+          ${renderAvatarHTML(p.avatar, p.nickname || p.user)}
+          <span>@${esc(p.nickname || p.user)}</span>
+        </div>
+        <div class="top-score">${p.score || 0} pts 🏆</div>
+      </div>
+    `).join("");
+  }
+
+  if (elModalProgressBar) {
+    elModalProgressBar.style.transition = "none";
+    elModalProgressBar.style.width = "100%";
+    void elModalProgressBar.offsetWidth;
+    elModalProgressBar.style.transition = "width 4s linear";
+    elModalProgressBar.style.width = "0%";
+  }
+
+  elModal.classList.add("active");
+
+  if (modalTimer) clearTimeout(modalTimer);
+  modalTimer = setTimeout(() => {
+    elModal.classList.remove("active");
+  }, 4000);
 }
 
 // Socket Listeners
@@ -246,6 +351,11 @@ socket.on("gameState", (data) => {
   renderState(data);
 });
 
+socket.on("roundStarted", (data) => {
+  if (elModal) elModal.classList.remove("active");
+  renderState(data);
+});
+
 socket.on("winnerFound", (payload) => {
   if (payload?.winner) {
     showWinnerToast(payload.winner);
@@ -254,4 +364,8 @@ socket.on("winnerFound", (payload) => {
 
 socket.on("timeExpired", () => {
   playSound("timeout");
+});
+
+socket.on("showLeaderboardPopup", (payload) => {
+  showLeaderboardPopup(payload);
 });

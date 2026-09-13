@@ -41,6 +41,7 @@ export class ThinkLikeAllyEngine {
 
     this.timerRemaining = 15;
     this.roundDurationSec = 15;
+    this.customDurationSec = null;
     this.isTimerActive = false;
     this.isAnswerRevealed = false;
     this.paused = false;
@@ -92,7 +93,13 @@ export class ThinkLikeAllyEngine {
       this.advanceQuestion();
     }
 
-    this.roundDurationSec = options.duration ? parseInt(options.duration, 10) : 15;
+    if (options.duration && Number(options.duration) > 0) {
+      this.roundDurationSec = Number(options.duration);
+      this.customDurationSec = Number(options.duration);
+    } else if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
+    }
+
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = true;
     this.statusMessage = `Round ${this.round}: Guess what Ally is thinking! 💬`;
@@ -172,6 +179,9 @@ export class ThinkLikeAllyEngine {
 
     if (options.duration && Number(options.duration) > 0) {
       this.roundDurationSec = Number(options.duration);
+      this.customDurationSec = Number(options.duration);
+    } else if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
     }
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = true;
@@ -194,8 +204,9 @@ export class ThinkLikeAllyEngine {
     const s = typeof sec === "object" ? sec.sec : sec;
     const num = parseInt(s, 10);
     if (num > 0) {
-      this.timerRemaining = num;
+      this.customDurationSec = num;
       this.roundDurationSec = num;
+      this.timerRemaining = num;
     }
     return this.getPublicPayload();
   }
@@ -213,8 +224,10 @@ export class ThinkLikeAllyEngine {
   }
 
   startTimer(seconds = null) {
-    if (seconds && Number(seconds) > 0) {
-      this.roundDurationSec = Number(seconds);
+    const secNum = typeof seconds === "object" ? seconds?.seconds || seconds?.sec : seconds;
+    if (secNum && Number(secNum) > 0) {
+      this.customDurationSec = Number(secNum);
+      this.roundDurationSec = Number(secNum);
     }
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = true;
@@ -362,21 +375,30 @@ export class ThinkLikeAllyEngine {
       }
 
       // Update leaderboard
-      const existing = this.leaderboard.get(cleanUser) || {
+      const userKey = cleanUser.toLowerCase();
+      const existing = this.leaderboard.get(userKey) || {
         user: cleanUser,
         nickname: cleanNick,
         avatar: avatar || null,
         score: 0,
         wins: 0
       };
+      existing.user = cleanUser;
       existing.nickname = cleanNick;
       if (avatar) existing.avatar = avatar;
       existing.score += points;
       existing.wins += 1;
       existing.lastWonAt = Date.now();
-      this.leaderboard.set(cleanUser, existing);
+      this.leaderboard.set(userKey, existing);
 
-      this.statusMessage = `🎯 Correct guess #${place} by @${cleanNick}! (+${points} pts)`;
+      const roundComplete = this.roundWinners.length >= 2;
+      if (roundComplete) {
+        this.isTimerActive = false;
+        this.isAnswerRevealed = true;
+        this.statusMessage = `🎉 Top 2 found it! 🥇 @${this.roundWinners[0].nickname} & 🥈 @${cleanNick}`;
+      } else {
+        this.statusMessage = `🎯 Correct guess #${place} by @${cleanNick}! (+${points} pts)`;
+      }
 
       return {
         valid: true,
@@ -384,7 +406,9 @@ export class ThinkLikeAllyEngine {
         winner: winnerData,
         place,
         points,
+        roundComplete,
         roundWinners: this.roundWinners,
+        target: this.allyAnswer,
         guessItem
       };
     }
@@ -430,6 +454,7 @@ export class ThinkLikeAllyEngine {
       time: this.timerRemaining,
       timerRemaining: this.timerRemaining,
       roundDurationSec: this.roundDurationSec,
+      customDurationSec: this.customDurationSec,
       isTimerActive: this.isTimerActive,
       isAnswerRevealed: this.isAnswerRevealed,
       paused: this.paused,

@@ -27,6 +27,10 @@ export function initThinkLikeAllyControls({ socket, showToast }) {
   const tlaBtnSimWin = document.getElementById("tlaBtnSimWin");
   const tlaBtnSimRandom = document.getElementById("tlaBtnSimRandom");
 
+  const tlaPresetButtons = document.querySelectorAll("#tlaPresetRow .chip");
+  const tlaCustomSecInput = document.getElementById("tlaCustomSecInput");
+  const tlaBtnSaveCustomSec = document.getElementById("tlaBtnSaveCustomSec");
+
   let localState = null;
   let packsLoaded = false;
 
@@ -39,6 +43,15 @@ export function initThinkLikeAllyControls({ socket, showToast }) {
     if (tlaTimerText) tlaTimerText.textContent = `${state.time || state.timerRemaining || 0}s`;
     if (tlaTypePeek) tlaTypePeek.textContent = (state.questionType || "OPEN").toUpperCase();
     if (tlaWinnersCount) tlaWinnersCount.textContent = (state.roundWinners || []).length;
+
+    const activeSec = state.roundDurationSec || state.customDurationSec || state.time || 15;
+    tlaPresetButtons.forEach((btn) => {
+      const sec = parseInt(btn.getAttribute("data-sec"), 10);
+      btn.classList.toggle("active", sec === activeSec);
+    });
+    if (tlaCustomSecInput && document.activeElement !== tlaCustomSecInput) {
+      tlaCustomSecInput.value = state.customDurationSec || state.roundDurationSec || 15;
+    }
 
     if (tlaBtnStartTimer) {
       if (state.isTimerActive) {
@@ -55,6 +68,27 @@ export function initThinkLikeAllyControls({ socket, showToast }) {
         .join("");
       packsLoaded = true;
     }
+  }
+
+  // Timer preset and custom duration buttons
+  tlaPresetButtons.forEach((btn) => {
+    btn.onclick = () => {
+      const sec = parseInt(btn.getAttribute("data-sec"), 10);
+      if (sec && sec > 0) {
+        socket.emit("gameAction", { gameId: "think-like-ally", action: "setTime", options: { sec } });
+        showToast(`Timer duration set to ${sec}s`);
+      }
+    };
+  });
+
+  if (tlaBtnSaveCustomSec && tlaCustomSecInput) {
+    tlaBtnSaveCustomSec.onclick = () => {
+      const sec = parseInt(tlaCustomSecInput.value, 10);
+      if (sec && sec > 0) {
+        socket.emit("gameAction", { gameId: "think-like-ally", action: "setTime", options: { sec } });
+        showToast(`Timer duration set to ${sec}s`);
+      }
+    };
   }
 
   // Button actions

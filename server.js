@@ -113,7 +113,7 @@ function triggerLeaderboardAndNextRound(targetWinnerInfo = null) {
     roundWinners: active?.roundWinners || [],
     leaderboard: active?.getLeaderboard ? active.getLeaderboard(5) : [],
     durationMs: LEADERBOARD_POPUP_MS,
-    target: targetWinnerInfo?.target || active?.target || active?.allyAnswer || ""
+    target: targetWinnerInfo?.target || active?.target || active?.allyAnswer || active?.topic || ""
   };
 
   io.emit("showLeaderboardPopup", payload);
@@ -135,7 +135,7 @@ function startTimerLoop() {
     if (result.changed) {
       if (result.timeExpired) {
         const active = gameRegistry.getActiveGame();
-        const target = result.target || active?.target || active?.allyAnswer || "";
+        const target = result.target || active?.target || active?.allyAnswer || active?.topic || "";
 
         io.emit("timeExpired", {
           target,
@@ -148,17 +148,7 @@ function startTimerLoop() {
           roundWinners: result.roundWinners
         });
 
-        if (result.hadWinners) {
-          triggerLeaderboardAndNextRound({ target });
-        } else {
-          if (autoNextTimer) clearTimeout(autoNextTimer);
-          autoNextTimer = setTimeout(() => {
-            gameRegistry.handleGameAction(null, "newRound");
-            broadcastState();
-            io.emit("roundStarted", gameRegistry.getPublicPayload());
-            io.of("/admin").emit("roundStarted", gameRegistry.getAdminPayload());
-          }, 4000);
-        }
+        triggerLeaderboardAndNextRound({ target });
       }
       broadcastState();
     }

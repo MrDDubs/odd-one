@@ -115,9 +115,11 @@ function iconSVG(t, odd, lvl) {
   // 2. Bear
   if (t === "bear") {
     const ear = odd && lvl === 1 ? "#e49ac3" : "#c99b74";
-    const eye = odd && lvl >= 2 ? 1 : 2;
-    const mark = odd && lvl >= 3 ? `<circle cx="67" cy="58" r="${subtle ? 2 : 4}" fill="#f6b7c8"/>` : "";
-    return svgWrap(`<circle cx="30" cy="28" r="13" fill="${ear}" stroke="#5b416b" stroke-width="4"/><circle cx="70" cy="28" r="13" fill="${ear}" stroke="#5b416b" stroke-width="4"/><circle cx="50" cy="55" r="31" fill="#c99b74" stroke="#5b416b" stroke-width="4"/><circle cx="39" cy="52" r="${eye}" fill="#35243f"/><circle cx="61" cy="52" r="2" fill="#35243f"/><ellipse cx="50" cy="65" rx="11" ry="8" fill="#f2d7c4"/><circle cx="50" cy="62" r="3.5" fill="#35243f"/>${mark}`);
+    const eye = odd && lvl >= 2
+      ? `<path d="M34 52 Q39 46 44 52" stroke="#35243f" stroke-width="3.5" fill="none" stroke-linecap="round"/>`
+      : `<circle cx="39" cy="52" r="2" fill="#35243f"/>`;
+    const mark = odd && lvl >= 3 ? `<circle cx="67" cy="58" r="${subtle ? 2.5 : 4}" fill="#f6b7c8"/>` : "";
+    return svgWrap(`<circle cx="30" cy="28" r="13" fill="${ear}" stroke="#5b416b" stroke-width="4"/><circle cx="70" cy="28" r="13" fill="${ear}" stroke="#5b416b" stroke-width="4"/><circle cx="50" cy="55" r="31" fill="#c99b74" stroke="#5b416b" stroke-width="4"/>${eye}<circle cx="61" cy="52" r="2" fill="#35243f"/><ellipse cx="50" cy="65" rx="11" ry="8" fill="#f2d7c4"/><circle cx="50" cy="62" r="3.5" fill="#35243f"/>${mark}`);
   }
 
   // 3. Cloud
@@ -145,12 +147,13 @@ function iconSVG(t, odd, lvl) {
     const drink = odd && lvl === 1 ? "#f5a1ba" : "#e9ad5e";
     const straw = odd && lvl >= 2 ? "#ff7697" : "#7657d1";
     const pearls = odd && lvl >= 3 ? 7 : 8;
+    const cupHeart = odd && lvl >= 3 ? `<path d="M50 50 C47 46 42 47 44 52 L50 57 L56 52 C58 47 53 46 50 50Z" fill="#ff7697" stroke="#583d6f" stroke-width="1.5"/>` : "";
     let ps = "";
     for (let i = 0; i < pearls; i++) {
       let x = 30 + (i % 4) * 13, y = 69 + Math.floor(i / 4) * 10;
       ps += `<circle cx="${x}" cy="${y}" r="${subtle ? 3.2 : 4}" fill="#4d2d22"/>`;
     }
-    return svgWrap(`<path d="M28 30 H72 L68 88 H32Z" fill="${drink}" stroke="#583d6f" stroke-width="4"/><rect x="51" y="9" width="9" height="30" rx="3" fill="${straw}" stroke="#583d6f" stroke-width="3" transform="rotate(7 55 24)"/><ellipse cx="50" cy="30" rx="24" ry="7" fill="#f8ead7" stroke="#583d6f" stroke-width="4"/>${ps}`);
+    return svgWrap(`<path d="M28 30 H72 L68 88 H32Z" fill="${drink}" stroke="#583d6f" stroke-width="4"/><rect x="51" y="9" width="9" height="30" rx="3" fill="${straw}" stroke="#583d6f" stroke-width="3" transform="rotate(7 55 24)"/><ellipse cx="50" cy="30" rx="24" ry="7" fill="#f8ead7" stroke="#583d6f" stroke-width="4"/>${cupHeart}${ps}`);
   }
 
   // 6. Cupcake
@@ -172,11 +175,11 @@ function iconSVG(t, odd, lvl) {
   // 8. Star
   if (t === "star") {
     const fill = odd && lvl === 1 ? "#9cd8ff" : "#ffd96e";
-    const point = odd && lvl >= 2
-      ? "50,13 60,40 89,40 66,57 75,85 50,68 25,85 34,57 11,40 40,40"
-      : "50,10 61,38 91,38 67,56 76,87 50,69 24,87 33,56 9,38 39,38";
-    const mark = odd && lvl >= 3 ? `<circle cx="${subtle ? 66 : 71}" cy="54" r="${subtle ? 2 : 4}" fill="#fff"/>` : "";
-    return svgWrap(`<polygon points="${point}" fill="${fill}" stroke="#634c7a" stroke-width="4" stroke-linejoin="round"/>${mark}`);
+    const starFace = odd && lvl >= 2
+      ? `<circle cx="43" cy="50" r="2.5" fill="#5b416b"/><path d="M53 50 Q57 46 61 50" stroke="#5b416b" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M48 57 Q50 60 52 57" stroke="#5b416b" stroke-width="2" fill="none" stroke-linecap="round"/>`
+      : "";
+    const mark = odd && lvl >= 3 ? `<polygon points="50,20 52,26 58,27 52,28 50,34 48,28 42,27 48,26" fill="#fff"/>` : "";
+    return svgWrap(`<polygon points="50,10 61,38 91,38 67,56 76,87 50,69 24,87 33,56 9,38 39,38" fill="${fill}" stroke="#634c7a" stroke-width="4" stroke-linejoin="round"/>${starFace}${mark}`);
   }
 
   // 9. Pizza
@@ -235,8 +238,8 @@ function iconSVG(t, odd, lvl) {
   // 15. Avocado
   if (t === "avocado") {
     const flesh = odd && lvl === 1 ? "#fef08a" : "#bbf7d0";
-    const pitSize = odd && lvl >= 2 ? (subtle ? 11 : 9) : 13;
-    const sprout = odd && lvl >= 3 ? `<path d="M50 18 Q54 12 60 14" stroke="#15803d" stroke-width="3" fill="none" stroke-linecap="round"/>` : "";
+    const pitSize = odd && lvl >= 3 ? (subtle ? 11 : 9) : 13;
+    const sprout = odd && lvl >= 2 ? `<path d="M50 18 Q54 8 62 10 Q58 18 50 18" fill="#22c55e" stroke="#14532d" stroke-width="2"/>` : "";
     return svgWrap(`<path d="M50 18 C36 18 26 30 26 48 C26 68 36 82 50 82 C64 82 74 68 74 48 C74 30 64 18 50 18Z" fill="${flesh}" stroke="#14532d" stroke-width="6"/>${sprout}<circle cx="50" cy="56" r="${pitSize}" fill="#78350f" stroke="#451a03" stroke-width="3"/><circle cx="46" cy="52" r="3" fill="#fed7aa" opacity="0.8"/>`);
   }
 
@@ -277,16 +280,18 @@ function iconSVG(t, odd, lvl) {
   // 20. Balloon
   if (t === "balloon") {
     const bColor = odd && lvl === 1 ? "#38bdf8" : "#f43f5e";
-    const stringCurl = odd && lvl >= 2 ? "M50 72 Q42 78 54 84 Q44 90 50 94" : "M50 72 Q44 80 52 88";
-    const shineSize = odd && lvl >= 3 ? (subtle ? 2 : 1) : 4;
-    return svgWrap(`<path d="M50 72 L47 76 H53 Z" fill="${bColor}" stroke="#583d6f" stroke-width="3"/><path d="${stringCurl}" stroke="#64748b" stroke-width="2.5" fill="none"/><ellipse cx="50" cy="44" rx="26" ry="30" fill="${bColor}" stroke="#583d6f" stroke-width="4"/><ellipse cx="40" cy="32" rx="${shineSize * 1.5}" ry="${shineSize * 2.5}" fill="#ffffff" opacity="0.65" transform="rotate(-25 40 32)"/>`);
+    const stringCurl = odd && lvl >= 3 ? "M50 72 Q42 78 54 84 Q44 90 50 94" : "M50 72 Q44 80 52 88";
+    const shine = odd && lvl >= 2
+      ? `<polygon points="40,28 42,32 46,33 42,34 40,38 38,34 34,33 38,32" fill="#ffffff" opacity="0.95"/>`
+      : `<ellipse cx="40" cy="32" rx="6" ry="10" fill="#ffffff" opacity="0.65" transform="rotate(-25 40 32)"/>`;
+    return svgWrap(`<path d="M50 72 L47 76 H53 Z" fill="${bColor}" stroke="#583d6f" stroke-width="3"/><path d="${stringCurl}" stroke="#64748b" stroke-width="2.5" fill="none"/><ellipse cx="50" cy="44" rx="26" ry="30" fill="${bColor}" stroke="#583d6f" stroke-width="4"/>${shine}`);
   }
 
   // 21. Butterfly
   if (t === "butterfly") {
     const wingColor = odd && lvl === 1 ? "#f59e0b" : "#c084fc";
-    const spotRight = odd && lvl >= 2 ? (subtle ? `<circle cx="68" cy="38" r="3" fill="#fef08a"/>` : "") : `<circle cx="68" cy="38" r="5" fill="#fef08a" stroke="#583d6f" stroke-width="1.5"/>`;
-    const antenna = odd && lvl >= 3 ? `<path d="M48 28 Q42 16 38 18" stroke="#583d6f" stroke-width="2.5" fill="none"/><path d="M52 28 Q58 16 62 18" stroke="#583d6f" stroke-width="2.5" fill="none"/>` : `<line x1="48" y1="28" x2="42" y2="18" stroke="#583d6f" stroke-width="2.5"/><line x1="52" y1="28" x2="58" y2="18" stroke="#583d6f" stroke-width="2.5"/>`;
+    const spotRight = odd && lvl >= 2 ? "" : `<circle cx="68" cy="38" r="5" fill="#fef08a" stroke="#583d6f" stroke-width="1.5"/>`;
+    const antenna = odd && lvl >= 3 ? `<path d="M48 28 Q40 14 34 16" stroke="#583d6f" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M52 28 Q60 14 66 16" stroke="#583d6f" stroke-width="3" fill="none" stroke-linecap="round"/>` : `<line x1="48" y1="28" x2="42" y2="18" stroke="#583d6f" stroke-width="2.5"/><line x1="52" y1="28" x2="58" y2="18" stroke="#583d6f" stroke-width="2.5"/>`;
     return svgWrap(`<ellipse cx="32" cy="40" rx="18" ry="16" fill="${wingColor}" stroke="#583d6f" stroke-width="3.5"/><ellipse cx="68" cy="40" rx="18" ry="16" fill="${wingColor}" stroke="#583d6f" stroke-width="3.5"/><ellipse cx="36" cy="62" rx="12" ry="12" fill="${wingColor}" stroke="#583d6f" stroke-width="3"/><ellipse cx="64" cy="62" rx="12" ry="12" fill="${wingColor}" stroke="#583d6f" stroke-width="3"/><circle cx="32" cy="38" r="5" fill="#fef08a" stroke="#583d6f" stroke-width="1.5"/>${spotRight}<ellipse cx="50" cy="50" rx="5" ry="24" fill="#352044"/>${antenna}`);
   }
 
@@ -561,13 +566,14 @@ function applyGameState(data) {
   }
 
   const curTarget = data.target || target;
-  if (
+  target = curTarget;
+
+  const hasGrid = !!document.querySelector(".cell");
+  const shouldDrawGrid = !hasGrid ||
     roundChanged ||
-    curTarget !== lastRenderedTarget ||
-    category !== lastRenderedCategory ||
-    level !== lastRenderedLevel ||
-    !document.querySelector(".cell")
-  ) {
+    (!revealed && (curTarget !== lastRenderedTarget || category !== lastRenderedCategory || level !== lastRenderedLevel));
+
+  if (shouldDrawGrid) {
     lastRenderedRound = round;
     lastRenderedTarget = curTarget;
     lastRenderedCategory = category;
@@ -603,6 +609,14 @@ btnNext.onclick = () => {
 
 // Standalone Local Logic (Fallback when no server is running)
 let localWinners = [];
+let localLeaderboard = {};
+
+function getLocalLeaderboardArray(limit = 10) {
+  return Object.values(localLeaderboard)
+    .sort((a, b) => (b.score || 0) - (a.score || 0) || (b.wins || 0) - (a.wins || 0) || (a.lastWonAt || 0) - (b.lastWonAt || 0))
+    .slice(0, limit);
+}
+
 function startLocalGame() {
   newLocalRound();
   if (localTimerInterval) clearInterval(localTimerInterval);
@@ -624,7 +638,7 @@ function startLocalGame() {
           playSound("timeout");
           if (localWinners.length === 0) streak = 0;
           elStatus.textContent = `⏰ Time's up! The answer was ${target}`;
-          showLeaderboardPopup({ roundWinners: localWinners, leaderboard: [] });
+          showLeaderboardPopup({ roundWinners: localWinners, leaderboard: getLocalLeaderboardArray(5) });
           setTimeout(newLocalRound, 4000);
         }
       }
@@ -680,6 +694,16 @@ function handleLocalGuess(user, msg, avatar = null) {
     const winItem = { user, nickname: user, avatar, code, place, points };
     localWinners.push(winItem);
 
+    const userKey = String(user).toLowerCase();
+    if (!localLeaderboard[userKey]) {
+      localLeaderboard[userKey] = { user, nickname: user, avatar, score: 0, wins: 0 };
+    }
+    localLeaderboard[userKey].nickname = user;
+    if (avatar) localLeaderboard[userKey].avatar = avatar;
+    localLeaderboard[userKey].score += points;
+    localLeaderboard[userKey].wins += 1;
+    localLeaderboard[userKey].lastWonAt = Date.now();
+
     playSound("win");
     highlightTarget(target);
     showLiveGuessPill(user, code, true);
@@ -689,10 +713,11 @@ function handleLocalGuess(user, msg, avatar = null) {
     if (localWinners.length >= 2) {
       active = false;
       revealed = true;
-      showLeaderboardPopup({ roundWinners: localWinners, leaderboard: [] });
+      showLeaderboardPopup({ roundWinners: localWinners, leaderboard: getLocalLeaderboardArray(5) });
       setTimeout(newLocalRound, 4000);
     }
     renderWinnersBox(localWinners);
+    renderLeaderboard(getLocalLeaderboardArray(5));
   } else {
     showLiveGuessPill(user, code, false);
   }
@@ -800,8 +825,15 @@ function initSocket() {
   }
 }
 
-// Start everything immediately on load
+// Start socket & stream connections first
 drawGrid(target, category, level);
-startLocalGame();
 initSocket();
 connectDirectTikFinity();
+
+// Fallback: If no server is connected after 2.5s, launch standalone local mode
+setTimeout(() => {
+  if (!isServerConnected) {
+    console.log("[Odd One Out] No server connection detected. Starting standalone local game.");
+    startLocalGame();
+  }
+}, 2500);
