@@ -15,6 +15,11 @@ export function initThinkAndLinkControls({ socket, showToast }) {
   const talBtnResetGame = document.getElementById("talBtnResetGame");
 
   const talPuzzleSelect = document.getElementById("talPuzzleSelect");
+  const talCategoryFilter = document.getElementById("talCategoryFilter");
+  const talSearchInput = document.getElementById("talSearchInput");
+  const talBtnClearSearch = document.getElementById("talBtnClearSearch");
+  const talPuzzleCountBadge = document.getElementById("talPuzzleCountBadge");
+  const talFilteredCountText = document.getElementById("talFilteredCountText");
   const talBtnLoadPuzzle = document.getElementById("talBtnLoadPuzzle");
   const talBtnRandomPuzzle = document.getElementById("talBtnRandomPuzzle");
 
@@ -31,7 +36,102 @@ export function initThinkAndLinkControls({ socket, showToast }) {
   const talBtnSimRandom = document.getElementById("talBtnSimRandom");
 
   let localState = null;
-  let puzzlesListLoaded = false;
+  let categoriesInitialized = false;
+  let currentFilteredPuzzles = [];
+
+  const categoryIcons = {
+    "Gaming": "🎮",
+    "Pop Culture": "🎬",
+    "Food & Drink": "🍕",
+    "Sports": "🏆",
+    "Travel": "✈️",
+    "Nature": "🌿",
+    "Science": "🔬",
+    "Everyday": "🏠",
+    "Music": "🎵",
+    "Entertainment": "🍿",
+    "Hobbies": "🎨",
+    "Professions": "💼",
+    "Technology": "💻",
+    "Celebration": "🎉",
+    "History": "🏛️",
+    "Outdoors": "🏕️",
+    "Home": "🛋️",
+    "Shopping": "🛍️",
+    "Animation": "📺",
+    "Lifestyle": "✨",
+    "Pets": "🐾",
+    "Social Media": "📱",
+    "Anime": "🎌",
+    "Mystery": "🔍",
+    "Adventure": "🗺️",
+    "Education": "📚",
+    "Seasons": "🍂",
+    "Fantasy": "🧙"
+  };
+
+  function populateCategories(puzzles) {
+    if (!talCategoryFilter || !Array.isArray(puzzles) || categoriesInitialized) return;
+
+    const counts = new Map();
+    puzzles.forEach((p) => {
+      const cat = p.category || "General";
+      counts.set(cat, (counts.get(cat) || 0) + 1);
+    });
+
+    const sortedCats = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+
+    let opts = `<option value="ALL">🌟 All Categories (${puzzles.length})</option>`;
+    sortedCats.forEach(([cat, count]) => {
+      const icon = categoryIcons[cat] || "📁";
+      opts += `<option value="${cat}">${icon} ${cat} (${count})</option>`;
+    });
+
+    talCategoryFilter.innerHTML = opts;
+    categoriesInitialized = true;
+  }
+
+  function renderFilteredPuzzles() {
+    if (!localState?.puzzles || !talPuzzleSelect) return;
+
+    const selectedCat = talCategoryFilter ? talCategoryFilter.value : "ALL";
+    const q = (talSearchInput?.value || "").trim().toLowerCase();
+
+    currentFilteredPuzzles = localState.puzzles.filter((p) => {
+      if (selectedCat !== "ALL" && p.category !== selectedCat) return false;
+      if (!q) return true;
+      const topicMatch = (p.topic || "").toLowerCase().includes(q);
+      const catMatch = (p.category || "").toLowerCase().includes(q);
+      const wordsMatch = Array.isArray(p.words) && p.words.some((w) => String(w).toLowerCase().includes(q));
+      return topicMatch || catMatch || wordsMatch;
+    });
+
+    if (talFilteredCountText) {
+      talFilteredCountText.textContent = `${currentFilteredPuzzles.length} available`;
+    }
+
+    if (talPuzzleCountBadge) {
+      talPuzzleCountBadge.textContent = selectedCat === "ALL" && !q 
+        ? `${localState.puzzles.length} Topics` 
+        : `${currentFilteredPuzzles.length} Match${currentFilteredPuzzles.length === 1 ? '' : 'es'}`;
+    }
+
+    if (currentFilteredPuzzles.length === 0) {
+      talPuzzleSelect.innerHTML = `<option value="">No matching puzzles found</option>`;
+    } else {
+      talPuzzleSelect.innerHTML = currentFilteredPuzzles
+        .map((p) => `<option value="${p.id}">${p.emoji} ${p.topic} — [${p.category}] (${(p.words || []).join(", ")})</option>`)
+        .join("");
+
+      if (localState.puzzleId && currentFilteredPuzzles.some((p) => p.id === localState.puzzleId)) {
+        talPuzzleSelect.value = localState.puzzleId;
+      }
+    }
+
+    if (talBtnClearSearch) {
+      talBtnClearSearch.style.display = q ? "block" : "none";
+    }
+  }
 
   function renderSecretSlots(slots) {
     if (!talSecretSlotsGrid) return;
@@ -116,13 +216,15 @@ export function initThinkAndLinkControls({ socket, showToast }) {
       renderSecretSlots(secretSlots);
     }
 
-    // Populate Curated Puzzles Dropdown
-    if (talPuzzleSelect && state.puzzles && (!puzzlesListLoaded || talPuzzleSelect.children.length <= 1)) {
-      talPuzzleSelect.innerHTML = state.puzzles
-        .map((p) => `<option value="${p.id}">${p.emoji} ${p.topic} — [${p.category}] (${(p.words || []).join(", ")})</option>`)
-        .join("");
-      puzzlesListLoaded = true;
-      if (state.puzzleId) {
+    // Populate Curated Puzzles Dropdown & Categories
+    if (state.puzzles && Array.isArray(state.puzzles)) {
+      populateCategories(state.puzzles);
+      if (talCategoryFilter && state.activeCategoryFilter && state.activeCategoryFilter !== talCategoryFilter.value) {
+        talCategoryFilter.value = state.activeCategoryFilter;
+      }
+      if (!currentFilteredPuzzles.length || talPuzzleSelect?.children.length <= 1) {
+        renderFilteredPuzzles();
+      } else if (state.puzzleId && talPuzzleSelect) {
         talPuzzleSelect.value = state.puzzleId;
       }
     }
@@ -157,10 +259,41 @@ export function initThinkAndLinkControls({ socket, showToast }) {
     };
   }
 
+  if (talCategoryFilter) {
+    talCategoryFilter.onchange = () => {
+      renderFilteredPuzzles();
+      socket.emit("gameAction", {
+        gameId: "think-and-link",
+        action: "setCategoryFilter",
+        options: talCategoryFilter.value
+      });
+      showToast(talCategoryFilter.value === "ALL" ? "All Categories Shown" : `Category: ${talCategoryFilter.value}`);
+    };
+  }
+
+  if (talSearchInput) {
+    talSearchInput.oninput = () => {
+      renderFilteredPuzzles();
+    };
+  }
+
+  if (talBtnClearSearch) {
+    talBtnClearSearch.onclick = () => {
+      if (talSearchInput) talSearchInput.value = "";
+      renderFilteredPuzzles();
+      talSearchInput?.focus();
+    };
+  }
+
   if (talBtnNextPuzzle) {
     talBtnNextPuzzle.onclick = () => {
-      socket.emit("gameAction", { gameId: "think-and-link", action: "nextRound" });
-      showToast("Loaded Next Puzzle!");
+      const cat = talCategoryFilter?.value !== "ALL" ? talCategoryFilter?.value : null;
+      socket.emit("gameAction", {
+        gameId: "think-and-link",
+        action: "nextRound",
+        options: { category: cat }
+      });
+      showToast(cat ? `Next ${cat} Puzzle!` : "Loaded Next Puzzle!");
     };
   }
 
@@ -184,8 +317,9 @@ export function initThinkAndLinkControls({ socket, showToast }) {
 
   if (talBtnRandomPuzzle && talPuzzleSelect) {
     talBtnRandomPuzzle.onclick = () => {
-      if (!localState?.puzzles?.length) return;
-      const rand = localState.puzzles[Math.floor(Math.random() * localState.puzzles.length)];
+      const pool = currentFilteredPuzzles.length > 0 ? currentFilteredPuzzles : localState?.puzzles;
+      if (!pool?.length) return;
+      const rand = pool[Math.floor(Math.random() * pool.length)];
       if (rand && rand.id) {
         talPuzzleSelect.value = rand.id;
         socket.emit("gameAction", { gameId: "think-and-link", action: "loadPuzzleById", options: rand.id });

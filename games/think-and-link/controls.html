@@ -42,12 +42,34 @@
     </div>
   </div>
 
-  <!-- Curated Puzzles Library (100 Puzzles) -->
+  <!-- Curated Puzzles Library (1,000 Puzzles) -->
   <div class="card">
-    <div class="card-title">Curated Puzzles Library (100+ Topics)</div>
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+      <span>Curated Puzzles Library (1,000 Topics)</span>
+      <span class="badge badge-purple" id="talPuzzleCountBadge">1,000 Topics</span>
+    </div>
+
+    <!-- Category Filter & Search Bar -->
+    <div class="input-row" style="margin-bottom:10px;gap:8px">
+      <div class="form-group" style="flex:1.2">
+        <label for="talCategoryFilter">📁 Category Filter</label>
+        <select id="talCategoryFilter">
+          <option value="ALL">🌟 All Categories (1,000)</option>
+        </select>
+      </div>
+      <div class="form-group" style="flex:1.8">
+        <label for="talSearchInput">🔍 Quick Search Topic / Word</label>
+        <div style="position:relative;display:flex;align-items:center">
+          <input type="text" id="talSearchInput" placeholder="Filter by name (e.g. Mario, Pizza, Disney)..." style="width:100%" />
+          <button id="talBtnClearSearch" type="button" class="chip" style="position:absolute;right:6px;height:26px;padding:0 8px;font-size:11px;display:none">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dropdown Selector & Action Buttons -->
     <div class="input-row">
-      <div class="form-group" style="flex:2">
-        <label for="talPuzzleSelect">Select Puzzle Topic</label>
+      <div class="form-group" style="flex:2.2">
+        <label for="talPuzzleSelect">Select Topic (<span id="talFilteredCountText" style="color:var(--accent,#a855f7)">1,000 available</span>)</label>
         <select id="talPuzzleSelect">
           <option value="">Loading puzzles list...</option>
         </select>
@@ -55,8 +77,8 @@
       <div class="form-group" style="flex:1">
         <label>Actions</label>
         <div style="display:flex;gap:6px">
-          <button id="talBtnLoadPuzzle" class="secondary" style="height:42px;flex:1">📚 Load</button>
-          <button id="talBtnRandomPuzzle" class="chip" style="height:42px;flex:1">🎲 Random</button>
+          <button id="talBtnLoadPuzzle" class="secondary" style="height:42px;flex:1" title="Load selected puzzle">📚 Load</button>
+          <button id="talBtnRandomPuzzle" class="chip" style="height:42px;flex:1" title="Pick random from filtered list">🎲 Random</button>
         </div>
       </div>
     </div>

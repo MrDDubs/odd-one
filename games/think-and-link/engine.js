@@ -51,24 +51,37 @@ export class ThinkAndLinkEngine {
     this.guesses = [];
     this.leaderboard = new Map();
     this.playedPuzzleIndices = [];
+    this.activeCategoryFilter = "ALL";
 
     const startIdx = this.getRandomPuzzleIndex();
     this.loadPuzzleByIndex(startIdx, false);
   }
 
-  getRandomPuzzleIndex() {
+  getRandomPuzzleIndex(categoryFilter = null) {
     if (!this.puzzles || this.puzzles.length <= 1) return 0;
+    const cat = (categoryFilter && categoryFilter !== "ALL") ? categoryFilter : (this.activeCategoryFilter !== "ALL" ? this.activeCategoryFilter : null);
+
     if (this.playedPuzzleIndices.length >= this.puzzles.length) {
       this.playedPuzzleIndices = [];
     }
     const playedSet = new Set(this.playedPuzzleIndices);
     const available = [];
     for (let i = 0; i < this.puzzles.length; i++) {
+      if (cat && this.puzzles[i].category !== cat) {
+        continue;
+      }
       if (!playedSet.has(i) && i !== this.currentPuzzleIndex) {
         available.push(i);
       }
     }
-    const pool = available.length > 0 ? available : this.puzzles.map((_, i) => i).filter((i) => i !== this.currentPuzzleIndex);
+    const pool = available.length > 0
+      ? available
+      : this.puzzles
+          .map((p, i) => ({ p, i }))
+          .filter(({ p, i }) => (!cat || p.category === cat) && i !== this.currentPuzzleIndex)
+          .map(({ i }) => i);
+
+    if (pool.length === 0) return this.currentPuzzleIndex;
     const chosen = pool[Math.floor(Math.random() * pool.length)];
     this.playedPuzzleIndices.push(chosen);
     return chosen;
@@ -145,10 +158,14 @@ export class ThinkAndLinkEngine {
     this.round++;
     this.paused = false;
 
+    if (options.category) {
+      this.activeCategoryFilter = options.category;
+    }
+
     if (options.topic && Array.isArray(options.words) && options.words.length >= 6) {
       this.setCustomPuzzle(options);
     } else {
-      this.advancePuzzle();
+      this.advancePuzzle(options.category);
     }
 
     if (options.duration && Number(options.duration) > 0) {
@@ -218,9 +235,14 @@ export class ThinkAndLinkEngine {
     return this.getPublicPayload();
   }
 
-  advancePuzzle() {
-    const nextIdx = this.getRandomPuzzleIndex();
+  advancePuzzle(category = null) {
+    const nextIdx = this.getRandomPuzzleIndex(category || this.activeCategoryFilter);
     return this.loadPuzzleByIndex(nextIdx, true);
+  }
+
+  setCategoryFilter(category) {
+    this.activeCategoryFilter = category && category !== "ALL" ? category : "ALL";
+    return this.getPublicPayload();
   }
 
   loadPuzzleById(id) {
@@ -546,6 +568,7 @@ export class ThinkAndLinkEngine {
       emoji: this.emoji,
       category: this.category,
       puzzleId: this.puzzleId,
+      activeCategoryFilter: this.activeCategoryFilter || "ALL",
       slots: this.slots.map((s) => ({
         index: s.index,
         hint: s.hint,
