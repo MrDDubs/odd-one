@@ -11,6 +11,8 @@ const elTopicEmoji = document.getElementById("topicEmoji");
 const elSlotsGrid = document.getElementById("slotsGrid");
 const elFoundValue = document.getElementById("foundValue");
 const elStreakValue = document.getElementById("streakValue");
+const elStreakCard = document.getElementById("streakCard");
+const elConfettiContainer = document.getElementById("confettiContainer");
 const elLeaderboardPodium = document.getElementById("leaderboardPodium");
 
 const elModal = document.getElementById("leaderboardModal");
@@ -156,6 +158,45 @@ function formatWordHtml(wordStr) {
   return `<span class="word-revealed-text ${sizeClass}">${wordStr}</span>`;
 }
 
+// Spawn cute floating sparkles when a word card is solved
+function spawnCardSparkles(cardEl) {
+  if (!cardEl) return;
+  const sparkles = ["✨", "💜", "⭐", "🌸"];
+  for (let i = 0; i < 4; i++) {
+    const sp = document.createElement("span");
+    sp.className = "card-sparkle-item";
+    sp.textContent = sparkles[i % sparkles.length];
+    sp.style.left = `${15 + Math.random() * 70}%`;
+    sp.style.top = `${20 + Math.random() * 55}%`;
+    sp.style.animationDelay = `${i * 0.08}s`;
+    cardEl.appendChild(sp);
+    setTimeout(() => sp.remove(), 1100);
+  }
+}
+
+// Full-screen cute falling confetti & heart shower on ALL 6 FOUND
+function launchCuteConfetti() {
+  const container = elConfettiContainer || document.getElementById("confettiContainer");
+  if (!container) return;
+  container.innerHTML = "";
+  const items = ["💜", "✨", "⭐", "💖", "🌸", "🎉", "💛", "🎈"];
+  const count = 38;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("div");
+    p.className = "cute-confetti-piece";
+    p.textContent = items[Math.floor(Math.random() * items.length)];
+    p.style.left = `${Math.random() * 95}%`;
+    p.style.top = `${-10 - Math.random() * 20}%`;
+    p.style.fontSize = `${14 + Math.random() * 16}px`;
+    p.style.animationDuration = `${1.8 + Math.random() * 1.2}s`;
+    p.style.animationDelay = `${Math.random() * 0.4}s`;
+    container.appendChild(p);
+  }
+  setTimeout(() => {
+    container.innerHTML = "";
+  }, 2600);
+}
+
 // Render 6 Slots Grid
 function renderSlots(slots) {
   if (!elSlotsGrid) return;
@@ -179,8 +220,10 @@ function renderSlots(slots) {
     if (!card) return;
 
     if (s.revealed) {
-      if (!card.classList.contains("revealed")) {
+      const wasRevealed = card.classList.contains("revealed");
+      if (!wasRevealed) {
         card.classList.add("revealed");
+        spawnCardSparkles(card);
       }
 
       const winner = s.foundBy;
@@ -195,6 +238,12 @@ function renderSlots(slots) {
             ${avatarHtml}
             <span class="winner-sub-name">@${winner.nickname || winner.user}</span>
             <span class="winner-sub-pts">+${winner.points || 4}💜</span>
+          </div>
+        `;
+      } else {
+        winnerHtml = `
+          <div class="winner-sub-badge" style="background:rgba(239,68,68,0.2);border-color:rgba(248,113,113,0.35)">
+            <span class="winner-sub-pts" style="color:#fca5a5;font-weight:700">⏰ Missed</span>
           </div>
         `;
       }
@@ -228,7 +277,7 @@ function renderSlots(slots) {
   });
 }
 
-// Render Top 5 Leaderboard Podium (🥇 🥈 🥉 👑 👑)
+// Render Top 5 Leaderboard Podium (🥇 🥈 🥉 4️⃣ 5️⃣)
 function renderLeaderboard(leaderboard) {
   if (!elLeaderboardPodium) return;
 
@@ -241,26 +290,34 @@ function renderLeaderboard(leaderboard) {
     const p = list[i];
     const rankClass = rankClasses[i] || "";
     if (p) {
+      const username = p.nickname || p.user || "viewer";
+      const initial = (username.replace(/^@/, "").charAt(0) || "?").toUpperCase();
+      const score = p.score || 0;
+
       const avatarHtml = p.avatar
-        ? `<div style="position:relative;width:22px;height:22px;margin:0 auto 2px">
-            <img src="${p.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:1.5px solid #c4b5fd" onerror="this.outerHTML='<span class=\\'podium-rank-icon\\'>${rankIcons[i]}</span>'">
-            <span style="position:absolute;bottom:-4px;right:-4px;font-size:10px;line-height:1">${rankIcons[i]}</span>
+        ? `<div class="podium-avatar-wrap">
+            <img src="${p.avatar}" class="podium-avatar-img" alt="${username}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="podium-avatar-initial" style="display:none">${initial}</div>
+            <span class="podium-rank-badge">${rankIcons[i]}</span>
           </div>`
-        : `<div class="podium-rank-icon">${rankIcons[i]}</div>`;
+        : `<div class="podium-avatar-wrap">
+            <div class="podium-avatar-initial">${initial}</div>
+            <span class="podium-rank-badge">${rankIcons[i]}</span>
+          </div>`;
 
       html += `
-        <div class="podium-card ${rankClass}">
+        <div class="podium-card ${rankClass}" title="@${username} (${score} pts)">
           ${avatarHtml}
-          <div class="podium-user" title="@${p.nickname || p.user}">@${p.nickname || p.user}</div>
-          <div class="podium-points">${p.score || 0}</div>
+          <div class="podium-points">${score}<span class="podium-pts-suffix">pts</span></div>
         </div>
       `;
     } else {
       html += `
-        <div class="podium-card ${rankClass}" style="opacity:0.65">
-          <div class="podium-rank-icon">${rankIcons[i]}</div>
-          <div class="podium-user">—</div>
-          <div class="podium-points">0</div>
+        <div class="podium-card ${rankClass} podium-empty" title="Empty Slot">
+          <div class="podium-avatar-wrap">
+            <div class="podium-avatar-initial empty">${rankIcons[i]}</div>
+          </div>
+          <div class="podium-points">0<span class="podium-pts-suffix">pts</span></div>
         </div>
       `;
     }
@@ -306,7 +363,21 @@ function handleState(state) {
   const found = state.foundCount ?? 0;
   const total = state.totalWords ?? 6;
   if (elFoundValue) elFoundValue.textContent = `${found} / ${total}`;
-  if (elStreakValue) elStreakValue.textContent = state.streak ?? 0;
+
+  const oldStreak = lastKnownState?.streak ?? 0;
+  const newStreak = state.streak ?? 0;
+  if (elStreakValue) elStreakValue.textContent = newStreak;
+  if (newStreak > oldStreak && elStreakCard) {
+    elStreakCard.classList.remove("celebrate");
+    void elStreakCard.offsetWidth;
+    elStreakCard.classList.add("celebrate");
+    setTimeout(() => elStreakCard?.classList.remove("celebrate"), 750);
+  }
+
+  // All 6 Words Solved celebration
+  if (state.allFound && !lastKnownState?.allFound) {
+    launchCuteConfetti();
+  }
 
   // Leaderboard
   if (state.leaderboard) {
@@ -341,42 +412,74 @@ function renderAvatarHTML(url, name) {
 function showLeaderboardPopup(data) {
   if (!elModal || !elModalPodium || !elModalTopList) return;
 
-  const winners = data.roundWinners || [];
+  const rawWinners = data.roundWinners || [];
   const topList = data.leaderboard || [];
   const targetTopic = data.target || "";
+
+  // Deduplicate and aggregate round points/words per unique player
+  const playerMap = new Map();
+  rawWinners.forEach((w) => {
+    if (!w || !w.user) return;
+    const key = String(w.user).toLowerCase();
+    const pts = Number(w.points) || 0;
+    if (!playerMap.has(key)) {
+      playerMap.set(key, {
+        user: w.user,
+        nickname: w.nickname || w.user,
+        avatar: w.avatar || null,
+        points: pts,
+        wordsCount: 1,
+        firstWonAt: w.timestamp || Date.now()
+      });
+    } else {
+      const p = playerMap.get(key);
+      p.points += pts;
+      p.wordsCount += 1;
+      if (w.avatar && !p.avatar) p.avatar = w.avatar;
+    }
+  });
+
+  // Sort unique players by total points earned this round, tie-breaker is first correct guess
+  const winners = Array.from(playerMap.values()).sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points;
+    return a.firstWonAt - b.firstWonAt;
+  });
 
   let podiumHTML = "";
   if (winners.length > 0) {
     const first = winners[0];
+    const firstWords = first.wordsCount > 1 ? ` (${first.wordsCount} words)` : "";
     podiumHTML += `
       <div class="podium-card first">
         <div class="podium-rank">🥇 1st Place</div>
         <div class="avatar-wrap">${renderAvatarHTML(first.avatar, first.nickname || first.user)}</div>
         <div class="podium-name">@${esc(first.nickname || first.user)}</div>
-        <div class="podium-pts">+${first.points || 10} Points</div>
+        <div class="podium-pts">+${first.points} pts${firstWords}</div>
       </div>
     `;
 
     if (winners.length > 1) {
       const second = winners[1];
+      const secondWords = second.wordsCount > 1 ? ` (${second.wordsCount} words)` : "";
       podiumHTML += `
         <div class="podium-card second">
           <div class="podium-rank">🥈 2nd Place</div>
           <div class="avatar-wrap">${renderAvatarHTML(second.avatar, second.nickname || second.user)}</div>
           <div class="podium-name">@${esc(second.nickname || second.user)}</div>
-          <div class="podium-pts">+${second.points || 5} Points</div>
+          <div class="podium-pts">+${second.points} pts${secondWords}</div>
         </div>
       `;
     }
 
     if (winners.length > 2) {
       const third = winners[2];
+      const thirdWords = third.wordsCount > 1 ? ` (${third.wordsCount} words)` : "";
       podiumHTML += `
         <div class="podium-card third">
           <div class="podium-rank">🥉 3rd Place</div>
           <div class="avatar-wrap">${renderAvatarHTML(third.avatar, third.nickname || third.user)}</div>
           <div class="podium-name">@${esc(third.nickname || third.user)}</div>
-          <div class="podium-pts">+${third.points || 3} Points</div>
+          <div class="podium-pts">+${third.points} pts${thirdWords}</div>
         </div>
       `;
     }
@@ -446,6 +549,7 @@ socket.on("winnerFound", (data) => {
     showGuessToast(data.winner?.nickname || data.winner?.user || "Player", data.winner?.word || data.target || "Word", true);
     if (data.allFound || data.roundComplete) {
       setTimeout(() => playSound("all_found"), 400);
+      launchCuteConfetti();
     }
   }
 });
@@ -456,6 +560,7 @@ socket.on("guessResult", (data) => {
     showGuessToast(data.winner?.nickname || data.winner?.user || "Player", data.word || "Word", true);
     if (data.allFound || data.roundComplete) {
       setTimeout(() => playSound("all_found"), 400);
+      launchCuteConfetti();
     }
   }
 });

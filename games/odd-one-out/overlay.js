@@ -422,8 +422,20 @@ function renderWinnersBox(winners) {
 }
 
 function showLeaderboardPopup(data) {
-  const winners = data.roundWinners || [];
+  const rawWinners = data.roundWinners || [];
   const topList = data.leaderboard || [];
+
+  // Deduplicate unique winners so a user never appears more than once
+  const seenUsers = new Set();
+  const winners = [];
+  for (const w of rawWinners) {
+    if (!w || !w.user) continue;
+    const key = String(w.user).toLowerCase();
+    if (!seenUsers.has(key)) {
+      seenUsers.add(key);
+      winners.push(w);
+    }
+  }
 
   let podiumHTML = "";
   if (winners.length > 0) {
@@ -500,26 +512,34 @@ function renderLeaderboard(leaderboard) {
     const p = list[i];
     const rankClass = rankClasses[i] || "";
     if (p) {
+      const username = esc(p.nickname || p.user || "viewer");
+      const initial = (username.replace(/^@/, "").charAt(0) || "?").toUpperCase();
+      const score = p.score || 0;
+
       const avatarHtml = p.avatar
-        ? `<div style="position:relative;width:20px;height:20px;margin:0 auto 1px">
-            <img src="${esc(p.avatar)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:1.5px solid #c4b5fd" onerror="this.outerHTML='<span class=\\'podium-rank-icon\\'>${rankIcons[i]}</span>'">
-            <span style="position:absolute;bottom:-4px;right:-4px;font-size:9px;line-height:1">${rankIcons[i]}</span>
+        ? `<div class="podium-avatar-wrap">
+            <img src="${esc(p.avatar)}" class="podium-avatar-img" alt="${username}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="podium-avatar-initial" style="display:none">${initial}</div>
+            <span class="podium-rank-badge">${rankIcons[i]}</span>
           </div>`
-        : `<div class="podium-rank-icon">${rankIcons[i]}</div>`;
+        : `<div class="podium-avatar-wrap">
+            <div class="podium-avatar-initial">${initial}</div>
+            <span class="podium-rank-badge">${rankIcons[i]}</span>
+          </div>`;
 
       html += `
-        <div class="podium-card ${rankClass}">
+        <div class="podium-card ${rankClass}" title="@${username} (${score} pts)">
           ${avatarHtml}
-          <div class="podium-user" title="@${esc(p.nickname || p.user)}">@${esc(p.nickname || p.user)}</div>
-          <div class="podium-points">${p.score || 0}</div>
+          <div class="podium-points">${score}<span class="podium-pts-suffix">pts</span></div>
         </div>
       `;
     } else {
       html += `
-        <div class="podium-card ${rankClass}" style="opacity:0.65">
-          <div class="podium-rank-icon">${rankIcons[i]}</div>
-          <div class="podium-user">—</div>
-          <div class="podium-points">0</div>
+        <div class="podium-card ${rankClass} podium-empty" title="Empty Slot">
+          <div class="podium-avatar-wrap">
+            <div class="podium-avatar-initial empty">${rankIcons[i]}</div>
+          </div>
+          <div class="podium-points">0<span class="podium-pts-suffix">pts</span></div>
         </div>
       `;
     }

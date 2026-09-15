@@ -35,8 +35,9 @@ html, body {
 .overlay-app {
   width: min(100vw, 56.25vh);
   height: 100vh;
+  aspect-ratio: 9 / 16;
   margin: auto;
-  padding: 3.2%;
+  padding: 2.5% 1%;
   display: flex;
   flex-direction: column;
   gap: 1.5%;
@@ -99,12 +100,18 @@ html, body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  animation: avatarGlow 3s ease-in-out infinite alternate;
+  animation: avatarFloat 3.4s ease-in-out infinite alternate, avatarGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes avatarFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(1.5deg); }
+  100% { transform: translateY(0) rotate(-1deg); }
 }
 
 @keyframes avatarGlow {
   from { box-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 2px 6px rgba(0,0,0,0.2); }
-  to { box-shadow: 0 0 24px rgba(245, 158, 11, 0.95), 0 4px 14px rgba(0,0,0,0.35); }
+  to { box-shadow: 0 0 26px rgba(245, 158, 11, 0.95), 0 4px 14px rgba(0,0,0,0.35); }
 }
 
 .brand-avatar {
@@ -133,6 +140,13 @@ html, body {
   text-shadow: 0 2px 0 #fde047, 0 0 8px rgba(255, 255, 255, 0.9), 0 0 16px #f59e0b;
   transform: rotate(-1.5deg);
   display: inline-block;
+  animation: titleBob 3.8s ease-in-out infinite alternate;
+}
+
+@keyframes titleBob {
+  0% { transform: rotate(-1.5deg) scale(1); }
+  50% { transform: rotate(-0.5deg) scale(1.02); }
+  100% { transform: rotate(-1.5deg) scale(1); }
 }
 
 .brand-sub {
@@ -410,13 +424,14 @@ html, body {
 }
 
 .hint-char.hint-pop {
-  animation: hintLetterPop 0.35s ease-out;
+  animation: hintLetterPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes hintLetterPop {
-  0% { transform: scale(1.3); color: #9333ea; }
-  50% { transform: scale(1.15); color: #7c3aed; }
-  100% { transform: scale(1); color: #3b0764; }
+  0% { transform: scale(0.6) rotate(-5deg); color: #9333ea; }
+  50% { transform: scale(1.35) rotate(4deg); color: #7c3aed; }
+  75% { transform: scale(0.95); }
+  100% { transform: scale(1) rotate(0deg); color: #3b0764; }
 }
 
 /* Revealed / Solved Slot State: Highlights in vibrant rich purple */
@@ -424,13 +439,48 @@ html, body {
   background: linear-gradient(145deg, #7c3aed 0%, #5b21b6 50%, #4c1d95 100%);
   border: 2px solid #d8b4fe;
   box-shadow: 0 0 20px rgba(168, 85, 247, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.45);
-  animation: slotPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: slotPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.slot-card.revealed::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-25deg);
+  animation: shimmerSweep 0.75s ease-out;
+  pointer-events: none;
+}
+
+@keyframes shimmerSweep {
+  0% { left: -120%; }
+  100% { left: 180%; }
 }
 
 @keyframes slotPop {
-  0% { transform: scale(0.92); }
-  50% { transform: scale(1.04); }
-  100% { transform: scale(1); }
+  0% { transform: scale(0.85); opacity: 0.8; }
+  45% { transform: scale(1.08) rotate(-1deg); }
+  75% { transform: scale(0.97) rotate(0.6deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.card-sparkle-item {
+  position: absolute;
+  font-size: 13px;
+  pointer-events: none;
+  z-index: 25;
+  animation: sparkleFloat 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes sparkleFloat {
+  0% { transform: scale(0.3) translateY(0); opacity: 0; }
+  30% { transform: scale(1.25) translateY(-8px); opacity: 1; }
+  100% { transform: scale(0.5) translateY(-28px) rotate(22deg); opacity: 0; }
 }
 
 .word-revealed-text {
@@ -519,6 +569,19 @@ html, body {
   flex-shrink: 0;
   margin-top: 0;
   margin-bottom: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.streak-pill.celebrate {
+  animation: streakCelebrate 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes streakCelebrate {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.08) rotate(-1.5deg); box-shadow: 0 0 25px rgba(245, 158, 11, 0.75); }
+  50% { transform: scale(1.04) rotate(1.5deg); }
+  75% { transform: scale(1.02) rotate(-0.5deg); }
+  100% { transform: scale(1) rotate(0deg); }
 }
 
 .streak-label {
@@ -545,7 +608,15 @@ html, body {
 
 .flame-icon {
   font-size: 1.8vh;
+  display: inline-block;
   filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.8));
+  animation: flameBounce 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes flameBounce {
+  0% { transform: scale(1) rotate(-3deg); filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.6)); }
+  50% { transform: scale(1.2) rotate(5deg); filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.9)); }
+  100% { transform: scale(1.05) rotate(-2deg); filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.7)); }
 }
 
 /* 3. Bottom Top 5 Leaderboard (Light Purple Glass Theme) */
@@ -581,7 +652,7 @@ html, body {
 
 .leaderboard-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 6px;
   width: 100%;
 }
@@ -589,14 +660,19 @@ html, body {
 .podium-card {
   background: linear-gradient(145deg, #ffffff 0%, #ede6ff 100%);
   border: 1.5px solid #c4b5fd;
-  border-radius: 14px;
-  padding: 5px 3px;
+  border-radius: 12px;
+  padding: 4px 2px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  min-height: 58px;
+  justify-content: center;
+  gap: 3px;
+  min-height: 52px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
   box-shadow: 0 2px 6px rgba(139, 92, 246, 0.12), inset 0 0 6px rgba(255, 255, 255, 0.8);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -604,6 +680,10 @@ html, body {
 .podium-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(139, 92, 246, 0.22), inset 0 0 6px #ffffff;
+}
+
+.podium-card.podium-empty {
+  opacity: 0.6;
 }
 
 .podium-card.rank-1 {
@@ -622,27 +702,70 @@ html, body {
   background: linear-gradient(145deg, #ffffff 0%, #ffedd5 100%);
 }
 
-.podium-rank-icon {
-  font-size: clamp(14px, 1.8vh, 18px);
-  line-height: 1;
+.podium-avatar-wrap {
+  position: relative;
+  width: clamp(24px, 3vh, 30px);
+  height: clamp(24px, 3vh, 30px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.podium-user {
-  font-size: clamp(9px, 1.1vh, 11px);
+.podium-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #c4b5fd;
+  background: #ede9fe;
+  display: block;
+}
+
+.podium-avatar-initial {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: #ffffff;
   font-weight: 800;
-  color: #30235e;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 85px;
-  margin: 2px 0;
+  font-size: clamp(10px, 1.3vh, 13px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #c4b5fd;
+}
+
+.podium-avatar-initial.empty {
+  background: #f1f5f9;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: clamp(10px, 1.2vh, 12px);
+}
+
+.podium-rank-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -5px;
+  font-size: clamp(9px, 1.1vh, 11px);
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
 }
 
 .podium-points {
-  font-size: clamp(11px, 1.4vh, 14px);
+  font-size: clamp(10px, 1.2vh, 12px);
   font-weight: 900;
   color: #7c3aed;
   line-height: 1;
+  white-space: nowrap;
+}
+
+.podium-pts-suffix {
+  font-size: 8px;
+  font-weight: 700;
+  color: #8b5cf6;
+  opacity: 0.85;
+  margin-left: 1px;
 }
 
 /* Floating Live Guess Toast */
@@ -749,28 +872,49 @@ html, body {
   position: relative;
   box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.1);
   min-width: 0;
+  max-width: 160px;
 }
 
 .modal-content .podium-card.first {
   border-color: #ffd700;
-  background: linear-gradient(180deg, rgba(255, 215, 0, 0.2), rgba(45, 30, 90, 0.4));
-  box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.25), rgba(45, 30, 90, 0.45));
+  box-shadow: 0 0 22px rgba(255, 215, 0, 0.35);
+  animation: cardSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both;
 }
 
 .modal-content .podium-card.second {
   border-color: #c0c0c0;
-  background: linear-gradient(180deg, rgba(192, 192, 192, 0.2), rgba(45, 30, 90, 0.4));
+  background: linear-gradient(180deg, rgba(192, 192, 192, 0.22), rgba(45, 30, 90, 0.4));
+  animation: cardSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s both;
 }
 
 .modal-content .podium-card.third {
   border-color: #cd7f32;
-  background: linear-gradient(180deg, rgba(205, 127, 50, 0.2), rgba(45, 30, 90, 0.4));
+  background: linear-gradient(180deg, rgba(205, 127, 50, 0.22), rgba(45, 30, 90, 0.4));
+  animation: cardSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.28s both;
+}
+
+@keyframes cardSpringIn {
+  0% { transform: translateY(22px) scale(0.85); opacity: 0; }
+  60% { transform: translateY(-4px) scale(1.05); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 .modal-content .podium-rank {
   font-size: 1.6vh;
   font-weight: 1000;
   color: #fff;
+}
+
+.modal-content .podium-card.first .podium-rank {
+  display: inline-block;
+  animation: crownWobble 2s ease-in-out infinite alternate;
+}
+
+@keyframes crownWobble {
+  0% { transform: rotate(-3deg) scale(1); }
+  50% { transform: rotate(3deg) scale(1.08); }
+  100% { transform: rotate(-3deg) scale(1); }
 }
 
 .modal-content .avatar-wrap {
@@ -895,4 +1039,40 @@ html, body {
   font-weight: 800;
   color: #bda8ef;
   margin-top: 4px;
+}
+
+/* Full-Screen Cute Confetti & Heart Shower */
+.confetti-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 95;
+}
+
+.cute-confetti-piece {
+  position: absolute;
+  will-change: transform, opacity;
+  animation: confettiFall linear forwards;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(0.6);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(12vh) rotate(50deg) scale(1.15);
+  }
+  80% {
+    opacity: 0.95;
+    transform: translateY(85vh) rotate(260deg) scale(1);
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg) scale(0.6);
+    opacity: 0;
+  }
 }

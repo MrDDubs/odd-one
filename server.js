@@ -105,26 +105,38 @@ function broadcastState() {
 }
 
 // Auto-advance round with leaderboard popup
-function triggerLeaderboardAndNextRound(targetWinnerInfo = null) {
+function triggerLeaderboardAndNextRound(targetWinnerInfo = null, delayBeforePopupMs = 0) {
   if (autoNextTimer) clearTimeout(autoNextTimer);
 
   const active = gameRegistry.getActiveGame();
-  const payload = {
-    roundWinners: active?.roundWinners || [],
-    leaderboard: active?.getLeaderboard ? active.getLeaderboard(5) : [],
-    durationMs: LEADERBOARD_POPUP_MS,
-    target: targetWinnerInfo?.target || active?.target || active?.allyAnswer || active?.topic || ""
+  const activeId = gameRegistry.getActiveGameId();
+  // In Think & Link, give viewers and host 2 seconds to inspect all 6 words before the popup covers the board
+  const delayMs = delayBeforePopupMs || (activeId === "think-and-link" ? 2000 : 0);
+
+  const showPopup = () => {
+    const payload = {
+      roundWinners: active?.roundWinners || [],
+      leaderboard: active?.getLeaderboard ? active.getLeaderboard(5) : [],
+      durationMs: LEADERBOARD_POPUP_MS,
+      target: targetWinnerInfo?.target || active?.target || active?.allyAnswer || active?.topic || ""
+    };
+
+    io.emit("showLeaderboardPopup", payload);
+    io.of("/admin").emit("showLeaderboardPopup", payload);
+
+    autoNextTimer = setTimeout(() => {
+      gameRegistry.handleGameAction(null, "newRound");
+      broadcastState();
+      io.emit("roundStarted", gameRegistry.getPublicPayload());
+      io.of("/admin").emit("roundStarted", gameRegistry.getAdminPayload());
+    }, LEADERBOARD_POPUP_MS);
   };
 
-  io.emit("showLeaderboardPopup", payload);
-  io.of("/admin").emit("showLeaderboardPopup", payload);
-
-  autoNextTimer = setTimeout(() => {
-    gameRegistry.handleGameAction(null, "newRound");
-    broadcastState();
-    io.emit("roundStarted", gameRegistry.getPublicPayload());
-    io.of("/admin").emit("roundStarted", gameRegistry.getAdminPayload());
-  }, LEADERBOARD_POPUP_MS);
+  if (delayMs > 0) {
+    autoNextTimer = setTimeout(showPopup, delayMs);
+  } else {
+    showPopup();
+  }
 }
 
 // Timer tick loop
@@ -148,7 +160,11 @@ function startTimerLoop() {
           roundWinners: result.roundWinners
         });
 
+        // Broadcast final state with revealed words first
+        broadcastState();
+
         triggerLeaderboardAndNextRound({ target });
+        return;
       }
       broadcastState();
     }
