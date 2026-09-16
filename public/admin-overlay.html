@@ -208,6 +208,56 @@
           </button>
         </div>
 
+        <!-- Panel Section 2.6: Think & Link Category Filter & Puzzle Selector -->
+        <div class="panel-card tal-settings-card" id="thinkAndLinkSettingsCard" style="display: none;">
+          <div class="card-header">
+            <h3>💜 Think &amp; Link Topics</h3>
+            <span class="card-tag" id="talOverlayPuzzleCountBadge" style="background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.35);">1,000 Topics</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px; margin-bottom: 10px;">
+            <!-- Category Filter Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="talOverlayCategoryFilter" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">📁 Category Filter</label>
+              <select id="talOverlayCategoryFilter" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="ALL">🌟 All Categories (1,000)</option>
+              </select>
+            </div>
+
+            <!-- Instant Search Bar -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="talOverlaySearchInput" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">🔍 Quick Search Topic / Word</label>
+              <div style="position: relative; display: flex; align-items: center;">
+                <input type="text" id="talOverlaySearchInput" placeholder="Filter by name (e.g. Mario, Pizza, Disney)..." style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 26px 6px 8px; font-size: 11px; outline: none; width: 100%; box-sizing: border-box;" />
+                <button id="talOverlayBtnClearSearch" type="button" style="position: absolute; right: 5px; height: 18px; width: 18px; padding: 0; font-size: 10px; background: rgba(255,255,255,0.18); border: none; border-radius: 50%; color: #fff; cursor: pointer; display: none; align-items: center; justify-content: center;" title="Clear search">✕</button>
+              </div>
+            </div>
+
+            <!-- Topic Selector Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label for="talOverlayPuzzleSelect" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Select Topic</label>
+                <span id="talOverlayFilteredCountText" style="font-size: 10px; color: #c084fc; font-weight: 700;">1,000 available</span>
+              </div>
+              <select id="talOverlayPuzzleSelect" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="">Loading topics...</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons: Load & Random -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button id="talOverlayBtnLoadPuzzle" class="ctrl-btn" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Load selected topic">
+              <span>📚</span>
+              <span>Load Topic</span>
+            </button>
+            <button id="talOverlayBtnRandomPuzzle" class="ctrl-btn" style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Pick random from filtered category">
+              <span>🎲</span>
+              <span>Random Topic</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Panel Section 3: Live Round Flow Controls -->
         <div class="panel-card round-controls-card">
           <div class="card-header">
@@ -275,6 +325,38 @@
           <div class="custom-time-row">
             <input type="number" id="inputCustomTime" min="5" max="180" placeholder="Custom sec (e.g. 25)" />
             <button id="btnSetCustomTime" class="btn-apply-time">Apply Time</button>
+          </div>
+        </div>
+
+        <!-- Panel Section: Avatar Speech Bubble Messages -->
+        <div class="panel-card speech-card">
+          <div class="card-header">
+            <h3>💬 Avatar Speech Bubble Messages</h3>
+            <span class="card-tag">Header Talking Head</span>
+          </div>
+          <div style="font-size: 11px; color: #94a3b8; margin-top: 4px; margin-bottom: 8px;">
+            Messages Ally speaks in the overlay header. Viewers see these cycle in real-time.
+          </div>
+
+          <!-- Add Form -->
+          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+            <input type="text" id="inputNewSpeechMsg" placeholder="New speech message..." style="flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px;" maxlength="100" />
+            <button id="btnAddSpeechMsg" style="background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; border-radius: 6px; padding: 6px 10px; font-size: 11px; font-weight: 700; cursor: pointer;">➕ Add</button>
+          </div>
+
+          <!-- Cycle Speed Row -->
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 6px 8px; background: rgba(0,0,0,0.3); border-radius: 6px;">
+            <span style="font-size: 11px; color: #94a3b8;">Rotate every:</span>
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <input type="number" id="inputSpeechCycleSeconds" min="3" max="60" value="8" style="width: 48px; background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); color: #fff; border-radius: 4px; padding: 3px 6px; font-size: 11px; text-align: center;" />
+              <span style="font-size: 11px; color: #94a3b8;">s</span>
+              <button id="btnSaveCycleSeconds" style="background: #334155; color: #fff; border: none; border-radius: 4px; padding: 3px 8px; font-size: 10px; cursor: pointer;">Save</button>
+            </div>
+          </div>
+
+          <!-- Messages List -->
+          <div id="speechMessagesList" style="display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto;">
+            <!-- Dynamically populated via JS -->
           </div>
         </div>
 

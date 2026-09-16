@@ -1,0 +1,25 @@
+{
+  "cycleSeconds": 8,
+  "messages": [
+    {
+      "id": "msg-1",
+      "text": "Welcome to the show! 💜"
+    },
+    {
+      "id": "msg-3",
+      "text": "Tap the screen & share the LIVE! ✨"
+    },
+    {
+      "id": "msg-4",
+      "text": "Can you take the #1 spot on the leaderboard? 👑"
+    },
+    {
+      "id": "msg-1789543655692",
+      "text": "Type .youranswer if filtered."
+    },
+    {
+      "id": "msg-1789543699383",
+      "text": "More games available live at mrddubs 【ꚠ】"
+    }
+  ]
+}

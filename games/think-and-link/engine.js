@@ -241,12 +241,14 @@ export class ThinkAndLinkEngine {
   }
 
   setCategoryFilter(category) {
-    this.activeCategoryFilter = category && category !== "ALL" ? category : "ALL";
+    const cat = typeof category === "object" && category !== null ? category.category : category;
+    this.activeCategoryFilter = cat && cat !== "ALL" ? cat : "ALL";
     return this.getPublicPayload();
   }
 
   loadPuzzleById(id) {
-    const idx = this.puzzles.findIndex((p) => p.id === id);
+    const targetId = typeof id === "object" && id !== null ? (id.id || id.puzzleId) : id;
+    const idx = this.puzzles.findIndex((p) => p.id === targetId);
     if (idx !== -1) {
       return this.loadPuzzleByIndex(idx, this.isTimerActive);
     }

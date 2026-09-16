@@ -6,6 +6,7 @@
   <title>Think Like Ally — Live Stream Overlay</title>
   <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
   <link rel="stylesheet" href="./overlay.css">
+  <link rel="stylesheet" href="/speech-bubble.css">
 </head>
 <body>
   <div class="overlay-app">
@@ -15,9 +16,8 @@
         <div class="brand-avatar-wrap">
           <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
         </div>
-        <div class="brand-title-wrap">
-          <span class="brand-ally">Think Like Ally</span>
-          <span class="brand-sub">LIVE TIKTOK GAME SHOW</span>
+        <div class="avatar-speech-bubble" id="avatarSpeechBubble">
+          <span class="speech-bubble-text" id="speechBubbleText">Welcome to the show! 💜</span>
         </div>
       </div>
     </header>
@@ -75,7 +75,7 @@
     <!-- 4-Second Round Results Modal -->
     <div class="modal-overlay" id="leaderboardModal">
       <div class="modal-content">
-        <div class="modal-title">🏆 ROUND RESULTS</div>
+        <div class="modal-title">🏆 THIS ROUND'S POINTS</div>
         
         <!-- Top Round Winners -->
         <div class="round-winners-row" id="modalPodium">
@@ -99,6 +99,7 @@
     </div>
   </div>
 
+  <script src="/speech-bubble.js"></script>
   <script src="./overlay.js"></script>
 </body>
 </html>

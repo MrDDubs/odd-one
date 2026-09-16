@@ -679,3 +679,86 @@ input:focus, select:focus {
   background: rgba(16, 185, 129, 0.08);
 }
 
+/* Speech Messages Manager */
+.speech-manager-card {
+  background: var(--card-bg, #182038);
+  border: 1px solid var(--card-border, #283359);
+  border-radius: 14px;
+}
+
+.speech-preview-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(250, 204, 21, 0.12), rgba(202, 138, 4, 0.08));
+  border: 1px dashed rgba(250, 204, 21, 0.4);
+  border-radius: 12px;
+}
+
+.speech-message-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.speech-message-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.speech-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.speech-item-index {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted, #94a3b8);
+  width: 22px;
+  text-align: center;
+}
+
+.speech-item-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f1f5f9;
+  word-break: break-word;
+}
+
+.speech-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.speech-btn-icon {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.speech-btn-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.speech-btn-delete:hover {
+  background: #dc2626 !important;
+}
+

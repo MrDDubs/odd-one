@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ally's Stream Hub — Host Control Center</title>
   <link rel="stylesheet" href="./hub.css">
+  <link rel="stylesheet" href="./speech-bubble.css">
   <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
 </head>
 <body>
@@ -75,7 +76,49 @@
           <div style="color:var(--muted);text-align:center;padding:24px">Loading active game controls...</div>
         </div>
 
-        <!-- 3. TikFinity Connection Settings (Alternative) -->
+        <!-- 3. Avatar Speech Bubble Messages Manager -->
+        <div class="card speech-manager-card">
+          <div class="card-title">
+            <span>💬 Avatar Speech Bubble Messages</span>
+            <span class="badge badge-purple" style="font-size:10px">Header Talking Head</span>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
+            Messages Ally speaks in the overlay header. Viewers see these cycle sequentially in real-time.
+          </p>
+
+          <!-- Live Speech Bubble Preview -->
+          <div class="speech-preview-box">
+            <div class="speech-preview-avatar" style="width:48px;height:48px;border-radius:50%;padding:2px;background:linear-gradient(135deg, #fef08a, #f59e0b);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <img src="/ally-avatar.png" alt="Ally" style="width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 20%;border:1.5px solid #fff;">
+            </div>
+            <div class="avatar-speech-bubble" id="speechPreviewBubble" style="min-height:48px;padding:8px 14px">
+              <span class="speech-bubble-text" id="speechPreviewText" style="font-size:13px">Welcome to the show! 💜</span>
+            </div>
+          </div>
+
+          <!-- Add New Message Form -->
+          <div class="speech-add-form" style="margin-top:14px;display:flex;gap:8px">
+            <input type="text" id="inputNewSpeechMsg" placeholder="Type a new speech message..." style="flex:1" maxlength="100">
+            <button id="btnAddSpeechMsg" class="primary" style="white-space:nowrap;padding:8px 14px">➕ Add Message</button>
+          </div>
+
+          <!-- Settings Row: Cycle Interval -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:8px">
+            <label for="inputSpeechCycleSeconds" style="font-size:12px;color:var(--muted);margin:0">Cycle interval:</label>
+            <div style="display:flex;align-items:center;gap:6px">
+              <input type="number" id="inputSpeechCycleSeconds" min="3" max="60" value="8" style="width:60px;padding:4px 8px;text-align:center">
+              <span style="font-size:12px;color:var(--muted)">sec</span>
+              <button id="btnSaveCycleSeconds" class="chip" style="font-size:11px;padding:4px 10px">Save</button>
+            </div>
+          </div>
+
+          <!-- Message Items List -->
+          <div class="speech-messages-list" id="speechMessagesList" style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+            <!-- Dynamically populated via hub.js -->
+          </div>
+        </div>
+
+        <!-- 4. TikFinity Connection Settings (Alternative) -->
         <div class="card">
           <div class="card-title">
             <span>⚙️ TikFinity Connection (Alternative)</span>

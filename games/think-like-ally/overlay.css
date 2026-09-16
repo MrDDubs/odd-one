@@ -637,8 +637,8 @@ html, body {
 .modal-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(18, 12, 45, 0.88);
-  backdrop-filter: blur(8px);
+  background: rgba(36, 12, 70, 0.86);
+  backdrop-filter: blur(12px) saturate(130%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -656,15 +656,16 @@ html, body {
 
 .modal-content {
   width: 100%;
-  max-width: 90%;
-  background: linear-gradient(160deg, rgba(55, 38, 110, 0.96), rgba(30, 21, 68, 0.98));
-  border: 2px solid #bba3ff;
+  max-width: 92%;
+  background: radial-gradient(circle at 50% 0%, #8b5cf6 0%, #6d28d9 45%, #4c1d95 100%);
+  border: 3px solid #d8b4fe;
   border-radius: 28px;
-  box-shadow: 0 0 35px #a66cff, inset 0 0 20px rgba(255, 255, 255, 0.2);
-  padding: 6% 5%;
+  box-shadow: 0 20px 48px rgba(15, 3, 35, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  padding: 5% 4%;
   text-align: center;
   transform: scale(0.9);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-sizing: border-box;
 }
 
 .modal-overlay.active .modal-content {
@@ -672,63 +673,105 @@ html, body {
 }
 
 .modal-title {
-  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
-  font-size: 2.8vh;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-shadow: 0 0 15px #bb83ff;
+  font-family: 'Fredoka', 'Outfit', sans-serif;
+  font-size: clamp(20px, 2.6vh, 26px);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
   margin-bottom: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .round-winners-row {
   display: flex;
   justify-content: center;
-  gap: 3%;
-  margin: 3% 0;
+  align-items: stretch;
+  gap: 8px;
+  margin: 10px 0;
+  width: 100%;
 }
 
 .modal-content .podium-card {
   flex: 1;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1.5px solid #a68bf5;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+  border: 2px solid #c4b5fd;
   border-radius: 18px;
-  padding: 3% 2%;
+  padding: 8px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 3px;
   position: relative;
-  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.1);
   min-width: 0;
+  max-width: 155px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
 }
 
 .modal-content .podium-card.first {
-  border-color: #ffd700;
-  background: linear-gradient(180deg, rgba(255, 215, 0, 0.2), rgba(45, 30, 90, 0.4));
-  box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+  border: 2.5px solid #f59e0b;
+  background: linear-gradient(180deg, #ffffff 0%, #fef3c7 100%);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25);
+  animation: cardSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both;
 }
 
 .modal-content .podium-card.second {
-  border-color: #c0c0c0;
-  background: linear-gradient(180deg, rgba(192, 192, 192, 0.2), rgba(45, 30, 90, 0.4));
+  border: 2.5px solid #94a3b8;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  box-shadow: 0 6px 16px rgba(100, 116, 139, 0.2);
+  animation: cardSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s both;
 }
 
 .modal-content .podium-card.third {
-  border-color: #cd7f32;
-  background: linear-gradient(180deg, rgba(205, 127, 50, 0.2), rgba(45, 30, 90, 0.4));
+  border: 2.5px solid #d97706;
+  background: linear-gradient(180deg, #ffffff 0%, #ffedd5 100%);
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.2);
+  animation: cardSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.28s both;
+}
+
+@keyframes cardSpringIn {
+  0% { transform: translateY(22px) scale(0.85); opacity: 0; }
+  60% { transform: translateY(-4px) scale(1.05); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 .modal-content .podium-rank {
-  font-size: 1.6vh;
-  font-weight: 1000;
-  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35vh;
+  font-weight: 900;
+  color: #4c1d95;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.modal-content .podium-card.first .podium-rank {
+  color: #b45309;
+  display: inline-block;
+  animation: crownWobble 2s ease-in-out infinite alternate;
+}
+
+.modal-content .podium-card.second .podium-rank {
+  color: #475569;
+}
+
+.modal-content .podium-card.third .podium-rank {
+  color: #9a3412;
+}
+
+@keyframes crownWobble {
+  0% { transform: rotate(-3deg) scale(1); }
+  50% { transform: rotate(3deg) scale(1.08); }
+  100% { transform: rotate(-3deg) scale(1); }
 }
 
 .modal-content .avatar-wrap {
   position: relative;
-  width: 5vh;
-  height: 5vh;
+  width: 4.8vh;
+  height: 4.8vh;
   margin: 2px 0;
 }
 
@@ -737,114 +780,147 @@ html, body {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content .avatar-letter {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff72b6, #8e54e9);
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
   display: grid;
   place-items: center;
   font-size: 2vh;
-  font-weight: 1000;
-  color: #fff;
-  border: 2px solid #fff;
+  font-weight: 900;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content .podium-name {
+  font-family: 'Outfit', sans-serif;
   font-size: 1.25vh;
-  font-weight: 900;
-  max-width: 90%;
+  font-weight: 800;
+  max-width: 95%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #fff;
+  color: #1e1b4b;
+  margin: 1px 0;
 }
 
 .modal-content .podium-pts {
-  font-size: 1.1vh;
-  font-weight: 1000;
-  color: #48df83;
-  background: rgba(72, 223, 131, 0.15);
-  padding: 1px 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15vh;
+  font-weight: 900;
+  color: #ffffff;
+  background: #7c3aed;
+  padding: 2px 8px;
   border-radius: 999px;
   white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content .podium-card.first .podium-pts {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.modal-content .podium-card.second .podium-pts {
+  background: #64748b;
+  color: #ffffff;
+}
+
+.modal-content .podium-card.third .podium-pts {
+  background: #ea580c;
+  color: #ffffff;
+}
+
+.modal-content .podium-card.empty-winners {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+  border: 2px dashed #c084fc;
+  max-width: 220px;
+  padding: 10px 14px;
 }
 
 .modal-content .top-table {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 14px;
-  padding: 3% 4%;
-  margin: 2% 0;
+  background: rgba(30, 10, 68, 0.5);
+  border: 1.5px solid rgba(216, 180, 254, 0.35);
+  border-radius: 18px;
+  padding: 10px 14px;
+  margin: 10px 0 6px 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   text-align: left;
 }
 
 .modal-content .top-title {
-  font-size: 1.1vh;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2vh;
   font-weight: 900;
-  color: #bda8ef;
+  color: #f3e8ff;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-align: center;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .modal-content .top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.2vh;
-  font-weight: 800;
-  padding: 2px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 1.25vh;
+  font-weight: 700;
+  padding: 3px 2px;
+  border-bottom: 1px solid rgba(216, 180, 254, 0.15);
 }
 
-.modal-content .top-row:last-child { border-bottom: none; }
+.modal-content .top-row:last-child {
+  border-bottom: none;
+}
 
 .modal-content .top-user-wrap {
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: #fff;
+  gap: 8px;
+  color: #ffffff;
 }
 
-.modal-content .top-user-wrap .avatar-img,
-.modal-content .top-user-wrap .avatar-letter {
-  width: 2.2vh;
-  height: 2.2vh;
-  font-size: 1vh;
+.modal-content .top-user-rank {
+  color: #fde047;
+  font-weight: 900;
+  font-size: 1.2vh;
+  min-width: 20px;
 }
 
 .modal-content .top-score {
-  color: #ffd700;
-  font-weight: 1000;
+  color: #fde047;
+  font-weight: 900;
+  font-size: 1.3vh;
 }
 
 .modal-content .countdown-bar-wrap {
   width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.15);
+  height: 7px;
+  background: rgba(255, 255, 255, 0.22);
   border-radius: 999px;
   overflow: hidden;
-  margin-top: 3%;
+  margin-top: 10px;
 }
 
 .modal-content .countdown-bar {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #48df83, #ffd700);
+  background: linear-gradient(90deg, #facc15, #f472b6, #c084fc);
   transition: width 4s linear;
 }
 
 .modal-content .countdown-txt {
-  font-size: 1vh;
+  font-size: 1.1vh;
   font-weight: 800;
-  color: #bda8ef;
-  margin-top: 4px;
+  color: #f3e8ff;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
 }

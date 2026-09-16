@@ -77,8 +77,51 @@ function updateEnvFile(key, value) {
   }
 }
 
+// Speech Messages persistence
+const speechMessagesPath = path.join(__dirname, "data", "speech-messages.json");
+
+function getSpeechMessages() {
+  try {
+    if (fs.existsSync(speechMessagesPath)) {
+      const data = fs.readFileSync(speechMessagesPath, "utf8");
+      return JSON.parse(data);
+    }
+  } catch (err) {
+    console.error("[SpeechMessages] Error reading speech messages:", err);
+  }
+  return {
+    cycleSeconds: 8,
+    messages: [
+      { id: "msg-1", text: "Welcome to the show! 💜" },
+      { id: "msg-2", text: "Type your answer in the chat to win!" },
+      { id: "msg-3", text: "Tap the screen & share the LIVE! ✨" },
+      { id: "msg-4", text: "Can you take the #1 spot on the leaderboard? 👑" }
+    ]
+  };
+}
+
+function saveSpeechMessages(payload) {
+  try {
+    const dataDir = path.dirname(speechMessagesPath);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(speechMessagesPath, JSON.stringify(payload, null, 2), "utf8");
+    return true;
+  } catch (err) {
+    console.error("[SpeechMessages] Error saving speech messages:", err);
+    return false;
+  }
+}
+
+function broadcastSpeechMessages(payload) {
+  io.emit("speechMessagesUpdated", payload);
+  io.of("/admin").emit("speechMessagesUpdated", payload);
+}
+
 // Broadcast Hub state to overlays and dashboard
 function broadcastState() {
+  const speechMessages = getSpeechMessages();
   const publicData = {
     ...gameRegistry.getPublicPayload(),
     tikfinityConnected,
@@ -86,7 +129,8 @@ function broadcastState() {
     tiktokConnecting: tiktokLiveStatus.connecting,
     tiktokLiveUsername: tiktokLiveStatus.username || tiktokLiveUsername,
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
-    tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar
+    tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
+    speechMessages
   };
 
   const adminData = {
@@ -97,7 +141,8 @@ function broadcastState() {
     tiktokConnecting: tiktokLiveStatus.connecting,
     tiktokLiveUsername: tiktokLiveStatus.username || tiktokLiveUsername,
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
-    tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar
+    tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
+    speechMessages
   };
 
   io.emit("gameState", publicData);
@@ -371,6 +416,28 @@ app.post("/api/simulate", (req, res) => {
   res.json({ ok: true, state: gameRegistry.getPublicPayload() });
 });
 
+// Speech messages REST endpoints
+app.get("/api/speech-messages", (_req, res) => {
+  res.json({ ok: true, ...getSpeechMessages() });
+});
+
+app.post("/api/speech-messages", (req, res) => {
+  const { messages, cycleSeconds } = req.body || {};
+  if (!Array.isArray(messages)) {
+    return res.status(400).json({ ok: false, error: "messages must be an array" });
+  }
+  const payload = {
+    cycleSeconds: typeof cycleSeconds === "number" && cycleSeconds > 0 ? cycleSeconds : 8,
+    messages: messages.map((m, idx) => ({
+      id: m.id || `msg-${Date.now()}-${idx}`,
+      text: String(m.text || "").trim()
+    })).filter(m => m.text.length > 0)
+  };
+  saveSpeechMessages(payload);
+  broadcastSpeechMessages(payload);
+  res.json({ ok: true, ...payload });
+});
+
 // Admin REST endpoints for TikTok & TikFinity
 app.post("/admin/connect-tiktok", (req, res) => {
   const { username } = req.body || {};
@@ -432,7 +499,8 @@ io.on("connection", (socket) => {
     tiktokConnecting: tiktokLiveStatus.connecting,
     tiktokLiveUsername: tiktokLiveStatus.username || tiktokLiveUsername,
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
-    tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar
+    tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
+    speechMessages: getSpeechMessages()
   });
 
   socket.on("manualGuess", (code) => {
@@ -457,7 +525,22 @@ adminNSP.on("connection", (socket) => {
     tiktokConnecting: tiktokLiveStatus.connecting,
     tiktokLiveUsername: tiktokLiveStatus.username || tiktokLiveUsername,
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
-    tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar
+    tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
+    speechMessages: getSpeechMessages()
+  });
+
+  socket.on("updateSpeechMessages", (payload) => {
+    if (payload && Array.isArray(payload.messages)) {
+      const cleanPayload = {
+        cycleSeconds: typeof payload.cycleSeconds === "number" && payload.cycleSeconds > 0 ? payload.cycleSeconds : 8,
+        messages: payload.messages.map((m, idx) => ({
+          id: m.id || `msg-${Date.now()}-${idx}`,
+          text: String(m.text || "").trim()
+        })).filter((m) => m.text.length > 0)
+      };
+      saveSpeechMessages(cleanPayload);
+      broadcastSpeechMessages(cleanPayload);
+    }
   });
 
   socket.on("switchGame", ({ gameId }) => {

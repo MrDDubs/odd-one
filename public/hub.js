@@ -307,6 +307,11 @@ function renderState(state) {
 
   // Render Leaderboard
   renderLeaderboard(state.leaderboard || []);
+
+  // Sync Speech Messages if provided
+  if (state.speechMessages) {
+    applySpeechData(state.speechMessages);
+  }
 }
 
 // Socket events
@@ -444,3 +449,198 @@ document.querySelectorAll(".copy-btn").forEach((btn) => {
     }
   });
 });
+
+// ==========================================
+// Avatar Speech Bubble Messages Manager
+// ==========================================
+const inputNewSpeechMsg = document.getElementById("inputNewSpeechMsg");
+const btnAddSpeechMsg = document.getElementById("btnAddSpeechMsg");
+const inputSpeechCycleSeconds = document.getElementById("inputSpeechCycleSeconds");
+const btnSaveCycleSeconds = document.getElementById("btnSaveCycleSeconds");
+const speechMessagesList = document.getElementById("speechMessagesList");
+const speechPreviewText = document.getElementById("speechPreviewText");
+
+let speechData = {
+  cycleSeconds: 8,
+  messages: []
+};
+let speechPreviewTimer = null;
+let speechPreviewIndex = 0;
+
+function updateSpeechPreview() {
+  if (!speechPreviewText) return;
+  if (!speechData.messages || speechData.messages.length === 0) {
+    speechPreviewText.textContent = "Welcome to the show! 💜";
+    return;
+  }
+  const msg = speechData.messages[speechPreviewIndex % speechData.messages.length];
+  speechPreviewText.textContent = msg ? msg.text : "Welcome to the show! 💜";
+}
+
+function startSpeechPreviewRotation() {
+  if (speechPreviewTimer) clearInterval(speechPreviewTimer);
+  updateSpeechPreview();
+  if (speechData.messages && speechData.messages.length > 1) {
+    const intervalMs = Math.max(3000, (speechData.cycleSeconds || 8) * 1000);
+    speechPreviewTimer = setInterval(() => {
+      speechPreviewIndex = (speechPreviewIndex + 1) % speechData.messages.length;
+      updateSpeechPreview();
+    }, intervalMs);
+  }
+}
+
+function renderSpeechMessagesList() {
+  if (!speechMessagesList) return;
+  if (!speechData.messages || speechData.messages.length === 0) {
+    speechMessagesList.innerHTML = `<div style="color:var(--muted);font-size:12px;text-align:center;padding:12px">No speech messages configured. Default greeting will be used.</div>`;
+    return;
+  }
+
+  speechMessagesList.innerHTML = speechData.messages
+    .map((msg, idx) => {
+      const isFirst = idx === 0;
+      const isLast = idx === speechData.messages.length - 1;
+      return `
+        <div class="speech-message-item" data-index="${idx}">
+          <div class="speech-item-left">
+            <span class="speech-item-index">#${idx + 1}</span>
+            <span class="speech-item-text">${esc(msg.text)}</span>
+          </div>
+          <div class="speech-item-actions">
+            <button class="speech-btn-icon btn-move-up" data-index="${idx}" ${isFirst ? "disabled style='opacity:0.3;cursor:not-allowed'" : ""} title="Move Up">⬆️</button>
+            <button class="speech-btn-icon btn-move-down" data-index="${idx}" ${isLast ? "disabled style='opacity:0.3;cursor:not-allowed'" : ""} title="Move Down">⬇️</button>
+            <button class="speech-btn-icon btn-edit-msg" data-index="${idx}" title="Edit Message">✏️</button>
+            <button class="speech-btn-icon speech-btn-delete btn-delete-msg" data-index="${idx}" title="Delete Message">🗑️</button>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  // Attach actions
+  speechMessagesList.querySelectorAll(".btn-move-up").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      if (idx > 0) {
+        const temp = speechData.messages[idx];
+        speechData.messages[idx] = speechData.messages[idx - 1];
+        speechData.messages[idx - 1] = temp;
+        saveAndBroadcastSpeech();
+      }
+    });
+  });
+
+  speechMessagesList.querySelectorAll(".btn-move-down").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      if (idx < speechData.messages.length - 1) {
+        const temp = speechData.messages[idx];
+        speechData.messages[idx] = speechData.messages[idx + 1];
+        speechData.messages[idx + 1] = temp;
+        saveAndBroadcastSpeech();
+      }
+    });
+  });
+
+  speechMessagesList.querySelectorAll(".btn-edit-msg").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      const current = speechData.messages[idx]?.text || "";
+      const updated = prompt("Edit speech message:", current);
+      if (updated !== null) {
+        const trimmed = updated.trim();
+        if (trimmed) {
+          speechData.messages[idx].text = trimmed;
+          saveAndBroadcastSpeech();
+        }
+      }
+    });
+  });
+
+  speechMessagesList.querySelectorAll(".btn-delete-msg").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      const toDelete = speechData.messages[idx];
+      if (confirm(`Delete message: "${toDelete?.text}"?`)) {
+        speechData.messages.splice(idx, 1);
+        saveAndBroadcastSpeech();
+      }
+    });
+  });
+}
+
+function saveAndBroadcastSpeech() {
+  renderSpeechMessagesList();
+  startSpeechPreviewRotation();
+
+  // Broadcast via Socket
+  socket.emit("updateSpeechMessages", speechData);
+
+  // Fallback REST call
+  fetch("/api/speech-messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(speechData)
+  }).catch((err) => console.warn("[Hub] Failed REST speech save:", err));
+
+  showToast("Speech Messages Saved & Updated! 💬");
+}
+
+function applySpeechData(data) {
+  if (!data) return;
+  if (Array.isArray(data.messages)) {
+    speechData.messages = data.messages;
+  }
+  if (typeof data.cycleSeconds === "number" && data.cycleSeconds > 0) {
+    speechData.cycleSeconds = data.cycleSeconds;
+    if (inputSpeechCycleSeconds) {
+      inputSpeechCycleSeconds.value = data.cycleSeconds;
+    }
+  }
+  renderSpeechMessagesList();
+  startSpeechPreviewRotation();
+}
+
+if (btnAddSpeechMsg && inputNewSpeechMsg) {
+  const handleAdd = () => {
+    const text = inputNewSpeechMsg.value.trim();
+    if (!text) return;
+    if (!speechData.messages) speechData.messages = [];
+    speechData.messages.push({
+      id: `msg-${Date.now()}`,
+      text
+    });
+    inputNewSpeechMsg.value = "";
+    saveAndBroadcastSpeech();
+  };
+
+  btnAddSpeechMsg.addEventListener("click", handleAdd);
+  inputNewSpeechMsg.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") handleAdd();
+  });
+}
+
+if (btnSaveCycleSeconds && inputSpeechCycleSeconds) {
+  btnSaveCycleSeconds.addEventListener("click", () => {
+    const sec = parseInt(inputSpeechCycleSeconds.value, 10);
+    if (!isNaN(sec) && sec >= 3 && sec <= 120) {
+      speechData.cycleSeconds = sec;
+      saveAndBroadcastSpeech();
+    } else {
+      alert("Please enter a cycle interval between 3 and 120 seconds.");
+    }
+  });
+}
+
+socket.on("speechMessagesUpdated", (data) => {
+  applySpeechData(data);
+});
+
+// Fetch initial speech messages
+fetch("/api/speech-messages")
+  .then((res) => res.json())
+  .then((data) => {
+    if (data && data.messages) applySpeechData(data);
+  })
+  .catch((e) => console.warn("[Hub] Error fetching speech messages:", e));
+

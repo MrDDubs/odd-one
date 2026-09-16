@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ally's Odd One Out — Live Game</title>
 <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+<link rel="stylesheet" href="/speech-bubble.css">
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;overflow:hidden;background:#120924;color:#fff;display:flex;align-items:center;justify-content:center}
@@ -489,8 +490,8 @@ body{font-family:Arial,sans-serif}
 .modal-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(18, 12, 45, 0.88);
-  backdrop-filter: blur(8px);
+  background: rgba(36, 12, 70, 0.86);
+  backdrop-filter: blur(12px) saturate(130%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -506,64 +507,89 @@ body{font-family:Arial,sans-serif}
 }
 .modal-content {
   width: 100%;
-  max-width: 90%;
-  background: linear-gradient(160deg, rgba(55, 38, 110, 0.96), rgba(30, 21, 68, 0.98));
-  border: 2px solid #bba3ff;
+  max-width: 92%;
+  background: radial-gradient(circle at 50% 0%, #8b5cf6 0%, #6d28d9 45%, #4c1d95 100%);
+  border: 3px solid #d8b4fe;
   border-radius: 28px;
-  box-shadow: 0 0 35px #a66cff, inset 0 0 20px rgba(255, 255, 255, 0.2);
-  padding: 6% 5%;
+  box-shadow: 0 20px 48px rgba(15, 3, 35, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  padding: 5% 4%;
   text-align: center;
   transform: scale(0.9);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-sizing: border-box;
 }
 .modal-overlay.active .modal-content {
   transform: scale(1);
 }
 .modal-title {
-  font-family: "Arial Rounded MT Bold", Arial, sans-serif;
-  font-size: 2.8vh;
-  font-weight: 1000;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-shadow: 0 0 15px #bb83ff;
+  font-family: 'Fredoka', 'Outfit', sans-serif;
+  font-size: clamp(20px, 2.6vh, 26px);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
   margin-bottom: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 .round-winners-row {
   display: flex;
   justify-content: center;
-  gap: 4%;
-  margin: 4% 0;
+  align-items: stretch;
+  gap: 8px;
+  margin: 10px 0;
+  width: 100%;
 }
 .podium-card {
   flex: 1;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1.5px solid #a68bf5;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+  border: 2px solid #c4b5fd;
   border-radius: 18px;
-  padding: 4% 2%;
+  padding: 8px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  justify-content: space-between;
+  gap: 3px;
   position: relative;
-  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.1);
+  min-width: 0;
+  max-width: 155px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
 }
 .podium-card.first {
-  border-color: #ffd700;
-  background: linear-gradient(180deg, rgba(255, 215, 0, 0.2), rgba(45, 30, 90, 0.4));
-  box-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+  border: 2.5px solid #f59e0b;
+  background: linear-gradient(180deg, #ffffff 0%, #fef3c7 100%);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25);
+  animation: cardSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both;
 }
 .podium-card.second {
-  border-color: #c0c0c0;
-  background: linear-gradient(180deg, rgba(192, 192, 192, 0.2), rgba(45, 30, 90, 0.4));
+  border: 2.5px solid #94a3b8;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  box-shadow: 0 6px 16px rgba(100, 116, 139, 0.2);
+  animation: cardSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s both;
 }
 .podium-rank {
-  font-size: 1.8vh;
-  font-weight: 1000;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35vh;
+  font-weight: 900;
+  color: #4c1d95;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.podium-card.first .podium-rank {
+  color: #b45309;
+  display: inline-block;
+  animation: crownWobble 2s ease-in-out infinite alternate;
+}
+.podium-card.second .podium-rank {
+  color: #475569;
 }
 .avatar-wrap {
   position: relative;
-  width: 5.5vh;
-  height: 5.5vh;
+  width: 4.8vh;
+  height: 4.8vh;
   margin: 2px 0;
 }
 .avatar-img {
@@ -571,72 +597,88 @@ body{font-family:Arial,sans-serif}
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 .avatar-letter {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff72b6, #8e54e9);
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
   display: grid;
   place-items: center;
-  font-size: 2.2vh;
-  font-weight: 1000;
-  color: #fff;
-  border: 2px solid #fff;
+  font-size: 2vh;
+  font-weight: 900;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 .podium-name {
-  font-size: 1.35vh;
-  font-weight: 900;
-  max-width: 90%;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25vh;
+  font-weight: 800;
+  max-width: 95%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #fff;
+  color: #1e1b4b;
+  margin: 1px 0;
 }
 .podium-pts {
+  font-family: 'Outfit', sans-serif;
   font-size: 1.15vh;
-  font-weight: 1000;
-  color: #48df83;
-  background: rgba(72, 223, 131, 0.15);
-  padding: 1px 6px;
+  font-weight: 900;
+  color: #ffffff;
+  background: #7c3aed;
+  padding: 2px 8px;
   border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
-
+.podium-card.first .podium-pts {
+  background: #f59e0b;
+  color: #ffffff;
+}
+.podium-card.second .podium-pts {
+  background: #64748b;
+  color: #ffffff;
+}
 .top-table {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 14px;
-  padding: 3% 4%;
-  margin: 3% 0;
+  background: rgba(30, 10, 68, 0.5);
+  border: 1.5px solid rgba(216, 180, 254, 0.35);
+  border-radius: 18px;
+  padding: 10px 14px;
+  margin: 10px 0 6px 0;
   display: flex;
   flex-direction: column;
   gap: 5px;
   text-align: left;
 }
 .top-title {
-  font-size: 1.1vh;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2vh;
   font-weight: 900;
-  color: #bda8ef;
+  color: #f3e8ff;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-align: center;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 .top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.2vh;
-  font-weight: 800;
-  padding: 2px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 1.25vh;
+  font-weight: 700;
+  padding: 3px 2px;
+  border-bottom: 1px solid rgba(216, 180, 254, 0.15);
 }
 .top-row:last-child { border-bottom: none; }
 .top-user-wrap {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  color: #ffffff;
 }
 .top-user-wrap .avatar-img,
 .top-user-wrap .avatar-letter {
@@ -645,30 +687,30 @@ body{font-family:Arial,sans-serif}
   font-size: 1vh;
 }
 .top-score {
-  color: #ffd700;
-  font-weight: 1000;
+  color: #fde047;
+  font-weight: 900;
+  font-size: 1.3vh;
 }
-
-/* Progress bar */
 .countdown-bar-wrap {
   width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.15);
+  height: 7px;
+  background: rgba(255, 255, 255, 0.22);
   border-radius: 999px;
   overflow: hidden;
-  margin-top: 4%;
+  margin-top: 10px;
 }
 .countdown-bar {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #48df83, #ffd700);
+  background: linear-gradient(90deg, #facc15, #f472b6, #c084fc);
   transition: width 4s linear;
 }
 .countdown-txt {
-  font-size: 1vh;
+  font-size: 1.1vh;
   font-weight: 800;
-  color: #bda8ef;
-  margin-top: 5px;
+  color: #f3e8ff;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
 }
 </style>
 </head>
@@ -679,9 +721,8 @@ body{font-family:Arial,sans-serif}
       <div class="brand-avatar-wrap">
         <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
       </div>
-      <div class="brand-title-wrap">
-        <span class="brand-ally">Ally's Odd One Out</span>
-        <span class="brand-sub">LIVE TIKTOK GAME SHOW</span>
+      <div class="avatar-speech-bubble" id="avatarSpeechBubble">
+        <span class="speech-bubble-text" id="speechBubbleText">Welcome to the show! 💜</span>
       </div>
     </div>
   </header>
@@ -746,7 +787,7 @@ body{font-family:Arial,sans-serif}
   <!-- 4-Second Leaderboard Modal -->
   <div class="modal-overlay" id="leaderboardModal">
     <div class="modal-content">
-      <div class="modal-title">🏆 ROUND RESULTS</div>
+      <div class="modal-title">🏆 THIS ROUND'S POINTS</div>
       
       <!-- Top 2 Round Winners -->
       <div class="round-winners-row" id="modalPodium">
@@ -770,6 +811,7 @@ body{font-family:Arial,sans-serif}
   </div>
 </div>
 
+<script src="/speech-bubble.js"></script>
 <script src="./overlay.js"></script>
 </body>
 </html>

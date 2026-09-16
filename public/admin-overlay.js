@@ -151,6 +151,11 @@ function updateActiveGameUI(gameId) {
     oddSettingsCard.style.display = (gameId === "odd-one-out") ? "block" : "none";
   }
 
+  const thinkAndLinkSettingsCard = document.getElementById("thinkAndLinkSettingsCard");
+  if (thinkAndLinkSettingsCard) {
+    thinkAndLinkSettingsCard.style.display = (gameId === "think-and-link") ? "block" : "none";
+  }
+
   const gameNames = {
     "odd-one-out": { name: "Ally's Odd One Out", icon: "🧩" },
     "think-like-ally": { name: "Think Like Ally", icon: "💡" },
@@ -187,6 +192,174 @@ if (btnApplySettings) {
     showToast("✅ Settings Applied!");
   });
 }
+
+// --------------------------------------------------------------------------
+// Think & Link Category Filter & Puzzle Selector
+// --------------------------------------------------------------------------
+const talOverlayCategoryFilter = document.getElementById("talOverlayCategoryFilter");
+const talOverlaySearchInput = document.getElementById("talOverlaySearchInput");
+const talOverlayBtnClearSearch = document.getElementById("talOverlayBtnClearSearch");
+const talOverlayPuzzleSelect = document.getElementById("talOverlayPuzzleSelect");
+const talOverlayFilteredCountText = document.getElementById("talOverlayFilteredCountText");
+const talOverlayPuzzleCountBadge = document.getElementById("talOverlayPuzzleCountBadge");
+const talOverlayBtnLoadPuzzle = document.getElementById("talOverlayBtnLoadPuzzle");
+const talOverlayBtnRandomPuzzle = document.getElementById("talOverlayBtnRandomPuzzle");
+
+let talPuzzles = [];
+let talCategoriesInitialized = false;
+let talCurrentFilteredPuzzles = [];
+
+const talCategoryIcons = {
+  "Gaming": "🎮",
+  "Pop Culture": "🎬",
+  "Food & Drink": "🍕",
+  "Sports": "🏆",
+  "Travel": "✈️",
+  "Nature": "🌿",
+  "Science": "🔬",
+  "Everyday": "🏠",
+  "Music": "🎵",
+  "Entertainment": "🍿",
+  "Hobbies": "🎨",
+  "Professions": "💼",
+  "Technology": "💻",
+  "Celebration": "🎉",
+  "History": "🏛️",
+  "Outdoors": "🏕️",
+  "Home": "🛋️",
+  "Shopping": "🛍️",
+  "Animation": "📺",
+  "Lifestyle": "✨",
+  "Pets": "🐾",
+  "Social Media": "📱",
+  "Anime": "🎌",
+  "Mystery": "🔍",
+  "Adventure": "🗺️",
+  "Education": "📚",
+  "Seasons": "🍂",
+  "Fantasy": "🧙"
+};
+
+function initTalPuzzles(puzzles) {
+  if (!Array.isArray(puzzles) || puzzles.length === 0) return;
+  talPuzzles = puzzles;
+
+  if (!talCategoriesInitialized && talOverlayCategoryFilter) {
+    const counts = new Map();
+    talPuzzles.forEach((p) => {
+      const cat = p.category || "General";
+      counts.set(cat, (counts.get(cat) || 0) + 1);
+    });
+
+    const sortedCats = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+    let opts = `<option value="ALL">🌟 All Categories (${talPuzzles.length})</option>`;
+    sortedCats.forEach(([cat, count]) => {
+      const icon = talCategoryIcons[cat] || "📁";
+      opts += `<option value="${cat}">${icon} ${cat} (${count})</option>`;
+    });
+
+    talOverlayCategoryFilter.innerHTML = opts;
+    talCategoriesInitialized = true;
+  }
+
+  renderTalOverlayFilteredPuzzles();
+}
+
+function renderTalOverlayFilteredPuzzles() {
+  if (!talPuzzles.length || !talOverlayPuzzleSelect) return;
+
+  const selectedCat = talOverlayCategoryFilter ? talOverlayCategoryFilter.value : "ALL";
+  const q = (talOverlaySearchInput?.value || "").trim().toLowerCase();
+
+  talCurrentFilteredPuzzles = talPuzzles.filter((p) => {
+    if (selectedCat !== "ALL" && p.category !== selectedCat) return false;
+    if (!q) return true;
+    const topicMatch = (p.topic || "").toLowerCase().includes(q);
+    const catMatch = (p.category || "").toLowerCase().includes(q);
+    const wordsMatch = Array.isArray(p.words) && p.words.some((w) => String(w).toLowerCase().includes(q));
+    return topicMatch || catMatch || wordsMatch;
+  });
+
+  if (talOverlayFilteredCountText) {
+    talOverlayFilteredCountText.textContent = `${talCurrentFilteredPuzzles.length} available`;
+  }
+
+  if (talOverlayPuzzleCountBadge) {
+    talOverlayPuzzleCountBadge.textContent = selectedCat === "ALL" && !q
+      ? `${talPuzzles.length} Topics`
+      : `${talCurrentFilteredPuzzles.length} Match${talCurrentFilteredPuzzles.length === 1 ? '' : 'es'}`;
+  }
+
+  if (talCurrentFilteredPuzzles.length === 0) {
+    talOverlayPuzzleSelect.innerHTML = `<option value="">No matching topics found</option>`;
+  } else {
+    talOverlayPuzzleSelect.innerHTML = talCurrentFilteredPuzzles
+      .map((p) => `<option value="${p.id}">${p.emoji || "💜"} ${p.topic} — [${p.category}] (${(p.words || []).join(", ")})</option>`)
+      .join("");
+
+    if (currentGameState?.puzzleId && talCurrentFilteredPuzzles.some((p) => p.id === currentGameState.puzzleId)) {
+      talOverlayPuzzleSelect.value = currentGameState.puzzleId;
+    }
+  }
+
+  if (talOverlayBtnClearSearch) {
+    talOverlayBtnClearSearch.style.display = q ? "flex" : "none";
+  }
+}
+
+if (talOverlayCategoryFilter) {
+  talOverlayCategoryFilter.addEventListener("change", () => {
+    renderTalOverlayFilteredPuzzles();
+    sendGameAction("setCategoryFilter", talOverlayCategoryFilter.value);
+    showToast(talOverlayCategoryFilter.value === "ALL" ? "All Categories Shown" : `Category: ${talOverlayCategoryFilter.value}`);
+  });
+}
+
+if (talOverlaySearchInput) {
+  talOverlaySearchInput.addEventListener("input", () => {
+    renderTalOverlayFilteredPuzzles();
+  });
+}
+
+if (talOverlayBtnClearSearch) {
+  talOverlayBtnClearSearch.addEventListener("click", () => {
+    if (talOverlaySearchInput) talOverlaySearchInput.value = "";
+    renderTalOverlayFilteredPuzzles();
+    talOverlaySearchInput?.focus();
+  });
+}
+
+if (talOverlayBtnLoadPuzzle) {
+  talOverlayBtnLoadPuzzle.addEventListener("click", () => {
+    const pId = talOverlayPuzzleSelect?.value;
+    if (!pId) return;
+    sendGameAction("loadPuzzleById", pId);
+    showToast(`Loaded topic ${pId}`);
+  });
+}
+
+if (talOverlayBtnRandomPuzzle) {
+  talOverlayBtnRandomPuzzle.addEventListener("click", () => {
+    const pool = talCurrentFilteredPuzzles.length > 0 ? talCurrentFilteredPuzzles : talPuzzles;
+    if (!pool?.length) return;
+    const rand = pool[Math.floor(Math.random() * pool.length)];
+    if (rand && rand.id) {
+      if (talOverlayPuzzleSelect) talOverlayPuzzleSelect.value = rand.id;
+      sendGameAction("loadPuzzleById", rand.id);
+      showToast(`Loaded Random: ${rand.emoji || "💜"} ${rand.topic}`);
+    }
+  });
+}
+
+// Pre-load Think & Link puzzles so the dropdown is ready instantly
+fetch("/games/think-and-link/puzzles.json")
+  .then((res) => res.json())
+  .then((puzzles) => {
+    if (Array.isArray(puzzles)) {
+      initTalPuzzles(puzzles);
+    }
+  })
+  .catch((err) => console.log("Note: Could not preload puzzles:", err.message));
 
 // --------------------------------------------------------------------------
 // Round Flow & Game Actions
@@ -370,7 +543,8 @@ function updateHostCheatSheet(data) {
     cheatStatus.textContent = data.paused ? "Paused ⏸" : (data.isTimerActive ? "Guessing Active ▶" : (data.isAnswerRevealed ? "Revealed 👁" : "Ready"));
   } else if (data.gameId === "think-and-link") {
     const solvedCount = Array.isArray(data.slots) ? data.slots.filter((s) => s.revealed).length : 0;
-    const wordsPreview = Array.isArray(data.slots) ? data.slots.map((s) => s.word).join(", ") : "--";
+    const slots = data.secretSlots || data.slots;
+    const wordsPreview = Array.isArray(slots) ? slots.map((s) => s.word).filter(Boolean).join(", ") : "--";
     cheatSecretAnswer.textContent = wordsPreview;
     cheatSecretAnswer.style.fontSize = "12px";
     cheatCategory.textContent = `${data.topic || "Topic"} ${data.emoji || "💜"} (${data.category || "Word"})`;
@@ -385,6 +559,10 @@ function updateGameStateUI(data) {
   if (!data) return;
   currentGameState = data;
 
+  if (data.speechMessages) {
+    applySpeechData(data.speechMessages);
+  }
+
   if (data.activeGameId) {
     updateActiveGameUI(data.activeGameId);
   }
@@ -398,6 +576,24 @@ function updateGameStateUI(data) {
     }
     if (selectLevel && document.activeElement !== selectLevel) {
       selectLevel.value = data.autoLevel ? "auto" : String(data.manualLevel || data.level || "auto");
+    }
+  }
+
+  // Sync Controls for Think & Link
+  if (data.gameId === "think-and-link") {
+    if (Array.isArray(data.puzzles) && data.puzzles.length > 0 && talPuzzles.length === 0) {
+      initTalPuzzles(data.puzzles);
+    }
+    if (data.activeCategoryFilter && talOverlayCategoryFilter && document.activeElement !== talOverlayCategoryFilter) {
+      if (talOverlayCategoryFilter.value !== data.activeCategoryFilter) {
+        talOverlayCategoryFilter.value = data.activeCategoryFilter;
+        renderTalOverlayFilteredPuzzles();
+      }
+    }
+    if (data.puzzleId && talOverlayPuzzleSelect && document.activeElement !== talOverlayPuzzleSelect) {
+      if (talOverlayPuzzleSelect.value !== data.puzzleId) {
+        talOverlayPuzzleSelect.value = data.puzzleId;
+      }
     }
   }
 
@@ -531,3 +727,171 @@ socket.on("timeExpired", ({ target, hadWinners }) => {
 socket.on("tiktokConnectionStatus", (status) => {
   updateTikTokUI(status);
 });
+
+// ==========================================================================
+// Speech Bubble Messages Manager (Live Studio)
+// ==========================================================================
+const inputNewSpeechMsg = document.getElementById("inputNewSpeechMsg");
+const btnAddSpeechMsg = document.getElementById("btnAddSpeechMsg");
+const inputSpeechCycleSeconds = document.getElementById("inputSpeechCycleSeconds");
+const btnSaveCycleSeconds = document.getElementById("btnSaveCycleSeconds");
+const speechMessagesList = document.getElementById("speechMessagesList");
+
+let speechData = {
+  cycleSeconds: 8,
+  messages: []
+};
+
+function renderSpeechMessagesList() {
+  if (!speechMessagesList) return;
+  if (!speechData.messages || speechData.messages.length === 0) {
+    speechMessagesList.innerHTML = `<div style="color:#94a3b8;font-size:11px;text-align:center;padding:8px">No custom speech messages.</div>`;
+    return;
+  }
+
+  speechMessagesList.innerHTML = speechData.messages
+    .map((msg, idx) => {
+      const isFirst = idx === 0;
+      const isLast = idx === speechData.messages.length - 1;
+      const safeText = String(msg.text || "").replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+
+      return `
+        <div class="speech-msg-row" data-index="${idx}">
+          <span style="font-size:10px;font-weight:800;color:#94a3b8;width:16px;text-align:center;">#${idx + 1}</span>
+          <span class="speech-msg-text">${safeText}</span>
+          <div class="speech-msg-actions">
+            <button class="speech-btn-mini btn-move-up" data-index="${idx}" ${isFirst ? "disabled style='opacity:0.3;cursor:not-allowed'" : ""} title="Move Up">⬆️</button>
+            <button class="speech-btn-mini btn-move-down" data-index="${idx}" ${isLast ? "disabled style='opacity:0.3;cursor:not-allowed'" : ""} title="Move Down">⬇️</button>
+            <button class="speech-btn-mini btn-edit-msg" data-index="${idx}" title="Edit">✏️</button>
+            <button class="speech-btn-mini delete btn-delete-msg" data-index="${idx}" title="Delete">🗑️</button>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  // Attach handlers
+  speechMessagesList.querySelectorAll(".btn-move-up").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      if (idx > 0) {
+        const temp = speechData.messages[idx];
+        speechData.messages[idx] = speechData.messages[idx - 1];
+        speechData.messages[idx - 1] = temp;
+        saveAndBroadcastSpeech();
+      }
+    });
+  });
+
+  speechMessagesList.querySelectorAll(".btn-move-down").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      if (idx < speechData.messages.length - 1) {
+        const temp = speechData.messages[idx];
+        speechData.messages[idx] = speechData.messages[idx + 1];
+        speechData.messages[idx + 1] = temp;
+        saveAndBroadcastSpeech();
+      }
+    });
+  });
+
+  speechMessagesList.querySelectorAll(".btn-edit-msg").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      const current = speechData.messages[idx]?.text || "";
+      const updated = prompt("Edit speech message:", current);
+      if (updated !== null) {
+        const trimmed = updated.trim();
+        if (trimmed) {
+          speechData.messages[idx].text = trimmed;
+          saveAndBroadcastSpeech();
+        }
+      }
+    });
+  });
+
+  speechMessagesList.querySelectorAll(".btn-delete-msg").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      const toDelete = speechData.messages[idx];
+      if (confirm(`Delete message: "${toDelete?.text}"?`)) {
+        speechData.messages.splice(idx, 1);
+        saveAndBroadcastSpeech();
+      }
+    });
+  });
+}
+
+function saveAndBroadcastSpeech() {
+  renderSpeechMessagesList();
+
+  socket.emit("updateSpeechMessages", speechData);
+
+  fetch("/api/speech-messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(speechData)
+  }).catch((err) => console.warn("[Admin Studio] Failed REST speech save:", err));
+
+  showToast("💬 Speech messages saved & updated!");
+}
+
+function applySpeechData(data) {
+  if (!data) return;
+  if (Array.isArray(data.messages)) {
+    speechData.messages = data.messages;
+  }
+  if (typeof data.cycleSeconds === "number" && data.cycleSeconds > 0) {
+    speechData.cycleSeconds = data.cycleSeconds;
+    if (inputSpeechCycleSeconds) {
+      inputSpeechCycleSeconds.value = data.cycleSeconds;
+    }
+  }
+  renderSpeechMessagesList();
+}
+
+if (btnAddSpeechMsg && inputNewSpeechMsg) {
+  const handleAdd = () => {
+    const text = inputNewSpeechMsg.value.trim();
+    if (!text) return;
+    if (!speechData.messages) speechData.messages = [];
+    speechData.messages.push({
+      id: `msg-${Date.now()}`,
+      text
+    });
+    inputNewSpeechMsg.value = "";
+    saveAndBroadcastSpeech();
+  };
+
+  btnAddSpeechMsg.addEventListener("click", handleAdd);
+  inputNewSpeechMsg.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") handleAdd();
+  });
+}
+
+if (btnSaveCycleSeconds && inputSpeechCycleSeconds) {
+  btnSaveCycleSeconds.addEventListener("click", () => {
+    const sec = parseInt(inputSpeechCycleSeconds.value, 10);
+    if (!isNaN(sec) && sec >= 3 && sec <= 120) {
+      speechData.cycleSeconds = sec;
+      saveAndBroadcastSpeech();
+    } else {
+      alert("Please enter a cycle interval between 3 and 120 seconds.");
+    }
+  });
+}
+
+socket.on("speechMessagesUpdated", (data) => {
+  applySpeechData(data);
+});
+
+// Fetch initial messages
+fetch("/api/speech-messages")
+  .then((res) => res.json())
+  .then((data) => {
+    if (data && data.messages) applySpeechData(data);
+  })
+  .catch((e) => console.warn("[Admin Studio] Error fetching speech messages:", e));
+

@@ -1,6 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get("admin") === "true";
 const socket = isAdmin ? io("/admin") : io();
+if (window.initSpeechBubble) {
+  window.initSpeechBubble({ socket });
+}
 
 // DOM References
 const elRoundPill = document.getElementById("roundPill");
@@ -485,9 +488,9 @@ function showLeaderboardPopup(data) {
     }
   } else {
     podiumHTML += `
-      <div class="podium-card" style="border-color:#a855f7">
-        <div class="podium-rank">⏰ No Winners</div>
-        <div style="font-size:1.1vh;color:#c8b9ff;margin:8px 0">${targetTopic ? `Topic: <strong>${esc(targetTopic)}</strong>` : "Time expired!"}</div>
+      <div class="podium-card empty-winners">
+        <div class="podium-rank" style="color:#6b21a8; font-size:1.35vh;">⏰ No Winners This Round</div>
+        <div style="font-size:1.2vh; color:#4c1d95; font-weight:700; margin-top:4px;">${targetTopic ? `Topic was: <strong>${esc(targetTopic)}</strong>` : "Time expired!"}</div>
       </div>
     `;
   }
@@ -495,12 +498,12 @@ function showLeaderboardPopup(data) {
   elModalPodium.innerHTML = podiumHTML;
 
   if (topList.length === 0) {
-    elModalTopList.innerHTML = `<div style="text-align:center;font-size:1.1vh;color:#bda8ef">No scores yet. Be the first to win!</div>`;
+    elModalTopList.innerHTML = `<div style="text-align:center;font-size:1.2vh;color:#f3e8ff;font-weight:700;padding:6px 0;">No scores yet. Be the first to win!</div>`;
   } else {
     elModalTopList.innerHTML = topList.slice(0, 4).map((p, idx) => `
       <div class="top-row">
         <div class="top-user-wrap">
-          <span>#${idx + 1}</span>
+          <span class="top-user-rank">#${idx + 1}</span>
           ${renderAvatarHTML(p.avatar, p.nickname || p.user)}
           <span>@${esc(p.nickname || p.user)}</span>
         </div>
