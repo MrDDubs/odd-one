@@ -1,0 +1,283 @@
+﻿/* public/leaderboard.css - Standalone Stream Leaderboard Overlay */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  overflow: hidden;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leaderboard-overlay-container {
+  padding: 8px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base Card (Purple Glass Theme by Default) */
+.leaderboard-card {
+  background: linear-gradient(145deg, rgba(250, 245, 255, 0.96), rgba(230, 218, 255, 0.94));
+  border: 2.5px solid #c8b9ff;
+  border-radius: 20px;
+  box-shadow: 0 8px 28px rgba(124, 58, 237, 0.35), inset 0 0 16px rgba(255, 255, 255, 0.65);
+  color: #30235e;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Header */
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.leaderboard-badge-icon {
+  font-size: 16px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.leaderboard-title-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #581c87;
+  text-transform: uppercase;
+}
+
+/* Grid / List Layouts */
+/* VERTICAL LAYOUT (Default) */
+.leaderboard-overlay-container.layout-vertical .leaderboard-card {
+  width: clamp(100px, 92vw, 150px);
+}
+
+.leaderboard-overlay-container.layout-vertical .leaderboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+/* HORIZONTAL LAYOUT */
+.leaderboard-overlay-container.layout-horizontal .leaderboard-card {
+  width: auto;
+  max-width: 96vw;
+  padding: 8px 14px;
+}
+
+.leaderboard-overlay-container.layout-horizontal .leaderboard-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Podium Card Items */
+.podium-card {
+  background: linear-gradient(145deg, #ffffff 0%, #ede6ff 100%);
+  border: 1.5px solid #c4b5fd;
+  border-radius: 12px;
+  padding: 5px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.15), inset 0 0 6px rgba(255, 255, 255, 0.8);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+
+.leaderboard-overlay-container.layout-horizontal .podium-card {
+  width: clamp(75px, 16vw, 100px);
+  min-width: 75px;
+}
+
+.podium-card.score-pop {
+  animation: cardPulse 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cardPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); box-shadow: 0 0 18px rgba(168, 85, 247, 0.6); }
+  100% { transform: scale(1); }
+}
+
+/* Rank Specific Card Styling */
+.podium-card.rank-1 {
+  border-color: #facc15;
+  background: linear-gradient(145deg, #ffffff 0%, #fef9c3 100%);
+  box-shadow: 0 3px 10px rgba(234, 179, 8, 0.3), inset 0 0 6px #ffffff;
+}
+
+.podium-card.rank-2 {
+  border-color: #cbd5e1;
+  background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+}
+
+.podium-card.rank-3 {
+  border-color: #fdba74;
+  background: linear-gradient(145deg, #ffffff 0%, #ffedd5 100%);
+}
+
+.podium-card.podium-empty {
+  opacity: 0.55;
+  border-style: dashed;
+}
+
+/* Avatar Wrap */
+.podium-avatar-wrap {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.podium-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #c4b5fd;
+  background: #ede9fe;
+  display: block;
+}
+
+.podium-avatar-initial {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #c4b5fd;
+}
+
+.podium-avatar-initial.empty {
+  background: #f1f5f9;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.podium-rank-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -5px;
+  font-size: 11px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+
+/* Player Name */
+.podium-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #3b0764;
+  max-width: 95%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.1;
+}
+
+/* Player Points */
+.podium-points {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  color: #7c3aed;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.podium-pts-suffix {
+  font-size: 8px;
+  font-weight: 700;
+  color: #8b5cf6;
+  opacity: 0.85;
+  margin-left: 1px;
+}
+
+/* ==================== THEMES ==================== */
+/* Gold Sunflower Theme (?theme=gold) */
+.theme-gold .leaderboard-card {
+  background: linear-gradient(145deg, rgba(254, 252, 232, 0.98), rgba(254, 240, 138, 0.94));
+  border-color: #fde047;
+  box-shadow: 0 8px 28px rgba(234, 179, 8, 0.4), inset 0 0 16px #ffffff;
+  color: #451a03;
+}
+
+.theme-gold .leaderboard-title-text {
+  color: #78350f;
+}
+
+.theme-gold .podium-points {
+  color: #b45309;
+}
+
+/* Dark Night Theme (?theme=dark) */
+.theme-dark .leaderboard-card {
+  background: linear-gradient(145deg, rgba(26, 16, 56, 0.95), rgba(15, 7, 34, 0.96));
+  border-color: #8b5cf6;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), inset 0 0 16px rgba(139, 92, 246, 0.25);
+  color: #ffffff;
+}
+
+.theme-dark .leaderboard-title-text {
+  color: #d8b4fe;
+}
+
+.theme-dark .podium-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(216, 180, 254, 0.3);
+}
+
+.theme-dark .podium-name {
+  color: #e9d5ff;
+}
+
+.theme-dark .podium-points {
+  color: #fde047;
+}
+
+/* Hide Title (?noTitle=true) */
+.no-title .leaderboard-header {
+  display: none !important;
+}

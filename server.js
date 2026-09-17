@@ -480,6 +480,11 @@ app.get("/overlay", (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "overlay.html"));
 });
 
+// Standalone Leaderboard Overlay Route (Dedicated OBS Browser Source)
+app.get(["/leaderboard", "/leaderboard.html"], (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "leaderboard.html"));
+});
+
 // Admin Overlay Route (Live Overlay Viewport + Control Side Panel)
 app.get(["/admin-overlay", "/admin-overlay.html", "/host-overlay"], (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "admin-overlay.html"));
@@ -556,6 +561,11 @@ adminNSP.on("connection", (socket) => {
     broadcastState();
   });
 
+  socket.on("toggleInGameLeaderboard", ({ hide }) => {
+    io.emit("toggleInGameLeaderboard", { hide: !!hide });
+    adminNSP.emit("toggleInGameLeaderboard", { hide: !!hide });
+  });
+
   socket.on("simulateGuess", ({ username, nickname, message, avatar }) => {
     handleIncomingGuess(username || "TestViewer", nickname || username || "TestViewer", message, avatar || null);
   });
@@ -599,6 +609,7 @@ server.listen(PORT, () => {
   console.log(`=============================================================`);
   console.log(`  🎮 Hub Dashboard   : http://localhost:${PORT}/`);
   console.log(`  📺 Universal Overlay: http://localhost:${PORT}/overlay`);
+  console.log(`  🏆 Leaderboard Overlay: http://localhost:${PORT}/leaderboard`);
   console.log(`  🧩 Odd One Out     : http://localhost:${PORT}/games/odd-one-out/overlay.html`);
   console.log(`  💡 Think Like Ally : http://localhost:${PORT}/games/think-like-ally/overlay.html`);
   console.log(`  💜 Think & Link    : http://localhost:${PORT}/games/think-and-link/overlay.html`);

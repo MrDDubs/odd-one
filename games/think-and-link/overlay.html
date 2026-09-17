@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Think & Link — Live Stream Overlay</title>
   <link rel="stylesheet" href="./overlay.css">
+  <link rel="stylesheet" href="/speech-bubble.css">
   <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
 </head>
 <body>
@@ -15,9 +16,8 @@
         <div class="brand-avatar-wrap">
           <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
         </div>
-        <div class="brand-title-wrap">
-          <span class="brand-ally">Think &amp; Link</span>
-          <span class="brand-sub">LIVE TIKTOK GAME SHOW</span>
+        <div class="avatar-speech-bubble" id="avatarSpeechBubble">
+          <span class="speech-bubble-text" id="speechBubbleText">Welcome to the show! 💜</span>
         </div>
       </div>
     </header>
@@ -38,7 +38,7 @@
       <span class="rule-heart">💜</span>
     </div>
 
-    <!-- Main Content Container -->
+    <!-- Main Word Guessing Board (Topic Card + 6 Word Blocks) -->
     <main class="main-content">
       <!-- Main Topic Card -->
       <section class="topic-card" id="topicBox">
@@ -106,16 +106,6 @@
       </div>
     </div>
 
-    <!-- Bottom Top 5 Leaderboard -->
-    <footer class="leaderboard-section">
-      <div class="leaderboard-title">
-        <span>🏆 TOP 5 LEADERBOARD</span>
-      </div>
-      <div class="leaderboard-grid" id="leaderboardPodium">
-        <!-- 5 Podium Cards -->
-      </div>
-    </footer>
-
     <!-- Floating Live Guess Toast -->
     <div id="guessToast" class="guess-toast">
       <span class="toast-icon" id="toastIcon">💬</span>
@@ -153,6 +143,7 @@
     <div id="confettiContainer" class="confetti-container"></div>
   </div>
 
+  <script src="/speech-bubble.js"></script>
   <script src="./overlay.js"></script>
 </body>
 </html>

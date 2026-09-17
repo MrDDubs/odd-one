@@ -87,12 +87,12 @@ function showToast(message, duration = 3000) {
 // Viewport Scaling Modes
 // --------------------------------------------------------------------------
 btnScaleFit?.addEventListener("click", () => {
-  phoneFrame.className = "phone-frame mode-fit";
+  phoneFrame.className = "phone-frame mode-fit" + (currentActiveGameId === "think-and-link" ? " game-think-and-link" : "");
   setActiveScaleBtn(btnScaleFit);
 });
 
 btnScale916?.addEventListener("click", () => {
-  phoneFrame.className = "phone-frame";
+  phoneFrame.className = "phone-frame" + (currentActiveGameId === "think-and-link" ? " game-think-and-link" : "");
   setActiveScaleBtn(btnScale916);
 });
 
@@ -113,13 +113,38 @@ btnReloadFrame?.addEventListener("click", () => {
   }
 });
 
-btnCopyOverlayUrl?.addEventListener("click", () => {
-  const url = `${window.location.origin}/overlay`;
+const obsLeaderboardDisplay = document.getElementById("obsLeaderboardDisplay");
+const btnCopyGameOverlay = document.getElementById("btnCopyGameOverlay");
+const btnCopyLeaderboardOverlay = document.getElementById("btnCopyLeaderboardOverlay");
+const chkHideInGameLeaderboard = document.getElementById("chkHideInGameLeaderboard");
+
+if (obsUrlDisplay) obsUrlDisplay.textContent = `${window.location.origin}/overlay`;
+if (obsLeaderboardDisplay) obsLeaderboardDisplay.textContent = `${window.location.origin}/leaderboard`;
+
+function copyToClipboard(url, label) {
   navigator.clipboard.writeText(url).then(() => {
-    showToast("✅ Live Studio Overlay URL copied to clipboard!");
+    showToast(`✅ ${label} copied to clipboard!`);
   }).catch(() => {
-    prompt("Copy this URL for Live Studio Browser Source:", url);
+    prompt(`Copy this URL for ${label}:`, url);
   });
+}
+
+btnCopyOverlayUrl?.addEventListener("click", () => {
+  copyToClipboard(`${window.location.origin}/overlay`, "Live Game Overlay URL");
+});
+
+btnCopyGameOverlay?.addEventListener("click", () => {
+  copyToClipboard(`${window.location.origin}/overlay`, "Live Game Overlay URL");
+});
+
+btnCopyLeaderboardOverlay?.addEventListener("click", () => {
+  copyToClipboard(`${window.location.origin}/leaderboard`, "Standalone Leaderboard URL");
+});
+
+chkHideInGameLeaderboard?.addEventListener("change", (e) => {
+  const hide = e.target.checked;
+  socket.emit("toggleInGameLeaderboard", { hide });
+  showToast(hide ? "👁️ In-game leaderboard hidden (using standalone source)" : "🏆 In-game leaderboard shown");
 });
 
 // --------------------------------------------------------------------------
@@ -161,6 +186,14 @@ function updateActiveGameUI(gameId) {
     "think-like-ally": { name: "Think Like Ally", icon: "💡" },
     "think-and-link": { name: "Think & Link", icon: "💜" }
   };
+
+  if (phoneFrame) {
+    if (gameId === "think-and-link") {
+      phoneFrame.classList.add("game-think-and-link");
+    } else {
+      phoneFrame.classList.remove("game-think-and-link");
+    }
+  }
 
   const current = gameNames[gameId] || { name: gameId, icon: "🎮" };
   if (activeGameText) activeGameText.textContent = current.name;

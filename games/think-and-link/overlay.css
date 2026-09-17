@@ -35,9 +35,8 @@ html, body {
 .overlay-app {
   width: min(100vw, 56.25vh);
   height: 100vh;
-  aspect-ratio: 9 / 16;
   margin: auto;
-  padding: 2% 1%;
+  padding: 2% 1.2%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -280,16 +279,14 @@ html, body {
   font-size: 14px;
 }
 
-/* 2. Main Content (Topic + Slots Grid: Compact & Brought Up Directly Below Rules) */
+/* 2. Main Content (Topic + Slots Grid: Word Guessing Board) */
 .main-content {
   display: flex;
   flex-direction: column;
   gap: 7px;
   width: 100%;
+  flex-shrink: 0;
   height: auto;
-  min-height: 0;
-  max-height: none;
-  flex: none;
   margin: 0;
   justify-content: flex-start;
   box-sizing: border-box;
@@ -398,7 +395,7 @@ html, body {
   align-items: center;
   justify-content: center;
   font-family: 'Outfit', -apple-system, sans-serif;
-  font-size: clamp(16px, 2.5vh, 23px);
+  font-size: clamp(17px, 2.6vh, 24px);
   font-weight: 900;
   color: #3b0764;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -408,7 +405,7 @@ html, body {
 
 .hint-char.hint-blank {
   font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(14px, 2.2vh, 20px);
+  font-size: clamp(15px, 2.3vh, 21px);
   color: #6b21a8;
   font-weight: 900;
 }
@@ -517,11 +514,11 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.35);
   padding: 1px 7px;
   border-radius: 999px;
   max-width: 95%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   margin-top: 1px;
 }
 
@@ -626,154 +623,7 @@ html, body {
   100% { transform: scale(1.05) rotate(-2deg); filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.7)); }
 }
 
-/* 3. Bottom Top 5 Leaderboard (Light Purple Glass Theme) */
-.leaderboard-section {
-  width: 100%;
-  padding: 2.2% 3%;
-  background: linear-gradient(145deg, rgba(247, 242, 255, 0.96), rgba(222, 212, 255, 0.94));
-  border: 2px solid #c8b9ff;
-  border-radius: 20px;
-  box-shadow: 0 0 16px rgba(166, 108, 255, 0.45), inset 0 0 14px rgba(255, 255, 255, 0.6);
-  color: #30235e;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  margin-top: 0;
-  flex-shrink: 0;
-}
 
-.leaderboard-title {
-  font-family: 'Outfit', -apple-system, sans-serif;
-  font-size: clamp(11px, 1.3vh, 13px);
-  font-weight: 900;
-  letter-spacing: 1px;
-  color: #30235e;
-  text-transform: uppercase;
-  text-align: center;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.leaderboard-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 6px;
-  width: 100%;
-}
-
-.podium-card {
-  background: linear-gradient(145deg, #ffffff 0%, #ede6ff 100%);
-  border: 1.5px solid #c4b5fd;
-  border-radius: 12px;
-  padding: 4px 2px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  min-height: 52px;
-  min-width: 0;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.12), inset 0 0 6px rgba(255, 255, 255, 0.8);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.podium-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.22), inset 0 0 6px #ffffff;
-}
-
-.podium-card.podium-empty {
-  opacity: 0.6;
-}
-
-.podium-card.rank-1 {
-  border-color: #facc15;
-  background: linear-gradient(145deg, #ffffff 0%, #fef9c3 100%);
-  box-shadow: 0 3px 8px rgba(234, 179, 8, 0.25), inset 0 0 6px #ffffff;
-}
-
-.podium-card.rank-2 {
-  border-color: #cbd5e1;
-  background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
-}
-
-.podium-card.rank-3 {
-  border-color: #fdba74;
-  background: linear-gradient(145deg, #ffffff 0%, #ffedd5 100%);
-}
-
-.podium-avatar-wrap {
-  position: relative;
-  width: clamp(24px, 3vh, 30px);
-  height: clamp(24px, 3vh, 30px);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.podium-avatar-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid #c4b5fd;
-  background: #ede9fe;
-  display: block;
-}
-
-.podium-avatar-initial {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
-  color: #ffffff;
-  font-weight: 800;
-  font-size: clamp(10px, 1.3vh, 13px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid #c4b5fd;
-}
-
-.podium-avatar-initial.empty {
-  background: #f1f5f9;
-  border: 1px dashed #cbd5e1;
-  color: #64748b;
-  font-size: clamp(10px, 1.2vh, 12px);
-}
-
-.podium-rank-badge {
-  position: absolute;
-  bottom: -4px;
-  right: -5px;
-  font-size: clamp(9px, 1.1vh, 11px);
-  line-height: 1;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
-}
-
-.podium-points {
-  font-size: clamp(10px, 1.2vh, 12px);
-  font-weight: 900;
-  color: #7c3aed;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.podium-pts-suffix {
-  font-size: 8px;
-  font-weight: 700;
-  color: #8b5cf6;
-  opacity: 0.85;
-  margin-left: 1px;
-}
 
 /* Floating Live Guess Toast */
 .guess-toast {
@@ -836,15 +686,17 @@ html, body {
 .modal-content {
   width: 100%;
   max-width: 92%;
+  max-height: 94vh;
   background: radial-gradient(circle at 50% 0%, #8b5cf6 0%, #6d28d9 45%, #4c1d95 100%);
   border: 3px solid #d8b4fe;
-  border-radius: 28px;
+  border-radius: 24px;
   box-shadow: 0 20px 48px rgba(15, 3, 35, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-  padding: 5% 4%;
+  padding: 3% 4%;
   text-align: center;
   transform: scale(0.9);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .modal-overlay.active .modal-content {
@@ -853,7 +705,7 @@ html, body {
 
 .modal-title {
   font-family: 'Fredoka', 'Outfit', sans-serif;
-  font-size: clamp(20px, 2.6vh, 26px);
+  font-size: clamp(18px, 2.4vh, 24px);
   font-weight: 900;
   letter-spacing: 0.5px;
   color: #ffffff;
@@ -870,7 +722,7 @@ html, body {
   justify-content: center;
   align-items: stretch;
   gap: 8px;
-  margin: 10px 0;
+  margin: 6px 0;
   width: 100%;
 }
 
@@ -878,13 +730,13 @@ html, body {
   flex: 1;
   background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
   border: 2px solid #c4b5fd;
-  border-radius: 18px;
-  padding: 8px 4px;
+  border-radius: 16px;
+  padding: 5px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 3px;
+  gap: 2px;
   position: relative;
   min-width: 0;
   max-width: 155px;
@@ -949,28 +801,36 @@ html, body {
 
 .modal-content .avatar-wrap {
   position: relative;
-  width: 4.8vh;
-  height: 4.8vh;
-  margin: 2px 0;
+  width: clamp(32px, 3.8vh, 44px);
+  height: clamp(32px, 3.8vh, 44px);
+  max-width: 44px;
+  max-height: 44px;
+  margin: 2px auto;
+  flex-shrink: 0;
 }
 
 .modal-content .avatar-img {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  display: block;
 }
 
 .modal-content .avatar-letter {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   border-radius: 50%;
   background: linear-gradient(135deg, #a855f7, #7c3aed);
   display: grid;
   place-items: center;
-  font-size: 2vh;
+  font-size: clamp(13px, 1.6vh, 18px);
   font-weight: 900;
   color: #ffffff;
   border: 2px solid #ffffff;
@@ -1020,39 +880,39 @@ html, body {
   background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
   border: 2px dashed #c084fc;
   max-width: 220px;
-  padding: 10px 14px;
+  padding: 8px 12px;
 }
 
 .modal-content .top-table {
   background: rgba(30, 10, 68, 0.5);
   border: 1.5px solid rgba(216, 180, 254, 0.35);
-  border-radius: 18px;
-  padding: 10px 14px;
-  margin: 10px 0 6px 0;
+  border-radius: 16px;
+  padding: 8px 12px;
+  margin: 6px 0 4px 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   text-align: left;
 }
 
 .modal-content .top-title {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.2vh;
+  font-size: 1.15vh;
   font-weight: 900;
   color: #f3e8ff;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   text-align: center;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .modal-content .top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.25vh;
+  font-size: 1.2vh;
   font-weight: 700;
-  padding: 3px 2px;
+  padding: 2px 2px;
   border-bottom: 1px solid rgba(216, 180, 254, 0.15);
 }
 
@@ -1063,30 +923,67 @@ html, body {
 .modal-content .top-user-wrap {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: #ffffff;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.modal-content .top-user-wrap .avatar-img,
+.modal-content .top-user-wrap .avatar-letter,
+.top-user-wrap .avatar-img,
+.top-user-wrap .avatar-letter {
+  width: clamp(20px, 2.2vh, 26px);
+  height: clamp(20px, 2.2vh, 26px);
+  min-width: clamp(20px, 2.2vh, 26px);
+  max-width: clamp(20px, 2.2vh, 26px);
+  max-height: clamp(20px, 2.2vh, 26px);
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid #ffffff;
+  display: inline-block;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.modal-content .top-user-wrap .avatar-letter,
+.top-user-wrap .avatar-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  font-size: clamp(9px, 1.1vh, 12px);
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.modal-content .top-user-wrap span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal-content .top-user-rank {
   color: #fde047;
   font-weight: 900;
-  font-size: 1.2vh;
-  min-width: 20px;
+  font-size: 1.15vh;
+  min-width: 18px;
 }
 
 .modal-content .top-score {
   color: #fde047;
   font-weight: 900;
-  font-size: 1.3vh;
+  font-size: 1.25vh;
+  white-space: nowrap;
 }
 
 .modal-content .countdown-bar-wrap {
   width: 100%;
-  height: 7px;
+  height: 6px;
   background: rgba(255, 255, 255, 0.22);
   border-radius: 999px;
   overflow: hidden;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .modal-content .countdown-bar {
@@ -1097,10 +994,10 @@ html, body {
 }
 
 .modal-content .countdown-txt {
-  font-size: 1.1vh;
+  font-size: 1.05vh;
   font-weight: 800;
   color: #f3e8ff;
-  margin-top: 6px;
+  margin-top: 4px;
   letter-spacing: 0.3px;
 }
 

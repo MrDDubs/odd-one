@@ -381,6 +381,10 @@ body {
   max-height: 100%;
 }
 
+.phone-frame.game-think-and-link:not(.mode-wide) {
+  aspect-ratio: 11 / 16;
+}
+
 .phone-notch {
   position: absolute;
   top: 6px;
@@ -405,13 +409,21 @@ body {
 /* Viewport Footer */
 .viewport-footer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   padding: 6px 14px;
   background: var(--card);
   border-top: 1px solid var(--card-border);
   font-size: 11px;
   color: var(--muted);
+}
+
+.obs-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .obs-hint code {
@@ -420,7 +432,38 @@ body {
   border-radius: 4px;
   color: #c4b5fd;
   font-family: monospace;
-  margin-left: 4px;
+}
+
+.vp-btn-copy {
+  background: rgba(142, 84, 233, 0.2);
+  border: 1px solid rgba(142, 84, 233, 0.4);
+  color: #e9d5ff;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vp-btn-copy:hover {
+  background: #8b5cf6;
+  color: #fff;
+}
+
+.toggle-switch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.toggle-switch-label input[type="checkbox"] {
+  accent-color: #8b5cf6;
+  cursor: pointer;
 }
 
 /* ==========================================================================

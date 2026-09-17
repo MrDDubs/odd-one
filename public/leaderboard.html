@@ -1,0 +1,28 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ally's Stream Hub — Standalone Leaderboard Overlay</title>
+  <link rel="stylesheet" href="./leaderboard.css">
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+</head>
+<body>
+  <div class="leaderboard-overlay-container" id="leaderboardApp">
+    <div class="leaderboard-card" id="leaderboardCard">
+      <!-- Title Header -->
+      <header class="leaderboard-header" id="leaderboardHeader">
+        <span class="leaderboard-badge-icon" id="leaderboardIcon">🏆</span>
+        <span class="leaderboard-title-text" id="leaderboardTitle">TOP 5</span>
+      </header>
+
+      <!-- Podium Cards Grid / List -->
+      <div class="leaderboard-grid" id="leaderboardPodium">
+        <!-- 5 Podium Cards Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="./leaderboard.js"></script>
+</body>
+</html>

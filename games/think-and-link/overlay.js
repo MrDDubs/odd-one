@@ -1,6 +1,23 @@
 const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get("admin") === "true";
+const noLeaderboard = urlParams.get("noLeaderboard") === "true" || urlParams.get("hideLeaderboard") === "true";
 const socket = isAdmin ? io("/admin") : io();
+
+if (noLeaderboard) {
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".overlay-app")?.classList.add("no-leaderboard");
+  });
+}
+
+socket.on("toggleInGameLeaderboard", ({ hide }) => {
+  const app = document.querySelector(".overlay-app");
+  if (hide) {
+    app?.classList.add("no-leaderboard");
+  } else {
+    app?.classList.remove("no-leaderboard");
+  }
+});
+
 if (window.initSpeechBubble) {
   window.initSpeechBubble({ socket });
 }

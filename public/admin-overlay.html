@@ -90,10 +90,21 @@
         <!-- Bottom Streamer Helper Bar -->
         <div class="viewport-footer">
           <div class="obs-hint">
-            <span>Live Studio Browser Source:</span>
+            <span>📺 Game Overlay:</span>
             <code id="obsUrlDisplay">http://localhost:4000/overlay</code>
+            <button class="vp-btn-copy" id="btnCopyGameOverlay" title="Copy Overlay URL">📋 Copy</button>
           </div>
-          <div class="resolution-hint">Recommended Live Studio Canvas: <strong>1080 x 1920 (9:16)</strong></div>
+          <div class="obs-hint">
+            <span>🏆 Standalone Leaderboard:</span>
+            <code id="obsLeaderboardDisplay">http://localhost:4000/leaderboard</code>
+            <button class="vp-btn-copy" id="btnCopyLeaderboardOverlay" title="Copy Leaderboard URL">📋 Copy</button>
+          </div>
+          <div class="obs-toggle-wrap">
+            <label class="toggle-switch-label" title="Hide in-game leaderboard when using standalone browser source">
+              <input type="checkbox" id="chkHideInGameLeaderboard">
+              <span>Hide In-Game Leaderboard</span>
+            </label>
+          </div>
         </div>
       </section>
 
