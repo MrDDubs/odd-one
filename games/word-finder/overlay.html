@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ally's Word Finder — Live Stream Overlay</title>
+  <link rel="stylesheet" href="./overlay.css">
+  <link rel="stylesheet" href="/speech-bubble.css">
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+</head>
+<body>
+  <div class="overlay-app">
+    <!-- Top Header: Consistent with Hub style -->
+    <header class="glass brand-card">
+      <div class="brand-header-top">
+        <div class="brand-avatar-wrap">
+          <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
+        </div>
+        <div class="avatar-speech-bubble" id="avatarSpeechBubble">
+          <span class="speech-bubble-text" id="speechBubbleText">Can you find all the hidden words? 🔍</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sub Header Row: Game Info + Timer Pill -->
+    <div class="sub-header-row">
+      <div class="game-info-pill">
+        <div class="meta-pill" id="roundPill">ROUND 1</div>
+        <div class="category-pill" id="categoryPill">🐾 CUTE ANIMALS</div>
+      </div>
+      <div class="timer-pill" id="timerBox">
+        <span class="timer-num" id="timerNum">60</span><span class="timer-unit">s</span>
+      </div>
+    </div>
+
+    <!-- White Pill Rule Banner -->
+    <div class="rule-banner">
+      <span class="rule-text">FIND HIDDEN WORDS • TYPE WORD OR COORD (e.g. A1)</span>
+      <span class="rule-heart">🔍</span>
+    </div>
+
+    <!-- Main Word Finder Board -->
+    <main class="main-content">
+      <!-- 6x6 Letter Grid with Coordinate Headers -->
+      <section class="word-search-board">
+        <!-- Top Horizontal Header (Columns 1 to 6) -->
+        <div class="cols-header">
+          <span class="col-header-cell">1</span>
+          <span class="col-header-cell">2</span>
+          <span class="col-header-cell">3</span>
+          <span class="col-header-cell">4</span>
+          <span class="col-header-cell">5</span>
+          <span class="col-header-cell">6</span>
+        </div>
+
+        <div class="board-body">
+          <!-- Left Vertical Header (Rows A to F) -->
+          <div class="rows-header">
+            <span class="row-header-cell">A</span>
+            <span class="row-header-cell">B</span>
+            <span class="row-header-cell">C</span>
+            <span class="row-header-cell">D</span>
+            <span class="row-header-cell">E</span>
+            <span class="row-header-cell">F</span>
+          </div>
+
+          <!-- 6x6 Grid Container -->
+          <div class="grid-6x6" id="grid6x6">
+            <!-- 36 cells generated via overlay.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Word Bank & Progress Checklist -->
+      <section class="word-bank-card">
+        <div class="word-bank-header">
+          <span class="bank-title">HIDDEN WORDS TO FIND</span>
+          <span class="bank-progress" id="bankProgress">0 / 0</span>
+        </div>
+        <div class="word-bank-grid" id="wordBankGrid">
+          <!-- Word chips injected via overlay.js -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Community Streak Pill -->
+    <div class="streak-pill" id="streakCard">
+      <span class="streak-label">COMMUNITY STREAK</span>
+      <div class="streak-val">
+        <span class="flame-icon">🔥</span>
+        <span class="streak-num" id="streakValue">0</span>
+      </div>
+    </div>
+
+    <!-- Floating Live Guess Toast -->
+    <div id="guessToast" class="guess-toast">
+      <span class="toast-icon" id="toastIcon">💬</span>
+      <span class="toast-user" id="toastUser">@viewer</span>:
+      <strong class="toast-word" id="toastWord">cat</strong>
+    </div>
+
+    <!-- 4-Second Round Results Modal -->
+    <div class="modal-overlay" id="leaderboardModal">
+      <div class="modal-content">
+        <div class="modal-title">🏆 THIS ROUND'S POINTS</div>
+        
+        <!-- Round Winners Podium -->
+        <div class="round-winners-row" id="modalPodium">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Community Top Leaderboard -->
+        <div class="top-table">
+          <div class="top-title">🌟 Community Leaderboard</div>
+          <div id="modalTopList">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- 4-Second Countdown bar -->
+        <div class="countdown-bar-wrap">
+          <div class="countdown-bar" id="modalProgressBar"></div>
+        </div>
+        <div class="countdown-txt">Next puzzle starting automatically...</div>
+      </div>
+    </div>
+
+    <!-- Full-Screen Cute Confetti & Sparkles Shower -->
+    <div id="confettiContainer" class="confetti-container"></div>
+  </div>
+
+  <script src="/speech-bubble.js"></script>
+  <script src="./overlay.js"></script>
+</body>
+</html>

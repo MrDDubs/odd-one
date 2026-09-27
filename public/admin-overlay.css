@@ -816,6 +816,131 @@ body {
   cursor: pointer;
 }
 
+/* Master Audio & Volume Controls Card */
+.btn-mute {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.btn-mute:hover {
+  background: rgba(16, 185, 129, 0.25);
+  color: #6ee7b7;
+}
+
+.btn-mute.is-muted {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border-color: #f87171;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
+
+.volume-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 10px 0;
+}
+
+.vol-icon {
+  font-size: 13px;
+  user-select: none;
+  opacity: 0.85;
+}
+
+.volume-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, #06b6d4);
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.8);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, #06b6d4);
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+  cursor: pointer;
+}
+
+.volume-percent-badge {
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(168, 85, 247, 0.2);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  padding: 2px 7px;
+  border-radius: 999px;
+  min-width: 44px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.volume-presets-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.vol-chip {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.vol-chip:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.vol-chip.active {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  border-color: #a855f7;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+}
+
 /* Reset Card */
 .reset-btn-row {
   display: grid;

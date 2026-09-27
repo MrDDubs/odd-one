@@ -119,6 +119,37 @@ function broadcastSpeechMessages(payload) {
   io.of("/admin").emit("speechMessagesUpdated", payload);
 }
 
+// Audio Settings persistence
+const audioSettingsPath = path.join(__dirname, "data", "audio-settings.json");
+
+function getAudioSettings() {
+  try {
+    if (fs.existsSync(audioSettingsPath)) {
+      const data = fs.readFileSync(audioSettingsPath, "utf8");
+      return JSON.parse(data);
+    }
+  } catch (err) {
+    console.error("[AudioSettings] Error reading audio settings:", err);
+  }
+  return { volume: 100, muted: false };
+}
+
+function saveAudioSettings(settings) {
+  try {
+    const dataDir = path.dirname(audioSettingsPath);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(audioSettingsPath, JSON.stringify(settings, null, 2), "utf8");
+    return true;
+  } catch (err) {
+    console.error("[AudioSettings] Error saving audio settings:", err);
+    return false;
+  }
+}
+
+let currentAudioSettings = getAudioSettings();
+
 // Broadcast Hub state to overlays and dashboard
 function broadcastState() {
   const speechMessages = getSpeechMessages();
@@ -130,7 +161,8 @@ function broadcastState() {
     tiktokLiveUsername: tiktokLiveStatus.username || tiktokLiveUsername,
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
     tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
-    speechMessages
+    speechMessages,
+    audioSettings: currentAudioSettings
   };
 
   const adminData = {
@@ -142,7 +174,8 @@ function broadcastState() {
     tiktokLiveUsername: tiktokLiveStatus.username || tiktokLiveUsername,
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
     tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
-    speechMessages
+    speechMessages,
+    audioSettings: currentAudioSettings
   };
 
   io.emit("gameState", publicData);
@@ -155,8 +188,8 @@ function triggerLeaderboardAndNextRound(targetWinnerInfo = null, delayBeforePopu
 
   const active = gameRegistry.getActiveGame();
   const activeId = gameRegistry.getActiveGameId();
-  // In Think & Link, give viewers and host 2 seconds to inspect all 6 words before the popup covers the board
-  const delayMs = delayBeforePopupMs || (activeId === "think-and-link" ? 2000 : 0);
+  // In Think & Link and Word Finder, give viewers and host 2 seconds to inspect all words before the popup covers the board
+  const delayMs = delayBeforePopupMs || (activeId === "think-and-link" || activeId === "word-finder" ? 2200 : 0);
 
   const showPopup = () => {
     const payload = {
@@ -505,8 +538,10 @@ io.on("connection", (socket) => {
     tiktokLiveUsername: tiktokLiveStatus.username || tiktokLiveUsername,
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
     tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
-    speechMessages: getSpeechMessages()
+    speechMessages: getSpeechMessages(),
+    audioSettings: currentAudioSettings
   });
+  socket.emit("audioSettings", currentAudioSettings);
 
   socket.on("manualGuess", (code) => {
     if (code) handleIncomingGuess("Host", "Host", code);
@@ -515,6 +550,14 @@ io.on("connection", (socket) => {
   socket.on("gameAction", ({ gameId, action, options }) => {
     gameRegistry.handleGameAction(gameId, action, options);
     broadcastState();
+  });
+
+  socket.on("setAudioSettings", ({ volume, muted }) => {
+    if (typeof volume === "number") currentAudioSettings.volume = Math.max(0, Math.min(100, Math.round(volume)));
+    if (typeof muted === "boolean") currentAudioSettings.muted = !!muted;
+    saveAudioSettings(currentAudioSettings);
+    io.emit("audioSettings", currentAudioSettings);
+    adminNSP.emit("audioSettings", currentAudioSettings);
   });
 });
 
@@ -531,7 +574,17 @@ adminNSP.on("connection", (socket) => {
     tiktokLiveUsername: tiktokLiveStatus.username || tiktokLiveUsername,
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
     tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
-    speechMessages: getSpeechMessages()
+    speechMessages: getSpeechMessages(),
+    audioSettings: currentAudioSettings
+  });
+  socket.emit("audioSettings", currentAudioSettings);
+
+  socket.on("setAudioSettings", ({ volume, muted }) => {
+    if (typeof volume === "number") currentAudioSettings.volume = Math.max(0, Math.min(100, Math.round(volume)));
+    if (typeof muted === "boolean") currentAudioSettings.muted = !!muted;
+    saveAudioSettings(currentAudioSettings);
+    io.emit("audioSettings", currentAudioSettings);
+    adminNSP.emit("audioSettings", currentAudioSettings);
   });
 
   socket.on("updateSpeechMessages", (payload) => {
@@ -613,6 +666,7 @@ server.listen(PORT, () => {
   console.log(`  🧩 Odd One Out     : http://localhost:${PORT}/games/odd-one-out/overlay.html`);
   console.log(`  💡 Think Like Ally : http://localhost:${PORT}/games/think-like-ally/overlay.html`);
   console.log(`  💜 Think & Link    : http://localhost:${PORT}/games/think-and-link/overlay.html`);
+  console.log(`  🔍 Word Finder     : http://localhost:${PORT}/games/word-finder/overlay.html`);
   if (tiktokLiveUsername) {
     console.log(`  🎯 TikTok Live     : @${tiktokLiveUsername}`);
   }

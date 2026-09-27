@@ -1,0 +1,9 @@
+{
+  "id": "word-finder",
+  "name": "Ally's Word Finder",
+  "icon": "🔍",
+  "description": "6x6 Word Search Live Game! Chat finds up to 8 hidden words on a 6x6 letter grid (Rows A-F, Cols 1-6).",
+  "category": "Word / Puzzle",
+  "author": "Ally & Mr D Dubs",
+  "version": "1.0.0"
+}

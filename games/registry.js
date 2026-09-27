@@ -2,6 +2,7 @@
 import { OddOneOutEngine } from "./odd-one-out/engine.js";
 import { ThinkLikeAllyEngine } from "./think-like-ally/engine.js";
 import { ThinkAndLinkEngine } from "./think-and-link/engine.js";
+import { WordFinderEngine } from "./word-finder/engine.js";
 
 class GameRegistry {
   constructor() {
@@ -43,6 +44,18 @@ class GameRegistry {
       controlsPath: "/games/think-and-link/controls.html",
       controlsModule: "/games/think-and-link/controls.js",
       engine: new ThinkAndLinkEngine()
+    });
+
+    this.registerGame({
+      id: "word-finder",
+      name: "Ally's Word Finder",
+      icon: "🔍",
+      description: "6x6 Word Search Live Game! Chat finds up to 8 hidden words on a 6x6 grid with A-F rows & 1-6 columns.",
+      category: "Word / Puzzle",
+      overlayPath: "/games/word-finder/overlay.html",
+      controlsPath: "/games/word-finder/controls.html",
+      controlsModule: "/games/word-finder/controls.js",
+      engine: new WordFinderEngine()
     });
   }
 
@@ -161,6 +174,12 @@ class GameRegistry {
         break;
       case "revealSlot":
         if (typeof engine.revealSlot === "function") return engine.revealSlot(options);
+        break;
+      case "revealWord":
+        if (typeof engine.revealWord === "function") return engine.revealWord(options);
+        break;
+      case "setCategoryFilter":
+        if (typeof engine.setCategoryFilter === "function") return engine.setCategoryFilter(options);
         break;
       case "loadPuzzleById":
         if (typeof engine.loadPuzzleById === "function") return engine.loadPuzzleById(options);

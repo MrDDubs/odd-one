@@ -51,11 +51,25 @@ const elToastWord = document.getElementById("toastWord");
 let toastTimeout = null;
 let lastKnownState = null;
 
-// Web Audio Synthesizer
+// Web Audio Synthesizer & Master Volume
 let audioCtx = null;
+let masterGain = null;
+let soundVolume = 1.0;
+let isMuted = false;
+
+try {
+  const savedVol = localStorage.getItem("ally_stream_volume");
+  const savedMuted = localStorage.getItem("ally_stream_muted");
+  if (savedVol !== null) soundVolume = Math.max(0, Math.min(100, parseFloat(savedVol))) / 100;
+  if (savedMuted !== null) isMuted = savedMuted === "true";
+} catch (e) {}
+
 function getAudioContext() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(isMuted ? 0 : soundVolume, audioCtx.currentTime);
+    masterGain.connect(audioCtx.destination);
   }
   if (audioCtx.state === "suspended") {
     audioCtx.resume();
@@ -63,14 +77,32 @@ function getAudioContext() {
   return audioCtx;
 }
 
+function updateAudioSettings(settings) {
+  if (!settings) return;
+  if (typeof settings.volume === "number") {
+    soundVolume = Math.max(0, Math.min(100, settings.volume)) / 100;
+    try { localStorage.setItem("ally_stream_volume", String(settings.volume)); } catch (e) {}
+  }
+  if (typeof settings.muted === "boolean") {
+    isMuted = !!settings.muted;
+    try { localStorage.setItem("ally_stream_muted", String(isMuted)); } catch (e) {}
+  }
+  if (masterGain && audioCtx) {
+    try {
+      masterGain.gain.setValueAtTime(isMuted ? 0 : soundVolume, audioCtx.currentTime);
+    } catch (e) {}
+  }
+}
+
 function playSound(type) {
+  if (isMuted || soundVolume <= 0) return;
   try {
     const ctx = getAudioContext();
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
-    gain.connect(ctx.destination);
+    gain.connect(masterGain || ctx.destination);
 
     if (type === "correct") {
       // Pleasant chime chord
@@ -90,7 +122,7 @@ function playSound(type) {
         const o = ctx.createOscillator();
         const g = ctx.createGain();
         o.connect(g);
-        g.connect(ctx.destination);
+        g.connect(masterGain || ctx.destination);
         o.type = "sine";
         o.frequency.setValueAtTime(freq, now + i * 0.1);
         g.gain.setValueAtTime(0.25, now + i * 0.1);
@@ -349,6 +381,9 @@ function renderLeaderboard(leaderboard) {
 // Main State Handler
 function handleState(state) {
   if (!state) return;
+  if (state.audioSettings) {
+    updateAudioSettings(state.audioSettings);
+  }
   const gameId = state.gameId || state.activeGameId;
   if (gameId && gameId !== "think-and-link") return;
 
@@ -548,6 +583,10 @@ function showLeaderboardPopup(data) {
 // Socket Listeners
 socket.on("gameState", (state) => {
   handleState(state);
+});
+
+socket.on("audioSettings", (settings) => {
+  updateAudioSettings(settings);
 });
 
 socket.on("state", (state) => {

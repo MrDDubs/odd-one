@@ -201,6 +201,7 @@ async function loadActiveGameWorkspace(gameId, state) {
     const module = await import(controlsJsPath);
     const initFn =
       module.initThinkAndLinkControls ||
+      module.initWordFinderControls ||
       module.initOddOneOutControls ||
       module.initThinkLikeAllyControls ||
       module.initControls;

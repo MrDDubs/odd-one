@@ -49,18 +49,58 @@ const btnStart = document.getElementById("btnStart");
 const btnReveal = document.getElementById("btnReveal");
 const btnNext = document.getElementById("btnNext");
 
-// Web Audio API Sound Synthesizer
+// Web Audio API Sound Synthesizer & Master Volume
 let audioCtx = null;
-function playSound(type) {
-  try {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === "suspended") audioCtx.resume();
+let masterGain = null;
+let soundVolume = 1.0;
+let isMuted = false;
 
-    const now = audioCtx.currentTime;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+try {
+  const savedVol = localStorage.getItem("ally_stream_volume");
+  const savedMuted = localStorage.getItem("ally_stream_muted");
+  if (savedVol !== null) soundVolume = Math.max(0, Math.min(100, parseFloat(savedVol))) / 100;
+  if (savedMuted !== null) isMuted = savedMuted === "true";
+} catch (e) {}
+
+function getAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(isMuted ? 0 : soundVolume, audioCtx.currentTime);
+    masterGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function updateAudioSettings(settings) {
+  if (!settings) return;
+  if (typeof settings.volume === "number") {
+    soundVolume = Math.max(0, Math.min(100, settings.volume)) / 100;
+    try { localStorage.setItem("ally_stream_volume", String(settings.volume)); } catch (e) {}
+  }
+  if (typeof settings.muted === "boolean") {
+    isMuted = !!settings.muted;
+    try { localStorage.setItem("ally_stream_muted", String(isMuted)); } catch (e) {}
+  }
+  if (masterGain && audioCtx) {
+    try {
+      masterGain.gain.setValueAtTime(isMuted ? 0 : soundVolume, audioCtx.currentTime);
+    } catch (e) {}
+  }
+}
+
+function playSound(type) {
+  if (isMuted || soundVolume <= 0) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
     osc.connect(gain);
-    gain.connect(audioCtx.destination);
+    gain.connect(masterGain || ctx.destination);
 
     if (type === "win") {
       osc.type = "triangle";
@@ -549,6 +589,9 @@ function renderLeaderboard(leaderboard) {
 }
 
 function applyGameState(data) {
+  if (data.audioSettings) {
+    updateAudioSettings(data.audioSettings);
+  }
   const roundChanged = data.round !== lastRenderedRound;
   round = data.round || 1;
   level = data.level || 1;
@@ -805,6 +848,10 @@ function initSocket() {
       socket.on("gameState", (data) => {
         isServerConnected = true;
         applyGameState(data);
+      });
+
+      socket.on("audioSettings", (settings) => {
+        updateAudioSettings(settings);
       });
 
       socket.on("roundStarted", (data) => {

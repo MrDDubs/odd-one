@@ -181,10 +181,16 @@ function updateActiveGameUI(gameId) {
     thinkAndLinkSettingsCard.style.display = (gameId === "think-and-link") ? "block" : "none";
   }
 
+  const wordFinderSettingsCard = document.getElementById("wordFinderSettingsCard");
+  if (wordFinderSettingsCard) {
+    wordFinderSettingsCard.style.display = (gameId === "word-finder") ? "block" : "none";
+  }
+
   const gameNames = {
     "odd-one-out": { name: "Ally's Odd One Out", icon: "🧩" },
     "think-like-ally": { name: "Think Like Ally", icon: "💡" },
-    "think-and-link": { name: "Think & Link", icon: "💜" }
+    "think-and-link": { name: "Think & Link", icon: "💜" },
+    "word-finder": { name: "Ally's Word Finder", icon: "🔍" }
   };
 
   if (phoneFrame) {
@@ -395,6 +401,137 @@ fetch("/games/think-and-link/puzzles.json")
   .catch((err) => console.log("Note: Could not preload puzzles:", err.message));
 
 // --------------------------------------------------------------------------
+// Word Finder Settings (Host Studio)
+// --------------------------------------------------------------------------
+const wfOverlayCategoryFilter = document.getElementById("wfOverlayCategoryFilter");
+const wfOverlaySearchInput = document.getElementById("wfOverlaySearchInput");
+const wfOverlayBtnClearSearch = document.getElementById("wfOverlayBtnClearSearch");
+const wfOverlayPuzzleSelect = document.getElementById("wfOverlayPuzzleSelect");
+const wfOverlayFilteredCountText = document.getElementById("wfOverlayFilteredCountText");
+const wfOverlayPuzzleCountBadge = document.getElementById("wfOverlayPuzzleCountBadge");
+const wfOverlayBtnLoadPuzzle = document.getElementById("wfOverlayBtnLoadPuzzle");
+const wfOverlayBtnRandomPuzzle = document.getElementById("wfOverlayBtnRandomPuzzle");
+
+let wfPuzzles = [];
+let wfCategoriesInitialized = false;
+let wfCurrentFilteredPuzzles = [];
+
+function initWfPuzzles(puzzles) {
+  if (!Array.isArray(puzzles) || puzzles.length === 0) return;
+  wfPuzzles = puzzles;
+
+  if (!wfCategoriesInitialized && wfOverlayCategoryFilter) {
+    const counts = new Map();
+    wfPuzzles.forEach((p) => {
+      const cat = p.category || "General";
+      counts.set(cat, (counts.get(cat) || 0) + 1);
+    });
+
+    const sortedCats = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+    let opts = `<option value="ALL">🌟 All Categories (${wfPuzzles.length})</option>`;
+    sortedCats.forEach(([cat, count]) => {
+      opts += `<option value="${cat}">📁 ${cat} (${count})</option>`;
+    });
+
+    wfOverlayCategoryFilter.innerHTML = opts;
+    wfCategoriesInitialized = true;
+  }
+
+  renderWfOverlayFilteredPuzzles();
+}
+
+function renderWfOverlayFilteredPuzzles() {
+  if (!wfPuzzles.length || !wfOverlayPuzzleSelect) return;
+
+  const selectedCat = wfOverlayCategoryFilter ? wfOverlayCategoryFilter.value : "ALL";
+  const q = (wfOverlaySearchInput?.value || "").trim().toLowerCase();
+
+  wfCurrentFilteredPuzzles = wfPuzzles.filter((p) => {
+    if (selectedCat !== "ALL" && p.category !== selectedCat) return false;
+    if (!q) return true;
+    const topicMatch = (p.topic || "").toLowerCase().includes(q);
+    const catMatch = (p.category || "").toLowerCase().includes(q);
+    const wordsMatch = Array.isArray(p.words) && p.words.some((w) => String(w.word || w).toLowerCase().includes(q));
+    return topicMatch || catMatch || wordsMatch;
+  });
+
+  if (wfOverlayFilteredCountText) {
+    wfOverlayFilteredCountText.textContent = `${wfCurrentFilteredPuzzles.length} available`;
+  }
+
+  if (wfOverlayPuzzleCountBadge) {
+    wfOverlayPuzzleCountBadge.textContent = selectedCat === "ALL" && !q
+      ? `${wfPuzzles.length} Puzzles`
+      : `${wfCurrentFilteredPuzzles.length} Match${wfCurrentFilteredPuzzles.length === 1 ? '' : 'es'}`;
+  }
+
+  if (wfCurrentFilteredPuzzles.length === 0) {
+    wfOverlayPuzzleSelect.innerHTML = `<option value="">No matching puzzles found</option>`;
+  } else {
+    wfOverlayPuzzleSelect.innerHTML = wfCurrentFilteredPuzzles
+      .map((p) => `<option value="${p.id}">${p.emoji || "🔍"} ${p.topic} — [${p.category}] (${(p.words || []).length || 6} words)</option>`)
+      .join("");
+
+    if (currentGameState?.puzzleId && wfCurrentFilteredPuzzles.some((p) => p.id === currentGameState.puzzleId)) {
+      wfOverlayPuzzleSelect.value = currentGameState.puzzleId;
+    }
+  }
+
+  if (wfOverlayBtnClearSearch) {
+    wfOverlayBtnClearSearch.style.display = q ? "flex" : "none";
+  }
+}
+
+if (wfOverlayCategoryFilter) {
+  wfOverlayCategoryFilter.addEventListener("change", () => {
+    renderWfOverlayFilteredPuzzles();
+    sendGameAction("setCategoryFilter", wfOverlayCategoryFilter.value);
+    showToast(wfOverlayCategoryFilter.value === "ALL" ? "All Categories Shown" : `Category: ${wfOverlayCategoryFilter.value}`);
+  });
+}
+
+if (wfOverlaySearchInput) {
+  wfOverlaySearchInput.addEventListener("input", () => {
+    renderWfOverlayFilteredPuzzles();
+  });
+}
+
+if (wfOverlayBtnClearSearch) {
+  wfOverlayBtnClearSearch.addEventListener("click", () => {
+    if (wfOverlaySearchInput) wfOverlaySearchInput.value = "";
+    renderWfOverlayFilteredPuzzles();
+  });
+}
+
+if (wfOverlayBtnLoadPuzzle) {
+  wfOverlayBtnLoadPuzzle.addEventListener("click", () => {
+    const selectedId = wfOverlayPuzzleSelect?.value;
+    if (selectedId) {
+      sendGameAction("loadPuzzleById", { id: selectedId });
+      showToast(`📚 Loading topic ${selectedId}...`);
+    }
+  });
+}
+
+if (wfOverlayBtnRandomPuzzle) {
+  wfOverlayBtnRandomPuzzle.addEventListener("click", () => {
+    const selectedCat = wfOverlayCategoryFilter?.value || "ALL";
+    sendGameAction("newRound", { category: selectedCat });
+    showToast(`🎲 Random puzzle from ${selectedCat}`);
+  });
+}
+
+// Pre-load Word Finder puzzles
+fetch("/games/word-finder/puzzles.json")
+  .then((res) => res.json())
+  .then((puzzles) => {
+    if (Array.isArray(puzzles)) {
+      initWfPuzzles(puzzles);
+    }
+  })
+  .catch((err) => console.log("Note: Could not preload word finder puzzles:", err.message));
+
+// --------------------------------------------------------------------------
 // Round Flow & Game Actions
 // --------------------------------------------------------------------------
 btnStartRound?.addEventListener("click", () => {
@@ -454,6 +591,117 @@ btnSetCustomTime?.addEventListener("click", () => {
     showToast(`⏳ Set custom time: ${sec}s`);
     if (inputCustomTime) inputCustomTime.value = "";
   }
+});
+
+// --------------------------------------------------------------------------
+// Master Audio & Volume Controls
+// --------------------------------------------------------------------------
+const btnMuteAudio = document.getElementById("btnMuteAudio");
+const muteBtnIcon = document.getElementById("muteBtnIcon");
+const muteBtnText = document.getElementById("muteBtnText");
+const sliderVolume = document.getElementById("sliderVolume");
+const volumePercentText = document.getElementById("volumePercentText");
+const volChips = document.querySelectorAll(".vol-chip");
+
+let currentVolume = 100;
+let currentMuted = false;
+
+try {
+  const savedVol = localStorage.getItem("ally_stream_volume");
+  const savedMuted = localStorage.getItem("ally_stream_muted");
+  if (savedVol !== null) currentVolume = parseInt(savedVol, 10);
+  if (savedMuted !== null) currentMuted = savedMuted === "true";
+} catch (e) {}
+
+function renderAudioUI(vol, muted) {
+  if (sliderVolume && document.activeElement !== sliderVolume) {
+    sliderVolume.value = vol;
+  }
+
+  if (volumePercentText) {
+    volumePercentText.textContent = muted ? "MUTED" : `${vol}%`;
+    if (muted) {
+      volumePercentText.style.color = "#f87171";
+      volumePercentText.style.borderColor = "rgba(239, 68, 68, 0.4)";
+      volumePercentText.style.background = "rgba(239, 68, 68, 0.15)";
+    } else {
+      volumePercentText.style.color = "#d8b4fe";
+      volumePercentText.style.borderColor = "rgba(168, 85, 247, 0.4)";
+      volumePercentText.style.background = "rgba(168, 85, 247, 0.2)";
+    }
+  }
+
+  if (btnMuteAudio) {
+    btnMuteAudio.classList.toggle("is-muted", muted);
+    if (muteBtnIcon) muteBtnIcon.textContent = muted ? "🔇" : "🔊";
+    if (muteBtnText) muteBtnText.textContent = muted ? "MUTED" : "Sound ON";
+  }
+
+  volChips.forEach((chip) => {
+    const chipVol = parseInt(chip.getAttribute("data-vol"), 10);
+    const isActive = muted ? chipVol === 0 : (!muted && chipVol === vol && chipVol !== 0);
+    chip.classList.toggle("active", isActive);
+  });
+}
+
+function sendAudioUpdate(vol, muted) {
+  currentVolume = typeof vol === "number" ? Math.max(0, Math.min(100, Math.round(vol))) : currentVolume;
+  currentMuted = typeof muted === "boolean" ? muted : currentMuted;
+
+  try {
+    localStorage.setItem("ally_stream_volume", currentVolume);
+    localStorage.setItem("ally_stream_muted", currentMuted ? "true" : "false");
+  } catch (e) {}
+
+  renderAudioUI(currentVolume, currentMuted);
+
+  socket.emit("setAudioSettings", {
+    volume: currentVolume,
+    muted: currentMuted
+  });
+}
+
+// Initial render from local cache
+renderAudioUI(currentVolume, currentMuted);
+
+if (sliderVolume) {
+  sliderVolume.addEventListener("input", (e) => {
+    const val = parseInt(e.target.value, 10);
+    const shouldUnmute = currentMuted && val > 0 ? false : currentMuted;
+    sendAudioUpdate(val, shouldUnmute);
+  });
+}
+
+if (btnMuteAudio) {
+  btnMuteAudio.addEventListener("click", () => {
+    const nextMuted = !currentMuted;
+    sendAudioUpdate(currentVolume, nextMuted);
+    showToast(nextMuted ? "🔇 Overlay Audio Muted" : "🔊 Overlay Audio Unmuted");
+  });
+}
+
+volChips.forEach((chip) => {
+  chip.addEventListener("click", () => {
+    const val = parseInt(chip.getAttribute("data-vol"), 10);
+    if (val === 0) {
+      sendAudioUpdate(currentVolume, true);
+      showToast("🔇 Audio Muted");
+    } else {
+      sendAudioUpdate(val, false);
+      showToast(`🔊 Volume set to ${val}%`);
+    }
+  });
+});
+
+socket.on("audioSettings", (data) => {
+  if (!data) return;
+  if (typeof data.volume === "number") currentVolume = data.volume;
+  if (typeof data.muted === "boolean") currentMuted = !!data.muted;
+  try {
+    localStorage.setItem("ally_stream_volume", currentVolume);
+    localStorage.setItem("ally_stream_muted", currentMuted ? "true" : "false");
+  } catch (e) {}
+  renderAudioUI(currentVolume, currentMuted);
 });
 
 // Reset Leaderboard & Game
@@ -582,6 +830,14 @@ function updateHostCheatSheet(data) {
     cheatSecretAnswer.style.fontSize = "12px";
     cheatCategory.textContent = `${data.topic || "Topic"} ${data.emoji || "💜"} (${data.category || "Word"})`;
     cheatStatus.textContent = `Solved ${solvedCount}/6 words • ${data.paused ? "Paused ⏸" : (data.isTimerActive ? "Active ▶" : "Ended 🏁")}`;
+  } else if (data.gameId === "word-finder") {
+    const words = data.secretWords || data.words || [];
+    const solvedCount = words.filter((w) => w.revealed).length;
+    const wordsPreview = words.map((w) => `${w.word} (${w.start}→${w.end})`).join(", ");
+    cheatSecretAnswer.textContent = wordsPreview || "--";
+    cheatSecretAnswer.style.fontSize = "11.5px";
+    cheatCategory.textContent = `${data.topic || "Word Finder"} ${data.emoji || "🔍"} (${data.category || "Puzzle"})`;
+    cheatStatus.textContent = `Found ${solvedCount}/${words.length || 0} words • ${data.paused ? "Paused ⏸" : (data.isTimerActive ? "Active ▶" : "Ended 🏁")}`;
   }
 }
 
@@ -594,6 +850,16 @@ function updateGameStateUI(data) {
 
   if (data.speechMessages) {
     applySpeechData(data.speechMessages);
+  }
+
+  if (data.audioSettings) {
+    if (typeof data.audioSettings.volume === "number") currentVolume = data.audioSettings.volume;
+    if (typeof data.audioSettings.muted === "boolean") currentMuted = !!data.audioSettings.muted;
+    try {
+      localStorage.setItem("ally_stream_volume", currentVolume);
+      localStorage.setItem("ally_stream_muted", currentMuted ? "true" : "false");
+    } catch (e) {}
+    renderAudioUI(currentVolume, currentMuted);
   }
 
   if (data.activeGameId) {
@@ -626,6 +892,24 @@ function updateGameStateUI(data) {
     if (data.puzzleId && talOverlayPuzzleSelect && document.activeElement !== talOverlayPuzzleSelect) {
       if (talOverlayPuzzleSelect.value !== data.puzzleId) {
         talOverlayPuzzleSelect.value = data.puzzleId;
+      }
+    }
+  }
+
+  // Sync Controls for Word Finder
+  if (data.gameId === "word-finder") {
+    if (Array.isArray(data.puzzles) && data.puzzles.length > 0 && wfPuzzles.length === 0) {
+      initWfPuzzles(data.puzzles);
+    }
+    if (data.activeCategoryFilter && wfOverlayCategoryFilter && document.activeElement !== wfOverlayCategoryFilter) {
+      if (wfOverlayCategoryFilter.value !== data.activeCategoryFilter) {
+        wfOverlayCategoryFilter.value = data.activeCategoryFilter;
+        renderWfOverlayFilteredPuzzles();
+      }
+    }
+    if (data.puzzleId && wfOverlayPuzzleSelect && document.activeElement !== wfOverlayPuzzleSelect) {
+      if (wfOverlayPuzzleSelect.value !== data.puzzleId) {
+        wfOverlayPuzzleSelect.value = data.puzzleId;
       }
     }
   }

@@ -24,6 +24,11 @@ const GAME_OVERLAYS = {
     path: "/games/think-and-link/overlay.html",
     name: "Think & Link",
     icon: "💜"
+  },
+  "word-finder": {
+    path: "/games/word-finder/overlay.html",
+    name: "Ally's Word Finder",
+    icon: "🔍"
   }
 };
 
