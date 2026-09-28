@@ -32,6 +32,16 @@
   <!-- Round & Timer Management -->
   <div class="card">
     <div class="card-title">Round &amp; Timer Management</div>
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px; background:rgba(255,255,255,0.04); padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
+      <label for="wfGridSizeSelect" style="font-size:11px; font-weight:700; color:#cbb2ff; text-transform:uppercase; letter-spacing:0.5px; margin:0; white-space:nowrap;">
+        📐 Grid Size:
+      </label>
+      <select id="wfGridSizeSelect" style="flex:1; max-width:280px; padding:5px 8px; font-size:11.5px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:6px; color:#fff; outline:none;">
+        <option value="6">6x6 Grid (Standard • 3-6 letter words)</option>
+        <option value="8">8x8 Grid (Medium • up to 8-letter words)</option>
+        <option value="10">10x10 Grid (Large • up to 10-letter words)</option>
+      </select>
+    </div>
     <div class="btn-row">
       <button class="primary" id="wfBtnStartTimer">▶ Start Timer</button>
       <button class="secondary" id="wfBtnPauseTimer">⏸ Pause Timer</button>

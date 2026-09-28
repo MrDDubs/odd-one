@@ -33,18 +33,26 @@
       </div>
     </div>
 
-    <!-- White Pill Rule Banner -->
-    <div class="rule-banner">
-      <span class="rule-text">FIND HIDDEN WORDS • TYPE WORD OR COORD (e.g. A1)</span>
-      <span class="rule-heart">🔍</span>
+    <!-- White Pill Rule & Progress Banner (Swipes Every 10s) -->
+    <div class="rule-banner" id="ruleBanner">
+      <div class="rule-banner-track" id="ruleBannerTrack">
+        <div class="rule-slide slide-rules">
+          <span class="rule-text">FIND HIDDEN WORDS • TYPE WORD OR COORD (e.g. A1)</span>
+          <span class="rule-heart">🔍</span>
+        </div>
+        <div class="rule-slide slide-progress">
+          <span class="rule-text" id="wordsFoundProgressText">0 OF 6 WORDS FOUND</span>
+          <span class="rule-heart" id="wordsFoundProgressIcon">🎯</span>
+        </div>
+      </div>
     </div>
 
     <!-- Main Word Finder Board -->
     <main class="main-content">
       <!-- 6x6 Letter Grid with Coordinate Headers -->
       <section class="word-search-board">
-        <!-- Top Horizontal Header (Columns 1 to 6) -->
-        <div class="cols-header">
+        <!-- Top Horizontal Header (Columns 1 to N) -->
+        <div class="cols-header" id="colsHeader">
           <span class="col-header-cell">1</span>
           <span class="col-header-cell">2</span>
           <span class="col-header-cell">3</span>
@@ -54,8 +62,8 @@
         </div>
 
         <div class="board-body">
-          <!-- Left Vertical Header (Rows A to F) -->
-          <div class="rows-header">
+          <!-- Left Vertical Header (Rows A to N) -->
+          <div class="rows-header" id="rowsHeader">
             <span class="row-header-cell">A</span>
             <span class="row-header-cell">B</span>
             <span class="row-header-cell">C</span>
@@ -64,33 +72,27 @@
             <span class="row-header-cell">F</span>
           </div>
 
-          <!-- 6x6 Grid Container -->
-          <div class="grid-6x6" id="grid6x6">
-            <!-- 36 cells generated via overlay.js -->
+          <!-- Grid Container (dynamic 6x6, 8x8, 10x10) -->
+          <div class="grid-board grid-6x6" id="gridBoard">
+            <!-- cells generated via overlay.js -->
           </div>
         </div>
       </section>
 
-      <!-- Word Bank & Progress Checklist -->
-      <section class="word-bank-card">
-        <div class="word-bank-header">
-          <span class="bank-title">HIDDEN WORDS TO FIND</span>
-          <span class="bank-progress" id="bankProgress">0 / 0</span>
+      <!-- Scrolling Word Pills (Two Lines Below Puzzle) -->
+      <section class="word-pills-section" id="wordPillsSection">
+        <div class="word-pills-row scroll-track-1" id="wordPillsRow1">
+          <div class="word-pills-track" id="wordPillsTrack1">
+            <!-- Line 1 scrolling pills injected via overlay.js -->
+          </div>
         </div>
-        <div class="word-bank-grid" id="wordBankGrid">
-          <!-- Word chips injected via overlay.js -->
+        <div class="word-pills-row scroll-track-2" id="wordPillsRow2">
+          <div class="word-pills-track" id="wordPillsTrack2">
+            <!-- Line 2 scrolling pills injected via overlay.js -->
+          </div>
         </div>
       </section>
     </main>
-
-    <!-- Community Streak Pill -->
-    <div class="streak-pill" id="streakCard">
-      <span class="streak-label">COMMUNITY STREAK</span>
-      <div class="streak-val">
-        <span class="flame-icon">🔥</span>
-        <span class="streak-num" id="streakValue">0</span>
-      </div>
-    </div>
 
     <!-- Floating Live Guess Toast -->
     <div id="guessToast" class="guess-toast">

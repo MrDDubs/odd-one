@@ -28,12 +28,33 @@ const elRoundPill = document.getElementById("roundPill");
 const elCategoryPill = document.getElementById("categoryPill");
 const elTimerNum = document.getElementById("timerNum");
 const elTimerBox = document.getElementById("timerBox");
-const elGrid6x6 = document.getElementById("grid6x6");
-const elWordBankGrid = document.getElementById("wordBankGrid");
-const elBankProgress = document.getElementById("bankProgress");
-const elStreakValue = document.getElementById("streakValue");
-const elStreakCard = document.getElementById("streakCard");
+const elColsHeader = document.getElementById("colsHeader");
+const elRowsHeader = document.getElementById("rowsHeader");
+const elGridBoard = document.getElementById("gridBoard") || document.getElementById("grid6x6");
+const elGrid6x6 = elGridBoard;
+const elWordPillsTrack1 = document.getElementById("wordPillsTrack1");
+const elWordPillsTrack2 = document.getElementById("wordPillsTrack2");
 const elConfettiContainer = document.getElementById("confettiContainer");
+
+const elRuleBannerTrack = document.getElementById("ruleBannerTrack");
+const elWordsFoundProgressText = document.getElementById("wordsFoundProgressText");
+const elWordsFoundProgressIcon = document.getElementById("wordsFoundProgressIcon");
+
+// 10-Second Rule & Progress Banner Swipe Cycler
+let bannerSlideIndex = 0;
+let bannerSwipeTimer = null;
+
+function initBannerSwiper() {
+  if (bannerSwipeTimer) clearInterval(bannerSwipeTimer);
+  bannerSwipeTimer = setInterval(() => {
+    bannerSlideIndex = (bannerSlideIndex + 1) % 2;
+    if (elRuleBannerTrack) {
+      elRuleBannerTrack.classList.toggle("show-progress", bannerSlideIndex === 1);
+    }
+  }, 10000);
+}
+
+initBannerSwiper();
 
 const elModal = document.getElementById("leaderboardModal");
 const elModalPodium = document.getElementById("modalPodium");
@@ -205,27 +226,46 @@ function launchCuteConfetti() {
 }
 
 // ============================================================================
-// 6x6 Grid & Word Bank Rendering
+// Dynamic Grid (6x6, 8x8, 10x10) & Word Bank Rendering
 // ============================================================================
-const ROW_NAMES = ["A", "B", "C", "D", "E", "F"];
-const COL_NAMES = ["1", "2", "3", "4", "5", "6"];
+let currentGridHeadersSize = 0;
 
-function renderGrid(gridRows) {
-  if (!elGrid6x6 || !Array.isArray(gridRows) || gridRows.length !== 6) return;
+function renderGridHeaders(size) {
+  if (currentGridHeadersSize === size) return;
+  currentGridHeadersSize = size;
+  if (elColsHeader) {
+    elColsHeader.style.setProperty("--grid-size", size);
+    elColsHeader.innerHTML = Array.from({ length: size }, (_, i) => `<span class="col-header-cell">${i + 1}</span>`).join("");
+  }
+  if (elRowsHeader) {
+    elRowsHeader.style.setProperty("--grid-size", size);
+    elRowsHeader.innerHTML = Array.from({ length: size }, (_, i) => `<span class="row-header-cell">${String.fromCharCode(65 + i)}</span>`).join("");
+  }
+}
+
+function renderGrid(gridRows, size) {
+  if (!elGridBoard || !Array.isArray(gridRows) || gridRows.length === 0) return;
+  const gridSize = size || gridRows.length;
+  renderGridHeaders(gridSize);
+
+  elGridBoard.style.setProperty("--grid-size", gridSize);
+  elGridBoard.classList.remove("size-6", "size-8", "size-10");
+  elGridBoard.classList.add(`size-${gridSize}`);
 
   // Rebuild grid elements if empty or changed
-  const gridKey = gridRows.join("");
+  const gridKey = `${gridSize}-${gridRows.join("")}`;
   if (currentGridState !== gridKey) {
     currentGridState = gridKey;
-    elGrid6x6.innerHTML = "";
+    elGridBoard.innerHTML = "";
 
-    for (let r = 0; r < 6; r++) {
-      const rowStr = String(gridRows[r] || "      ").toUpperCase();
-      for (let c = 0; c < 6; c++) {
+    for (let r = 0; r < gridSize; r++) {
+      const rowStr = String(gridRows[r] || "").padEnd(gridSize, " ").toUpperCase();
+      const rowLetter = String.fromCharCode(65 + r);
+      for (let c = 0; c < gridSize; c++) {
         const letter = rowStr[c] || " ";
-        const coord = `${ROW_NAMES[r]}${COL_NAMES[c]}`;
+        const coord = `${rowLetter}${c + 1}`;
         const cell = document.createElement("div");
-        cell.className = "cell-6x6";
+        cell.className = "cell-item cell-6x6";
         cell.id = `cell-${coord}`;
         cell.dataset.coord = coord;
         cell.dataset.letter = letter;
@@ -233,7 +273,7 @@ function renderGrid(gridRows) {
           <span class="cell-letter">${letter}</span>
           <span class="cell-coord">${coord}</span>
         `;
-        elGrid6x6.appendChild(cell);
+        elGridBoard.appendChild(cell);
       }
     }
   }
@@ -241,7 +281,7 @@ function renderGrid(gridRows) {
 
 function updateGridHighlights(words, hintCoord = null) {
   // Clear existing highlights
-  document.querySelectorAll(".cell-6x6").forEach((cell) => {
+  document.querySelectorAll(".cell-item, .cell-6x6").forEach((cell) => {
     cell.classList.remove("cell-found", "cell-hint");
     cell.style.background = "";
     cell.style.borderColor = "";
@@ -275,49 +315,98 @@ function updateGridHighlights(words, hintCoord = null) {
   }
 }
 
-function renderWordBank(words) {
-  if (!elWordBankGrid || !Array.isArray(words)) return;
+// ============================================================================
+// 2-Line Scrolling Word Pills Rendering
+// ============================================================================
+let currentWordsStateKey = null;
 
-  let foundCount = 0;
-  elWordBankGrid.innerHTML = words.map((w, idx) => {
-    const isSolved = !!w.revealed;
-    if (isSolved) foundCount++;
+function renderPillAvatarHTML(avatar, user) {
+  const initial = esc((user || "?").charAt(0).toUpperCase());
+  if (avatar) {
+    return `<img src="${esc(avatar)}" class="pill-avatar-img" alt="${esc(user)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="pill-avatar-initial" style="display:none">${initial}</div>`;
+  }
+  return `<div class="pill-avatar-initial">${initial}</div>`;
+}
 
-    const color = w.color || "#a855f7";
-    const letterCount = w.length || (w.word ? w.word.length : 4);
+function generatePillHTML(w, idx) {
+  const isSolved = !!w.revealed;
+  const color = w.color || "#10b981";
+  const letterCount = w.length || (w.word ? w.word.length : 4);
 
-    if (isSolved) {
-      const solverText = w.foundBy?.nickname
-        ? `✓ @${esc(w.foundBy.nickname)}`
-        : "✓ Revealed";
+  if (isSolved) {
+    const finder = w.foundBy;
+    const finderName = finder?.nickname || finder?.user || (w.revealed ? "Host" : "Player");
+    const avatar = finder?.avatar || (finder ? null : "/ally-avatar.png");
+    const avatarHTML = renderPillAvatarHTML(avatar, finderName);
 
-      return `
-        <div class="word-chip solved" id="word-chip-${idx}">
-          <div class="word-chip-left">
-            <span class="word-chip-dot" style="background:${color}; box-shadow: 0 0 6px ${color}"></span>
-            <span class="word-chip-text">${esc(w.word)}</span>
-          </div>
-          <span class="word-chip-solver" title="${esc(solverText)}">${solverText}</span>
+    return `
+      <div class="word-pill solved" id="word-pill-${idx}">
+        <div class="pill-avatar-wrap">
+          ${avatarHTML}
         </div>
-      `;
-    } else {
-      const dots = Array(letterCount).fill("•").join(" ");
-      return `
-        <div class="word-chip hidden-word" id="word-chip-${idx}">
-          <div class="word-chip-left">
-            <span class="word-chip-lock">🔒</span>
-            <span class="word-chip-blanks" aria-label="${letterCount} letters">${dots}</span>
-          </div>
-          <span class="word-chip-meta">${letterCount} letters</span>
+        <div class="pill-solved-content">
+          <span class="pill-word-text">${esc(w.word)}</span>
+          <span class="pill-finder-tag">${finder ? `✓ @${esc(finderName)}` : "✓ Revealed"}</span>
         </div>
-      `;
-    }
-  }).join("");
+      </div>
+    `;
+  } else {
+    // Unrevealed: Horizontal pill with blank dots showing how many letters
+    const dotsHTML = Array.from({ length: letterCount }, () => `<span class="pill-blank-dot"></span>`).join("");
 
-  if (elBankProgress) {
-    elBankProgress.textContent = `${foundCount} / ${words.length}`;
+    return `
+      <div class="word-pill unrevealed" id="word-pill-${idx}">
+        <span class="pill-lock-icon">🔒</span>
+        <div class="pill-blank-dots" aria-label="${letterCount} letters">
+          ${dotsHTML}
+        </div>
+        <span class="pill-count-tag">${letterCount}</span>
+      </div>
+    `;
   }
 }
+
+function renderWordPills(words) {
+  if (!Array.isArray(words) || words.length === 0) return;
+  if (!elWordPillsTrack1 && !elWordPillsTrack2) return;
+
+  // Build state key to avoid resetting CSS marquee animation on every 1s timer tick
+  const stateKey = words
+    .map((w) => `${w.word || w.index}:${w.revealed ? (w.foundBy?.user || "solved") : "hidden"}`)
+    .join("|");
+
+  if (currentWordsStateKey === stateKey) {
+    return;
+  }
+  currentWordsStateKey = stateKey;
+
+  // Distribute words across two lines
+  // Row 1: even indices (0, 2, 4...)
+  // Row 2: odd indices (1, 3, 5...)
+  const row1Words = words.filter((_, i) => i % 2 === 0);
+  const row2Words = words.filter((_, i) => i % 2 !== 0);
+
+  const row1PillsHTML = row1Words.map((w) => generatePillHTML(w, w.index)).join("");
+  const row2PillsHTML = row2Words.map((w) => generatePillHTML(w, w.index)).join("");
+
+  // Duplicate for seamless 50% infinite loop
+  if (elWordPillsTrack1) {
+    elWordPillsTrack1.innerHTML = `
+      <div class="pills-group">${row1PillsHTML}</div>
+      <div class="pills-group" aria-hidden="true">${row1PillsHTML}</div>
+    `;
+  }
+
+  if (elWordPillsTrack2) {
+    elWordPillsTrack2.innerHTML = `
+      <div class="pills-group">${row2PillsHTML}</div>
+      <div class="pills-group" aria-hidden="true">${row2PillsHTML}</div>
+    `;
+  }
+}
+
+const renderWordBank = renderWordPills;
 
 // ============================================================================
 // Podium & Community Leaderboard Modal
@@ -488,9 +577,9 @@ function handleState(state) {
     }
   }
 
-  // 6x6 Grid
+  // Dynamic Grid
   if (Array.isArray(state.grid)) {
-    renderGrid(state.grid);
+    renderGrid(state.grid, state.gridSize);
   }
 
   // Words & Bank: Always display words from state.words (hidden until solved)
@@ -500,8 +589,18 @@ function handleState(state) {
     updateGridHighlights(wordsToDisplay, state.lastHintCoord);
   }
 
-  // Community Streak
-  if (elStreakValue) elStreakValue.textContent = state.streak !== undefined ? state.streak : 0;
+  // Update Words Found Progress Banner (Swipes Every 10s)
+  if (elWordsFoundProgressText) {
+    const found = state.foundCount || 0;
+    const total = state.totalWords || (Array.isArray(state.words) ? state.words.length : 6);
+    if (found >= total && total > 0) {
+      elWordsFoundProgressText.textContent = `🎉 ALL ${total} OF ${total} WORDS FOUND!`;
+      if (elWordsFoundProgressIcon) elWordsFoundProgressIcon.textContent = "🏆";
+    } else {
+      elWordsFoundProgressText.textContent = `${found} OF ${total} WORDS FOUND`;
+      if (elWordsFoundProgressIcon) elWordsFoundProgressIcon.textContent = found > 0 ? "⭐" : "🎯";
+    }
+  }
 }
 
 // ============================================================================
@@ -528,6 +627,7 @@ socket.on("syncState", (state) => {
 });
 
 socket.on("roundStarted", (state) => {
+  currentWordsStateKey = null;
   if (elModal) elModal.classList.remove("active");
   if (state) handleState(state);
 });

@@ -167,29 +167,84 @@ html, body {
   opacity: 0.85;
 }
 
-/* White Pill Rule Banner */
+/* White Pill Rule & Progress Banner with 10s Swiping */
 .rule-banner {
   background: #ffffff;
   color: #3b0764;
   border-radius: 999px;
-  padding: 5px 14px;
+  padding: 0;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.22);
+  border: 2px solid #d8b4fe;
+  flex-shrink: 0;
+  height: clamp(34px, 4.5vh, 44px);
+  position: relative;
+  overflow: hidden;
+}
+
+.rule-banner-track {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+.rule-banner-track.show-progress {
+  transform: translateX(-50%);
+}
+
+.rule-slide {
+  width: 50%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
-  border: 1.5px solid #d8b4fe;
+  gap: 10px;
+  padding: 0 14px;
+  box-sizing: border-box;
   flex-shrink: 0;
 }
 
-.rule-text {
+.slide-rules {
+  padding: 0 6px;
+  gap: 5px;
+}
+
+.slide-rules .rule-text {
+  font-size: clamp(8.5px, 1.05vh, 11.5px);
   font-weight: 800;
-  font-size: 1.35vh;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+
+.slide-rules .rule-heart {
+  font-size: clamp(10px, 1.2vh, 13px);
+}
+
+.slide-progress {
+  background: linear-gradient(135deg, #ffffff 0%, #fdf4ff 100%);
+}
+
+.slide-progress .rule-text {
+  color: #6b21a8;
+  font-weight: 900;
+  font-size: clamp(15px, 1.9vh, 21px);
   letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.slide-progress .rule-heart {
+  font-size: clamp(16px, 2.1vh, 23px);
+}
+
+.rule-text {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .rule-heart {
-  font-size: 1.5vh;
+  flex-shrink: 0;
 }
 
 /* Main Content Area */
@@ -213,10 +268,10 @@ html, body {
   flex-shrink: 0;
 }
 
-/* Column Header (1 to 6) */
+/* Column Header (1 to N) */
 .cols-header {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(var(--grid-size, 6), 1fr);
   margin-left: 7%;
   padding-bottom: 4px;
   text-align: center;
@@ -225,22 +280,22 @@ html, body {
 .col-header-cell {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
-  font-size: 1.7vh;
+  font-size: 1.6vh;
   color: #6b21a8;
   letter-spacing: 0.5px;
 }
 
-/* Board Body (Row A-F + 6x6 Grid) */
+/* Board Body (Rows A-N + Grid) */
 .board-body {
   display: grid;
   grid-template-columns: 7% 93%;
   align-items: stretch;
 }
 
-/* Row Header (A to F) */
+/* Row Header (A to N) */
 .rows-header {
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(var(--grid-size, 6), 1fr);
   place-items: center;
   padding-right: 4px;
 }
@@ -248,20 +303,30 @@ html, body {
 .row-header-cell {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
-  font-size: 1.7vh;
+  font-size: 1.6vh;
   color: #6b21a8;
 }
 
-/* 6x6 Grid */
+/* Dynamic Grid Board (6x6, 8x8, 10x10) */
+.grid-board,
 .grid-6x6 {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(var(--grid-size, 6), 1fr);
+  grid-template-rows: repeat(var(--grid-size, 6), 1fr);
   gap: 5px;
   aspect-ratio: 1 / 1;
 }
 
+.grid-board.size-8 {
+  gap: 4px;
+}
+
+.grid-board.size-10 {
+  gap: 3px;
+}
+
 /* Individual Cell */
+.cell-item,
 .cell-6x6 {
   background: linear-gradient(145deg, #ffffff 0%, #f5f0ff 100%);
   border: 1.5px solid #d4c5f9;
@@ -274,6 +339,18 @@ html, body {
   transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.grid-board.size-8 .cell-item,
+.grid-board.size-8 .cell-6x6 {
+  border-radius: 9px;
+  border-width: 1.2px;
+}
+
+.grid-board.size-10 .cell-item,
+.grid-board.size-10 .cell-6x6 {
+  border-radius: 7px;
+  border-width: 1px;
+}
+
 /* Cell Letter */
 .cell-letter {
   font-family: 'Outfit', sans-serif;
@@ -283,6 +360,14 @@ html, body {
   line-height: 1;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   transition: all 0.25s ease;
+}
+
+.grid-board.size-8 .cell-letter {
+  font-size: clamp(13px, 1.9vh, 20px);
+}
+
+.grid-board.size-10 .cell-letter {
+  font-size: clamp(11px, 1.5vh, 16px);
 }
 
 /* Tiny Coordinate Badge in Corner */
@@ -297,7 +382,20 @@ html, body {
   opacity: 0.6;
 }
 
+.grid-board.size-8 .cell-coord {
+  font-size: 0.72vh;
+  top: 1px;
+  right: 2px;
+}
+
+.grid-board.size-10 .cell-coord {
+  font-size: 0.6vh;
+  top: 1px;
+  right: 2px;
+}
+
 /* Found Word Cell Highlight */
+.cell-item.cell-found,
 .cell-6x6.cell-found {
   transform: scale(1.02);
   border-width: 2px;
@@ -305,17 +403,20 @@ html, body {
   z-index: 1;
 }
 
+.cell-item.cell-found .cell-letter,
 .cell-6x6.cell-found .cell-letter {
   color: #ffffff;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
+.cell-item.cell-found .cell-coord,
 .cell-6x6.cell-found .cell-coord {
   color: #ffffff;
   opacity: 0.85;
 }
 
 /* Cell Hint Pulsing Flash */
+.cell-item.cell-hint,
 .cell-6x6.cell-hint {
   animation: hintCellGlow 1s ease infinite alternate;
   border-color: #facc15 !important;
@@ -338,194 +439,196 @@ html, body {
   100% { transform: scale(1.02); }
 }
 
-/* Word Bank & Progress Checklist Card */
-.word-bank-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(243, 238, 255, 0.9));
-  border: 2px solid #cbb8ff;
-  border-radius: 18px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+/* ============================================================================
+   Words to Find: 2-Line Scrolling Pills Track
+   ============================================================================ */
+.word-pills-section {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  flex: 1;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
   min-height: 0;
+  overflow: hidden;
+  padding: 4px 0;
 }
 
-.word-bank-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 2px;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
-}
-
-.bank-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.25vh;
-  font-weight: 800;
-  color: #6b21a8;
-  letter-spacing: 0.6px;
-}
-
-.bank-progress {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.3vh;
-  font-weight: 900;
-  color: #7c3aed;
-  background: rgba(168, 85, 247, 0.15);
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-}
-
-/* Word Bank Grid (2 columns x 4 rows) */
-.word-bank-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
-  overflow-y: auto;
-  padding-right: 2px;
-}
-
-/* Individual Word Chip */
-.word-chip {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1.5px solid #d8b4fe;
-  border-radius: 10px;
-  padding: 4px 8px;
+.word-pills-row {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: all 0.25s ease;
-  min-height: 28px;
+  mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
 }
 
-.word-chip-left {
+.word-pills-track {
   display: flex;
   align-items: center;
-  gap: 5px;
-  min-width: 0;
+  width: max-content;
+  will-change: transform;
 }
 
-.word-chip-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.scroll-track-1 .word-pills-track {
+  animation: scrollPillsTrack 25s linear infinite;
+}
+
+.scroll-track-2 .word-pills-track {
+  animation: scrollPillsTrack 29s linear infinite;
+}
+
+.word-pills-row:hover .word-pills-track {
+  animation-play-state: paused;
+}
+
+@keyframes scrollPillsTrack {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.pills-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 10px;
   flex-shrink: 0;
 }
 
-.word-chip-text {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.35vh;
-  font-weight: 800;
-  color: #3b0764;
-  letter-spacing: 0.4px;
+/* Individual Word Pill */
+.word-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 4px 12px 4px 10px;
+  height: clamp(34px, 4.4vh, 42px);
+  box-sizing: border-box;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
-.word-chip-solver {
-  font-size: 1.05vh;
-  font-weight: 700;
+/* Unrevealed: Horizontal pill with blank dots showing how many letters */
+.word-pill.unrevealed {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(243, 238, 255, 0.9));
+  border: 1.5px solid #d8b4fe;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15), inset 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+.pill-lock-icon {
+  font-size: 1.4vh;
+  opacity: 0.75;
+}
+
+.pill-blank-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pill-blank-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a855f7;
+  box-shadow: 0 0 4px rgba(168, 85, 247, 0.5);
+  opacity: 0.85;
+  display: inline-block;
+}
+
+.pill-count-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15vh;
+  font-weight: 800;
   color: #7c3aed;
+  background: rgba(168, 85, 247, 0.14);
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+/* Revealed: Shows word and finder profile picture */
+.word-pill.solved {
+  background: linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%);
+  border: 2px solid #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35), 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: pillSolvePop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pillSolvePop {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.pill-avatar-wrap {
+  width: clamp(24px, 3.4vh, 30px);
+  height: clamp(24px, 3.4vh, 30px);
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1.5px solid #10b981;
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+}
+
+.pill-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.pill-avatar-initial {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 1.2vh;
+  color: #ffffff;
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.pill-solved-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pill-word-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.45vh;
+  font-weight: 900;
+  color: #065f46;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.pill-finder-tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1vh;
+  font-weight: 800;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
   max-width: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-/* Word Chip: Hidden Mystery State */
-.word-chip.hidden-word {
-  background: rgba(255, 255, 255, 0.65);
-  border: 1.5px dashed #c4b5fd;
-  box-shadow: 0 1px 4px rgba(124, 58, 237, 0.06);
-}
-
-.word-chip-lock {
-  font-size: 1.2vh;
-  margin-right: 2px;
-  opacity: 0.85;
-}
-
-.word-chip-blanks {
-  font-family: 'Outfit', monospace, sans-serif;
-  font-size: 1.35vh;
-  letter-spacing: 2px;
-  font-weight: 900;
-  color: #7c3aed;
-  opacity: 0.8;
-  white-space: nowrap;
-}
-
-.word-chip-meta {
-  font-size: 1.05vh;
-  font-weight: 700;
-  color: #8b5cf6;
-  background: rgba(139, 92, 246, 0.12);
-  padding: 2px 7px;
-  border-radius: 999px;
-  border: 1px solid rgba(139, 92, 246, 0.22);
-  white-space: nowrap;
-}
-
-/* Word Chip: Solved State */
-.word-chip.solved {
-  border-color: #10b981;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(236, 253, 245, 0.92));
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
-  animation: chipSolve 0.4s ease-out;
-}
-
-@keyframes chipSolve {
-  0% { transform: scale(0.92); }
-  60% { transform: scale(1.04); }
-  100% { transform: scale(1); }
-}
-
-.word-chip.solved .word-chip-text {
-  font-weight: 900;
-  color: #065f46;
-  letter-spacing: 0.5px;
-}
-
-.word-chip.solved .word-chip-solver {
-  color: #059669;
-  font-weight: 800;
-  background: rgba(16, 185, 129, 0.12);
-  padding: 2px 6px;
-  border-radius: 999px;
-  border: 1px solid rgba(16, 185, 129, 0.25);
-}
-
-/* Community Streak Pill */
-.streak-pill {
-  background: linear-gradient(145deg, #2b1754 0%, #1e103d 100%);
-  border: 2px solid #7c3aed;
-  border-radius: 999px;
-  padding: 6px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(168, 85, 247, 0.25);
-  flex-shrink: 0;
-}
-
-.streak-label {
-  font-weight: 900;
-  font-size: 1.35vh;
-  letter-spacing: 1px;
-  color: #d8b4fe;
-}
-
-.streak-val {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.flame-icon {
-  font-size: 1.8vh;
-  animation: flameBurn 1.2s infinite alternate ease-in-out;
 }
 
 @keyframes flameBurn {

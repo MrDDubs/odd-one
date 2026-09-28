@@ -184,6 +184,12 @@ class GameRegistry {
       case "loadPuzzleById":
         if (typeof engine.loadPuzzleById === "function") return engine.loadPuzzleById(options);
         break;
+      case "setGridSize":
+        if (typeof engine.setGridSize === "function") {
+          const s = (options && typeof options === "object") ? (options.size ?? options.gridSize) : options;
+          return engine.setGridSize(s);
+        }
+        break;
       case "setCustomPuzzle":
         if (typeof engine.setCustomPuzzle === "function") return engine.setCustomPuzzle(options);
         break;

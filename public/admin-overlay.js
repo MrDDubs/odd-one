@@ -482,6 +482,15 @@ function renderWfOverlayFilteredPuzzles() {
   }
 }
 
+const wfOverlayGridSize = document.getElementById("wfOverlayGridSize");
+if (wfOverlayGridSize) {
+  wfOverlayGridSize.addEventListener("change", () => {
+    const size = parseInt(wfOverlayGridSize.value, 10);
+    sendGameAction("setGridSize", { size });
+    showToast(`📐 Word Finder grid size set to ${size}x${size}!`);
+  });
+}
+
 if (wfOverlayCategoryFilter) {
   wfOverlayCategoryFilter.addEventListener("change", () => {
     renderWfOverlayFilteredPuzzles();
@@ -910,6 +919,11 @@ function updateGameStateUI(data) {
     if (data.puzzleId && wfOverlayPuzzleSelect && document.activeElement !== wfOverlayPuzzleSelect) {
       if (wfOverlayPuzzleSelect.value !== data.puzzleId) {
         wfOverlayPuzzleSelect.value = data.puzzleId;
+      }
+    }
+    if (data.gridSize && wfOverlayGridSize && document.activeElement !== wfOverlayGridSize) {
+      if (String(wfOverlayGridSize.value) !== String(data.gridSize)) {
+        wfOverlayGridSize.value = String(data.gridSize);
       }
     }
   }

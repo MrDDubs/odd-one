@@ -23,6 +23,7 @@ export function initWordFinderControls({ socket, showToast }) {
   const wfFilteredCountText = document.getElementById("wfFilteredCountText");
   const wfBtnLoadPuzzle = document.getElementById("wfBtnLoadPuzzle");
   const wfBtnRandomPuzzle = document.getElementById("wfBtnRandomPuzzle");
+  const wfGridSizeSelect = document.getElementById("wfGridSizeSelect");
 
   let localState = null;
   let categoriesInitialized = false;
@@ -35,6 +36,13 @@ export function initWordFinderControls({ socket, showToast }) {
       options
     });
   }
+
+  // Grid Size Selector
+  wfGridSizeSelect?.addEventListener("change", () => {
+    const size = parseInt(wfGridSizeSelect.value, 10);
+    emitAction("setGridSize", { size });
+    showToast?.(`📐 Word Finder grid size set to ${size}x${size}`);
+  });
 
   // Bind Buttons
   wfBtnStartTimer?.addEventListener("click", () => {
@@ -199,6 +207,12 @@ export function initWordFinderControls({ socket, showToast }) {
     if (wfTimerText) wfTimerText.textContent = `${state.timerRemaining !== undefined ? state.timerRemaining : 60}s`;
     if (wfStreakText) wfStreakText.textContent = `🔥 ${state.streak || 0}`;
     if (wfFoundCountText) wfFoundCountText.textContent = `${state.foundCount || 0}/${state.totalWords || 0}`;
+
+    if (state.gridSize && wfGridSizeSelect && document.activeElement !== wfGridSizeSelect) {
+      if (String(wfGridSizeSelect.value) !== String(state.gridSize)) {
+        wfGridSizeSelect.value = String(state.gridSize);
+      }
+    }
 
     const words = state.secretWords || state.words;
     if (Array.isArray(words)) {

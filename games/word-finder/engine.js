@@ -55,6 +55,9 @@ const WORD_PALETTE = [
   "#e11d48"  // Rose
 ];
 
+const ALL_ROW_NAMES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+const ALL_COL_NAMES = Array.from({ length: 26 }, (_, i) => String(i + 1));
+
 export class WordFinderEngine {
   constructor() {
     this.puzzles = puzzleList.length > 0 ? puzzleList : defaultPuzzles;
@@ -66,6 +69,10 @@ export class WordFinderEngine {
     this.isTimerActive = false;
     this.paused = false;
     this.streak = 0;
+
+    // Grid size: 6 (6x6), 8 (8x8), or 10 (10x10)
+    this.gridSize = 6;
+    this.gridCache = new Map();
 
     this.topic = "PETS";
     this.emoji = "🐶";
@@ -89,6 +96,169 @@ export class WordFinderEngine {
 
     const startIdx = this.getRandomPuzzleIndex();
     this.loadPuzzleByIndex(startIdx, false);
+  }
+
+  setGridSize(size) {
+    const s = parseInt(size, 10);
+    if ([6, 8, 10].includes(s)) {
+      this.gridSize = s;
+      this.loadPuzzleByIndex(this.currentPuzzleIndex, this.isTimerActive);
+      this.statusMessage = `Grid size set to ${this.gridSize}x${this.gridSize}!`;
+    }
+    return this.getPublicPayload();
+  }
+
+  selectBalancedWords(pool, size, targetCount) {
+    const valid = pool.filter(w => w.length >= 3 && w.length <= size);
+    if (valid.length <= targetCount) return valid;
+
+    // Categorize words by relative length
+    const longWords = valid.filter(w => size >= 8 ? (w.length >= size - 2 && w.length <= size) : w.length >= 5);
+    const midWords = valid.filter(w => size >= 8 ? (w.length >= 5 && w.length <= size - 3) : (w.length === 4 || w.length === 5));
+    const shortWords = valid.filter(w => w.length >= 3 && w.length <= 4);
+
+    const selected = new Set();
+    // Prioritize 2-3 longer words that fit the grid
+    [...longWords].sort(() => Math.random() - 0.5).slice(0, size >= 10 ? 3 : 2).forEach(w => selected.add(w));
+    // Prioritize 2-3 mid-length words
+    [...midWords].sort(() => Math.random() - 0.5).slice(0, 3).forEach(w => selected.add(w));
+    // Prioritize 2 shorter words
+    [...shortWords].sort(() => Math.random() - 0.5).slice(0, 2).forEach(w => selected.add(w));
+
+    // Fill up to targetCount from remaining valid words
+    const remaining = [...valid].sort(() => Math.random() - 0.5);
+    for (const w of remaining) {
+      if (selected.size >= targetCount) break;
+      selected.add(w);
+    }
+    return Array.from(selected);
+  }
+
+  buildGridMatrix(words, size) {
+    const grid = Array.from({ length: size }, () => Array(size).fill(""));
+    const dirs = [
+      { name: "H", dr: 0, dc: 1 },
+      { name: "V", dr: 1, dc: 0 },
+      { name: "D", dr: 1, dc: 1 },
+      { name: "U", dr: -1, dc: 1 }
+    ];
+    const placedWords = [];
+
+    // Longest words first
+    const sorted = [...words].filter(w => w.length >= 3 && w.length <= size)
+                            .sort((a, b) => b.length - a.length);
+
+    for (const word of sorted) {
+      const wLen = word.length;
+      let placed = false;
+      const attempts = [];
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          for (const dir of dirs) {
+            attempts.push({ r, c, dir });
+          }
+        }
+      }
+      // Shuffle placement attempts
+      for (let i = attempts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [attempts[i], attempts[j]] = [attempts[j], attempts[i]];
+      }
+
+      for (const { r, c, dir } of attempts) {
+        const endR = r + dir.dr * (wLen - 1);
+        const endC = c + dir.dc * (wLen - 1);
+        if (endR < 0 || endR >= size || endC < 0 || endC >= size) continue;
+
+        let canPlace = true;
+        for (let i = 0; i < wLen; i++) {
+          const curR = r + dir.dr * i;
+          const curC = c + dir.dc * i;
+          const existing = grid[curR][curC];
+          if (existing !== "" && existing !== word[i]) {
+            canPlace = false;
+            break;
+          }
+        }
+
+        if (canPlace) {
+          const coords = [];
+          for (let i = 0; i < wLen; i++) {
+            const curR = r + dir.dr * i;
+            const curC = c + dir.dc * i;
+            grid[curR][curC] = word[i];
+            coords.push(ALL_ROW_NAMES[curR] + (curC + 1));
+          }
+          placedWords.push({
+            word,
+            coords,
+            start: coords[0],
+            end: coords[coords.length - 1],
+            direction: dir.name
+          });
+          placed = true;
+          break;
+        }
+      }
+    }
+
+    // Fill remaining cells with random letters
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (!grid[r][c]) {
+          grid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+        }
+      }
+    }
+
+    return {
+      grid: grid.map(row => row.join("")),
+      words: placedWords
+    };
+  }
+
+  generatePuzzleLayout(p, size = 6) {
+    const s = parseInt(size, 10) || 6;
+    const cacheKey = `${p.id || p.topic}_${s}`;
+    if (this.gridCache && this.gridCache.has(cacheKey)) {
+      return this.gridCache.get(cacheKey);
+    }
+
+    // If 6x6 and p.grid is already a valid 6x6 grid with words, use it
+    if (s === 6 && Array.isArray(p.grid) && p.grid.length === 6 && p.grid[0].length === 6 && Array.isArray(p.words) && p.words.length > 0) {
+      const layout = {
+        grid: p.grid.map(row => String(row).toUpperCase().slice(0, 6)),
+        words: p.words.map(w => ({
+          word: String(w.word || "").toUpperCase().trim(),
+          coords: Array.isArray(w.coords) ? w.coords : [],
+          start: w.start || (w.coords ? w.coords[0] : ""),
+          end: w.end || (w.coords ? w.coords[w.coords.length - 1] : ""),
+          direction: w.direction || "H"
+        }))
+      };
+      if (!this.gridCache) this.gridCache = new Map();
+      this.gridCache.set(cacheKey, layout);
+      return layout;
+    }
+
+    // Gather candidate words from wordPool or p.words
+    let pool = [];
+    if (Array.isArray(p.wordPool) && p.wordPool.length > 0) {
+      pool = p.wordPool.map(w => String(w).toUpperCase().replace(/[^A-Z]/g, ""));
+    } else if (Array.isArray(p.words) && p.words.length > 0) {
+      pool = p.words.map(w => String(w.word || w).toUpperCase().replace(/[^A-Z]/g, ""));
+    }
+    pool = Array.from(new Set(pool)).filter(w => w.length >= 3 && w.length <= s);
+
+    // Target count based on grid size
+    const targetCount = s === 10 ? 8 : (s === 8 ? 7 : 6);
+    const selectedWords = this.selectBalancedWords(pool, s, targetCount);
+
+    const layout = this.buildGridMatrix(selectedWords, s);
+    if (!this.gridCache) this.gridCache = new Map();
+    this.gridCache.set(cacheKey, layout);
+    return layout;
   }
 
   getRandomPuzzleIndex(categoryFilter = null) {
@@ -133,11 +303,12 @@ export class WordFinderEngine {
     this.category = p.category || "General";
     this.puzzleId = p.id || `wf-${this.currentPuzzleIndex}`;
 
-    // Convert grid to array of 6 strings of 6 uppercase letters
-    this.grid = Array.isArray(p.grid) ? p.grid.map(row => String(row).toUpperCase().slice(0, 6)) : [];
+    // Generate or fetch layout for current grid size (6x6, 8x8, or 10x10)
+    const layout = this.generatePuzzleLayout(p, this.gridSize);
+    this.grid = layout.grid;
 
     // Setup words with palette colors
-    this.words = (p.words || []).map((w, idx) => ({
+    this.words = (layout.words || []).map((w, idx) => ({
       index: idx,
       word: String(w.word || "").toUpperCase().trim(),
       coords: Array.isArray(w.coords) ? w.coords : [],
@@ -161,12 +332,12 @@ export class WordFinderEngine {
       this.timerRemaining = this.roundDurationSec;
       this.isTimerActive = true;
       this.paused = false;
-      this.statusMessage = `Round ${this.round}: Find ${this.totalWords} words for "${this.topic}" ${this.emoji}!`;
+      this.statusMessage = `Round ${this.round} (${this.gridSize}x${this.gridSize}): Find ${this.totalWords} words for "${this.topic}" ${this.emoji}!`;
     } else {
       this.timerRemaining = this.roundDurationSec;
       this.isTimerActive = false;
       this.paused = false;
-      this.statusMessage = `Topic: ${this.topic} ${this.emoji} (${this.totalWords} words hidden). Press START!`;
+      this.statusMessage = `Topic: ${this.topic} ${this.emoji} (${this.gridSize}x${this.gridSize} • ${this.totalWords} words). Press START!`;
     }
 
     return this.getPublicPayload();
@@ -352,13 +523,22 @@ export class WordFinderEngine {
     // Check if the guess matches any unrevealed word
     let matchedWordIndex = -1;
 
-    // 1. Single coordinate matching (e.g. "A1", "a1", "!A1", "A 1", "f6")
+    // 1. Single coordinate matching (e.g. "A1", "a1", "!A1", "A 1", "j10")
+    const maxRowChar = String.fromCharCode(65 + this.gridSize - 1);
+    const rowClass = `[A-${maxRowChar}]`;
+    const colClass = this.gridSize === 10 ? "(?:10|[1-9])" : `[1-${this.gridSize}]`;
+
     let singleCoord = null;
-    const singleMatch = upperMsg.match(/^!?([A-F])\s*([1-6])$/);
+    const singleRegex = new RegExp(`^!?(${rowClass})\\s*(${colClass})$`);
+    const singleMatch = upperMsg.match(singleRegex);
     if (singleMatch) {
       singleCoord = `${singleMatch[1]}${singleMatch[2]}`;
-    } else if (normGuess.length === 2 && /^[A-F][1-6]$/.test(normGuess)) {
-      singleCoord = normGuess;
+    } else {
+      const normSingleRegex = new RegExp(`^(${rowClass})(${colClass})$`);
+      const normSingleMatch = normGuess.match(normSingleRegex);
+      if (normSingleMatch) {
+        singleCoord = `${normSingleMatch[1]}${normSingleMatch[2]}`;
+      }
     }
 
     if (singleCoord) {
@@ -382,20 +562,22 @@ export class WordFinderEngine {
       }
     }
 
-    // 2. Coordinate range matching (e.g. "A1-D1", "A1 TO D1", "A1 D1", "A1:D1", "A1D1")
+    // 2. Coordinate range matching (e.g. "A1-D1", "A1 TO D1", "A1 D1", "A1:D1", "A1D1", "A1-J10")
     if (matchedWordIndex === -1) {
-      let rangeMatch = upperMsg.match(/^!?([A-F])\s*([1-6])[\s\-:,>TO\->]+([A-F])\s*([1-6])$/);
+      const sep = `(?:\\s*(?:TO|[-:,>])\\s*|\\s+)`;
+      const rangeRegex = new RegExp(`^!?(${rowClass})\\s*(${colClass})${sep}(${rowClass})\\s*(${colClass})$`);
+      let rangeMatch = upperMsg.match(rangeRegex);
       let c1 = null;
       let c2 = null;
       if (rangeMatch) {
         c1 = `${rangeMatch[1]}${rangeMatch[2]}`;
         c2 = `${rangeMatch[3]}${rangeMatch[4]}`;
-      } else if (normGuess.length === 4) {
-        const p1 = normGuess.slice(0, 2);
-        const p2 = normGuess.slice(2, 4);
-        if (/^[A-F][1-6]$/.test(p1) && /^[A-F][1-6]$/.test(p2)) {
-          c1 = p1;
-          c2 = p2;
+      } else {
+        const normRangeRegex = new RegExp(`^(${rowClass})(${colClass})(${rowClass})(${colClass})$`);
+        const normRangeMatch = normGuess.match(normRangeRegex);
+        if (normRangeMatch) {
+          c1 = `${normRangeMatch[1]}${normRangeMatch[2]}`;
+          c2 = `${normRangeMatch[3]}${normRangeMatch[4]}`;
         }
       }
 
@@ -607,6 +789,7 @@ export class WordFinderEngine {
       emoji: this.emoji,
       category: this.category,
       puzzleId: this.puzzleId,
+      gridSize: this.gridSize,
       grid: this.grid,
       words: this.words.map(w => ({
         index: w.index,
