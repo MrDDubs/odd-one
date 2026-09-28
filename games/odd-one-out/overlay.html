@@ -501,6 +501,79 @@ body{font-family:Arial,sans-serif}
   background: #64748b;
   color: #ffffff;
 }
+/* Also Scored (Runners-Up Below Top Winners in Current Round) */
+.also-scored-section {
+  background: rgba(30, 10, 68, 0.55);
+  border: 1.5px solid rgba(216, 180, 254, 0.3);
+  border-radius: 18px;
+  padding: 8px 12px;
+  margin: 8px 0 6px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  max-height: 125px;
+  overflow-y: auto;
+}
+
+.also-scored-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15vh;
+  font-weight: 900;
+  color: #f3e8ff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: left;
+}
+
+.also-scored-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.also-scored-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 1.15vh;
+  border-bottom: 1px solid rgba(216, 180, 254, 0.1);
+}
+
+.also-scored-row:last-child {
+  border-bottom: none;
+}
+
+.also-scored-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.also-scored-rank {
+  font-weight: 900;
+  color: #c084fc;
+  font-size: 1.1vh;
+  min-width: 18px;
+}
+
+.also-scored-name {
+  color: #ffffff;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.also-scored-pts {
+  color: #34d399;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .top-table {
   background: rgba(30, 10, 68, 0.5);
   border: 1.5px solid rgba(216, 180, 254, 0.35);
@@ -537,12 +610,45 @@ body{font-family:Arial,sans-serif}
   align-items: center;
   gap: 8px;
   color: #ffffff;
+  min-width: 0;
+  overflow: hidden;
 }
+.top-user-wrap .top-avatar-wrap,
+.top-avatar-wrap,
+.top-user-wrap img,
 .top-user-wrap .avatar-img,
 .top-user-wrap .avatar-letter {
-  width: 2.2vh;
-  height: 2.2vh;
-  font-size: 1vh;
+  width: clamp(20px, 2.2vh, 24px) !important;
+  height: clamp(20px, 2.2vh, 24px) !important;
+  min-width: clamp(20px, 2.2vh, 24px) !important;
+  max-width: clamp(20px, 2.2vh, 24px) !important;
+  min-height: clamp(20px, 2.2vh, 24px) !important;
+  max-height: clamp(20px, 2.2vh, 24px) !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+  border: 1.5px solid #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25) !important;
+}
+.top-avatar-wrap img,
+.top-avatar-wrap .avatar-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  display: block !important;
+}
+.top-user-wrap .avatar-letter {
+  font-size: clamp(9px, 1.1vh, 11px) !important;
+}
+.top-user-wrap span:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .top-score {
   color: #fde047;
@@ -644,10 +750,10 @@ body{font-family:Arial,sans-serif}
         <!-- Injected via JS -->
       </div>
 
-      <!-- Community Top Leaderboard -->
-      <div class="top-table">
-        <div class="top-title">🌟 Community Leaderboard</div>
-        <div id="modalTopList">
+      <!-- Also Scored (Below Top Winners) -->
+      <div class="also-scored-section" id="modalAlsoScored" style="display: none;">
+        <div class="also-scored-title">✨ ALSO SCORED THIS ROUND</div>
+        <div class="also-scored-list" id="modalAlsoScoredList">
           <!-- Injected via JS -->
         </div>
       </div>

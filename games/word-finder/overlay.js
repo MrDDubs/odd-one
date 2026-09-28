@@ -59,6 +59,8 @@ initBannerSwiper();
 const elModal = document.getElementById("leaderboardModal");
 const elModalPodium = document.getElementById("modalPodium");
 const elModalTopList = document.getElementById("modalTopList");
+const elModalAlsoScored = document.getElementById("modalAlsoScored");
+const elModalAlsoScoredList = document.getElementById("modalAlsoScoredList");
 const elModalProgressBar = document.getElementById("modalProgressBar");
 
 let modalTimer = null;
@@ -420,7 +422,7 @@ function renderAvatarHTML(avatar, user) {
 }
 
 function showLeaderboardPopup(payload) {
-  if (!elModal || !elModalPodium || !elModalTopList) return;
+  if (!elModal || !elModalPodium) return;
 
   const rawWinners = payload.roundWinners || [];
   const topList = payload.leaderboard || [];
@@ -497,16 +499,6 @@ function showLeaderboardPopup(payload) {
         </div>
       `;
     }
-
-    if (winners.length > 3) {
-      const others = winners.slice(3);
-      const othersStr = others.map(o => `@${esc(o.nickname || o.user)} (+${o.points} pts)`).join(", ");
-      podiumHTML += `
-        <div class="podium-runners-up-row" style="width:100%;font-size:1.05vh;color:#d8b4fe;background:rgba(255,255,255,0.06);padding:3px 8px;border-radius:8px;margin-top:4px;">
-          Also scored: ${othersStr}
-        </div>
-      `;
-    }
   } else {
     podiumHTML += `
       <div class="podium-card empty-winners">
@@ -518,19 +510,25 @@ function showLeaderboardPopup(payload) {
 
   elModalPodium.innerHTML = podiumHTML;
 
-  if (topList.length === 0) {
-    elModalTopList.innerHTML = `<div style="text-align:center;font-size:1.2vh;color:#f3e8ff;font-weight:700;padding:6px 0;">No scores yet. Be the first to win!</div>`;
-  } else {
-    elModalTopList.innerHTML = topList.slice(0, 4).map((p, idx) => `
-      <div class="top-row">
-        <div class="top-user-wrap">
-          <span class="top-user-rank">#${idx + 1}</span>
-          ${renderAvatarHTML(p.avatar, p.nickname || p.user)}
-          <span>@${esc(p.nickname || p.user)}</span>
+  // Render Also Scored list below Top 3 scorers
+  const alsoScored = winners.slice(3);
+  if (elModalAlsoScored && elModalAlsoScoredList) {
+    if (alsoScored.length > 0) {
+      elModalAlsoScored.style.display = "flex";
+      elModalAlsoScoredList.innerHTML = alsoScored.map((p, idx) => `
+        <div class="also-scored-row">
+          <div class="also-scored-left">
+            <span class="also-scored-rank">#${idx + 4}</span>
+            <div class="top-avatar-wrap">${renderAvatarHTML(p.avatar, p.nickname || p.user)}</div>
+            <span class="also-scored-name">@${esc(p.nickname || p.user)}</span>
+          </div>
+          <span class="also-scored-pts">+${p.points} pts${p.wordsCount > 1 ? ` (${p.wordsCount} words)` : ""}</span>
         </div>
-        <div class="top-score">${p.score || 0} pts 🏆</div>
-      </div>
-    `).join("");
+      `).join("");
+    } else {
+      elModalAlsoScored.style.display = "none";
+      elModalAlsoScoredList.innerHTML = "";
+    }
   }
 
   if (elModalProgressBar) {

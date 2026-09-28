@@ -77,3 +77,56 @@ iframe.fading {
   font-weight: 800;
   color: #fff;
 }
+
+/* Modal Table Avatars (Below Top 3) */
+.top-user-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.top-user-wrap .top-avatar-wrap,
+.top-avatar-wrap,
+.top-user-wrap img,
+.top-user-wrap .avatar-img,
+.top-user-wrap .avatar-letter {
+  width: clamp(20px, 2.2vh, 24px) !important;
+  height: clamp(20px, 2.2vh, 24px) !important;
+  min-width: clamp(20px, 2.2vh, 24px) !important;
+  max-width: clamp(20px, 2.2vh, 24px) !important;
+  min-height: clamp(20px, 2.2vh, 24px) !important;
+  max-height: clamp(20px, 2.2vh, 24px) !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+  border: 1.5px solid #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25) !important;
+}
+
+.top-avatar-wrap img,
+.top-avatar-wrap .avatar-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  display: block !important;
+}
+
+.top-user-wrap .avatar-letter {
+  font-size: clamp(9px, 1.1vh, 11px) !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+}
+
+.top-user-wrap span:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -65,6 +65,7 @@ export class WordFinderEngine {
     this.round = 1;
     this.pointsPerWord = 5;
     this.roundDurationSec = 60;
+    this.customDurationSec = null;
     this.timerRemaining = 60;
     this.isTimerActive = false;
     this.paused = false;
@@ -328,6 +329,10 @@ export class WordFinderEngine {
     this.lastHintCoord = null;
     this.elapsedSeconds = 0;
 
+    if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
+    }
+
     if (startTimerNow) {
       this.timerRemaining = this.roundDurationSec;
       this.isTimerActive = true;
@@ -344,6 +349,15 @@ export class WordFinderEngine {
   }
 
   newRound(options = {}) {
+    const rawDur = (options && typeof options === "object") ? (options.duration ?? options.sec ?? options.seconds ?? options.time) : options;
+    const durNum = parseInt(rawDur, 10);
+    if (!isNaN(durNum) && durNum > 0) {
+      this.customDurationSec = durNum;
+      this.roundDurationSec = durNum;
+    } else if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
+    }
+
     this.round++;
     let nextIdx;
     if (options && options.category) {
@@ -366,8 +380,10 @@ export class WordFinderEngine {
   }
 
   setTime(seconds) {
-    const s = parseInt(seconds, 10);
+    const raw = (seconds && typeof seconds === "object") ? (seconds.sec ?? seconds.seconds ?? seconds.duration ?? seconds.time) : seconds;
+    const s = parseInt(raw, 10);
     if (!isNaN(s) && s > 0) {
+      this.customDurationSec = s;
       this.roundDurationSec = s;
       this.timerRemaining = s;
     }
@@ -375,14 +391,20 @@ export class WordFinderEngine {
   }
 
   adjustTime(deltaSec) {
-    const d = parseInt(deltaSec, 10) || 0;
+    const raw = (deltaSec && typeof deltaSec === "object") ? (deltaSec.delta ?? deltaSec.deltaSec ?? deltaSec.d ?? deltaSec.sec) : deltaSec;
+    const d = parseInt(raw, 10) || 0;
     this.timerRemaining = Math.max(0, this.timerRemaining + d);
     return this.getPublicPayload();
   }
 
   startTimer(seconds = null) {
-    if (seconds && Number(seconds) > 0) {
-      this.roundDurationSec = Number(seconds);
+    const raw = (seconds && typeof seconds === "object") ? (seconds.sec ?? seconds.seconds ?? seconds.duration ?? seconds.time) : seconds;
+    const s = parseInt(raw, 10);
+    if (!isNaN(s) && s > 0) {
+      this.customDurationSec = s;
+      this.roundDurationSec = s;
+    } else if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
     }
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = true;
@@ -809,6 +831,8 @@ export class WordFinderEngine {
       isTimerActive: this.isTimerActive,
       time: this.timerRemaining,
       timerRemaining: this.timerRemaining,
+      roundDurationSec: this.roundDurationSec,
+      customDurationSec: this.customDurationSec || this.roundDurationSec,
       paused: this.paused,
       statusMessage: this.statusMessage,
       roundWinners: this.roundWinners,

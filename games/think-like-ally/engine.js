@@ -194,16 +194,16 @@ export class ThinkLikeAllyEngine {
   }
 
   adjustTime(delta) {
-    const d = typeof delta === "object" ? delta.delta : delta;
-    const num = parseInt(d, 10) || 0;
-    this.timerRemaining = Math.max(1, this.timerRemaining + num);
+    const raw = (delta && typeof delta === "object") ? (delta.delta ?? delta.deltaSec ?? delta.d ?? delta.sec) : delta;
+    const num = parseInt(raw, 10) || 0;
+    this.timerRemaining = Math.max(0, this.timerRemaining + num);
     return this.getPublicPayload();
   }
 
   setTime(sec) {
-    const s = typeof sec === "object" ? sec.sec : sec;
-    const num = parseInt(s, 10);
-    if (num > 0) {
+    const raw = (sec && typeof sec === "object") ? (sec.sec ?? sec.seconds ?? sec.duration ?? sec.time) : sec;
+    const num = parseInt(raw, 10);
+    if (!isNaN(num) && num > 0) {
       this.customDurationSec = num;
       this.roundDurationSec = num;
       this.timerRemaining = num;
@@ -224,10 +224,13 @@ export class ThinkLikeAllyEngine {
   }
 
   startTimer(seconds = null) {
-    const secNum = typeof seconds === "object" ? seconds?.seconds || seconds?.sec : seconds;
-    if (secNum && Number(secNum) > 0) {
-      this.customDurationSec = Number(secNum);
-      this.roundDurationSec = Number(secNum);
+    const raw = (seconds && typeof seconds === "object") ? (seconds.sec ?? seconds.seconds ?? seconds.duration ?? seconds.time) : seconds;
+    const s = parseInt(raw, 10);
+    if (!isNaN(s) && s > 0) {
+      this.customDurationSec = s;
+      this.roundDurationSec = s;
+    } else if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
     }
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = true;

@@ -804,6 +804,78 @@ html, body {
   color: #34d399;
 }
 
+/* Also Scored (Runners-Up Below Top 3 in Current Round) */
+.also-scored-section {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(216, 180, 254, 0.2);
+  border-radius: 14px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+  max-height: 125px;
+  overflow-y: auto;
+}
+
+.also-scored-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15vh;
+  font-weight: 800;
+  color: #c084fc;
+  text-align: left;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.also-scored-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.also-scored-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 1.15vh;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.also-scored-row:last-child {
+  border-bottom: none;
+}
+
+.also-scored-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.also-scored-rank {
+  font-weight: 900;
+  color: #94a3b8;
+  font-size: 1.1vh;
+  min-width: 18px;
+}
+
+.also-scored-name {
+  color: #ffffff;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.also-scored-pts {
+  color: #34d399;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .top-table {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 14px;
@@ -826,14 +898,81 @@ html, body {
   justify-content: space-between;
   align-items: center;
   font-size: 1.15vh;
-  padding: 3px 0;
+  padding: 4px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.top-row:last-child {
+  border-bottom: none;
 }
 
 .top-user-wrap {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.top-user-wrap .top-avatar-wrap,
+.top-avatar-wrap {
+  width: clamp(20px, 2.2vh, 24px);
+  height: clamp(20px, 2.2vh, 24px);
+  min-width: clamp(20px, 2.2vh, 24px);
+  max-width: clamp(20px, 2.2vh, 24px);
+  min-height: clamp(20px, 2.2vh, 24px);
+  max-height: clamp(20px, 2.2vh, 24px);
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #ffffff;
+  background: #7c3aed;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.top-avatar-wrap img,
+.top-avatar-wrap .podium-avatar-img,
+.top-avatar-wrap .avatar-img,
+.top-user-wrap img,
+.top-user-wrap .podium-avatar-img,
+.top-user-wrap .avatar-img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: clamp(20px, 2.2vh, 24px) !important;
+  max-height: clamp(20px, 2.2vh, 24px) !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+
+.top-avatar-wrap .podium-avatar-initial,
+.top-avatar-wrap .avatar-letter,
+.top-user-wrap .podium-avatar-initial,
+.top-user-wrap .avatar-letter {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: clamp(20px, 2.2vh, 24px) !important;
+  max-height: clamp(20px, 2.2vh, 24px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+  font-size: clamp(9px, 1.1vh, 11px) !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+}
+
+.top-user-wrap span:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .top-user-rank {

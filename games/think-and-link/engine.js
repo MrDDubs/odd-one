@@ -31,6 +31,7 @@ export class ThinkAndLinkEngine {
     this.round = 1;
     this.pointsPerWord = 4;
     this.roundDurationSec = 30;
+    this.customDurationSec = null;
     this.timerRemaining = 30;
     this.isTimerActive = false;
     this.paused = false;
@@ -146,6 +147,9 @@ export class ThinkAndLinkEngine {
     this.totalWords = 6;
     this.allFound = false;
     this.roundWinners = [];
+    if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
+    }
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = startTimerNow;
     this.paused = false;
@@ -158,18 +162,23 @@ export class ThinkAndLinkEngine {
     this.round++;
     this.paused = false;
 
-    if (options.category) {
+    if (options && options.category) {
       this.activeCategoryFilter = options.category;
     }
 
-    if (options.topic && Array.isArray(options.words) && options.words.length >= 6) {
+    if (options && options.topic && Array.isArray(options.words) && options.words.length >= 6) {
       this.setCustomPuzzle(options);
     } else {
-      this.advancePuzzle(options.category);
+      this.advancePuzzle(options ? options.category : null);
     }
 
-    if (options.duration && Number(options.duration) > 0) {
-      this.roundDurationSec = Number(options.duration);
+    const rawDur = (options && typeof options === "object") ? (options.duration ?? options.sec ?? options.seconds ?? options.time) : options;
+    const durNum = parseInt(rawDur, 10);
+    if (!isNaN(durNum) && durNum > 0) {
+      this.customDurationSec = durNum;
+      this.roundDurationSec = durNum;
+    } else if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
     }
 
     this.timerRemaining = this.roundDurationSec;
@@ -182,8 +191,11 @@ export class ThinkAndLinkEngine {
   prevRound(options = {}) {
     this.round = Math.max(1, this.round - 1);
     this.loadPuzzleByIndex(this.currentPuzzleIndex - 1, true);
-    if (options.duration && Number(options.duration) > 0) {
-      this.roundDurationSec = Number(options.duration);
+    const rawDur = (options && typeof options === "object") ? (options.duration ?? options.sec ?? options.seconds ?? options.time) : options;
+    const durNum = parseInt(rawDur, 10);
+    if (!isNaN(durNum) && durNum > 0) {
+      this.customDurationSec = durNum;
+      this.roundDurationSec = durNum;
       this.timerRemaining = this.roundDurationSec;
     }
     this.statusMessage = `Round ${this.round}: ${this.topic} ${this.emoji} — Type your guesses! 💜`;
@@ -191,18 +203,19 @@ export class ThinkAndLinkEngine {
   }
 
   adjustTime(delta) {
-    const d = typeof delta === "object" ? delta.delta : delta;
-    const num = parseInt(d, 10) || 0;
-    this.timerRemaining = Math.max(1, this.timerRemaining + num);
+    const raw = (delta && typeof delta === "object") ? (delta.delta ?? delta.deltaSec ?? delta.d ?? delta.sec) : delta;
+    const num = parseInt(raw, 10) || 0;
+    this.timerRemaining = Math.max(0, this.timerRemaining + num);
     return this.getPublicPayload();
   }
 
   setTime(sec) {
-    const s = typeof sec === "object" ? sec.sec : sec;
-    const num = parseInt(s, 10);
-    if (num > 0) {
-      this.timerRemaining = num;
+    const raw = (sec && typeof sec === "object") ? (sec.sec ?? sec.seconds ?? sec.duration ?? sec.time) : sec;
+    const num = parseInt(raw, 10);
+    if (!isNaN(num) && num > 0) {
+      this.customDurationSec = num;
       this.roundDurationSec = num;
+      this.timerRemaining = num;
     }
     return this.getPublicPayload();
   }
@@ -297,8 +310,13 @@ export class ThinkAndLinkEngine {
   }
 
   startTimer(seconds = null) {
-    if (seconds && Number(seconds) > 0) {
-      this.roundDurationSec = Number(seconds);
+    const raw = (seconds && typeof seconds === "object") ? (seconds.sec ?? seconds.seconds ?? seconds.duration ?? seconds.time) : seconds;
+    const s = parseInt(raw, 10);
+    if (!isNaN(s) && s > 0) {
+      this.customDurationSec = s;
+      this.roundDurationSec = s;
+    } else if (this.customDurationSec && this.customDurationSec > 0) {
+      this.roundDurationSec = this.customDurationSec;
     }
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = true;
@@ -586,6 +604,7 @@ export class ThinkAndLinkEngine {
       time: this.timerRemaining,
       timerRemaining: this.timerRemaining,
       roundDurationSec: this.roundDurationSec,
+      customDurationSec: this.customDurationSec || this.roundDurationSec,
       isTimerActive: this.isTimerActive,
       paused: this.paused,
       pointsPerWord: this.pointsPerWord,

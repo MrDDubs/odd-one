@@ -180,16 +180,16 @@ export class OddOneOutEngine {
   }
 
   adjustTime(delta) {
-    const d = typeof delta === "object" ? delta.delta : delta;
-    const num = parseInt(d, 10) || 0;
-    this.time = Math.max(1, this.time + num);
+    const raw = (delta && typeof delta === "object") ? (delta.delta ?? delta.deltaSec ?? delta.d ?? delta.sec) : delta;
+    const num = parseInt(raw, 10) || 0;
+    this.time = Math.max(0, this.time + num);
     return this.getPublicPayload();
   }
 
   setTime(sec) {
-    const s = typeof sec === "object" ? sec.sec : sec;
-    const num = parseInt(s, 10);
-    if (num > 0) {
+    const raw = (sec && typeof sec === "object") ? (sec.sec ?? sec.seconds ?? sec.duration ?? sec.time) : sec;
+    const num = parseInt(raw, 10);
+    if (!isNaN(num) && num > 0) {
       this.time = num;
       this.customDurationSec = num;
       this.roundDurationSec = num;

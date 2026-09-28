@@ -602,6 +602,13 @@ btnSetCustomTime?.addEventListener("click", () => {
   }
 });
 
+inputCustomTime?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    btnSetCustomTime?.click();
+  }
+});
+
 // --------------------------------------------------------------------------
 // Master Audio & Volume Controls
 // --------------------------------------------------------------------------

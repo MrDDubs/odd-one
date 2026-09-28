@@ -133,10 +133,16 @@ class GameRegistry {
         if (typeof engine.prevRound === "function") return engine.prevRound(options);
         break;
       case "adjustTime":
-        if (typeof engine.adjustTime === "function") return engine.adjustTime(options);
+        if (typeof engine.adjustTime === "function") {
+          const d = (options && typeof options === "object") ? (options.delta ?? options.deltaSec ?? options.d ?? options.sec) : options;
+          return engine.adjustTime(d);
+        }
         break;
       case "setTime":
-        if (typeof engine.setTime === "function") return engine.setTime(options);
+        if (typeof engine.setTime === "function") {
+          const s = (options && typeof options === "object") ? (options.sec ?? options.seconds ?? options.duration ?? options.time) : options;
+          return engine.setTime(s);
+        }
         break;
       case "hint":
         if (typeof engine.hint === "function") return engine.hint(options);
@@ -161,7 +167,10 @@ class GameRegistry {
         if (typeof engine.setOptions === "function") return engine.setOptions(options);
         break;
       case "startTimer":
-        if (typeof engine.startTimer === "function") return engine.startTimer(options);
+        if (typeof engine.startTimer === "function") {
+          const s = (options && typeof options === "object") ? (options.sec ?? options.seconds ?? options.duration ?? options.time) : options;
+          return engine.startTimer(s);
+        }
         break;
       case "stopTimer":
         if (typeof engine.stopTimer === "function") return engine.stopTimer();
