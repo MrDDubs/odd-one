@@ -130,3 +130,9 @@ iframe.fading {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.guess-pill,
+.guess-pill-wrap,
+.guess-toast {
+  display: none !important;
+}

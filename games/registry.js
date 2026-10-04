@@ -3,6 +3,7 @@ import { OddOneOutEngine } from "./odd-one-out/engine.js";
 import { ThinkLikeAllyEngine } from "./think-like-ally/engine.js";
 import { ThinkAndLinkEngine } from "./think-and-link/engine.js";
 import { WordFinderEngine } from "./word-finder/engine.js";
+import { CrowdSaysEngine } from "./crowd-says/engine.js";
 
 class GameRegistry {
   constructor() {
@@ -57,6 +58,18 @@ class GameRegistry {
       controlsModule: "/games/word-finder/controls.js",
       engine: new WordFinderEngine()
     });
+
+    this.registerGame({
+      id: "crowd-says",
+      name: "Ally's Chat Feud",
+      icon: "⚔️",
+      description: "Chat Feud Live Survey Game! Viewers in chat guess the top survey answers on the board.",
+      category: "Trivia / Survey",
+      overlayPath: "/games/crowd-says/overlay.html",
+      controlsPath: "/games/crowd-says/controls.html",
+      controlsModule: "/games/crowd-says/controls.js",
+      engine: new CrowdSaysEngine()
+    });
   }
 
   registerGame(gameDefinition) {
@@ -92,9 +105,10 @@ class GameRegistry {
   }
 
   setActiveGame(gameId) {
-    if (this.games.has(gameId)) {
-      this.activeGameId = gameId;
-      console.log(`[GameRegistry] Switched active game to: ${gameId}`);
+    const resolvedId = gameId === "chat-feud" ? "crowd-says" : gameId;
+    if (this.games.has(resolvedId)) {
+      this.activeGameId = resolvedId;
+      console.log(`[GameRegistry] Switched active game to: ${resolvedId}`);
       return true;
     }
     return false;
@@ -117,7 +131,8 @@ class GameRegistry {
   }
 
   handleGameAction(gameId, action, options) {
-    const targetGameId = gameId || this.activeGameId;
+    const rawId = gameId === "chat-feud" ? "crowd-says" : gameId;
+    const targetGameId = rawId || this.activeGameId;
     const gameObj = this.games.get(targetGameId);
     if (!gameObj || !gameObj.engine) return null;
 
@@ -181,6 +196,12 @@ class GameRegistry {
       case "loadQuestionSet":
         if (typeof engine.loadQuestionSet === "function") return engine.loadQuestionSet(options);
         break;
+      case "importQuestionSet":
+        if (typeof engine.importQuestionSet === "function") return engine.importQuestionSet(options);
+        break;
+      case "deleteQuestionSet":
+        if (typeof engine.deleteQuestionSet === "function") return engine.deleteQuestionSet(options);
+        break;
       case "revealSlot":
         if (typeof engine.revealSlot === "function") return engine.revealSlot(options);
         break;
@@ -192,6 +213,15 @@ class GameRegistry {
         break;
       case "loadPuzzleById":
         if (typeof engine.loadPuzzleById === "function") return engine.loadPuzzleById(options);
+        break;
+      case "loadQuestionById":
+        if (typeof engine.loadQuestionById === "function") return engine.loadQuestionById(options);
+        break;
+      case "revealAll":
+        if (typeof engine.revealAll === "function") return engine.revealAll(options);
+        break;
+      case "hideAll":
+        if (typeof engine.hideAll === "function") return engine.hideAll(options);
         break;
       case "setGridSize":
         if (typeof engine.setGridSize === "function") {

@@ -17,6 +17,16 @@ try {
   console.warn("[ThinkLikeAlly] Could not load questions.json:", err.message);
 }
 
+function saveQuestionSetsToFile() {
+  try {
+    fs.writeFileSync(questionsPath, JSON.stringify(questionSets, null, 2), "utf8");
+    return true;
+  } catch (err) {
+    console.error("[ThinkLikeAlly] Failed to save questions.json:", err);
+    return false;
+  }
+}
+
 // Fallback questions if questions.json is empty
 const defaultQuestions = [
   { question: "Name a pizza topping", answer: "pineapple", icon: "🍕", type: "open" },
@@ -71,7 +81,8 @@ export class ThinkLikeAllyEngine {
     return questionSets.map((s) => ({
       id: s.id,
       name: s.name,
-      count: s.questions?.length || 0
+      count: s.questions?.length || 0,
+      isCustom: s.id !== "tla-official-full"
     }));
   }
 
@@ -122,11 +133,9 @@ export class ThinkLikeAllyEngine {
     this.currentQuestionIndex++;
     if (this.currentQuestionIndex >= (currentSet.questions?.length || 0)) {
       this.currentQuestionIndex = 0;
-      this.currentSetIndex = (this.currentSetIndex + 1) % questionSets.length;
     }
 
-    const nextSet = questionSets[this.currentSetIndex] || questionSets[0];
-    const q = nextSet.questions?.[this.currentQuestionIndex] || defaultQuestions[0];
+    const q = currentSet.questions?.[this.currentQuestionIndex] || defaultQuestions[0];
     this.question = q.question;
     this.allyAnswer = q.answer;
     this.questionIcon = q.icon || "💡";
@@ -149,10 +158,12 @@ export class ThinkLikeAllyEngine {
   }
 
   loadQuestionSet(setId) {
-    const idx = questionSets.findIndex((s) => s.id === setId);
+    const targetId = (typeof setId === "object" && setId !== null) ? (setId.setId || setId.id) : setId;
+    const idx = questionSets.findIndex((s) => s.id === targetId);
     if (idx !== -1) {
       this.currentSetIndex = idx;
       this.currentQuestionIndex = 0;
+      this.round = 1;
       const q = questionSets[idx].questions?.[0];
       if (q) {
         this.question = q.question;
@@ -164,7 +175,90 @@ export class ThinkLikeAllyEngine {
       this.isAnswerRevealed = false;
       this.roundWinners = [];
       this.guessedThisRound.clear();
+      this.isTimerActive = false;
+      this.timerRemaining = this.roundDurationSec;
+      this.paused = false;
       this.statusMessage = `Loaded Pack: ${questionSets[idx].name}`;
+    }
+    return this.getPublicPayload();
+  }
+
+  importQuestionSet(payload) {
+    if (!payload) return this.getPublicPayload();
+
+    let packName = (typeof payload.name === "string" && payload.name.trim())
+      ? payload.name.trim()
+      : `Imported Pack ${questionSets.length + 1}`;
+    let rawQuestions = Array.isArray(payload) ? payload : (payload.questions || []);
+
+    const validQuestions = [];
+    rawQuestions.forEach((q) => {
+      if (!q) return;
+      let questionText = "";
+      let answerText = "";
+      let icon = "💡";
+      let type = "open";
+      let options = [];
+
+      if (typeof q === "object") {
+        questionText = String(q.question || q.prompt || q.q || "").trim();
+        answerText = String(q.answer || q.target || q.a || "").trim();
+        icon = q.icon || "💡";
+        type = q.type || "open";
+        options = Array.isArray(q.options) ? q.options : [];
+      }
+
+      if (questionText && answerText) {
+        validQuestions.push({
+          round: validQuestions.length + 1,
+          type,
+          question: questionText,
+          icon,
+          options,
+          answer: answerText
+        });
+      }
+    });
+
+    if (validQuestions.length === 0) {
+      this.statusMessage = "❌ Import failed: No valid questions found.";
+      return this.getPublicPayload();
+    }
+
+    const setId = payload.id || `pack-${Date.now()}`;
+    const newPack = {
+      id: setId,
+      name: packName,
+      questions: validQuestions
+    };
+
+    const existingIdx = questionSets.findIndex((s) => s.id === setId);
+    if (existingIdx !== -1) {
+      questionSets[existingIdx] = newPack;
+    } else {
+      questionSets.push(newPack);
+    }
+
+    saveQuestionSetsToFile();
+
+    this.loadQuestionSet(setId);
+    this.statusMessage = `✅ Imported "${packName}" (${validQuestions.length} questions)!`;
+    return this.getPublicPayload();
+  }
+
+  deleteQuestionSet(setId) {
+    const targetId = (typeof setId === "object" && setId !== null) ? (setId.setId || setId.id) : setId;
+    if (!targetId || targetId === "tla-official-full") {
+      this.statusMessage = "Cannot delete the official question pack.";
+      return this.getPublicPayload();
+    }
+
+    const idx = questionSets.findIndex((s) => s.id === targetId);
+    if (idx !== -1) {
+      const removed = questionSets.splice(idx, 1)[0];
+      saveQuestionSetsToFile();
+      this.loadQuestionSet("tla-official-full");
+      this.statusMessage = `Deleted question pack "${removed.name}".`;
     }
     return this.getPublicPayload();
   }
@@ -445,6 +539,7 @@ export class ThinkLikeAllyEngine {
   }
 
   getPublicPayload() {
+    const currentSet = questionSets[this.currentSetIndex] || questionSets[0] || {};
     return {
       gameId: "think-like-ally",
       round: this.round,
@@ -464,16 +559,22 @@ export class ThinkLikeAllyEngine {
       roundWinners: this.roundWinners,
       statusMessage: this.statusMessage,
       target: this.isAnswerRevealed ? this.allyAnswer : "???",
-      leaderboard: this.getLeaderboard(5)
+      leaderboard: this.getLeaderboard(5),
+      currentSetId: currentSet.id || null,
+      currentSetName: currentSet.name || "",
+      questionSets: this.getQuestionSets()
     };
   }
 
   getAdminPayload() {
+    const currentSet = questionSets[this.currentSetIndex] || questionSets[0] || {};
     return {
       ...this.getPublicPayload(),
       secretTarget: this.allyAnswer,
       allyAnswer: this.allyAnswer,
       questionSets: this.getQuestionSets(),
+      currentSetId: currentSet.id || null,
+      currentSetName: currentSet.name || "",
       guesses: this.guesses.slice(0, 30),
       leaderboard: this.getLeaderboard(15)
     };

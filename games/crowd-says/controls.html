@@ -1,0 +1,160 @@
+<!-- games/crowd-says/controls.html -->
+<div class="game-controls-container">
+  <!-- Host Secret Cheat Sheet -->
+  <div class="card cheat-card">
+    <div class="card-title">
+      <span>💡 Host Cheat Sheet (Secret Survey Answers)</span>
+      <span class="badge badge-purple" style="font-size:10px">Chat Feud</span>
+    </div>
+    <div class="secret-display" style="flex-direction:column;align-items:stretch;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px">
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Current Survey Question</div>
+          <div id="csHostQuestion" style="font-size:18px;font-weight:900;color:#facc15;margin-top:2px">--</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:#c084fc">Category: <strong id="csHostCategory">--</strong></div>
+          <div style="font-size:12px;color:#e2e8f0;margin-top:2px">Found: <strong id="csHostFoundCount">0/5</strong> • Timer: <strong id="csHostTimerText">45s</strong></div>
+        </div>
+      </div>
+
+      <!-- Secret Slots Quick Reveal Table -->
+      <div id="csHostSlotsList" style="display:flex;flex-direction:column;gap:6px">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Round & Flow Actions -->
+  <div class="card">
+    <div class="card-title">Round Flow &amp; Timer Actions</div>
+    <div class="btn-row">
+      <button class="primary" id="csBtnStartTimer">▶ Start Timer</button>
+      <button class="secondary" id="csBtnPauseTimer">⏸ Pause Timer</button>
+      <button class="secondary" id="csBtnNextRound">⏭ Next Question</button>
+      <button class="secondary" id="csBtnPrevRound">⏮ Prev Question</button>
+      <button class="secondary" id="csBtnRandomRound">🎲 Random Question</button>
+      <button class="secondary" id="csBtnRevealAll">👁 Reveal All</button>
+      <button class="secondary" id="csBtnHideAll">🙈 Hide All</button>
+      <button class="danger" id="csBtnResetGame">🔄 Reset Game</button>
+    </div>
+  </div>
+
+  <!-- Timer & Duration Configuration -->
+  <div class="card">
+    <div class="card-title">Timer &amp; Duration Configuration</div>
+    <div class="form-group">
+      <label>Timer Presets (Seconds)</label>
+      <div class="btn-row" id="csPresetRow">
+        <button type="button" class="chip" data-sec="20">20s</button>
+        <button type="button" class="chip" data-sec="30">30s</button>
+        <button type="button" class="chip" data-sec="45">45s</button>
+        <button type="button" class="chip" data-sec="60">60s</button>
+        <button type="button" class="chip" data-sec="90">90s</button>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:6px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <label for="csCustomSecInput" style="margin:0">Custom Duration:</label>
+        <input type="number" id="csCustomSecInput" min="10" max="240" placeholder="e.g. 45" style="width:90px;padding:6px 10px" />
+        <span style="font-size:12px;color:var(--muted)">seconds</span>
+        <button type="button" id="csBtnSaveCustomSec" class="secondary" style="padding:6px 14px">Set Time</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Survey Question Catalog & Importer -->
+  <div class="card">
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+      <span>📚 Survey Question Library</span>
+      <span class="badge badge-purple" id="csQuestionsCountBadge">15 Questions</span>
+    </div>
+    <div class="input-row">
+      <div class="form-group" style="flex:2">
+        <label for="csQuestionSelect">Select Survey Question</label>
+        <select id="csQuestionSelect">
+          <option value="">Loading questions...</option>
+        </select>
+      </div>
+      <div class="form-group" style="flex:1">
+        <label>Actions</label>
+        <div style="display:flex;gap:6px">
+          <button id="csBtnLoadQuestion" class="primary" style="height:42px;flex:1">📚 Load</button>
+          <button id="csBtnOpenImportModal" class="secondary" style="height:42px;flex:1">📥 Import</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Modal / Drawer -->
+  <div id="csImportModal" class="modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:99999;align-items:center;justify-content:center;padding:16px;">
+    <div class="modal-card" style="background:#1b1528;border:1px solid #8b5cf6;border-radius:12px;width:100%;max-width:580px;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 12px 48px rgba(0,0,0,0.9);overflow:hidden;">
+      <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center;background:#241a38;">
+        <div style="font-size:16px;font-weight:bold;color:#f3e8ff;display:flex;align-items:center;gap:8px">
+          <span>📥</span>
+          <span>Import Chat Feud Survey Questions</span>
+        </div>
+        <button type="button" id="csBtnCloseImportModal" style="background:transparent;border:none;color:#aaa;font-size:20px;cursor:pointer;line-height:1;padding:4px 8px;">✕</button>
+      </div>
+
+      <div style="padding:16px 18px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;flex:1;">
+        <!-- File Upload Area -->
+        <div class="form-group">
+          <label style="font-size:12px;font-weight:600;color:#c4b5fd;">Option 1: Upload JSON / CSV File</label>
+          <div id="csDropZone" style="border:2px dashed #8b5cf6;border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;background:rgba(139,92,246,0.08);transition:all 0.2s;">
+            <div style="font-size:26px;margin-bottom:4px">📁</div>
+            <div style="font-size:13px;font-weight:600;color:#e9d5ff">Click to choose file or drag &amp; drop here</div>
+            <div style="font-size:11px;color:#a78bfa;margin-top:4px">Supports: JSON questions array or CSV (Question, Answer 1, Answer 2, ...)</div>
+            <div id="csSelectedFileName" style="font-size:12px;font-weight:bold;color:#4ade80;margin-top:6px;display:none"></div>
+          </div>
+          <input type="file" id="csModalFileInput" accept=".json,.csv,.txt" style="display:none" />
+        </div>
+
+        <!-- Paste Text Area -->
+        <div class="form-group">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <label for="csImportPasteArea" style="font-size:12px;font-weight:600;color:#c4b5fd;">Option 2: Paste Survey Questions Directly</label>
+            <button type="button" id="csBtnPasteSample" style="background:transparent;border:none;color:#a78bfa;font-size:11px;cursor:pointer;text-decoration:underline;">Load Sample Surveys</button>
+          </div>
+          <textarea id="csImportPasteArea" rows="6" placeholder="Paste questions here...&#10;Format: Question, Answer 1 / Answer 2 / Answer 3&#10;Example:&#10;Name a type of pizza, Pepperoni / Cheese / Mushroom / Sausage / Pineapple&#10;Name a school subject, Math / Science / English / History / Art" style="width:100%;font-family:monospace;font-size:11px;box-sizing:border-box;resize:vertical;"></textarea>
+        </div>
+
+        <!-- Question Counter & Live Preview -->
+        <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:12px;font-weight:600;color:#ddd">Questions Detected:</span>
+            <span id="csPreviewCountBadge" class="badge badge-purple" style="font-size:11px">0 Questions</span>
+          </div>
+          <div id="csPreviewList" style="max-height:100px;overflow-y:auto;font-size:11.5px;color:#cbd5e1;display:flex;flex-direction:column;gap:4px">
+            <div style="color:var(--muted);font-style:italic">Choose a file or paste questions above to see preview.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:12px 18px;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:flex-end;gap:10px;background:#241a38;">
+        <button type="button" class="secondary" id="csBtnCancelImport" style="padding:8px 16px">Cancel</button>
+        <button type="button" class="primary" id="csBtnSubmitImport" style="padding:8px 20px" disabled>📥 Import Questions</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Test Simulator -->
+  <div class="card">
+    <div class="card-title">Live Test Simulator</div>
+    <div class="input-row">
+      <div class="form-group">
+        <label for="csSimUser">Simulated Username</label>
+        <input type="text" id="csSimUser" value="TikTokFan" />
+      </div>
+      <div class="form-group">
+        <label for="csSimGuess">Simulated Chat Guess</label>
+        <input type="text" id="csSimGuess" placeholder="e.g. Chicken Noodle" />
+      </div>
+    </div>
+    <div class="btn-row">
+      <button id="csBtnSimGuess" class="primary">Submit Guess</button>
+      <button id="csBtnSimCorrect" class="chip">🎯 Simulate Correct Guess</button>
+      <button id="csBtnSimRandom" class="chip">🎲 Random Incorrect Guess</button>
+    </div>
+  </div>
+</div>

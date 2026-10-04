@@ -129,16 +129,8 @@ function esc(s) {
 }
 
 function showWinnerToast(winner) {
-  if (!guessToast) return;
-  toastUser.textContent = `@${winner.nickname || winner.user}`;
-  toastText.textContent = winner.code || "Correct!";
-  guessToast.classList.add("show");
+  // Pop up on accepted guess removed as requested; keep win sound
   playSound("win");
-
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    guessToast.classList.remove("show");
-  }, 3000);
 }
 
 function renderState(state) {

@@ -185,23 +185,10 @@ function esc(s) {
   }[m]));
 }
 
-// Show live guess toast
+// Show live guess toast (Disabled)
 function showGuessToast(user, word, isCorrect = false) {
-  if (!elGuessToast) return;
-  if (elToastUser) elToastUser.textContent = user.startsWith("@") ? user : `@${user}`;
-  if (elToastWord) {
-    elToastWord.textContent = word;
-    elToastWord.style.color = isCorrect ? "#34d399" : "#38bdf8";
-  }
-  if (elToastIcon) {
-    elToastIcon.textContent = isCorrect ? "🎯" : "💬";
-  }
-
-  elGuessToast.classList.add("show");
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    elGuessToast.classList.remove("show");
-  }, 3000);
+  // Pop up on accepted guess removed as requested
+  return;
 }
 
 // Full-screen cute falling confetti

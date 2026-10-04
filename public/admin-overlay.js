@@ -186,11 +186,23 @@ function updateActiveGameUI(gameId) {
     wordFinderSettingsCard.style.display = (gameId === "word-finder") ? "block" : "none";
   }
 
+  const thinkLikeAllySettingsCard = document.getElementById("thinkLikeAllySettingsCard");
+  if (thinkLikeAllySettingsCard) {
+    thinkLikeAllySettingsCard.style.display = (gameId === "think-like-ally") ? "block" : "none";
+  }
+
+  const crowdSaysSettingsCard = document.getElementById("crowdSaysSettingsCard");
+  if (crowdSaysSettingsCard) {
+    crowdSaysSettingsCard.style.display = (gameId === "crowd-says") ? "block" : "none";
+  }
+
   const gameNames = {
     "odd-one-out": { name: "Ally's Odd One Out", icon: "🧩" },
     "think-like-ally": { name: "Think Like Ally", icon: "💡" },
     "think-and-link": { name: "Think & Link", icon: "💜" },
-    "word-finder": { name: "Ally's Word Finder", icon: "🔍" }
+    "word-finder": { name: "Ally's Word Finder", icon: "🔍" },
+    "crowd-says": { name: "Ally's Chat Feud", icon: "⚔️" },
+    "chat-feud": { name: "Ally's Chat Feud", icon: "⚔️" }
   };
 
   if (phoneFrame) {
@@ -541,6 +553,101 @@ fetch("/games/word-finder/puzzles.json")
   .catch((err) => console.log("Note: Could not preload word finder puzzles:", err.message));
 
 // --------------------------------------------------------------------------
+// Think Like Ally Pack Controls & Importer
+// --------------------------------------------------------------------------
+const tlaOverlayBtnLoadPack = document.getElementById("tlaOverlayBtnLoadPack");
+const tlaOverlayBtnImportPack = document.getElementById("tlaOverlayBtnImportPack");
+const tlaOverlayFileInput = document.getElementById("tlaOverlayFileInput");
+const tlaOverlayPackSelect = document.getElementById("tlaOverlayPackSelect");
+
+if (tlaOverlayBtnLoadPack && tlaOverlayPackSelect) {
+  tlaOverlayBtnLoadPack.addEventListener("click", () => {
+    const setId = tlaOverlayPackSelect.value;
+    if (!setId) return;
+    sendGameAction("loadQuestionSet", setId);
+    showToast("📚 Loaded question pack!");
+  });
+}
+
+if (tlaOverlayBtnImportPack && tlaOverlayFileInput) {
+  tlaOverlayBtnImportPack.addEventListener("click", () => {
+    tlaOverlayFileInput.click();
+  });
+
+  tlaOverlayFileInput.addEventListener("change", (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const text = evt.target.result;
+      let parsed = [];
+      try {
+        if (text.trim().startsWith("[") || text.trim().startsWith("{")) {
+          const json = JSON.parse(text);
+          if (Array.isArray(json)) parsed = json;
+          else if (json && json.questions) parsed = json.questions;
+        }
+      } catch (err) {}
+
+      if (parsed.length === 0) {
+        const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+        for (let line of lines) {
+          line = line.replace(/^\s*(?:\[\d+\]|\d+[\.\)\-:]\s*)/, "").trim();
+          const delim = line.includes("\t") ? "\t" : (line.includes("|") ? "|" : (line.includes(" - ") ? " - " : (line.includes(",") ? "," : null)));
+          if (delim) {
+            const parts = line.split(delim).map((p) => p.trim());
+            if (parts.length >= 2 && parts[0].toLowerCase() !== "question") {
+              parsed.push({ question: parts[0], answer: parts[1] });
+            }
+          }
+        }
+      }
+
+      if (parsed.length === 0) {
+        alert("Could not detect questions in file. Format should be: Question, Answer (or JSON array).");
+        return;
+      }
+
+      const defaultName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+      const packName = prompt("Enter pack name for imported questions:", defaultName) || defaultName;
+
+      socket.emit("gameAction", {
+        gameId: "think-like-ally",
+        action: "importQuestionSet",
+        options: { name: packName, questions: parsed }
+      });
+      showToast(`Imported ${parsed.length} questions from ${file.name}!`);
+      tlaOverlayFileInput.value = "";
+    };
+    reader.readAsText(file);
+  });
+}
+
+// --------------------------------------------------------------------------
+// Chat Feud Controls
+// --------------------------------------------------------------------------
+const csOverlayBtnLoadQuestion = document.getElementById("csOverlayBtnLoadQuestion");
+const csOverlayBtnRandomQuestion = document.getElementById("csOverlayBtnRandomQuestion");
+const csOverlayQuestionSelect = document.getElementById("csOverlayQuestionSelect");
+
+if (csOverlayBtnLoadQuestion && csOverlayQuestionSelect) {
+  csOverlayBtnLoadQuestion.addEventListener("click", () => {
+    const qId = csOverlayQuestionSelect.value;
+    if (!qId) return;
+    sendGameAction("loadQuestionById", qId);
+    showToast("📚 Loaded survey question!");
+  });
+}
+
+if (csOverlayBtnRandomQuestion) {
+  csOverlayBtnRandomQuestion.addEventListener("click", () => {
+    sendGameAction("newRound");
+    showToast("🎲 Random survey question loaded!");
+  });
+}
+
+// --------------------------------------------------------------------------
 // Round Flow & Game Actions
 // --------------------------------------------------------------------------
 btnStartRound?.addEventListener("click", () => {
@@ -854,6 +961,14 @@ function updateHostCheatSheet(data) {
     cheatSecretAnswer.style.fontSize = "11.5px";
     cheatCategory.textContent = `${data.topic || "Word Finder"} ${data.emoji || "🔍"} (${data.category || "Puzzle"})`;
     cheatStatus.textContent = `Found ${solvedCount}/${words.length || 0} words • ${data.paused ? "Paused ⏸" : (data.isTimerActive ? "Active ▶" : "Ended 🏁")}`;
+  } else if (data.gameId === "crowd-says") {
+    const slots = data.secretSlots || data.slots || [];
+    const solvedCount = slots.filter((s) => s.revealed).length;
+    const answersPreview = slots.map((s) => `#${s.rank} ${s.text} (${s.points}p)`).join(", ");
+    cheatSecretAnswer.textContent = answersPreview || "--";
+    cheatSecretAnswer.style.fontSize = "11.5px";
+    cheatCategory.textContent = `${data.icon || "📣"} "${data.question || "Survey"}" (${data.category || "General"})`;
+    cheatStatus.textContent = `Found ${solvedCount}/${slots.length || 5} • ${data.paused ? "Paused ⏸" : (data.isTimerActive ? "Guessing Active ▶" : "Ended 🏁")}`;
   }
 }
 
@@ -931,6 +1046,53 @@ function updateGameStateUI(data) {
     if (data.gridSize && wfOverlayGridSize && document.activeElement !== wfOverlayGridSize) {
       if (String(wfOverlayGridSize.value) !== String(data.gridSize)) {
         wfOverlayGridSize.value = String(data.gridSize);
+      }
+    }
+  }
+
+  // Sync Controls for Think Like Ally
+  if (data.gameId === "think-like-ally" || data.activeGameId === "think-like-ally") {
+    const tlaOverlayPackSelect = document.getElementById("tlaOverlayPackSelect");
+    const tlaOverlayActivePackText = document.getElementById("tlaOverlayActivePackText");
+    const tlaOverlayPackCountBadge = document.getElementById("tlaOverlayPackCountBadge");
+
+    if (tlaOverlayActivePackText && data.currentSetName) {
+      tlaOverlayActivePackText.textContent = data.currentSetName;
+    }
+
+    if (tlaOverlayPackSelect && Array.isArray(data.questionSets)) {
+      const activeId = data.currentSetId || (data.questionSets[0]?.id || "");
+      if (tlaOverlayPackCountBadge) {
+        const currentSet = data.questionSets.find((s) => s.id === activeId);
+        tlaOverlayPackCountBadge.textContent = `${currentSet ? currentSet.count : 0} Questions`;
+      }
+
+      tlaOverlayPackSelect.innerHTML = data.questionSets
+        .map((s) => `<option value="${s.id}">${s.isCustom ? "⭐ " : "📖 "}${s.name} (${s.count} questions)</option>`)
+        .join("");
+      tlaOverlayPackSelect.value = activeId;
+    }
+  }
+
+  // Sync Controls for Chat Feud
+  if (data.gameId === "crowd-says" || data.activeGameId === "crowd-says") {
+    const csOverlayQuestionSelect = document.getElementById("csOverlayQuestionSelect");
+    const csOverlayFoundProgressText = document.getElementById("csOverlayFoundProgressText");
+    const csOverlayQuestionsCountBadge = document.getElementById("csOverlayQuestionsCountBadge");
+
+    if (csOverlayFoundProgressText) {
+      csOverlayFoundProgressText.textContent = `${data.foundCount || 0}/${data.totalSlots || 5} Found`;
+    }
+
+    if (csOverlayQuestionSelect && Array.isArray(data.questions)) {
+      if (csOverlayQuestionsCountBadge) {
+        csOverlayQuestionsCountBadge.textContent = `${data.questions.length} Surveys`;
+      }
+      csOverlayQuestionSelect.innerHTML = data.questions
+        .map((q) => `<option value="${q.id}">${q.icon || "📣"} ${q.question} (${q.answerCount || 5} answers)</option>`)
+        .join("");
+      if (data.questionId) {
+        csOverlayQuestionSelect.value = data.questionId;
       }
     }
   }

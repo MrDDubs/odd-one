@@ -29,6 +29,16 @@ const GAME_OVERLAYS = {
     path: "/games/word-finder/overlay.html",
     name: "Ally's Word Finder",
     icon: "🔍"
+  },
+  "crowd-says": {
+    path: "/games/crowd-says/overlay.html",
+    name: "Ally's Chat Feud",
+    icon: "⚔️"
+  },
+  "chat-feud": {
+    path: "/games/crowd-says/overlay.html",
+    name: "Ally's Chat Feud",
+    icon: "⚔️"
   }
 };
 

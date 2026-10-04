@@ -409,21 +409,8 @@ function flashCellGuess(code) {
 }
 
 function showLiveGuessPill(username, code, isCorrect) {
-  if (!elLiveGuessPill) return;
-  clearTimeout(pillHideTimeout);
-
-  if (isCorrect) {
-    elLiveGuessPill.className = "guess-pill correct";
-    elLiveGuessPill.innerHTML = `🎉 <strong>@${esc(username)}</strong> guessed <strong>${code}</strong> ✓ Correct!`;
-  } else {
-    elLiveGuessPill.className = "guess-pill";
-    elLiveGuessPill.innerHTML = `💬 <strong>@${esc(username)}</strong> guessed <span style="color:#e64980">${code}</span>`;
-  }
-
-  elLiveGuessPill.style.display = "inline-flex";
-  pillHideTimeout = setTimeout(() => {
-    elLiveGuessPill.style.display = "none";
-  }, 3500);
+  // Pop up on accepted guess removed as requested
+  return;
 }
 
 function onCellClick(code) {

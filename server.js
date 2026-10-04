@@ -667,6 +667,7 @@ server.listen(PORT, () => {
   console.log(`  💡 Think Like Ally : http://localhost:${PORT}/games/think-like-ally/overlay.html`);
   console.log(`  💜 Think & Link    : http://localhost:${PORT}/games/think-and-link/overlay.html`);
   console.log(`  🔍 Word Finder     : http://localhost:${PORT}/games/word-finder/overlay.html`);
+  console.log(`  ⚔️ Ally's Chat Feud : http://localhost:${PORT}/games/crowd-says/overlay.html`);
   if (tiktokLiveUsername) {
     console.log(`  🎯 TikTok Live     : @${tiktokLiveUsername}`);
   }

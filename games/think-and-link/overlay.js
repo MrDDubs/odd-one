@@ -163,23 +163,10 @@ function formatTime(seconds) {
   return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
 }
 
-// Show live guess toast
+// Show live guess toast (Disabled)
 function showGuessToast(user, word, isCorrect = false) {
-  if (!elGuessToast) return;
-  if (elToastUser) elToastUser.textContent = user.startsWith("@") ? user : `@${user}`;
-  if (elToastWord) {
-    elToastWord.textContent = word;
-    elToastWord.style.color = isCorrect ? "#34d399" : "#38bdf8";
-  }
-  if (elToastIcon) {
-    elToastIcon.textContent = isCorrect ? "🎯" : "💬";
-  }
-
-  elGuessToast.classList.add("show");
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    elGuessToast.classList.remove("show");
-  }, 2200);
+  // Pop up on accepted guess removed as requested
+  return;
 }
 
 // Format Hint Letters with tight letter-by-letter markup

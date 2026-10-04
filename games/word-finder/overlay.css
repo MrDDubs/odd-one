@@ -644,31 +644,9 @@ html, body {
   text-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
 }
 
-/* Floating Live Guess Toast */
-.guess-toast {
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-20px);
-  background: rgba(15, 8, 38, 0.95);
-  border: 1.5px solid #a855f7;
-  border-radius: 999px;
-  padding: 6px 16px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(168, 85, 247, 0.4);
-  font-size: 1.3vh;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 100;
-  white-space: nowrap;
-}
-
-.guess-toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+/* Floating Live Guess Toast (Disabled) */
+.guess-toast, .guess-toast.show {
+  display: none !important;
 }
 
 .toast-user {
