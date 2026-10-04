@@ -200,6 +200,7 @@ async function loadActiveGameWorkspace(gameId, state) {
     // Dynamically import game control initializer
     const module = await import(controlsJsPath);
     const initFn =
+      module.initUnscrambleControls ||
       module.initCrowdSaysControls ||
       module.initThinkAndLinkControls ||
       module.initWordFinderControls ||

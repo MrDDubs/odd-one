@@ -4,6 +4,7 @@ import { ThinkLikeAllyEngine } from "./think-like-ally/engine.js";
 import { ThinkAndLinkEngine } from "./think-and-link/engine.js";
 import { WordFinderEngine } from "./word-finder/engine.js";
 import { CrowdSaysEngine } from "./crowd-says/engine.js";
+import { UnscrambleEngine } from "./unscramble/engine.js";
 
 class GameRegistry {
   constructor() {
@@ -69,6 +70,18 @@ class GameRegistry {
       controlsPath: "/games/crowd-says/controls.html",
       controlsModule: "/games/crowd-says/controls.js",
       engine: new CrowdSaysEngine()
+    });
+
+    this.registerGame({
+      id: "unscramble",
+      name: "Ally's Unscramble",
+      icon: "🔤",
+      description: "Word Unscramble Live Game! Viewers in chat unscramble 4–9 letter words.",
+      category: "Word / Puzzle",
+      overlayPath: "/games/unscramble/overlay.html",
+      controlsPath: "/games/unscramble/controls.html",
+      controlsModule: "/games/unscramble/controls.js",
+      engine: new UnscrambleEngine()
     });
   }
 
@@ -211,11 +224,17 @@ class GameRegistry {
       case "setCategoryFilter":
         if (typeof engine.setCategoryFilter === "function") return engine.setCategoryFilter(options);
         break;
+      case "setLengthFilter":
+        if (typeof engine.setLengthFilter === "function") return engine.setLengthFilter(options);
+        break;
       case "loadPuzzleById":
         if (typeof engine.loadPuzzleById === "function") return engine.loadPuzzleById(options);
         break;
       case "loadQuestionById":
         if (typeof engine.loadQuestionById === "function") return engine.loadQuestionById(options);
+        break;
+      case "loadWordById":
+        if (typeof engine.loadWordById === "function") return engine.loadWordById(options);
         break;
       case "revealAll":
         if (typeof engine.revealAll === "function") return engine.revealAll(options);

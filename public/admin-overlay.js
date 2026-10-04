@@ -196,13 +196,19 @@ function updateActiveGameUI(gameId) {
     crowdSaysSettingsCard.style.display = (gameId === "crowd-says") ? "block" : "none";
   }
 
+  const unscrambleSettingsCard = document.getElementById("unscrambleSettingsCard");
+  if (unscrambleSettingsCard) {
+    unscrambleSettingsCard.style.display = (gameId === "unscramble") ? "block" : "none";
+  }
+
   const gameNames = {
     "odd-one-out": { name: "Ally's Odd One Out", icon: "🧩" },
     "think-like-ally": { name: "Think Like Ally", icon: "💡" },
     "think-and-link": { name: "Think & Link", icon: "💜" },
     "word-finder": { name: "Ally's Word Finder", icon: "🔍" },
     "crowd-says": { name: "Ally's Chat Feud", icon: "⚔️" },
-    "chat-feud": { name: "Ally's Chat Feud", icon: "⚔️" }
+    "chat-feud": { name: "Ally's Chat Feud", icon: "⚔️" },
+    "unscramble": { name: "Ally's Unscramble", icon: "🔤" }
   };
 
   if (phoneFrame) {
@@ -648,6 +654,115 @@ if (csOverlayBtnRandomQuestion) {
 }
 
 // --------------------------------------------------------------------------
+// Ally's Unscramble Controls & Word Selector
+// --------------------------------------------------------------------------
+let uWords = [];
+let uCurrentFilteredWords = [];
+const uOverlayLengthFilter = document.getElementById("uOverlayLengthFilter");
+const uOverlaySearchInput = document.getElementById("uOverlaySearchInput");
+const uOverlayBtnClearSearch = document.getElementById("uOverlayBtnClearSearch");
+const uOverlayWordSelect = document.getElementById("uOverlayWordSelect");
+const uOverlayFilteredCountText = document.getElementById("uOverlayFilteredCountText");
+const uOverlayWordsCountBadge = document.getElementById("uOverlayWordsCountBadge");
+const uOverlayBtnLoadWord = document.getElementById("uOverlayBtnLoadWord");
+const uOverlayBtnRandomWord = document.getElementById("uOverlayBtnRandomWord");
+
+function initUWords(words) {
+  uWords = Array.isArray(words) ? words : [];
+  renderUOverlayFilteredWords();
+}
+
+function renderUOverlayFilteredWords() {
+  if (!uWords.length || !uOverlayWordSelect) return;
+  const selectedLen = uOverlayLengthFilter ? uOverlayLengthFilter.value : "ALL";
+  const q = (uOverlaySearchInput?.value || "").trim().toLowerCase();
+
+  uCurrentFilteredWords = uWords.filter((w) => {
+    if (selectedLen !== "ALL" && String(w.length || (w.word ? w.word.length : 0)) !== String(selectedLen)) {
+      return false;
+    }
+    if (!q) return true;
+    const wordMatch = (w.word || "").toLowerCase().includes(q);
+    const topicMatch = (w.topic || "").toLowerCase().includes(q);
+    const catMatch = (w.category || "").toLowerCase().includes(q);
+    return wordMatch || topicMatch || catMatch;
+  });
+
+  if (uOverlayFilteredCountText) {
+    uOverlayFilteredCountText.textContent = `${uCurrentFilteredWords.length} available`;
+  }
+  if (uOverlayWordsCountBadge) {
+    uOverlayWordsCountBadge.textContent = selectedLen === "ALL" && !q
+      ? `${uWords.length} Words`
+      : `${uCurrentFilteredWords.length} Match${uCurrentFilteredWords.length === 1 ? '' : 'es'}`;
+  }
+
+  if (uCurrentFilteredWords.length === 0) {
+    uOverlayWordSelect.innerHTML = `<option value="">No matching words found</option>`;
+  } else {
+    uOverlayWordSelect.innerHTML = uCurrentFilteredWords
+      .map((w) => `<option value="${w.id}">${w.emoji || "🔤"} ${w.word.toUpperCase()} [${w.length}L] — ${w.topic} (${w.scrambled})</option>`)
+      .join("");
+    if (currentGameState?.wordId && uCurrentFilteredWords.some((w) => w.id === currentGameState.wordId)) {
+      uOverlayWordSelect.value = currentGameState.wordId;
+    }
+  }
+
+  if (uOverlayBtnClearSearch) {
+    uOverlayBtnClearSearch.style.display = q ? "flex" : "none";
+  }
+}
+
+if (uOverlayLengthFilter) {
+  uOverlayLengthFilter.addEventListener("change", () => {
+    renderUOverlayFilteredWords();
+    sendGameAction("setLengthFilter", uOverlayLengthFilter.value);
+    showToast(uOverlayLengthFilter.value === "ALL" ? "All Lengths Shown (4-9 Letters)" : `${uOverlayLengthFilter.value}-Letter Words Selected`);
+  });
+}
+
+if (uOverlaySearchInput) {
+  uOverlaySearchInput.addEventListener("input", () => {
+    renderUOverlayFilteredWords();
+  });
+}
+
+if (uOverlayBtnClearSearch) {
+  uOverlayBtnClearSearch.addEventListener("click", () => {
+    if (uOverlaySearchInput) uOverlaySearchInput.value = "";
+    renderUOverlayFilteredWords();
+  });
+}
+
+if (uOverlayBtnLoadWord && uOverlayWordSelect) {
+  uOverlayBtnLoadWord.addEventListener("click", () => {
+    const selectedId = uOverlayWordSelect.value;
+    if (selectedId) {
+      sendGameAction("loadWordById", { id: selectedId });
+      showToast(`🔤 Loading word #${selectedId}...`);
+    }
+  });
+}
+
+if (uOverlayBtnRandomWord) {
+  uOverlayBtnRandomWord.addEventListener("click", () => {
+    const selectedLen = uOverlayLengthFilter ? uOverlayLengthFilter.value : "ALL";
+    sendGameAction("newRound", { length: selectedLen });
+    showToast(`🎲 Random word loaded (${selectedLen === "ALL" ? "4-9 letters" : selectedLen + " letters"})`);
+  });
+}
+
+// Pre-load Unscramble words
+fetch("/games/unscramble/words.json")
+  .then((res) => res.json())
+  .then((words) => {
+    if (Array.isArray(words)) {
+      initUWords(words);
+    }
+  })
+  .catch((err) => console.log("Note: Could not preload unscramble words:", err.message));
+
+// --------------------------------------------------------------------------
 // Round Flow & Game Actions
 // --------------------------------------------------------------------------
 btnStartRound?.addEventListener("click", () => {
@@ -969,6 +1084,16 @@ function updateHostCheatSheet(data) {
     cheatSecretAnswer.style.fontSize = "11.5px";
     cheatCategory.textContent = `${data.icon || "📣"} "${data.question || "Survey"}" (${data.category || "General"})`;
     cheatStatus.textContent = `Found ${solvedCount}/${slots.length || 5} • ${data.paused ? "Paused ⏸" : (data.isTimerActive ? "Guessing Active ▶" : "Ended 🏁")}`;
+  } else if (data.gameId === "unscramble") {
+    const word = data.secretWord || data.word || "--";
+    const scrambled = data.scrambled || "--";
+    const isSolved = !!data.solved;
+    cheatSecretAnswer.textContent = `${word.toUpperCase()} (Scrambled: ${scrambled})`;
+    cheatSecretAnswer.style.fontSize = "13px";
+    cheatCategory.textContent = `${data.emoji || "🔤"} ${data.topic || "Word"} (${data.category || "General"} • ${data.length || word.length} Letters)`;
+    cheatStatus.textContent = isSolved
+      ? `Solved by @${data.lastWinner?.name || data.lastWinner?.username || "Player"}! 🎉`
+      : (data.paused ? "Paused ⏸" : (data.isTimerActive ? "Guessing Active ▶" : "Ended 🏁"));
   }
 }
 
@@ -1093,6 +1218,27 @@ function updateGameStateUI(data) {
         .join("");
       if (data.questionId) {
         csOverlayQuestionSelect.value = data.questionId;
+      }
+    }
+  }
+
+  // Sync Controls for Unscramble
+  if (data.gameId === "unscramble" || data.activeGameId === "unscramble") {
+    const uOverlayLengthFilter = document.getElementById("uOverlayLengthFilter");
+    const uOverlayWordSelect = document.getElementById("uOverlayWordSelect");
+
+    if (Array.isArray(data.words) && data.words.length > 0 && uWords.length === 0) {
+      initUWords(data.words);
+    }
+    if (data.lengthFilter && uOverlayLengthFilter && document.activeElement !== uOverlayLengthFilter) {
+      if (String(uOverlayLengthFilter.value) !== String(data.lengthFilter)) {
+        uOverlayLengthFilter.value = String(data.lengthFilter);
+        renderUOverlayFilteredWords();
+      }
+    }
+    if (data.wordId && uOverlayWordSelect && document.activeElement !== uOverlayWordSelect) {
+      if (uOverlayWordSelect.value !== data.wordId) {
+        uOverlayWordSelect.value = data.wordId;
       }
     }
   }

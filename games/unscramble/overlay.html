@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ally's Unscramble — Live Stream Overlay</title>
+  <link rel="stylesheet" href="./overlay.css">
+  <link rel="stylesheet" href="/speech-bubble.css">
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+</head>
+<body>
+  <div class="overlay-app">
+    <!-- Top Header with Ally Avatar & Speech Bubble -->
+    <header class="glass brand-card">
+      <div class="brand-header-top">
+        <div class="brand-avatar-wrap">
+          <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
+        </div>
+        <div class="avatar-speech-bubble" id="avatarSpeechBubble">
+          <span class="speech-bubble-text" id="speechBubbleText">Unscramble the letters in chat! 🔤</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sub Header Row: Round & Timer -->
+    <div class="sub-header-row">
+      <div class="game-info-pill">
+        <div class="meta-pill" id="roundPill">ROUND 1</div>
+      </div>
+      <div class="timer-pill" id="timerBox">
+        <span class="timer-num" id="timerNum">45</span><span class="timer-unit">s</span>
+      </div>
+    </div>
+
+    <!-- Main Game Board -->
+    <main class="main-content">
+      <!-- Word Meta / Category Header Card -->
+      <section class="meta-card" id="metaBox">
+        <div class="meta-left">
+          <span class="category-badge" id="categoryBadge">ANIMALS</span>
+          <span class="category-icon" id="categoryIcon">🐬</span>
+        </div>
+        <div class="meta-right">
+          <span class="length-pill" id="lengthPill">7 LETTERS</span>
+        </div>
+      </section>
+
+      <!-- Optional Topic / Clue Hint Banner -->
+      <section class="hint-banner" id="hintBanner" style="display: none;">
+        <span class="hint-icon">💡</span>
+        <span class="hint-text" id="hintText">Topic: Marine Life</span>
+      </section>
+
+      <!-- Scrambled Letter Tiles Stage -->
+      <section class="scramble-stage" id="scrambleStage">
+        <div class="scramble-label">SCRAMBLED LETTERS</div>
+        <div class="scramble-tiles" id="scrambleTiles">
+          <!-- Injected via JS (e.g. P L N D O H I) -->
+        </div>
+      </section>
+
+      <!-- Solution Slots Stage -->
+      <section class="solution-stage" id="solutionStage">
+        <div class="solution-label">YOUR ANSWER</div>
+        <div class="solution-slots" id="solutionSlots">
+          <!-- Injected via JS (_ _ _ _ _ _ _) -->
+        </div>
+      </section>
+
+      <!-- Round Winner Celebration Banner (Appears when solved) -->
+      <section class="winner-banner" id="winnerBanner" style="display: none;">
+        <div class="winner-avatar-wrap" id="winnerAvatarWrap">
+          <div class="winner-avatar-fallback" id="winnerAvatarFallback">🏆</div>
+          <img src="" class="winner-avatar-img" id="winnerAvatarImg" style="display: none;" alt="Winner">
+        </div>
+        <div class="winner-info">
+          <div class="winner-title">UNSCRAMBLED BY</div>
+          <div class="winner-name" id="winnerName">@Chatter</div>
+        </div>
+        <div class="winner-pts" id="winnerPts">+25 pts</div>
+      </section>
+    </main>
+
+    <!-- Community Streak Pill -->
+    <div class="streak-pill" id="streakCard">
+      <span class="streak-label">COMMUNITY STREAK</span>
+      <div class="streak-val">
+        <span class="flame-icon">🔥</span>
+        <span class="streak-num" id="streakValue">0</span>
+      </div>
+    </div>
+
+    <!-- 4-Second Round Results Modal (Podium + Also Scored) -->
+    <div id="leaderboardModal" class="leaderboard-modal">
+      <div class="modal-card">
+        <div class="modal-title">🏆 THIS ROUND'S POINTS</div>
+        
+        <!-- Podium Cards (Top 3 Scorers) -->
+        <div class="round-winners-row" id="modalPodium">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Also Scored (4th Place and below) -->
+        <div class="also-scored-section" id="modalAlsoScored" style="display: none;">
+          <div class="also-scored-title">✨ ALSO SCORED THIS ROUND</div>
+          <div class="also-scored-list" id="modalAlsoScoredList">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- 4-Second Countdown bar -->
+        <div class="countdown-bar-wrap">
+          <div class="countdown-bar" id="modalProgressBar"></div>
+        </div>
+        <div class="countdown-txt">Next word starting automatically...</div>
+      </div>
+    </div>
+
+    <!-- Confetti & Celebration Container -->
+    <div id="confettiContainer" class="confetti-container"></div>
+  </div>
+
+  <script src="/speech-bubble.js"></script>
+  <script src="./overlay.js"></script>
+</body>
+</html>

@@ -39,6 +39,11 @@ const GAME_OVERLAYS = {
     path: "/games/crowd-says/overlay.html",
     name: "Ally's Chat Feud",
     icon: "⚔️"
+  },
+  "unscramble": {
+    path: "/games/unscramble/overlay.html",
+    name: "Ally's Unscramble",
+    icon: "🔤"
   }
 };
 

@@ -1,0 +1,188 @@
+<!-- games/unscramble/controls.html -->
+<div class="game-controls-container">
+  <!-- Host Secret Cheat Sheet -->
+  <div class="card cheat-card">
+    <div class="card-title">
+      <span>💡 Host Cheat Sheet (Secret Word &amp; Scramble)</span>
+      <span class="badge badge-purple" style="font-size:10px">Unscramble</span>
+    </div>
+    <div class="secret-display" style="flex-direction:column;align-items:stretch;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px">
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Secret Unscrambled Word</div>
+          <div id="uHostWord" style="font-size:22px;font-weight:900;color:#facc15;margin-top:2px;letter-spacing:2px">--</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:#c084fc">Category: <strong id="uHostCategory">--</strong></div>
+          <div style="font-size:12px;color:#e2e8f0;margin-top:2px">Length: <strong id="uHostLength">--</strong> • Timer: <strong id="uHostTimerText">45s</strong></div>
+        </div>
+      </div>
+
+      <!-- Scrambled Letters & Clue Info -->
+      <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.3);border-radius:8px;padding:8px 12px;">
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;">Chat Sees (Scrambled)</div>
+          <div id="uHostScrambled" style="font-size:16px;font-weight:900;color:#67e8f9;letter-spacing:3px;margin-top:2px">--</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;">Clue / Hint</div>
+          <div id="uHostHint" style="font-size:12px;font-weight:700;color:#fef08a;margin-top:2px">--</div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons for Host -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <button id="uBtnHostHint" class="ctrl-btn" style="background:linear-gradient(135deg,#eab308,#ca8a04);color:#000;font-weight:800;padding:7px;border-radius:6px;border:none;cursor:pointer;font-size:11.5px;">
+          <span>💡 Reveal Hint to Chat</span>
+        </button>
+        <button id="uBtnHostReveal" class="ctrl-btn" style="background:linear-gradient(135deg,#ec4899,#db2777);color:#fff;font-weight:800;padding:7px;border-radius:6px;border:none;cursor:pointer;font-size:11.5px;">
+          <span>👁️ Reveal Word</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Round & Flow Actions -->
+  <div class="card">
+    <div class="card-title">Round Flow &amp; Timer Actions</div>
+    <div class="btn-row">
+      <button class="primary" id="uBtnStartTimer">▶ Start Timer</button>
+      <button class="secondary" id="uBtnPauseTimer">⏸ Pause Timer</button>
+      <button class="secondary" id="uBtnNextRound">⏭ Next Word</button>
+      <button class="secondary" id="uBtnPrevRound">⏮ Prev Word</button>
+      <button class="secondary" id="uBtnRandomRound">🎲 Random Word</button>
+      <button class="secondary" id="uBtnHint">💡 Give Hint</button>
+      <button class="secondary" id="uBtnReveal">👁 Reveal Word</button>
+      <button class="danger" id="uBtnResetGame">🔄 Reset Game</button>
+    </div>
+  </div>
+
+  <!-- Timer & Duration Configuration -->
+  <div class="card">
+    <div class="card-title">Timer &amp; Duration Configuration</div>
+    <div class="form-group">
+      <label>Timer Presets (Seconds)</label>
+      <div class="btn-row" id="uPresetRow">
+        <button type="button" class="chip" data-sec="20">20s</button>
+        <button type="button" class="chip" data-sec="30">30s</button>
+        <button type="button" class="chip" data-sec="45">45s</button>
+        <button type="button" class="chip" data-sec="60">60s</button>
+        <button type="button" class="chip" data-sec="90">90s</button>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:6px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <label for="uCustomSecInput" style="margin:0">Custom Duration:</label>
+        <input type="number" id="uCustomSecInput" min="10" max="240" placeholder="e.g. 45" style="width:90px;padding:6px 10px" />
+        <span style="font-size:12px;color:var(--muted)">seconds</span>
+        <button type="button" class="secondary" id="uBtnSetCustomSec" style="padding:6px 14px">Set Time</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Word Catalog & Length Filter -->
+  <div class="card">
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>Word Catalog &amp; Length Filter</span>
+      <span class="badge badge-purple" id="uWordsCountBadge">1,000 Words</span>
+    </div>
+
+    <!-- Length Filter Chips -->
+    <div class="form-group">
+      <label>Filter by Word Length (4–9 Letters)</label>
+      <div class="btn-row" id="uLengthFilterRow">
+        <button type="button" class="chip active" data-len="all">All (4–9)</button>
+        <button type="button" class="chip" data-len="4">4 Letters</button>
+        <button type="button" class="chip" data-len="5">5 Letters</button>
+        <button type="button" class="chip" data-len="6">6 Letters</button>
+        <button type="button" class="chip" data-len="7">7 Letters</button>
+        <button type="button" class="chip" data-len="8">8 Letters</button>
+        <button type="button" class="chip" data-len="9">9 Letters</button>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top:8px">
+      <label for="uWordSelect">Select Specific Word from Catalog</label>
+      <select id="uWordSelect" style="width:100%;padding:8px 10px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:6px;color:#fff;font-size:12px;">
+        <option value="">Loading 1,000 words...</option>
+      </select>
+    </div>
+
+    <div class="btn-row" style="margin-top:10px">
+      <button class="primary" id="uBtnLoadSelected">Load Selected Word</button>
+      <button class="secondary" id="uBtnOpenImportModal">📥 Load Custom Word Pack</button>
+    </div>
+  </div>
+
+  <!-- Import Modal / Drawer -->
+  <div id="uImportModal" class="modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:99999;align-items:center;justify-content:center;padding:16px;">
+    <div class="modal-card" style="background:#1b1528;border:1px solid #8b5cf6;border-radius:12px;width:100%;max-width:580px;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 12px 48px rgba(0,0,0,0.9);overflow:hidden;">
+      <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center;background:#241a38;">
+        <div style="font-size:16px;font-weight:bold;color:#f3e8ff;display:flex;align-items:center;gap:8px">
+          <span>📥</span>
+          <span>Import Unscramble Word Pack</span>
+        </div>
+        <button type="button" id="uBtnCloseImportModal" style="background:transparent;border:none;color:#aaa;font-size:20px;cursor:pointer;line-height:1;padding:4px 8px;">✕</button>
+      </div>
+
+      <div style="padding:16px 18px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;flex:1;">
+        <!-- File Upload Area -->
+        <div class="form-group">
+          <label style="font-size:12px;font-weight:600;color:#c4b5fd;">Option 1: Upload JSON / CSV / TXT File</label>
+          <div id="uDropZone" style="border:2px dashed #8b5cf6;border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;background:rgba(139,92,246,0.08);transition:all 0.2s;">
+            <div style="font-size:26px;margin-bottom:4px">📁</div>
+            <div style="font-size:13px;font-weight:600;color:#e9d5ff">Click to choose file or drag &amp; drop here</div>
+            <div style="font-size:11px;color:#a78bfa;margin-top:4px">Supports: JSON array or plain text lines of 4–9 letter words</div>
+            <div id="uSelectedFileName" style="font-size:12px;font-weight:bold;color:#4ade80;margin-top:6px;display:none"></div>
+          </div>
+          <input type="file" id="uModalFileInput" accept=".json,.csv,.txt" style="display:none" />
+        </div>
+
+        <!-- Paste Text Area -->
+        <div class="form-group">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <label for="uImportPasteArea" style="font-size:12px;font-weight:600;color:#c4b5fd;">Option 2: Paste Words Directly</label>
+            <button type="button" id="uBtnPasteSample" style="background:transparent;border:none;color:#a78bfa;font-size:11px;cursor:pointer;text-decoration:underline;">Load Sample Words</button>
+          </div>
+          <textarea id="uImportPasteArea" rows="6" placeholder="Paste words here (one per line)...&#10;Example:&#10;PIZZA&#10;DOLPHIN&#10;GALAXY&#10;RAINBOW&#10;CHOCOLATE" style="width:100%;font-family:monospace;font-size:11px;box-sizing:border-box;resize:vertical;"></textarea>
+        </div>
+
+        <!-- Word Counter & Live Preview -->
+        <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:12px;font-weight:600;color:#ddd">Words Detected (4–9 Letters):</span>
+            <span id="uPreviewCountBadge" class="badge badge-purple" style="font-size:11px">0 Words</span>
+          </div>
+          <div id="uPreviewList" style="max-height:100px;overflow-y:auto;font-size:11.5px;color:#cbd5e1;display:flex;flex-direction:column;gap:4px">
+            <div style="color:var(--muted);font-style:italic">Choose a file or paste words above to see preview.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:12px 18px;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:flex-end;gap:10px;background:#241a38;">
+        <button type="button" class="secondary" id="uBtnCancelImport" style="padding:8px 16px">Cancel</button>
+        <button type="button" class="primary" id="uBtnSubmitImport" style="padding:8px 20px" disabled>📥 Import Words</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Test Simulator -->
+  <div class="card">
+    <div class="card-title">Live Test Simulator</div>
+    <div class="input-row">
+      <div class="form-group">
+        <label for="uSimUser">Simulated Username</label>
+        <input type="text" id="uSimUser" value="TikTokFan" />
+      </div>
+      <div class="form-group">
+        <label for="uSimGuess">Simulated Chat Guess</label>
+        <input type="text" id="uSimGuess" placeholder="e.g. DOLPHIN" />
+      </div>
+    </div>
+    <div class="btn-row">
+      <button id="uBtnSimGuess" class="primary">Submit Guess</button>
+      <button id="uBtnSimCorrect" class="chip">🎯 Simulate Correct Guess</button>
+      <button id="uBtnSimRandom" class="chip">🎲 Random Incorrect Guess</button>
+    </div>
+  </div>
+</div>

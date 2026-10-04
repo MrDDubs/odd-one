@@ -161,6 +161,15 @@
               </div>
               <span class="active-pill">ACTIVE</span>
             </button>
+
+            <button class="game-switch-btn" id="btnGameUnscramble" data-game="unscramble">
+              <span class="game-icon">🔤</span>
+              <div class="game-info">
+                <span class="game-name">Unscramble</span>
+                <span class="game-meta">Scrambled Words • 1,000 Words</span>
+              </div>
+              <span class="active-pill">ACTIVE</span>
+            </button>
           </div>
         </div>
 
@@ -406,6 +415,62 @@
               <span>Load Survey</span>
             </button>
             <button id="csOverlayBtnRandomQuestion" class="ctrl-btn" style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Pick random survey">
+              <span>🎲</span>
+              <span>Random</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel Section 2.10: Unscramble Word Controls -->
+        <div class="panel-card u-settings-card" id="unscrambleSettingsCard" style="display: none;">
+          <div class="card-header">
+            <h3>🔤 Ally's Unscramble Words</h3>
+            <span class="card-tag" id="uOverlayWordsCountBadge" style="background: rgba(168, 85, 247, 0.2); color: #e9d5ff; border: 1px solid rgba(168, 85, 247, 0.35);">1,000 Words</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px; margin-bottom: 10px;">
+            <!-- Word Length Filter Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="uOverlayLengthFilter" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Word Length Filter</label>
+              <select id="uOverlayLengthFilter" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="ALL">All Lengths (4–9 Letters)</option>
+                <option value="4">4 Letters</option>
+                <option value="5">5 Letters</option>
+                <option value="6">6 Letters</option>
+                <option value="7">7 Letters</option>
+                <option value="8">8 Letters</option>
+                <option value="9">9 Letters</option>
+              </select>
+            </div>
+
+            <!-- Instant Search Bar -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="uOverlaySearchInput" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">🔍 Quick Search Word / Topic</label>
+              <div style="position: relative; display: flex; align-items: center;">
+                <input type="text" id="uOverlaySearchInput" placeholder="Filter words or topics..." style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 26px 6px 8px; font-size: 11px; outline: none; width: 100%; box-sizing: border-box;" />
+                <button id="uOverlayBtnClearSearch" type="button" style="position: absolute; right: 5px; height: 18px; width: 18px; padding: 0; font-size: 10px; background: rgba(255,255,255,0.18); border: none; border-radius: 50%; color: #fff; cursor: pointer; display: none; align-items: center; justify-content: center;" title="Clear search">✕</button>
+              </div>
+            </div>
+
+            <!-- Word Selector Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label for="uOverlayWordSelect" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Select Word</label>
+                <span id="uOverlayFilteredCountText" style="font-size: 10px; color: #c084fc; font-weight: 700;">1,000 available</span>
+              </div>
+              <select id="uOverlayWordSelect" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="">Loading words...</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons: Load & Random -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button id="uOverlayBtnLoadWord" class="ctrl-btn" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Load selected word">
+              <span>📚</span>
+              <span>Load Word</span>
+            </button>
+            <button id="uOverlayBtnRandomWord" class="ctrl-btn" style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Pick random word from filter">
               <span>🎲</span>
               <span>Random</span>
             </button>
