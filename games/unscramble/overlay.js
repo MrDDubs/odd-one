@@ -157,21 +157,55 @@ function esc(str) {
     .replace(/'/g, "&#39;");
 }
 
-// Render Scrambled Tiles
+let lastScrambledLettersKey = "";
+let lastSlotsKey = "";
+let lastRenderedWordId = null;
+
+// Render Scrambled Tiles (Only updates DOM if letters actually changed)
 function renderScrambleTiles(letters = []) {
   if (!scrambleTiles) return;
+  const lettersKey = Array.isArray(letters) ? letters.join("") : String(letters || "");
+  if (lettersKey && lettersKey === lastScrambledLettersKey) {
+    return; // Don't wipe DOM if letters are unchanged!
+  }
+  lastScrambledLettersKey = lettersKey;
+
   scrambleTiles.innerHTML = letters
-    .map((char, idx) => `
-      <div class="scramble-tile" style="animation-delay: ${idx * 0.05}s">
+    .map((char) => `
+      <div class="scramble-tile">
         ${esc(char)}
       </div>
     `)
     .join("");
 }
 
-// Render Solution Slots
+// Render Solution Slots (Only updates DOM when slots change)
 function renderSolutionSlots(slots = [], isRevealed = false, hasWinner = false) {
   if (!solutionSlots) return;
+  const slotsKey = `${slots.join("")}_${isRevealed ? 1 : 0}_${hasWinner ? 1 : 0}`;
+  if (slotsKey === lastSlotsKey) {
+    return; // Don't wipe DOM if slot values are unchanged!
+  }
+  lastSlotsKey = slotsKey;
+
+  const existingBoxes = solutionSlots.querySelectorAll(".slot-box");
+  if (existingBoxes.length === slots.length) {
+    slots.forEach((char, idx) => {
+      const box = existingBoxes[idx];
+      let stateClass = "";
+      if (char) {
+        if (isRevealed) {
+          stateClass = hasWinner ? "solved" : "missed";
+        } else {
+          stateClass = "revealed-hint";
+        }
+      }
+      box.className = `slot-box ${stateClass}`.trim();
+      box.textContent = char || "";
+    });
+    return;
+  }
+
   solutionSlots.innerHTML = slots
     .map((char) => {
       let stateClass = "";
@@ -184,7 +218,7 @@ function renderSolutionSlots(slots = [], isRevealed = false, hasWinner = false) 
       }
       return `
         <div class="slot-box ${stateClass}">
-          ${char ? esc(char) : "&nbsp;"}
+          ${char ? esc(char) : ""}
         </div>
       `;
     })
@@ -201,6 +235,13 @@ function handleState(state) {
   if (state.round && state.round !== currentRound) {
     currentRound = state.round;
     if (elModal) elModal.classList.remove("active");
+  }
+
+  // Word change detection: resets keys so the new word's tiles mount smoothly
+  if (state.wordId && state.wordId !== lastRenderedWordId) {
+    lastRenderedWordId = state.wordId;
+    lastScrambledLettersKey = "";
+    lastSlotsKey = "";
   }
 
   // Round & Timer

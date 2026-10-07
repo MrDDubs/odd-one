@@ -108,6 +108,7 @@ export function initCrowdSaysControls({ socket, showToast }) {
   const csBtnRandomRound = document.getElementById("csBtnRandomRound");
   const csBtnRevealAll = document.getElementById("csBtnRevealAll");
   const csBtnHideAll = document.getElementById("csBtnHideAll");
+  const csBtnHint = document.getElementById("csBtnHint");
   const csBtnResetGame = document.getElementById("csBtnResetGame");
 
   const csPresetButtons = document.querySelectorAll("#csPresetRow .chip");
@@ -276,6 +277,13 @@ export function initCrowdSaysControls({ socket, showToast }) {
     csBtnRandomRound.onclick = () => {
       socket.emit("gameAction", { gameId: "crowd-says", action: "newRound" });
       showToast("🎲 Random Survey Loaded");
+    };
+  }
+
+  if (csBtnHint) {
+    csBtnHint.onclick = () => {
+      socket.emit("gameAction", { gameId: "crowd-says", action: "hint" });
+      showToast("💡 Revealing Letter Hint");
     };
   }
 

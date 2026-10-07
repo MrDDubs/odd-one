@@ -1,0 +1,1051 @@
+/* games/rebus/overlay.css — 9:16 Vertical TikTok Live Overlay */
+
+:root {
+  --bg-gradient: radial-gradient(circle at 50% 20%, #2e1065 0%, #1e1145 45%, #0f0728 100%);
+  --accent-purple: #9333ea;
+  --accent-purple-light: #c084fc;
+  --accent-yellow: #facc15;
+  --accent-pink: #f43f5e;
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.18);
+  --text-white: #ffffff;
+  --font-main: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-gradient);
+  font-family: var(--font-main);
+  color: var(--text-white);
+  overflow: hidden;
+  user-select: none;
+}
+
+.overlay-app {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: clamp(10px, 1.6vh, 20px);
+  gap: clamp(8px, 1.2vh, 16px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ========================================================
+   1. Brand Header Card (Consistent with Ally Stream Hub)
+   ======================================================== */
+.brand-card {
+  width: 100%;
+  max-width: 440px;
+  padding: clamp(8px, 1.2vh, 12px) 16px;
+  background: linear-gradient(145deg, #facc15 0%, #eab308 45%, #ca8a04 100%);
+  border: 2px solid #fef08a;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.5), inset 0 0 14px rgba(255, 255, 255, 0.35);
+  color: #451a03;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.brand-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg transform='translate(30,30)'%3E%3Cpath d='M0 -14 C-3 -9 -3 -4 0 0 C3 -4 3 -9 0 -14' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M0 14 C-3 9 -3 4 0 0 C3 4 3 9 0 14' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M-14 0 C-9 -3 -4 -3 0 0 C-4 3 -9 3 -14 0' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M14 0 C9 -3 4 -3 0 0 C4 3 9 3 14 0' fill='%23fef08a' opacity='0.9'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23854d0e' opacity='0.95'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%23451a03' opacity='0.95'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 54px 54px;
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brand-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-avatar-wrap {
+  width: clamp(64px, 8.5vh, 88px);
+  height: clamp(64px, 8.5vh, 88px);
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #fef08a, #f59e0b);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.85), 0 4px 12px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: avatarFloat 3.4s ease-in-out infinite alternate, avatarGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes avatarFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(1.5deg); }
+  100% { transform: translateY(0) rotate(-1deg); }
+}
+
+@keyframes avatarGlow {
+  from { box-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 2px 6px rgba(0,0,0,0.2); }
+  to { box-shadow: 0 0 26px rgba(245, 158, 11, 0.95), 0 4px 14px rgba(0,0,0,0.35); }
+}
+
+.brand-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  border: 2.5px solid #ffffff;
+}
+
+/* ========================================================
+   2. Sub-Header Row: Exact Think & Link Timer & Pill Styling
+   ======================================================== */
+.sub-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.game-info-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(243, 235, 255, 0.92));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 5px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.meta-pill {
+  background: rgba(107, 33, 168, 0.08);
+  border: 1.5px solid rgba(124, 58, 237, 0.35);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: clamp(10px, 1.2vh, 12px);
+  font-weight: 900;
+  color: #4c1d95;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.category-pill {
+  color: #0284c7;
+  border-color: rgba(2, 132, 199, 0.35);
+  background: rgba(2, 132, 199, 0.08);
+}
+
+.difficulty-pill {
+  color: #059669;
+  border-color: rgba(5, 150, 105, 0.35);
+  background: rgba(5, 150, 105, 0.08);
+}
+
+.difficulty-pill.hard {
+  color: #e11d48;
+  border-color: rgba(225, 29, 72, 0.35);
+  background: rgba(225, 29, 72, 0.08);
+}
+
+/* Standalone Timer Pill (Exact Think & Link specification) */
+.timer-pill {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(238, 226, 255, 0.94));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 4px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  color: #3b0764;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.timer-num {
+  font-size: 2.2vh;
+  line-height: 1;
+  font-weight: 900;
+  color: #3b0764;
+  font-family: 'Outfit', sans-serif;
+}
+
+.timer-unit {
+  font-size: 1.15vh;
+  font-weight: 800;
+  color: #6b21a8;
+  margin-left: 2px;
+  opacity: 0.9;
+}
+
+.timer-pill.danger {
+  background: linear-gradient(145deg, #fff1f2, #fee2e2);
+  border-color: #f87171;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+  animation: timerWarning 0.8s infinite alternate ease-in-out;
+}
+
+.timer-pill.danger .timer-num {
+  color: #b91c1c;
+}
+
+.timer-pill.danger .timer-unit {
+  color: #dc2626;
+}
+
+@keyframes timerWarning {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+/* ========================================================
+   3. White Pill Rule Banner
+   ======================================================== */
+.rule-banner {
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 5px 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.rule-icon, .rule-heart {
+  font-size: clamp(12px, 1.4vh, 15px);
+}
+
+.rule-text {
+  font-size: clamp(10.5px, 1.25vh, 12.5px);
+  font-weight: 900;
+  color: #1e1b4b;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* ========================================================
+   4. Main Content Stage & Rebus Stage Card
+   ======================================================== */
+.main-content {
+  width: 100%;
+  max-width: 485px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.6vh, 20px);
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+}
+
+.rebus-stage-card {
+  width: 100%;
+  aspect-ratio: 1.1 / 1;
+  max-height: 48vh;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(245, 243, 255, 0.96));
+  border: 3.5px solid #a855f7;
+  border-radius: 28px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 30px rgba(168, 85, 247, 0.35), inset 0 0 18px rgba(255, 255, 255, 0.8);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.stage-backdrop-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle at 50% 50%, rgba(192, 132, 252, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.rebus-canvas {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  color: #1e1b4b;
+}
+
+.rebus-loading {
+  font-size: 18px;
+  font-weight: 800;
+  color: #6b21a8;
+  animation: pulseLoading 1.2s infinite alternate;
+}
+
+@keyframes pulseLoading {
+  from { opacity: 0.5; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1.02); }
+}
+
+/* ========================================================
+   5. Declarative Rebus Vector Layout Schemas
+   ======================================================== */
+
+/* Generic typography styles for Rebus text */
+.rebus-word {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #1e1b4b;
+  display: inline-block;
+  text-align: center;
+}
+
+/* SCHEMA 1: Stacked (Top over Bottom) */
+.layout-stacked {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.layout-stacked .stacked-top {
+  font-size: clamp(32px, 5.2vh, 48px);
+  color: #0f172a;
+}
+
+.layout-stacked .stacked-divider {
+  width: 85%;
+  height: 5px;
+  background: #334155;
+  border-radius: 999px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.layout-stacked .stacked-bottom {
+  font-size: clamp(32px, 5.2vh, 48px);
+  color: #0f172a;
+}
+
+/* SCHEMA 2: Fraction */
+.layout-fraction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.layout-fraction .fraction-num {
+  font-size: clamp(30px, 4.8vh, 44px);
+  color: #1e1b4b;
+}
+
+.layout-fraction .fraction-bar {
+  width: 75%;
+  height: 6px;
+  background: #6366f1;
+  border-radius: 999px;
+}
+
+.layout-fraction .fraction-den {
+  font-size: clamp(30px, 4.8vh, 44px);
+  color: #1e1b4b;
+}
+
+/* SCHEMA 3: Inside */
+.layout-inside {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.layout-inside .inside-outer {
+  font-size: clamp(48px, 8.5vh, 76px);
+  font-weight: 950;
+  color: #cbd5e1;
+  letter-spacing: 6px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.layout-inside .inside-inner {
+  position: absolute;
+  font-size: clamp(20px, 3.2vh, 30px);
+  font-weight: 900;
+  color: #7c3aed;
+  background: #f3e8ff;
+  border: 2.5px solid #a855f7;
+  padding: 6px 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+  z-index: 3;
+}
+
+/* SCHEMA 4: Repeat */
+.layout-repeat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.layout-repeat.horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.layout-repeat .repeat-item {
+  font-size: clamp(26px, 4vh, 38px);
+  color: #1e1b4b;
+}
+
+/* SCHEMA 5: Styled Color */
+.layout-styled_color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.layout-styled_color .styled-word {
+  font-size: clamp(38px, 6vh, 56px);
+  font-weight: 950;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* SCHEMA 6: Styled Scale */
+.layout-styled_scale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.scale-word.scale-giant, .scale-word.scale-huge {
+  font-size: clamp(52px, 8vh, 76px);
+  font-weight: 950;
+  color: #1e1b4b;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.scale-word.scale-tiny, .scale-word.scale-small {
+  font-size: clamp(14px, 2.2vh, 20px);
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.5px;
+}
+
+.scale-word.scale-growing {
+  font-size: clamp(38px, 6vh, 54px);
+  font-weight: 950;
+  letter-spacing: 4px;
+}
+
+.scale-word.scale-shrinking {
+  font-size: clamp(30px, 4.8vh, 44px);
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+/* SCHEMA 7: Reversed */
+.layout-reversed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.layout-reversed .reversed-text {
+  font-size: clamp(38px, 6vh, 54px);
+  font-weight: 950;
+  color: #1e1b4b;
+  letter-spacing: 4px;
+  position: relative;
+}
+
+.layout-reversed .arrow-indicator {
+  font-size: clamp(22px, 3vh, 30px);
+  color: #7c3aed;
+  animation: bounceLeft 1.2s infinite alternate;
+}
+
+@keyframes bounceLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-8px); }
+}
+
+/* SCHEMA 8: Spacing */
+.layout-spacing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.layout-spacing .spacing-text {
+  font-size: clamp(30px, 4.8vh, 44px);
+  font-weight: 950;
+  color: #1e1b4b;
+  text-align: center;
+}
+
+/* SCHEMA 9: Missing Letter */
+.layout-missing_letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.layout-missing_letter .missing-slot {
+  font-size: clamp(36px, 5.8vh, 52px);
+  font-weight: 950;
+  color: #ef4444;
+  border-bottom: 4px dashed #ef4444;
+  padding: 0 4px;
+}
+
+.layout-missing_letter .normal-letter {
+  font-size: clamp(36px, 5.8vh, 52px);
+  font-weight: 950;
+  color: #1e1b4b;
+}
+
+/* SCHEMA 10: Strikethrough */
+.layout-strikethrough {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.layout-strikethrough .strike-text {
+  font-size: clamp(38px, 6vh, 56px);
+  font-weight: 950;
+  color: #64748b;
+  position: relative;
+  display: inline-block;
+}
+
+.layout-strikethrough .strike-text::after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: 52%;
+  height: 6px;
+  background: #dc2626;
+  border-radius: 999px;
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.4);
+}
+
+/* SCHEMA 11: Positional */
+.layout-positional {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layout-positional .pos-word {
+  font-size: clamp(34px, 5.2vh, 48px);
+  font-weight: 950;
+  color: #1e1b4b;
+  transition: all 0.3s ease;
+}
+
+.layout-positional.pos-top .pos-word,
+.layout-positional .pos-word.pos-top {
+  position: absolute;
+  top: 18px;
+}
+
+.layout-positional.pos-bottom .pos-word,
+.layout-positional .pos-word.pos-bottom {
+  position: absolute;
+  bottom: 18px;
+}
+
+.layout-positional.pos-corner .pos-word,
+.layout-positional .pos-word.pos-corner {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.layout-positional.pos-isolated .pos-word,
+.layout-positional .pos-word.pos-isolated {
+  position: relative;
+  border: 3.5px dashed #6366f1;
+  border-radius: 16px;
+  padding: 14px 26px;
+  background: #f5f3ff;
+  color: #4338ca;
+}
+
+.layout-positional.pos-rising .pos-word,
+.layout-positional .pos-word.pos-rising {
+  transform: translateY(-18px) rotate(-10deg);
+  color: #2563eb;
+}
+.layout-positional.pos-rising .pos-word::after,
+.layout-positional .pos-word.pos-rising::after {
+  content: ' ↗';
+  color: #3b82f6;
+}
+
+.layout-positional.pos-falling .pos-word,
+.layout-positional .pos-word.pos-falling {
+  transform: translateY(18px) rotate(10deg);
+  color: #dc2626;
+}
+.layout-positional.pos-falling .pos-word::after,
+.layout-positional .pos-word.pos-falling::after {
+  content: ' ↘';
+  color: #ef4444;
+}
+
+.layout-positional.pos-diagonal-up .pos-word,
+.layout-positional .pos-word.pos-diagonal-up {
+  transform: rotate(-25deg);
+  color: #7c3aed;
+}
+
+.layout-positional.pos-diagonal-down .pos-word,
+.layout-positional .pos-word.pos-diagonal-down {
+  transform: rotate(25deg);
+  color: #d97706;
+}
+
+/* SCHEMA 12: Boxed */
+.layout-boxed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.layout-boxed .boxed-wrap {
+  border: 5px solid #1e1b4b;
+  border-radius: 16px;
+  padding: 16px 28px;
+  font-size: clamp(34px, 5.2vh, 48px);
+  font-weight: 950;
+  color: #1e1b4b;
+  background: #f8fafc;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.layout-boxed-outside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.layout-boxed-outside .outside-text {
+  font-size: clamp(32px, 5vh, 46px);
+  font-weight: 950;
+  color: #7c3aed;
+}
+
+.layout-boxed-outside .empty-box {
+  border: 4px dashed #64748b;
+  border-radius: 14px;
+  width: 140px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 2px;
+}
+
+.fallback-word {
+  font-size: clamp(34px, 5.2vh, 48px);
+  font-weight: 950;
+  color: #1e1b4b;
+}
+
+/* ========================================================
+   6. Clue Banner Card
+   ======================================================== */
+.clue-card {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(254, 240, 138, 0.95), rgba(253, 224, 71, 0.9));
+  border: 2px solid #facc15;
+  border-radius: 16px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.35);
+  animation: clueSlideIn 0.4s ease-out;
+}
+
+@keyframes clueSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.clue-tag {
+  background: #854d0e;
+  color: #fef08a;
+  font-size: clamp(10px, 1.2vh, 12px);
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.clue-text {
+  font-size: clamp(12px, 1.45vh, 14.5px);
+  font-weight: 800;
+  color: #451a03;
+  text-align: center;
+}
+
+/* ========================================================
+   7. Masked Letter Slots / Answer Word Blocks
+   ======================================================== */
+.slots-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.word-block {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.char-slot {
+  width: clamp(24px, 3.4vh, 34px);
+  height: clamp(34px, 4.6vh, 46px);
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(16px, 2.4vh, 22px);
+  font-weight: 900;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+}
+
+.char-slot.revealed {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  border-color: #c084fc;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  transform: scale(1.05);
+}
+
+.char-slot.blank {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.char-slot.punctuation {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  font-size: clamp(20px, 2.8vh, 26px);
+  width: auto;
+  padding: 0 2px;
+}
+
+/* ========================================================
+   8. Streak Floating Badge
+   ======================================================== */
+.streak-badge-wrap {
+  position: absolute;
+  bottom: clamp(14px, 2vh, 24px);
+  left: 20px;
+  z-index: 10;
+}
+
+.streak-badge {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  border: 2px solid #fdba74;
+  border-radius: 999px;
+  padding: 4px 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.45);
+  font-weight: 900;
+  font-size: 13px;
+  color: #fff;
+}
+
+/* ========================================================
+   9. Winner Celebration Banner
+   ======================================================== */
+.celebration-banner {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  pointer-events: none;
+  width: 90%;
+  max-width: 400px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: 3px solid #6ee7b7;
+  border-radius: 24px;
+  padding: 16px 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(16, 185, 129, 0.7);
+  z-index: 100;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.celebration-banner.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.celebration-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.celebration-avatar-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid #fff;
+  flex-shrink: 0;
+  background: #047857;
+}
+
+.celebration-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.celebration-details {
+  flex: 1;
+}
+
+.celebration-title {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #d1fae5;
+}
+
+.celebration-winner {
+  font-size: 17px;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.celebration-answer {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fef08a;
+  margin-top: 2px;
+}
+
+.celebration-points {
+  font-size: 15px;
+  font-weight: 900;
+  background: #fef08a;
+  color: #854d0e;
+  padding: 5px 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* ========================================================
+   10. Auto-Advance Leaderboard Podium Overlay
+   ======================================================== */
+.podium-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 5, 25, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 200;
+  transition: opacity 0.35s ease;
+}
+
+.podium-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.podium-card {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(160deg, #2e1065, #1e1145);
+  border: 2.5px solid #a855f7;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.4);
+  text-align: center;
+}
+
+.podium-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.podium-icon {
+  font-size: 24px;
+}
+
+.podium-title {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fef08a;
+}
+
+.podium-solved-wrap {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.podium-solved-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #cbd5e1;
+  letter-spacing: 0.5px;
+}
+
+.podium-solved-word {
+  font-size: 19px;
+  font-weight: 900;
+  color: #38bdf8;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.podium-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.podium-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.podium-rank {
+  color: #facc15;
+  width: 24px;
+  text-align: left;
+}
+
+.podium-user {
+  flex: 1;
+  text-align: left;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podium-pts {
+  color: #c084fc;
+}
+
+.podium-footer {
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.podium-footer strong {
+  color: #facc15;
+}

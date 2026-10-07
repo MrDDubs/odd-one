@@ -170,6 +170,24 @@
               </div>
               <span class="active-pill">ACTIVE</span>
             </button>
+
+            <button class="game-switch-btn" id="btnGameRebus" data-game="rebus">
+              <span class="game-icon">🎭</span>
+              <div class="game-info">
+                <span class="game-name">Ally's Rebus</span>
+                <span class="game-meta">Visual Wordplay • 550+ Puzzles</span>
+              </div>
+              <span class="active-pill">ACTIVE</span>
+            </button>
+
+            <button class="game-switch-btn" id="btnGameRiddle" data-game="riddle">
+              <span class="game-icon">🧙‍♂️</span>
+              <div class="game-info">
+                <span class="game-name">Ally's Riddles</span>
+                <span class="game-meta">Brain Teasers • 575+ Riddles</span>
+              </div>
+              <span class="active-pill">ACTIVE</span>
+            </button>
           </div>
         </div>
 
@@ -473,6 +491,157 @@
             <button id="uOverlayBtnRandomWord" class="ctrl-btn" style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Pick random word from filter">
               <span>🎲</span>
               <span>Random</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel Section 2.11: Rebus Puzzle Controls -->
+        <div class="panel-card reb-settings-card" id="rebusSettingsCard" style="display: none;">
+          <div class="card-header">
+            <h3>🎭 Ally's Rebus Puzzles</h3>
+            <span class="card-tag" id="rebOverlayCountBadge" style="background: rgba(168, 85, 247, 0.2); color: #e9d5ff; border: 1px solid rgba(168, 85, 247, 0.35);">551 Puzzles</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px; margin-bottom: 10px;">
+            <!-- Category Filter Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="rebOverlayCategoryFilter" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Category Filter</label>
+              <select id="rebOverlayCategoryFilter" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="ALL">All Categories</option>
+                <option value="Idioms">Idioms</option>
+                <option value="Sayings">Sayings</option>
+                <option value="Phrases">Phrases</option>
+                <option value="Pop Culture">Pop Culture</option>
+                <option value="Everyday">Everyday</option>
+              </select>
+            </div>
+
+            <!-- Difficulty Filter Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="rebOverlayDifficultyFilter" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Difficulty Filter</label>
+              <select id="rebOverlayDifficultyFilter" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="ALL">All Difficulties</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
+
+            <!-- Instant Search Bar -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="rebOverlaySearchInput" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">🔍 Quick Search Puzzle / Clue</label>
+              <div style="position: relative; display: flex; align-items: center;">
+                <input type="text" id="rebOverlaySearchInput" placeholder="Filter by phrase or keyword..." style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 26px 6px 8px; font-size: 11px; outline: none; width: 100%; box-sizing: border-box;" />
+                <button id="rebOverlayBtnClearSearch" type="button" style="position: absolute; right: 5px; height: 18px; width: 18px; padding: 0; font-size: 10px; background: rgba(255,255,255,0.18); border: none; border-radius: 50%; color: #fff; cursor: pointer; display: none; align-items: center; justify-content: center;" title="Clear search">✕</button>
+              </div>
+            </div>
+
+            <!-- Puzzle Selector Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label for="rebOverlayPuzzleSelect" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Select Puzzle</label>
+                <span id="rebOverlayFilteredCountText" style="font-size: 10px; color: #c084fc; font-weight: 700;">551 available</span>
+              </div>
+              <select id="rebOverlayPuzzleSelect" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="">Loading puzzles...</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons: Load & Random -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button id="rebOverlayBtnLoadPuzzle" class="ctrl-btn" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Load selected puzzle">
+              <span>🎭</span>
+              <span>Load Puzzle</span>
+            </button>
+            <button id="rebOverlayBtnRandomPuzzle" class="ctrl-btn" style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Pick random puzzle from filter">
+              <span>🎲</span>
+              <span>Random</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel Section 2.12: Riddle Controls -->
+        <div class="panel-card rid-settings-card" id="riddleSettingsCard" style="display: none;">
+          <div class="card-header">
+            <h3>🧙‍♂️ Ally's Riddles Controls</h3>
+            <span class="card-tag" id="ridOverlayCountBadge" style="background: rgba(168, 85, 247, 0.2); color: #e9d5ff; border: 1px solid rgba(168, 85, 247, 0.35);">577 Riddles</span>
+          </div>
+
+          <!-- Speed Window Status Banner -->
+          <div id="ridOverlayGraceStatusBadge" style="display: none; align-items: center; justify-content: space-between; background: linear-gradient(135deg, rgba(234, 179, 8, 0.25), rgba(249, 115, 22, 0.25)); border: 1px solid rgba(234, 179, 8, 0.6); padding: 6px 10px; border-radius: 8px; margin-top: 8px; font-size: 11px; font-weight: 700; color: #fef08a;">
+            <span>⚡ SPEED GRACE ACTIVE:</span>
+            <span id="ridOverlayGraceTimeText">5s (50 PTS Bonus)</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px; margin-bottom: 10px;">
+            <!-- Category Filter Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="ridOverlayCategoryFilter" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Category Filter</label>
+              <select id="ridOverlayCategoryFilter" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="ALL">All Categories (577)</option>
+                <option value="Classic Riddles">Classic Riddles</option>
+                <option value="What Am I?">What Am I?</option>
+                <option value="Wordplay & Puns">Wordplay & Puns</option>
+                <option value="Everyday Objects">Everyday Objects</option>
+                <option value="Nature & Elements">Nature & Elements</option>
+                <option value="Logic & Brain Teasers">Logic & Brain Teasers</option>
+              </select>
+            </div>
+
+            <!-- Difficulty Filter Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="ridOverlayDifficultyFilter" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Difficulty Filter</label>
+              <select id="ridOverlayDifficultyFilter" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="ALL">All Difficulties</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
+
+            <!-- Instant Search Bar -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <label for="ridOverlaySearchInput" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">🔍 Quick Search Riddle / Answer</label>
+              <div style="position: relative; display: flex; align-items: center;">
+                <input type="text" id="ridOverlaySearchInput" placeholder="Filter by riddle text or answer..." style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 26px 6px 8px; font-size: 11px; outline: none; width: 100%; box-sizing: border-box;" />
+                <button id="ridOverlayBtnClearSearch" type="button" style="position: absolute; right: 5px; height: 18px; width: 18px; padding: 0; font-size: 10px; background: rgba(255,255,255,0.18); border: none; border-radius: 50%; color: #fff; cursor: pointer; display: none; align-items: center; justify-content: center;" title="Clear search">✕</button>
+              </div>
+            </div>
+
+            <!-- Riddle Selector Dropdown -->
+            <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label for="ridOverlayRiddleSelect" style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Select Riddle</label>
+                <span id="ridOverlayFilteredCountText" style="font-size: 10px; color: #c084fc; font-weight: 700;">577 available</span>
+              </div>
+              <select id="ridOverlayRiddleSelect" style="background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border); color: #fff; border-radius: 6px; padding: 6px 8px; font-size: 11px; outline: none; width: 100%;">
+                <option value="">Loading riddles...</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons: Load & Random -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+            <button id="ridOverlayBtnLoadRiddle" class="ctrl-btn" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Load selected riddle">
+              <span>🧙‍♂️</span>
+              <span>Load Riddle</span>
+            </button>
+            <button id="ridOverlayBtnRandomRiddle" class="ctrl-btn" style="background: linear-gradient(135deg, #ec4899, #db2777); color: #fff; padding: 7px 10px; font-size: 11.5px;" title="Pick random riddle from filter">
+              <span>🎲</span>
+              <span>Random</span>
+            </button>
+          </div>
+
+          <!-- Gameplay Quick Actions: Hint & Clue -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button id="ridOverlayBtnHint" class="ctrl-btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #facc15; padding: 6px 10px; font-size: 11px;" title="Reveal one more letter in the answer">
+              <span>💡</span>
+              <span>Reveal Letter</span>
+            </button>
+            <button id="ridOverlayBtnToggleClue" class="ctrl-btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #38bdf8; padding: 6px 10px; font-size: 11px;" title="Toggle Host Clue on Overlay">
+              <span>🔎</span>
+              <span>Toggle Clue</span>
             </button>
           </div>
         </div>

@@ -140,15 +140,19 @@ export class CrowdSaysEngine {
         ? ans.synonyms
         : [text];
 
-      return {
+      const slotObj = {
         rank: idx + 1,
         text,
         synonyms: Array.from(new Set([text, ...synonyms])),
         points,
         revealed: false,
         isMissed: false,
+        revealedLetterIndices: [],
         winner: null
       };
+
+      this.initSlotLetterIndices(slotObj);
+      return slotObj;
     });
 
     if (this.customDurationSec && this.customDurationSec > 0) {
@@ -275,11 +279,78 @@ export class CrowdSaysEngine {
     return this.getPublicPayload();
   }
 
+  initSlotLetterIndices(slot) {
+    if (!slot || !slot.text) return;
+    slot.revealedLetterIndices = [];
+    const words = slot.text.split(" ");
+    let currIdx = 0;
+    words.forEach((w) => {
+      if (w.length > 0) {
+        for (let j = 0; j < w.length; j++) {
+          if (/[a-zA-Z0-9]/.test(w[j])) {
+            slot.revealedLetterIndices.push(currIdx + j);
+            break;
+          }
+        }
+      }
+      currIdx += w.length + 1;
+    });
+  }
+
+  getSlotMaskedText(slot) {
+    if (!slot) return "";
+    if (slot.revealed) return slot.text;
+    const chars = slot.text.split("");
+    return chars
+      .map((ch, i) => {
+        if (!/[a-zA-Z0-9]/.test(ch)) return ch;
+        if (slot.revealedLetterIndices && slot.revealedLetterIndices.includes(i)) {
+          return ch;
+        }
+        return "_";
+      })
+      .join("");
+  }
+
+  revealRandomLetter(slot) {
+    if (!slot || slot.revealed) return false;
+    if (!Array.isArray(slot.revealedLetterIndices)) {
+      slot.revealedLetterIndices = [];
+    }
+    const unrevealed = [];
+    for (let i = 0; i < slot.text.length; i++) {
+      if (/[a-zA-Z0-9]/.test(slot.text[i]) && !slot.revealedLetterIndices.includes(i)) {
+        unrevealed.push(i);
+      }
+    }
+    // Keep at least 1 letter hidden so chat still has to solve it
+    if (unrevealed.length > 1) {
+      const chosen = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+      slot.revealedLetterIndices.push(chosen);
+      return true;
+    }
+    return false;
+  }
+
+  hint() {
+    let changed = false;
+    this.slots.forEach((s) => {
+      if (!s.revealed) {
+        if (this.revealRandomLetter(s)) changed = true;
+      }
+    });
+    if (changed) {
+      this.statusMessage = "💡 Hint: More letters revealed on the board!";
+    }
+    return this.getPublicPayload();
+  }
+
   hideAll() {
     this.slots.forEach((s) => {
       s.revealed = false;
       s.isMissed = false;
       s.winner = null;
+      this.initSlotLetterIndices(s);
     });
     this.foundCount = 0;
     this.allFound = false;
@@ -420,6 +491,12 @@ export class CrowdSaysEngine {
     }
 
     this.timerRemaining--;
+
+    // Progressive automatic letter reveal every 7 seconds
+    const timeElapsed = this.roundDurationSec - this.timerRemaining;
+    if (timeElapsed > 0 && timeElapsed % 7 === 0 && this.timerRemaining > 2 && !this.allFound) {
+      this.hint();
+    }
 
     if (this.timerRemaining <= 0) {
       this.timerRemaining = 0;
@@ -563,7 +640,8 @@ export class CrowdSaysEngine {
         points: s.points,
         revealed: s.revealed,
         isMissed: s.isMissed,
-        text: s.revealed ? s.text : `???`,
+        text: s.revealed ? s.text : this.getSlotMaskedText(s),
+        maskedText: this.getSlotMaskedText(s),
         winner: s.winner
       })),
       roundWinners: this.roundWinners,

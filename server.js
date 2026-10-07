@@ -196,7 +196,7 @@ function triggerLeaderboardAndNextRound(targetWinnerInfo = null, delayBeforePopu
       roundWinners: active?.roundWinners || [],
       leaderboard: active?.getLeaderboard ? active.getLeaderboard(5) : [],
       durationMs: LEADERBOARD_POPUP_MS,
-      target: targetWinnerInfo?.target || active?.target || active?.allyAnswer || active?.topic || ""
+      target: targetWinnerInfo?.target || active?.target || active?.allyAnswer || active?.topic || active?.answer || active?.word || ""
     };
 
     io.emit("showLeaderboardPopup", payload);
@@ -225,7 +225,7 @@ function startTimerLoop() {
     if (result.changed) {
       if (result.timeExpired) {
         const active = gameRegistry.getActiveGame();
-        const target = result.target || active?.target || active?.allyAnswer || active?.topic || "";
+        const target = result.target || active?.target || active?.allyAnswer || active?.topic || active?.answer || active?.word || "";
 
         io.emit("timeExpired", {
           target,
@@ -669,6 +669,8 @@ server.listen(PORT, () => {
   console.log(`  🔍 Word Finder     : http://localhost:${PORT}/games/word-finder/overlay.html`);
   console.log(`  ⚔️ Ally's Chat Feud : http://localhost:${PORT}/games/crowd-says/overlay.html`);
   console.log(`  🔤 Ally's Unscramble: http://localhost:${PORT}/games/unscramble/overlay.html`);
+  console.log(`  🎭 Ally's Rebus     : http://localhost:${PORT}/games/rebus/overlay.html`);
+  console.log(`  🧙‍♂️ Ally's Riddles   : http://localhost:${PORT}/games/riddle/overlay.html`);
   if (tiktokLiveUsername) {
     console.log(`  🎯 TikTok Live     : @${tiktokLiveUsername}`);
   }

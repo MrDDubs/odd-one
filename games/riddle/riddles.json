@@ -1,0 +1,7602 @@
+[
+  {
+    "id": "rid-0001",
+    "riddle": "What has to be broken before you can use it?",
+    "answer": "Egg",
+    "synonyms": [
+      "an egg",
+      "egg",
+      "eggs"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "You crack it into a frying pan for breakfast",
+    "emoji": "🥚"
+  },
+  {
+    "id": "rid-0002",
+    "riddle": "What gets wetter the more it dries?",
+    "answer": "Towel",
+    "synonyms": [
+      "a towel",
+      "towel",
+      "towels"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "You use it after stepping out of the shower",
+    "emoji": "🧖"
+  },
+  {
+    "id": "rid-0003",
+    "riddle": "What can travel around the world while staying in a corner?",
+    "answer": "Stamp",
+    "synonyms": [
+      "a stamp",
+      "postage stamp",
+      "stamp"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "You stick it on a paper letter or postcard",
+    "emoji": "📮"
+  },
+  {
+    "id": "rid-0004",
+    "riddle": "What has many keys but cannot open a single lock?",
+    "answer": "Piano",
+    "synonyms": [
+      "a piano",
+      "keyboard",
+      "piano"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "It has 88 black and white keys for making music",
+    "emoji": "🎹"
+  },
+  {
+    "id": "rid-0005",
+    "riddle": "What has hands, but cannot clap?",
+    "answer": "Clock",
+    "synonyms": [
+      "a clock",
+      "clock",
+      "watch"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "It ticks on the wall and tells the hour",
+    "emoji": "⏰"
+  },
+  {
+    "id": "rid-0006",
+    "riddle": "What has a thumb and four fingers, but is not a hand?",
+    "answer": "Glove",
+    "synonyms": [
+      "a glove",
+      "glove",
+      "gloves",
+      "mitten"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "You slide your hand into it on chilly winter days",
+    "emoji": "🧤"
+  },
+  {
+    "id": "rid-0007",
+    "riddle": "What has legs, but cannot walk?",
+    "answer": "Table",
+    "synonyms": [
+      "a table",
+      "chair",
+      "table"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Furniture where you eat dinner or place books",
+    "emoji": "🪑"
+  },
+  {
+    "id": "rid-0008",
+    "riddle": "What has words, but never speaks?",
+    "answer": "Book",
+    "synonyms": [
+      "a book",
+      "book",
+      "books",
+      "novel"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "You flip its paper pages to read a tale",
+    "emoji": "📖"
+  },
+  {
+    "id": "rid-0009",
+    "riddle": "What is full of holes but still holds water?",
+    "answer": "Sponge",
+    "synonyms": [
+      "a sponge",
+      "sponge",
+      "sponges"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Soft absorbent cleaning tool at the kitchen sink",
+    "emoji": "🧽"
+  },
+  {
+    "id": "rid-0010",
+    "riddle": "What has a head and a tail that will never meet?",
+    "answer": "Coin",
+    "synonyms": [
+      "coin",
+      "coins",
+      "penny",
+      "quarter"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Small metal piece used to pay or flip for decisions",
+    "emoji": "🪙"
+  },
+  {
+    "id": "rid-0011",
+    "riddle": "What begins with T, finishes with T, and has T in it?",
+    "answer": "Teapot",
+    "synonyms": [
+      "a teapot",
+      "tea pot",
+      "teapot"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Ceramic pot used to brew hot English breakfast tea",
+    "emoji": "🫖"
+  },
+  {
+    "id": "rid-0012",
+    "riddle": "What kind of band never plays music?",
+    "answer": "Rubber Band",
+    "synonyms": [
+      "hair band",
+      "rubber band",
+      "rubberband"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Stretchy elastic loop for holding items together",
+    "emoji": "🎗️"
+  },
+  {
+    "id": "rid-0013",
+    "riddle": "What has a neck but no head?",
+    "answer": "Bottle",
+    "synonyms": [
+      "a bottle",
+      "bottle"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Glass or plastic container for water and soda",
+    "emoji": "🍾"
+  },
+  {
+    "id": "rid-0014",
+    "riddle": "What has an eye, but cannot see?",
+    "answer": "Needle",
+    "synonyms": [
+      "a needle",
+      "needle",
+      "sewing needle"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Slender steel tool used to pull thread through cloth",
+    "emoji": "🪡"
+  },
+  {
+    "id": "rid-0015",
+    "riddle": "What has teeth, but cannot bite?",
+    "answer": "Comb",
+    "synonyms": [
+      "a comb",
+      "comb",
+      "zipper"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Plastic tool with fine bristles for grooming hair",
+    "emoji": "🪮"
+  },
+  {
+    "id": "rid-0016",
+    "riddle": "What has a spine, but no bones?",
+    "answer": "Book",
+    "synonyms": [
+      "a book",
+      "book",
+      "books"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Holds the bound pages together on a library shelf",
+    "emoji": "📚"
+  },
+  {
+    "id": "rid-0017",
+    "riddle": "What goes through cities and fields, but never moves?",
+    "answer": "Road",
+    "synonyms": [
+      "highway",
+      "path",
+      "road",
+      "street"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Paved surface where cars and trucks travel",
+    "emoji": "🛣️"
+  },
+  {
+    "id": "rid-0018",
+    "riddle": "What can fill a room but takes up no space?",
+    "answer": "Light",
+    "synonyms": [
+      "air",
+      "light",
+      "sunlight"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Flick the switch to illuminate the darkness",
+    "emoji": "💡"
+  },
+  {
+    "id": "rid-0019",
+    "riddle": "What is always coming, but never arrives?",
+    "answer": "Tomorrow",
+    "synonyms": [
+      "future",
+      "the future",
+      "tomorrow"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "The upcoming calendar day after today",
+    "emoji": "🌅"
+  },
+  {
+    "id": "rid-0020",
+    "riddle": "What can you break without touching it?",
+    "answer": "Promise",
+    "synonyms": [
+      "a promise",
+      "heart",
+      "promise",
+      "silence"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "You give your sacred word to keep it",
+    "emoji": "🤝"
+  },
+  {
+    "id": "rid-0021",
+    "riddle": "What gets bigger the more you take away from it?",
+    "answer": "Hole",
+    "synonyms": [
+      "a hole",
+      "hole",
+      "pit"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Digging shovel scoops of dirt widens it",
+    "emoji": "🕳️"
+  },
+  {
+    "id": "rid-0022",
+    "riddle": "The more of this there is, the less you see. What is it?",
+    "answer": "Darkness",
+    "synonyms": [
+      "dark",
+      "darkness",
+      "fog"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Total absence of any light at midnight",
+    "emoji": "🌑"
+  },
+  {
+    "id": "rid-0023",
+    "riddle": "What is always in front of you but cannot be seen?",
+    "answer": "Future",
+    "synonyms": [
+      "future",
+      "the future"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "All events that have not happened yet",
+    "emoji": "🔮"
+  },
+  {
+    "id": "rid-0024",
+    "riddle": "What goes up but never comes back down?",
+    "answer": "Age",
+    "synonyms": [
+      "age",
+      "my age",
+      "your age"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Number of years you have been alive on Earth",
+    "emoji": "🎂"
+  },
+  {
+    "id": "rid-0025",
+    "riddle": "What belongs to you, but everyone else uses it more than you do?",
+    "answer": "Your Name",
+    "synonyms": [
+      "my name",
+      "name",
+      "your name"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "What friends call you to get your attention",
+    "emoji": "📛"
+  },
+  {
+    "id": "rid-0026",
+    "riddle": "What can run but never walks, has a mouth but never talks?",
+    "answer": "River",
+    "synonyms": [
+      "a river",
+      "river"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Freshwater stream flowing toward the ocean",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0027",
+    "riddle": "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
+    "answer": "Echo",
+    "synonyms": [
+      "an echo",
+      "echo"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Sound bouncing back off a canyon wall",
+    "emoji": "🗣️"
+  },
+  {
+    "id": "rid-0028",
+    "riddle": "Give me food, and I will live; give me water, and I will die. What am I?",
+    "answer": "Fire",
+    "synonyms": [
+      "campfire",
+      "fire",
+      "flame"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Crackling orange heat in the hearth",
+    "emoji": "🔥"
+  },
+  {
+    "id": "rid-0029",
+    "riddle": "What goes up and down but does not move?",
+    "answer": "Stairs",
+    "synonyms": [
+      "staircase",
+      "stairs",
+      "temperature"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Flight of steps between two floors",
+    "emoji": "🪜"
+  },
+  {
+    "id": "rid-0030",
+    "riddle": "What runs all around a backyard yet never moves?",
+    "answer": "Fence",
+    "synonyms": [
+      "a fence",
+      "fence",
+      "wall"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Wooden pickets surrounding the yard border",
+    "emoji": "🏡"
+  },
+  {
+    "id": "rid-0031",
+    "riddle": "What has a face and two hands, but no arms or legs?",
+    "answer": "Clock",
+    "synonyms": [
+      "a clock",
+      "clock",
+      "watch"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Circular dial with second and hour pointers",
+    "emoji": "🕰️"
+  },
+  {
+    "id": "rid-0032",
+    "riddle": "What can you catch, but never throw?",
+    "answer": "Cold",
+    "synonyms": [
+      "a cold",
+      "cold",
+      "flu"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Illness causing sneezing and a runny nose",
+    "emoji": "🤧"
+  },
+  {
+    "id": "rid-0033",
+    "riddle": "What goes up as soon as rain comes down?",
+    "answer": "Umbrella",
+    "synonyms": [
+      "an umbrella",
+      "umbrella"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Waterproof canopy popped open overhead",
+    "emoji": "☔"
+  },
+  {
+    "id": "rid-0034",
+    "riddle": "What has a tongue, but cannot speak?",
+    "answer": "Shoe",
+    "synonyms": [
+      "a shoe",
+      "shoe",
+      "shoes",
+      "sneaker"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Inner padded strip under shoelaces",
+    "emoji": "👟"
+  },
+  {
+    "id": "rid-0035",
+    "riddle": "What can be cracked, made, told, and played?",
+    "answer": "Joke",
+    "synonyms": [
+      "a joke",
+      "joke"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Witty punchline that makes people burst out laughing",
+    "emoji": "😂"
+  },
+  {
+    "id": "rid-0036",
+    "riddle": "What can you keep after giving it to someone else?",
+    "answer": "Your Word",
+    "synonyms": [
+      "promise",
+      "word",
+      "your word"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "A solemn pledge of personal honor",
+    "emoji": "🤝"
+  },
+  {
+    "id": "rid-0037",
+    "riddle": "The person who makes it has no need of it; the person who buys it has no use for it. What is it?",
+    "answer": "Coffin",
+    "synonyms": [
+      "a coffin",
+      "casket",
+      "coffin"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Burial box used for final rest",
+    "emoji": "⚰️"
+  },
+  {
+    "id": "rid-0038",
+    "riddle": "What has many needles, but cannot sew?",
+    "answer": "Pine Tree",
+    "synonyms": [
+      "cactus",
+      "pine tree",
+      "porcupine"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Evergreen conifer decorated with Christmas lights",
+    "emoji": "🎄"
+  },
+  {
+    "id": "rid-0039",
+    "riddle": "What is so fragile that saying its name breaks it?",
+    "answer": "Silence",
+    "synonyms": [
+      "quiet",
+      "silence"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Total absolute quiet in a room",
+    "emoji": "🤫"
+  },
+  {
+    "id": "rid-0040",
+    "riddle": "If you drop me, I am sure to crack, but give me a smile and I will always smile back. What am I?",
+    "answer": "Mirror",
+    "synonyms": [
+      "a mirror",
+      "mirror"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Reflective silvered glass in the bathroom",
+    "emoji": "🪞"
+  },
+  {
+    "id": "rid-0041",
+    "riddle": "I have no voice, but I can tell you all the news. What am I?",
+    "answer": "Newspaper",
+    "synonyms": [
+      "newspaper",
+      "paper"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Daily print publication with articles and headlines",
+    "emoji": "📰"
+  },
+  {
+    "id": "rid-0042",
+    "riddle": "What occurs once in a minute, twice in a moment, but never in a thousand years?",
+    "answer": "Letter M",
+    "synonyms": [
+      "letter m",
+      "m",
+      "the letter m"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Alphabet character found in 'minute' and 'moment'",
+    "emoji": "🔠"
+  },
+  {
+    "id": "rid-0043",
+    "riddle": "What starts with P, ends with E, and has thousands of letters?",
+    "answer": "Post Office",
+    "synonyms": [
+      "a post office",
+      "post office"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Public mail distribution building",
+    "emoji": "🏤"
+  },
+  {
+    "id": "rid-0044",
+    "riddle": "What is black and white and read all over?",
+    "answer": "Newspaper",
+    "synonyms": [
+      "a newspaper",
+      "newspaper"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Print journal with black ink on newsprint",
+    "emoji": "📰"
+  },
+  {
+    "id": "rid-0045",
+    "riddle": "What has three feet but cannot walk?",
+    "answer": "Yardstick",
+    "synonyms": [
+      "ruler",
+      "yard",
+      "yardstick"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Measuring stick equal to 36 inches",
+    "emoji": "📏"
+  },
+  {
+    "id": "rid-0046",
+    "riddle": "What invention lets you look right through a wall?",
+    "answer": "Window",
+    "synonyms": [
+      "a window",
+      "glass",
+      "window"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Transparent glass pane in a wall frame",
+    "emoji": "🪟"
+  },
+  {
+    "id": "rid-0047",
+    "riddle": "What has a bed, but never sleeps?",
+    "answer": "River",
+    "synonyms": [
+      "a river",
+      "river"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Channel bottom where stream water rushes",
+    "emoji": "🏞️"
+  },
+  {
+    "id": "rid-0048",
+    "riddle": "What runs, but has no legs?",
+    "answer": "Water",
+    "synonyms": [
+      "faucet",
+      "nose",
+      "river",
+      "water"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Clear liquid from a kitchen faucet",
+    "emoji": "🚰"
+  },
+  {
+    "id": "rid-0049",
+    "riddle": "What loses its head in the morning and gets it back at night?",
+    "answer": "Pillow",
+    "synonyms": [
+      "a pillow",
+      "pillow"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Cushion supporting your skull while dreaming",
+    "emoji": "🛌"
+  },
+  {
+    "id": "rid-0050",
+    "riddle": "What has a foot, but no legs?",
+    "answer": "Ruler",
+    "synonyms": [
+      "a ruler",
+      "ruler",
+      "snail"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "School measuring tool marked in 12 inches",
+    "emoji": "📏"
+  },
+  {
+    "id": "rid-0051",
+    "riddle": "What has a ring, but no finger?",
+    "answer": "Telephone",
+    "synonyms": [
+      "cell phone",
+      "phone",
+      "telephone"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Communication device that alerts with a chime",
+    "emoji": "☎️"
+  },
+  {
+    "id": "rid-0052",
+    "riddle": "What kind of room can you eat?",
+    "answer": "Mushroom",
+    "synonyms": [
+      "mushroom",
+      "mushrooms"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Edible button fungus sauteed in butter",
+    "emoji": "🍄"
+  },
+  {
+    "id": "rid-0053",
+    "riddle": "What kind of dog never barks?",
+    "answer": "Hot Dog",
+    "synonyms": [
+      "hot dog",
+      "hotdog"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Frankfurter sausage served in a sliced bun",
+    "emoji": "🌭"
+  },
+  {
+    "id": "rid-0054",
+    "riddle": "What flies all day without moving?",
+    "answer": "Flag",
+    "synonyms": [
+      "a flag",
+      "flag"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Emblematic fabric flapping in the breeze atop a pole",
+    "emoji": "🚩"
+  },
+  {
+    "id": "rid-0055",
+    "riddle": "What do you throw out when you want to use it, and pull in when you are done?",
+    "answer": "Anchor",
+    "synonyms": [
+      "an anchor",
+      "anchor"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Heavy iron weight holding a ship in place",
+    "emoji": "⚓"
+  },
+  {
+    "id": "rid-0056",
+    "riddle": "What is clean when it is black, and dirty when it is white?",
+    "answer": "Chalkboard",
+    "synonyms": [
+      "blackboard",
+      "chalkboard"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Slate writing board dusted with white gypsum chalk",
+    "emoji": "🏫"
+  },
+  {
+    "id": "rid-0057",
+    "riddle": "What has a golden head and a tail, but no body?",
+    "answer": "Coin",
+    "synonyms": [
+      "coin",
+      "gold coin"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Round metallic specie flipped for luck",
+    "emoji": "🪙"
+  },
+  {
+    "id": "rid-0058",
+    "riddle": "What has wings, can fly, but is not an animal?",
+    "answer": "Airplane",
+    "synonyms": [
+      "airplane",
+      "helicopter",
+      "plane"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Commercial airliner with jet turbines",
+    "emoji": "✈️"
+  },
+  {
+    "id": "rid-0059",
+    "riddle": "What has four wheels and flies?",
+    "answer": "Garbage Truck",
+    "synonyms": [
+      "garbage truck",
+      "trash truck"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "City vehicle collecting discarded waste",
+    "emoji": "🚛"
+  },
+  {
+    "id": "rid-0060",
+    "riddle": "What goes round and round the wood but never goes into the wood?",
+    "answer": "Bark",
+    "synonyms": [
+      "bark",
+      "tree bark"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Protective exterior shell of an oak or maple",
+    "emoji": "🌲"
+  },
+  {
+    "id": "rid-0061",
+    "riddle": "What has a bark, but no bite?",
+    "answer": "Tree",
+    "synonyms": [
+      "a tree",
+      "tree"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Tall leafy trunk rooted in forest soil",
+    "emoji": "🌳"
+  },
+  {
+    "id": "rid-0062",
+    "riddle": "What falls down, but never gets hurt?",
+    "answer": "Rain",
+    "synonyms": [
+      "rain",
+      "snow"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Water droplets falling from storm skies",
+    "emoji": "🌧️"
+  },
+  {
+    "id": "rid-0063",
+    "riddle": "What has skin and eyes, but no head?",
+    "answer": "Potato",
+    "synonyms": [
+      "a potato",
+      "potato"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Starchy tuber dug out of farmland dirt",
+    "emoji": "🥔"
+  },
+  {
+    "id": "rid-0064",
+    "riddle": "What kind of apple isn't an apple?",
+    "answer": "Pineapple",
+    "synonyms": [
+      "a pineapple",
+      "pineapple"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Tropical fruit crowned with spiky green leaves",
+    "emoji": "🍍"
+  },
+  {
+    "id": "rid-0065",
+    "riddle": "What bow can never be tied?",
+    "answer": "Rainbow",
+    "synonyms": [
+      "a rainbow",
+      "rainbow"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Spectrum arch spanning the horizon after showers",
+    "emoji": "🌈"
+  },
+  {
+    "id": "rid-0066",
+    "riddle": "What building has the most stories?",
+    "answer": "Library",
+    "synonyms": [
+      "a library",
+      "library"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Public sanctuary packed with thousands of books",
+    "emoji": "📚"
+  },
+  {
+    "id": "rid-0067",
+    "riddle": "What kind of coat is best put on wet?",
+    "answer": "Paint",
+    "synonyms": [
+      "coat of paint",
+      "paint"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Emulsion brushed across walls and dried smooth",
+    "emoji": "🎨"
+  },
+  {
+    "id": "rid-0068",
+    "riddle": "What gets sharper the more you use it?",
+    "answer": "Brain",
+    "synonyms": [
+      "brain",
+      "mind"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Mental organ inside your skull solving puzzles",
+    "emoji": "🧠"
+  },
+  {
+    "id": "rid-0069",
+    "riddle": "If two is company and three is a crowd, what are four and five?",
+    "answer": "Nine",
+    "synonyms": [
+      "9",
+      "nine"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Basic arithmetic: 4 plus 5 equals nine",
+    "emoji": "🔢"
+  },
+  {
+    "id": "rid-0070",
+    "riddle": "A man pushes his car to a hotel and shouts that he is bankrupt. What game?",
+    "answer": "Monopoly",
+    "synonyms": [
+      "board game",
+      "monopoly"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Classic board game with Chance and Community Chest",
+    "emoji": "🎲"
+  },
+  {
+    "id": "rid-0071",
+    "riddle": "How many months have 28 days?",
+    "answer": "All Twelve",
+    "synonyms": [
+      "12",
+      "all 12",
+      "all months",
+      "all of them",
+      "all twelve",
+      "twelve"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Every single month has at least 28 days",
+    "emoji": "📅"
+  },
+  {
+    "id": "rid-0072",
+    "riddle": "What goes up a chimney down, but cannot go down a chimney up?",
+    "answer": "Umbrella",
+    "synonyms": [
+      "an umbrella",
+      "umbrella"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Canopy gadget opened against rainstorm drops",
+    "emoji": "☂️"
+  },
+  {
+    "id": "rid-0073",
+    "riddle": "I am tall when I am young, and I am short when I am old. What am I?",
+    "answer": "Candle",
+    "synonyms": [
+      "a candle",
+      "candle",
+      "pencil"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Wick burning wax on a birthday cake",
+    "emoji": "🕯️"
+  },
+  {
+    "id": "rid-0074",
+    "riddle": "I have branches, but no fruit, trunk or leaves. What am I?",
+    "answer": "Bank",
+    "synonyms": [
+      "a bank",
+      "bank"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Financial vault where loans and checks are handled",
+    "emoji": "🏦"
+  },
+  {
+    "id": "rid-0075",
+    "riddle": "I shave every day, but my beard stays the same. What am I?",
+    "answer": "Barber",
+    "synonyms": [
+      "a barber",
+      "barber",
+      "hairdresser"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Professional who trims whiskers and haircuts",
+    "emoji": "💈"
+  },
+  {
+    "id": "rid-0076",
+    "riddle": "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?",
+    "answer": "Map",
+    "synonyms": [
+      "a map",
+      "atlas",
+      "globe",
+      "map"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Paper guide showing geographic boundaries",
+    "emoji": "🗺️"
+  },
+  {
+    "id": "rid-0077",
+    "riddle": "I am not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me. What am I?",
+    "answer": "Fire",
+    "synonyms": [
+      "fire",
+      "flame"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Blazing logs glowing inside a fireplace",
+    "emoji": "🔥"
+  },
+  {
+    "id": "rid-0078",
+    "riddle": "I have lakes with no water, mountains with no stone, and cities with no buildings. What am I?",
+    "answer": "Map",
+    "synonyms": [
+      "a map",
+      "map"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Folded navigational sheet in the glove compartment",
+    "emoji": "🗺️"
+  },
+  {
+    "id": "rid-0079",
+    "riddle": "I follow you all day long, but when the sun goes down I disappear. What am I?",
+    "answer": "Shadow",
+    "synonyms": [
+      "my shadow",
+      "shadow",
+      "your shadow"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Dark outline cast behind you in daylight",
+    "emoji": "👥"
+  },
+  {
+    "id": "rid-0080",
+    "riddle": "I am made of snow and have a carrot for a nose. What am I?",
+    "answer": "Snowman",
+    "synonyms": [
+      "a snowman",
+      "snowman"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Built in the yard during winter blizzard days",
+    "emoji": "⛄"
+  },
+  {
+    "id": "rid-0081",
+    "riddle": "I melt in the sun and freeze in the winter. What am I?",
+    "answer": "Ice",
+    "synonyms": [
+      "ice",
+      "snow",
+      "water"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Solid crystal frozen in the refrigerator tray",
+    "emoji": "🧊"
+  },
+  {
+    "id": "rid-0082",
+    "riddle": "I am an arch of seven colors appearing after the rain. What am I?",
+    "answer": "Rainbow",
+    "synonyms": [
+      "a rainbow",
+      "rainbow"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Red, orange, yellow, green, blue, indigo, violet",
+    "emoji": "🌈"
+  },
+  {
+    "id": "rid-0083",
+    "riddle": "I shoot across the night sky and people make wishes on me. What am I?",
+    "answer": "Shooting Star",
+    "synonyms": [
+      "meteor",
+      "shooting star"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Blazing asteroid fragment burning through the atmosphere",
+    "emoji": "🌠"
+  },
+  {
+    "id": "rid-0084",
+    "riddle": "I wax and wane, changing shape in the night sky every month. What am I?",
+    "answer": "Moon",
+    "synonyms": [
+      "moon",
+      "the moon"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Full lunar orb orbiting planet Earth",
+    "emoji": "🌙"
+  },
+  {
+    "id": "rid-0085",
+    "riddle": "I erupt with glowing red lava and plumes of volcanic ash. What am I?",
+    "answer": "Volcano",
+    "synonyms": [
+      "a volcano",
+      "volcano"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Geological cone spewing molten rock",
+    "emoji": "🌋"
+  },
+  {
+    "id": "rid-0086",
+    "riddle": "I am a storm with violent rotating funnel clouds touching the ground. What am I?",
+    "answer": "Tornado",
+    "synonyms": [
+      "tornado",
+      "twister"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Vortex siren warning people into storm cellars",
+    "emoji": "🌪️"
+  },
+  {
+    "id": "rid-0087",
+    "riddle": "I am a giant wave caused by an undersea earthquake. What am I?",
+    "answer": "Tsunami",
+    "synonyms": [
+      "tidal wave",
+      "tsunami"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Massive ocean surge hitting coastal harbors",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0088",
+    "riddle": "I am dry and covered in sand dunes with very little rainfall. What am I?",
+    "answer": "Desert",
+    "synonyms": [
+      "a desert",
+      "desert",
+      "sahara"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Sunny arid expanse where camels roam",
+    "emoji": "🏜️"
+  },
+  {
+    "id": "rid-0089",
+    "riddle": "I am a deep gorge carved over millions of years by a rushing river. What am I?",
+    "answer": "Canyon",
+    "synonyms": [
+      "canyon",
+      "grand canyon"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Colossal rock chasm like Arizona's Grand Canyon",
+    "emoji": "🏞️"
+  },
+  {
+    "id": "rid-0090",
+    "riddle": "I am a large mass of ice slowly moving down a mountain valley. What am I?",
+    "answer": "Glacier",
+    "synonyms": [
+      "a glacier",
+      "glacier"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Massive pack of blue frozen ice carving valleys",
+    "emoji": "🏔️"
+  },
+  {
+    "id": "rid-0091",
+    "riddle": "I am a waterfall where a river cascades over a vertical drop. What am I?",
+    "answer": "Waterfall",
+    "synonyms": [
+      "falls",
+      "waterfall"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Spectacular roaring spray like Niagara Falls",
+    "emoji": "💧"
+  },
+  {
+    "id": "rid-0092",
+    "riddle": "I have keys, but no doors. I have space, but no room. You can enter, but you cannot leave. What am I?",
+    "answer": "Keyboard",
+    "synonyms": [
+      "computer keyboard",
+      "keyboard"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Peripheral device with QWERTY layout for typing",
+    "emoji": "⌨️"
+  },
+  {
+    "id": "rid-0093",
+    "riddle": "I have a screen, but no projector. I have a mouse, but no cheese. What am I?",
+    "answer": "Computer",
+    "synonyms": [
+      "computer",
+      "laptop",
+      "pc"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Desktop workstation with CPU and monitor",
+    "emoji": "💻"
+  },
+  {
+    "id": "rid-0094",
+    "riddle": "I am light as a feather, yet the strongest person cannot hold me for five minutes. What am I?",
+    "answer": "Breath",
+    "synonyms": [
+      "breath",
+      "your breath"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Oxygen you inhale and exhale through your lungs",
+    "emoji": "🫁"
+  },
+  {
+    "id": "rid-0095",
+    "riddle": "I have no life, but I can die. What am I?",
+    "answer": "Battery",
+    "synonyms": [
+      "a battery",
+      "battery"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Power cell inside a smartphone or flashlight",
+    "emoji": "🔋"
+  },
+  {
+    "id": "rid-0096",
+    "riddle": "I have a heart, but no organs. I have diamonds, but no wealth. What am I?",
+    "answer": "Playing Cards",
+    "synonyms": [
+      "cards",
+      "deck of cards",
+      "playing cards"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "52 card deck with clubs, spades, hearts, diamonds",
+    "emoji": "🃏"
+  },
+  {
+    "id": "rid-0097",
+    "riddle": "I am an eye that never blinks, a lens that captures moments forever. What am I?",
+    "answer": "Camera",
+    "synonyms": [
+      "a camera",
+      "camera"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Gadget with a shutter button snapping photos",
+    "emoji": "📷"
+  },
+  {
+    "id": "rid-0098",
+    "riddle": "I speak every language without learning a single word. What am I?",
+    "answer": "Echo",
+    "synonyms": [
+      "echo"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Acoustic reflection vibrating off cave walls",
+    "emoji": "🗣️"
+  },
+  {
+    "id": "rid-0099",
+    "riddle": "I have no feet, no hands, no wings, yet I climb to the sky. What am I?",
+    "answer": "Smoke",
+    "synonyms": [
+      "a smoke",
+      "smoke"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Grey wisps rising from burning chimney logs",
+    "emoji": "💨"
+  },
+  {
+    "id": "rid-0100",
+    "riddle": "I am born in the ocean and white as snow, yet if I return to water I disappear. What am I?",
+    "answer": "Salt",
+    "synonyms": [
+      "salt",
+      "sea salt"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "White seasoning crystals dissolved in soup",
+    "emoji": "🧂"
+  },
+  {
+    "id": "rid-0101",
+    "riddle": "I am always hungry, I must always be fed. The finger I lick will soon turn red. What am I?",
+    "answer": "Fire",
+    "synonyms": [
+      "fire"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Devouring flame blazing through firewood",
+    "emoji": "🔥"
+  },
+  {
+    "id": "rid-0102",
+    "riddle": "I turn everything around, but I cannot move an inch. What am I?",
+    "answer": "Mirror",
+    "synonyms": [
+      "mirror"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Looking glass reflecting your bathroom visage",
+    "emoji": "🪞"
+  },
+  {
+    "id": "rid-0103",
+    "riddle": "I have teeth, but no gums. I am pulled to close, and pushed to open. What am I?",
+    "answer": "Zipper",
+    "synonyms": [
+      "a zipper",
+      "zipper"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Interlocking metal teeth on your winter jacket",
+    "emoji": "🤐"
+  },
+  {
+    "id": "rid-0104",
+    "riddle": "I run all day without getting tired, and I stop when my battery expires. What am I?",
+    "answer": "Clock",
+    "synonyms": [
+      "clock"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Timepiece on your wrist or nightstand",
+    "emoji": "⏱️"
+  },
+  {
+    "id": "rid-0105",
+    "riddle": "I fly when I am born, lie when I am alive, and run when I am dead. What am I?",
+    "answer": "Snowflake",
+    "synonyms": [
+      "snow",
+      "snowflake"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Hard",
+    "hint": "Crystalline ice flake melting into spring runoff",
+    "emoji": "❄️"
+  },
+  {
+    "id": "rid-0106",
+    "riddle": "I have a single eye in the middle of my face, yet I spin around destruction. What am I?",
+    "answer": "Hurricane",
+    "synonyms": [
+      "cyclone",
+      "hurricane",
+      "typhoon"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Tropical vortex with calm central eye",
+    "emoji": "🌀"
+  },
+  {
+    "id": "rid-0107",
+    "riddle": "I shrink every time I take a bath. What am I?",
+    "answer": "Soap",
+    "synonyms": [
+      "bar of soap",
+      "soap"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Scented lather bar washing your skin",
+    "emoji": "🧼"
+  },
+  {
+    "id": "rid-0108",
+    "riddle": "I have a bell, but no church. I have handlebars, but no horses. What am I?",
+    "answer": "Bicycle",
+    "synonyms": [
+      "bicycle",
+      "bike"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Two-wheeled pedal vehicle on bike paths",
+    "emoji": "🚲"
+  },
+  {
+    "id": "rid-0109",
+    "riddle": "I am full of needles, but I never sew. Desert animals avoid me. What am I?",
+    "answer": "Cactus",
+    "synonyms": [
+      "a cactus",
+      "cactus"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Spiny succulent storing water in dry deserts",
+    "emoji": "🌵"
+  },
+  {
+    "id": "rid-0110",
+    "riddle": "I have wings, but I am not a bird. I am made of metal and carry hundreds across oceans. What am I?",
+    "answer": "Airplane",
+    "synonyms": [
+      "airplane",
+      "plane"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Passenger jet transport flying international routes",
+    "emoji": "✈️"
+  },
+  {
+    "id": "rid-0111",
+    "riddle": "I wear a green cap, a red coat, and have freckles on my cheeks. What am I?",
+    "answer": "Strawberry",
+    "synonyms": [
+      "strawberry"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Sweet red berry with external yellow seeds",
+    "emoji": "🍓"
+  },
+  {
+    "id": "rid-0112",
+    "riddle": "I am sharp, but have no blade. I tell you north, south, east, and west. What am I?",
+    "answer": "Compass",
+    "synonyms": [
+      "a compass",
+      "compass"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Magnetic navigational needle pointing North",
+    "emoji": "🧭"
+  },
+  {
+    "id": "rid-0113",
+    "riddle": "I live in the dark, fly without feathers, and sleep upside down. What am I?",
+    "answer": "Bat",
+    "synonyms": [
+      "a bat",
+      "bat"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Nocturnal winged mammal hunting insects",
+    "emoji": "🦇"
+  },
+  {
+    "id": "rid-0114",
+    "riddle": "I have a tongue, but I cannot taste. I have laces, but no dress. What am I?",
+    "answer": "Shoe",
+    "synonyms": [
+      "shoe",
+      "sneaker"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Leather running footwear tied onto feet",
+    "emoji": "👟"
+  },
+  {
+    "id": "rid-0115",
+    "riddle": "I have a head of gold, a tail of silver, and I spin in the air. What am I?",
+    "answer": "Coin",
+    "synonyms": [
+      "coin"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Currency token flipped by referee at kickoff",
+    "emoji": "🪙"
+  },
+  {
+    "id": "rid-0116",
+    "riddle": "I can be long or short. I can be grown or bought. I can be painted or left bare. What am I?",
+    "answer": "Nails",
+    "synonyms": [
+      "fingernail",
+      "fingernails",
+      "nails"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Keratin tips on your fingers polished with lacquer",
+    "emoji": "💅"
+  },
+  {
+    "id": "rid-0117",
+    "riddle": "I have many needles, but cannot sew. I stand tall in the snow at Christmas. What am I?",
+    "answer": "Christmas Tree",
+    "synonyms": [
+      "christmas tree",
+      "fir tree",
+      "pine tree"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Evergreen adorned with baubles and tinsel",
+    "emoji": "🎄"
+  },
+  {
+    "id": "rid-0118",
+    "riddle": "I am invisible, but you can feel my breeze. I can push sailboats or tear down roofs. What am I?",
+    "answer": "Wind",
+    "synonyms": [
+      "the wind",
+      "wind"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Moving atmospheric air currents blowing leaves",
+    "emoji": "💨"
+  },
+  {
+    "id": "rid-0119",
+    "riddle": "I have no bones and no brain, but I swim through the ocean and can deliver painful stings. What am I?",
+    "answer": "Jellyfish",
+    "synonyms": [
+      "a jellyfish",
+      "jellyfish"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Translucent marine creature with stinging tentacles",
+    "emoji": "🪼"
+  },
+  {
+    "id": "rid-0120",
+    "riddle": "I carry my house on my back wherever I travel. What am I?",
+    "answer": "Snail",
+    "synonyms": [
+      "snail",
+      "tortoise",
+      "turtle"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Spiral shell mollusk creeping across lettuce leaves",
+    "emoji": "🐌"
+  },
+  {
+    "id": "rid-0121",
+    "riddle": "I have four legs, a wagging tail, and I bark happily when you come home. What am I?",
+    "answer": "Dog",
+    "synonyms": [
+      "dog",
+      "puppy"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Loyal furry canine household pet",
+    "emoji": "🐕"
+  },
+  {
+    "id": "rid-0122",
+    "riddle": "I lay brown and white eggs and crow at dawn. What am I?",
+    "answer": "Chicken",
+    "synonyms": [
+      "chicken",
+      "hen",
+      "rooster"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Feathered barnyard bird roosting in a coop",
+    "emoji": "🐓"
+  },
+  {
+    "id": "rid-0123",
+    "riddle": "I am pink, love mud baths, and have a curly tail. What am I?",
+    "answer": "Pig",
+    "synonyms": [
+      "pig",
+      "piglet"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Oinking farm mammal rooting for apples",
+    "emoji": "🐖"
+  },
+  {
+    "id": "rid-0124",
+    "riddle": "I have black and white stripes and live on the African savannah. What am I?",
+    "answer": "Zebra",
+    "synonyms": [
+      "zebra"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Striped equid grazing near wildebeests",
+    "emoji": "🦓"
+  },
+  {
+    "id": "rid-0125",
+    "riddle": "I am the king of the jungle with a magnificent golden mane. What am I?",
+    "answer": "Lion",
+    "synonyms": [
+      "lion"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Apex predator whose roar echoes five miles",
+    "emoji": "🦁"
+  },
+  {
+    "id": "rid-0126",
+    "riddle": "I have orange fur with black stripes and swim across Indian rivers. What am I?",
+    "answer": "Tiger",
+    "synonyms": [
+      "tiger"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Largest wild cat stalking deer in the jungle",
+    "emoji": "🐅"
+  },
+  {
+    "id": "rid-0127",
+    "riddle": "I am massive, grey, have a long trunk, and two white ivory tusks. What am I?",
+    "answer": "Elephant",
+    "synonyms": [
+      "elephant"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Giant land mammal flapping big ears to stay cool",
+    "emoji": "🐘"
+  },
+  {
+    "id": "rid-0128",
+    "riddle": "I have a spotted long neck reaching high acacia leaves. What am I?",
+    "answer": "Giraffe",
+    "synonyms": [
+      "giraffe"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Towering African herbivore with purple tongue",
+    "emoji": "🦒"
+  },
+  {
+    "id": "rid-0129",
+    "riddle": "I have thick white fur, huge paws, and hunt seals on Arctic ice. What am I?",
+    "answer": "Polar Bear",
+    "synonyms": [
+      "polar bear"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Apex predator of the North Pole ice caps",
+    "emoji": "🐻‍❄️"
+  },
+  {
+    "id": "rid-0130",
+    "riddle": "I am a flightless tuxedo bird sliding on Antarctic glaciers. What am I?",
+    "answer": "Penguin",
+    "synonyms": [
+      "penguin"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Emperor or Gentoo bird diving for krill",
+    "emoji": "🐧"
+  },
+  {
+    "id": "rid-0131",
+    "riddle": "I am the largest animal to ever live, bigger than any dinosaur. What am I?",
+    "answer": "Blue Whale",
+    "synonyms": [
+      "blue whale",
+      "whale"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Baleen ocean leviathan feeding on plankton",
+    "emoji": "🐋"
+  },
+  {
+    "id": "rid-0132",
+    "riddle": "I have eight arms, suction cups, and three hearts. What am I?",
+    "answer": "Octopus",
+    "synonyms": [
+      "octopus"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Clever cephalopod changing skin camouflage",
+    "emoji": "🐙"
+  },
+  {
+    "id": "rid-0133",
+    "riddle": "I walk sideways on sandy beaches and have two pinching claws. What am I?",
+    "answer": "Crab",
+    "synonyms": [
+      "crab"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Armored crustacean scuttling along tide pools",
+    "emoji": "🦀"
+  },
+  {
+    "id": "rid-0134",
+    "riddle": "I live in a shell on ocean rocks and make beautiful white pearls. What am I?",
+    "answer": "Oyster",
+    "synonyms": [
+      "clam",
+      "oyster"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Bivalve mollusk yielding lustrous jewels",
+    "emoji": "🦪"
+  },
+  {
+    "id": "rid-0135",
+    "riddle": "I have colorful wings, fly from flower to flower, and start life as a caterpillar. What am I?",
+    "answer": "Butterfly",
+    "synonyms": [
+      "butterfly"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Insect undergoing metamorphosis in a chrysalis",
+    "emoji": "🦋"
+  },
+  {
+    "id": "rid-0136",
+    "riddle": "I buzz in the meadow, live in a hive, and make sweet honey. What am I?",
+    "answer": "Bee",
+    "synonyms": [
+      "bee",
+      "honeybee"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Pollen-gathering pollinator with yellow stripes",
+    "emoji": "🐝"
+  },
+  {
+    "id": "rid-0137",
+    "riddle": "I am red with black dots, eat garden aphids, and bring good luck. What am I?",
+    "answer": "Ladybug",
+    "synonyms": [
+      "ladybird",
+      "ladybug"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Little spotted beetle crawling on rose petals",
+    "emoji": "🐞"
+  },
+  {
+    "id": "rid-0138",
+    "riddle": "I glow in the summer dark like a tiny flying lantern. What am I?",
+    "answer": "Firefly",
+    "synonyms": [
+      "firefly",
+      "lightning bug"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Bioluminescent beetle lighting up evening lawns",
+    "emoji": "✨"
+  },
+  {
+    "id": "rid-0139",
+    "riddle": "I slither through the grass, have no legs, and shed my scaly skin. What am I?",
+    "answer": "Snake",
+    "synonyms": [
+      "snake"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Hissing reptile tasting the air with forked tongue",
+    "emoji": "🐍"
+  },
+  {
+    "id": "rid-0140",
+    "riddle": "I hide inside my hard shell and can live for over one hundred years. What am I?",
+    "answer": "Turtle",
+    "synonyms": [
+      "tortoise",
+      "turtle"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Ancient reptile crawling on land or swimming oceans",
+    "emoji": "🐢"
+  },
+  {
+    "id": "rid-0141",
+    "riddle": "I have eight legs, spin silk webs, and catch mosquitoes. What am I?",
+    "answer": "Spider",
+    "synonyms": [
+      "spider"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Arachnid weaver building geometric webs",
+    "emoji": "🕷️"
+  },
+  {
+    "id": "rid-0142",
+    "riddle": "I am green, have armor scales, huge jaws, and lurk in Florida swamps. What am I?",
+    "answer": "Alligator",
+    "synonyms": [
+      "alligator",
+      "crocodile"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Reptilian predator basking on riverbanks",
+    "emoji": "🐊"
+  },
+  {
+    "id": "rid-0143",
+    "riddle": "I build dams across rivers with tree logs and mud. What am I?",
+    "answer": "Beaver",
+    "synonyms": [
+      "beaver"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Rodent engineer with flat paddle tail",
+    "emoji": "🦫"
+  },
+  {
+    "id": "rid-0144",
+    "riddle": "I store nuts in tree trunks and have a bushy tail. What am I?",
+    "answer": "Squirrel",
+    "synonyms": [
+      "squirrel"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Chattering acorn gatherer darting up oak bark",
+    "emoji": "🐿️"
+  },
+  {
+    "id": "rid-0145",
+    "riddle": "I rotate my head 270 degrees and hoot under moonlight. What am I?",
+    "answer": "Owl",
+    "synonyms": [
+      "owl"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Silent nocturnal hunter with sharp talons",
+    "emoji": "🦉"
+  },
+  {
+    "id": "rid-0146",
+    "riddle": "What has a screen you touch all day and fits in your pocket?",
+    "answer": "Smartphone",
+    "synonyms": [
+      "cell phone",
+      "phone",
+      "smartphone"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Mobile device you check messages and social feeds on",
+    "emoji": "📱"
+  },
+  {
+    "id": "rid-0147",
+    "riddle": "What sits on your nose and helps you read clearly?",
+    "answer": "Glasses",
+    "synonyms": [
+      "eyeglasses",
+      "glasses",
+      "spectacles"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Optic frames with corrective lenses",
+    "emoji": "👓"
+  },
+  {
+    "id": "rid-0148",
+    "riddle": "What has ink inside, a clip on top, and writes on paper?",
+    "answer": "Pen",
+    "synonyms": [
+      "a pen",
+      "ballpoint pen",
+      "pen"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Writing utensil clicked to jot notes",
+    "emoji": "🖊️"
+  },
+  {
+    "id": "rid-0149",
+    "riddle": "What has graphite inside and an eraser on the back?",
+    "answer": "Pencil",
+    "synonyms": [
+      "a pencil",
+      "pencil"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Yellow school writing stick sharpened at a desk",
+    "emoji": "✏️"
+  },
+  {
+    "id": "rid-0150",
+    "riddle": "What holds loose papers together without punching holes?",
+    "answer": "Paperclip",
+    "synonyms": [
+      "paper clip",
+      "paperclip"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Twisted loop of springy thin steel wire",
+    "emoji": "📎"
+  },
+  {
+    "id": "rid-0151",
+    "riddle": "What carries your schoolbooks on your shoulders every morning?",
+    "answer": "Backpack",
+    "synonyms": [
+      "a backpack",
+      "backpack",
+      "school bag"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Zippered bag with two padded shoulder straps",
+    "emoji": "🎒"
+  },
+  {
+    "id": "rid-0152",
+    "riddle": "What tells you your weight when you step on its glass platform?",
+    "answer": "Scale",
+    "synonyms": [
+      "a scale",
+      "bathroom scale",
+      "scale"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Bathroom device displaying kilograms or pounds",
+    "emoji": "⚖️"
+  },
+  {
+    "id": "rid-0153",
+    "riddle": "What blows hot air to dry your wet hair after a shower?",
+    "answer": "Hair Dryer",
+    "synonyms": [
+      "blow dryer",
+      "hair dryer",
+      "hairdryer"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Handheld electric nozzle drying styled locks",
+    "emoji": "💨"
+  },
+  {
+    "id": "rid-0154",
+    "riddle": "What warms up slices of bread until they pop up brown and crispy?",
+    "answer": "Toaster",
+    "synonyms": [
+      "a toaster",
+      "toaster"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Countertop appliance with heating coils",
+    "emoji": "🍞"
+  },
+  {
+    "id": "rid-0155",
+    "riddle": "What keeps your milk and eggs icy cold in the kitchen?",
+    "answer": "Refrigerator",
+    "synonyms": [
+      "fridge",
+      "refrigerator",
+      "the fridge"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Tall stainless steel kitchen cooling unit",
+    "emoji": "🧊"
+  },
+  {
+    "id": "rid-0156",
+    "riddle": "What cooks frozen meals fast using invisible electromagnetic waves?",
+    "answer": "Microwave",
+    "synonyms": [
+      "microwave",
+      "microwave oven"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Countertop beeping box that heats soup in 2 minutes",
+    "emoji": "📻"
+  },
+  {
+    "id": "rid-0157",
+    "riddle": "What washes your dirty plates, forks, and glasses automatically?",
+    "answer": "Dishwasher",
+    "synonyms": [
+      "a dishwasher",
+      "dishwasher"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Kitchen appliance spraying hot soapy water onto racks",
+    "emoji": "🍽️"
+  },
+  {
+    "id": "rid-0158",
+    "riddle": "What tumbles wet laundry with hot air until your clothes are dry?",
+    "answer": "Dryer",
+    "synonyms": [
+      "clothes dryer",
+      "dryer"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Laundry machine paired with the washing machine",
+    "emoji": "🧺"
+  },
+  {
+    "id": "rid-0159",
+    "riddle": "What spins dirty t-shirts with laundry detergent and water?",
+    "answer": "Washing Machine",
+    "synonyms": [
+      "washer",
+      "washing machine"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Appliance with agitator drum cleaning clothes",
+    "emoji": "🧼"
+  },
+  {
+    "id": "rid-0160",
+    "riddle": "What has bristles, a long stick, and sweeps dust across the floor?",
+    "answer": "Broom",
+    "synonyms": [
+      "a broom",
+      "broom"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Cleaning tool paired with a dustpan",
+    "emoji": "🧹"
+  },
+  {
+    "id": "rid-0161",
+    "riddle": "What sucks up pet hair and carpet crumbs through a hose?",
+    "answer": "Vacuum",
+    "synonyms": [
+      "vacuum",
+      "vacuum cleaner"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Electric motor sucking dirt into a dust canister",
+    "emoji": "🧹"
+  },
+  {
+    "id": "rid-0162",
+    "riddle": "What has a wet cotton head that cleans tile and hardwood floors?",
+    "answer": "Mop",
+    "synonyms": [
+      "a mop",
+      "mop"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Floor cleaner dipped in a soapy bucket",
+    "emoji": "🪣"
+  },
+  {
+    "id": "rid-0163",
+    "riddle": "What holds flowers and water on the dining table centerpiece?",
+    "answer": "Vase",
+    "synonyms": [
+      "a vase",
+      "vase"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Ceramic or glass decorative flower pot",
+    "emoji": "🏺"
+  },
+  {
+    "id": "rid-0164",
+    "riddle": "What reflects your face while you brush your teeth?",
+    "answer": "Mirror",
+    "synonyms": [
+      "mirror",
+      "the mirror"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Silvered looking glass above the bathroom sink",
+    "emoji": "🪞"
+  },
+  {
+    "id": "rid-0165",
+    "riddle": "What hangs in your bedroom window to block the morning sunlight?",
+    "answer": "Curtains",
+    "synonyms": [
+      "blinds",
+      "curtains",
+      "drapes"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Fabric panels drawn closed at night",
+    "emoji": "🪟"
+  },
+  {
+    "id": "rid-0166",
+    "riddle": "What has a lampshade, a lightbulb, and sits on your nightstand?",
+    "answer": "Lamp",
+    "synonyms": [
+      "a lamp",
+      "bedside lamp",
+      "lamp"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Illuminates your book while reading in bed",
+    "emoji": "🛋️"
+  },
+  {
+    "id": "rid-0167",
+    "riddle": "What soft square cushion supports your head during sleep?",
+    "answer": "Pillow",
+    "synonyms": [
+      "a pillow",
+      "pillow"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Stuffed with down or memory foam in a pillowcase",
+    "emoji": "🛌"
+  },
+  {
+    "id": "rid-0168",
+    "riddle": "What warm fleece layer covers you in bed when it is freezing outside?",
+    "answer": "Blanket",
+    "synonyms": [
+      "blanket",
+      "comforter",
+      "duvet"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Cozy quilt pulled up to your chin",
+    "emoji": "🛏️"
+  },
+  {
+    "id": "rid-0169",
+    "riddle": "What piece of furniture holds your folded shirts and socks in drawers?",
+    "answer": "Dresser",
+    "synonyms": [
+      "chest of drawers",
+      "dresser"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Wooden bedroom cabinet with pull-out drawers",
+    "emoji": "🗄️"
+  },
+  {
+    "id": "rid-0170",
+    "riddle": "What holds your clothes on a metal bar inside the closet?",
+    "answer": "Hanger",
+    "synonyms": [
+      "coat hanger",
+      "hanger"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Triangular plastic hook holding shirts upright",
+    "emoji": "👔"
+  },
+  {
+    "id": "rid-0171",
+    "riddle": "What unlocks your front door when you slide it into the keyhole?",
+    "answer": "Key",
+    "synonyms": [
+      "a key",
+      "door key",
+      "key"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Notched brass metal piece on your keychain",
+    "emoji": "🔑"
+  },
+  {
+    "id": "rid-0172",
+    "riddle": "What hangs on a door handle and rings when guests arrive?",
+    "answer": "Doorbell",
+    "synonyms": [
+      "bell",
+      "door bell",
+      "doorbell"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Chimes ding-dong when visitors push its button",
+    "emoji": "🔔"
+  },
+  {
+    "id": "rid-0173",
+    "riddle": "What sits outside your front door for wiping muddy shoes?",
+    "answer": "Doormat",
+    "synonyms": [
+      "doormat",
+      "welcome mat"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Rough coir mat saying Welcome",
+    "emoji": "🚪"
+  },
+  {
+    "id": "rid-0174",
+    "riddle": "What holds coins, credit cards, and dollar bills in your pocket?",
+    "answer": "Wallet",
+    "synonyms": [
+      "a wallet",
+      "purse",
+      "wallet"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Leather folding pouch carried in jeans",
+    "emoji": "👛"
+  },
+  {
+    "id": "rid-0175",
+    "riddle": "What keeps rain off your head with a canopy and folding ribs?",
+    "answer": "Umbrella",
+    "synonyms": [
+      "an umbrella",
+      "umbrella"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Pops open when clouds begin to downpour",
+    "emoji": "☔"
+  },
+  {
+    "id": "rid-0176",
+    "riddle": "What ticking timepiece is strapped around your wrist?",
+    "answer": "Watch",
+    "synonyms": [
+      "watch",
+      "wristwatch"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Analog dial or smartwatch tracking your pulse",
+    "emoji": "⌚"
+  },
+  {
+    "id": "rid-0177",
+    "riddle": "What wireless earbuds go inside your ears to play favorite tunes?",
+    "answer": "Headphones",
+    "synonyms": [
+      "airpods",
+      "earbuds",
+      "headphones"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Audio accessory streaming music to your ears",
+    "emoji": "🎧"
+  },
+  {
+    "id": "rid-0178",
+    "riddle": "What handheld controller lets you change television channels from the couch?",
+    "answer": "Remote",
+    "synonyms": [
+      "remote",
+      "remote control",
+      "tv remote"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Infrared button device aimed at the television",
+    "emoji": "📺"
+  },
+  {
+    "id": "rid-0179",
+    "riddle": "What big flat glass screen displays streaming movies and video games?",
+    "answer": "Television",
+    "synonyms": [
+      "television",
+      "tv"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "4K flatscreen entertainment display on the living room wall",
+    "emoji": "📺"
+  },
+  {
+    "id": "rid-0180",
+    "riddle": "What portable computer folds shut like a clamshell with keyboard and trackpad?",
+    "answer": "Laptop",
+    "synonyms": [
+      "laptop",
+      "notebook"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Battery powered computer used in coffee shops",
+    "emoji": "💻"
+  },
+  {
+    "id": "rid-0181",
+    "riddle": "What handheld glass slate lets you draw and watch videos with a finger swipe?",
+    "answer": "Tablet",
+    "synonyms": [
+      "ipad",
+      "tablet"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Touchscreen tablet like an iPad",
+    "emoji": "📱"
+  },
+  {
+    "id": "rid-0182",
+    "riddle": "What flashes bright light in the dark when batteries are loaded?",
+    "answer": "Flashlight",
+    "synonyms": [
+      "flashlight",
+      "torch"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Handheld emergency beam when power goes out",
+    "emoji": "🔦"
+  },
+  {
+    "id": "rid-0183",
+    "riddle": "What strikes against a rough strip to spark a campfire flame?",
+    "answer": "Match",
+    "synonyms": [
+      "match",
+      "matchstick"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Wooden sulfur stick ignited from a matchbox",
+    "emoji": "🪵"
+  },
+  {
+    "id": "rid-0184",
+    "riddle": "What pocket metal gadget flips open with a wheel to spark butane fire?",
+    "answer": "Lighter",
+    "synonyms": [
+      "a lighter",
+      "lighter"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Bic or Zippo pocket flame creator",
+    "emoji": "🔥"
+  },
+  {
+    "id": "rid-0185",
+    "riddle": "What candle accessory holds burning wax safely on a candlestick?",
+    "answer": "Candle Holder",
+    "synonyms": [
+      "candle holder",
+      "candlestick"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Brass or glass base holding tapered candles",
+    "emoji": "🕯️"
+  },
+  {
+    "id": "rid-0186",
+    "riddle": "What heavy metal tool drives nails into wooden planks?",
+    "answer": "Hammer",
+    "synonyms": [
+      "a hammer",
+      "hammer"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Claw tool swung to pound fasteners",
+    "emoji": "🔨"
+  },
+  {
+    "id": "rid-0187",
+    "riddle": "What pointed steel spike is hammered into drywall to hang photos?",
+    "answer": "Nail",
+    "synonyms": [
+      "a nail",
+      "nail"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Fastener with flat head driven by a hammer",
+    "emoji": "🔩"
+  },
+  {
+    "id": "rid-0188",
+    "riddle": "What spiraled metal fastener is turned with a screwdriver?",
+    "answer": "Screw",
+    "synonyms": [
+      "a screw",
+      "screw"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Threaded fastener anchored into wood",
+    "emoji": "🪛"
+  },
+  {
+    "id": "rid-0189",
+    "riddle": "What hand tool with two jaws tightens metal bolts and plumbing nuts?",
+    "answer": "Wrench",
+    "synonyms": [
+      "spanner",
+      "wrench"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Adjustable crescent tool gripping hexagonal nuts",
+    "emoji": "🔧"
+  },
+  {
+    "id": "rid-0190",
+    "riddle": "What gripping tool with pivot jaws bends electrical wires and pulls pins?",
+    "answer": "Pliers",
+    "synonyms": [
+      "pair of pliers",
+      "pliers"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Two-handled mechanic gripping tool",
+    "emoji": "🛠️"
+  },
+  {
+    "id": "rid-0191",
+    "riddle": "What serrated steel blade cuts through wooden logs with back-and-forth strokes?",
+    "answer": "Saw",
+    "synonyms": [
+      "hand saw",
+      "saw"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Toothed carpenter blade slicing timber",
+    "emoji": "🪚"
+  },
+  {
+    "id": "rid-0192",
+    "riddle": "What bubble vial tool checks if a shelf or picture frame is straight?",
+    "answer": "Level",
+    "synonyms": [
+      "level",
+      "spirit level"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Tool with green liquid bubble centered between lines",
+    "emoji": "📐"
+  },
+  {
+    "id": "rid-0193",
+    "riddle": "What pointed steel shovel digs deep trenches in the garden soil?",
+    "answer": "Shovel",
+    "synonyms": [
+      "shovel",
+      "spade"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Long wooden handle with curved digging blade",
+    "emoji": "⛏️"
+  },
+  {
+    "id": "rid-0194",
+    "riddle": "What toothed metal tool gathers dry autumn leaves off the lawn?",
+    "answer": "Rake",
+    "synonyms": [
+      "a rake",
+      "rake"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Fan-shaped tines scraping autumn foliage",
+    "emoji": "🍂"
+  },
+  {
+    "id": "rid-0195",
+    "riddle": "What long green rubber tube sprays garden water through a brass nozzle?",
+    "answer": "Hose",
+    "synonyms": [
+      "garden hose",
+      "hose"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Flexible coiled line watering front lawn grass",
+    "emoji": "🪴"
+  },
+  {
+    "id": "rid-0196",
+    "riddle": "What wheeled single-handle cart hauls dirt and mulch around the backyard?",
+    "answer": "Wheelbarrow",
+    "synonyms": [
+      "a wheelbarrow",
+      "wheelbarrow"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "One-wheeled tub pushed by two handles",
+    "emoji": "🚜"
+  },
+  {
+    "id": "rid-0197",
+    "riddle": "What motorized machine cuts grass to keep front yards neat?",
+    "answer": "Lawnmower",
+    "synonyms": [
+      "lawn mower",
+      "lawnmower",
+      "mower"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Whirling blade machine pushed across green turf",
+    "emoji": "🌾"
+  },
+  {
+    "id": "rid-0198",
+    "riddle": "What glass cup has a handle and holds your hot morning latte?",
+    "answer": "Mug",
+    "synonyms": [
+      "a mug",
+      "coffee mug",
+      "mug"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Ceramic vessel warmed by fresh coffee",
+    "emoji": "☕"
+  },
+  {
+    "id": "rid-0199",
+    "riddle": "What vegetable brings tears to your eyes when sliced on a board?",
+    "answer": "Onion",
+    "synonyms": [
+      "an onion",
+      "onion"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Pungent bulb sauteed as the base of soups",
+    "emoji": "🧅"
+  },
+  {
+    "id": "rid-0200",
+    "riddle": "What red heart-shaped berry has little yellow seeds on its outside skin?",
+    "answer": "Strawberry",
+    "synonyms": [
+      "strawberry"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Summer dessert fruit served with whipped cream",
+    "emoji": "🍓"
+  },
+  {
+    "id": "rid-0201",
+    "riddle": "What baked dessert with birthday candles is sliced into wedges for guests?",
+    "answer": "Cake",
+    "synonyms": [
+      "birthday cake",
+      "cake"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Frosted sponge layer cake with buttercream",
+    "emoji": "🎂"
+  },
+  {
+    "id": "rid-0202",
+    "riddle": "What flat round baked treat has chocolate chips and is dunked in milk?",
+    "answer": "Cookie",
+    "synonyms": [
+      "chocolate chip cookie",
+      "cookie"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Toll House baked snack pulled from the oven",
+    "emoji": "🍪"
+  },
+  {
+    "id": "rid-0203",
+    "riddle": "What fried ring of sweet dough is glazed with sugar and rainbow sprinkles?",
+    "answer": "Donut",
+    "synonyms": [
+      "donut",
+      "doughnut"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Breakfast pastry with a hole in the center",
+    "emoji": "🍩"
+  },
+  {
+    "id": "rid-0204",
+    "riddle": "What golden crispy grid is drizzled with warm maple syrup at breakfast?",
+    "answer": "Waffle",
+    "synonyms": [
+      "waffle",
+      "waffles"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Eggo or Belgian batter cooked in iron grids",
+    "emoji": "🧇"
+  },
+  {
+    "id": "rid-0205",
+    "riddle": "What flat round griddle cake is flipped with a spatula and stacked high?",
+    "answer": "Pancake",
+    "synonyms": [
+      "flapjack",
+      "pancake",
+      "pancakes"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Fluffy batter round topped with butter and syrup",
+    "emoji": "🥞"
+  },
+  {
+    "id": "rid-0206",
+    "riddle": "What breakfast bread has a crusty outside and a hole in the middle?",
+    "answer": "Bagel",
+    "synonyms": [
+      "a bagel",
+      "bagel"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Boiled and baked roll spread with cream cheese",
+    "emoji": "🥯"
+  },
+  {
+    "id": "rid-0207",
+    "riddle": "What crescent-shaped flaky French pastry is baked with buttery layers?",
+    "answer": "Croissant",
+    "synonyms": [
+      "a croissant",
+      "croissant"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Parisian breakfast pastry that flakes when bitten",
+    "emoji": "🥐"
+  },
+  {
+    "id": "rid-0208",
+    "riddle": "What bread loaf is baked long and skinny in French bakeries?",
+    "answer": "Baguette",
+    "synonyms": [
+      "baguette",
+      "french bread"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Crisp long French loaf carried under arm",
+    "emoji": "🥖"
+  },
+  {
+    "id": "rid-0209",
+    "riddle": "What baked Italian crust is topped with tomato sauce, mozzarella, and pepperoni?",
+    "answer": "Pizza",
+    "synonyms": [
+      "a pizza",
+      "pizza"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Round pie sliced into eight cheesy triangles",
+    "emoji": "🍕"
+  },
+  {
+    "id": "rid-0210",
+    "riddle": "What grilled beef patty is tucked inside a sesame bun with lettuce and tomato?",
+    "answer": "Burger",
+    "synonyms": [
+      "burger",
+      "cheeseburger",
+      "hamburger"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Fast food staple paired with french fries",
+    "emoji": "🍔"
+  },
+  {
+    "id": "rid-0211",
+    "riddle": "What hot boiled sausage is cradled in a long bun with ketchup and mustard?",
+    "answer": "Hot Dog",
+    "synonyms": [
+      "hot dog",
+      "hotdog"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Ballpark staple eaten while watching baseball",
+    "emoji": "🌭"
+  },
+  {
+    "id": "rid-0212",
+    "riddle": "What folded Mexican tortilla is filled with seasoned beef, cheese, and salsa?",
+    "answer": "Taco",
+    "synonyms": [
+      "taco",
+      "tacos"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Crunchy corn or soft flour shell eaten on Tuesday",
+    "emoji": "🌮"
+  },
+  {
+    "id": "rid-0213",
+    "riddle": "What large flour tortilla is wrapped tight around rice, beans, and meat?",
+    "answer": "Burrito",
+    "synonyms": [
+      "a burrito",
+      "burrito"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Chipotle foil wrapped Mexican parcel",
+    "emoji": "🌯"
+  },
+  {
+    "id": "rid-0214",
+    "riddle": "What two bread slices are toasted with cheddar cheese melting in between?",
+    "answer": "Grilled Cheese",
+    "synonyms": [
+      "grilled cheese",
+      "grilled cheese sandwich"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Golden skillet sandwich dipped in tomato soup",
+    "emoji": "🥪"
+  },
+  {
+    "id": "rid-0215",
+    "riddle": "What crunchy corn chips are smothered in melted cheese and jalapenos?",
+    "answer": "Nachos",
+    "synonyms": [
+      "nachos"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Cinema stadium snack eaten with salsa dip",
+    "emoji": "🧀"
+  },
+  {
+    "id": "rid-0216",
+    "riddle": "What kernels explode into fluffy white clouds when heated in a kettle?",
+    "answer": "Popcorn",
+    "synonyms": [
+      "popcorn"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Buttered snack munched during movie theater films",
+    "emoji": "🍿"
+  },
+  {
+    "id": "rid-0217",
+    "riddle": "What twisted baked dough knot is sprinkled with coarse salt crystals?",
+    "answer": "Pretzel",
+    "synonyms": [
+      "a pretzel",
+      "pretzel"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Golden Bavarian snack twisted into three loops",
+    "emoji": "🥨"
+  },
+  {
+    "id": "rid-0218",
+    "riddle": "What creamy dairy product is churned from cream and spread on warm toast?",
+    "answer": "Butter",
+    "synonyms": [
+      "butter"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Yellow dairy block kept in a covered dish",
+    "emoji": "🧈"
+  },
+  {
+    "id": "rid-0219",
+    "riddle": "What yellow dairy block is aged, sliced, or melted over macaroni?",
+    "answer": "Cheese",
+    "synonyms": [
+      "cheddar",
+      "cheese"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Dairy product made from curds and whey",
+    "emoji": "🧀"
+  },
+  {
+    "id": "rid-0220",
+    "riddle": "What white liquid is poured over morning cereal from a plastic jug?",
+    "answer": "Milk",
+    "synonyms": [
+      "dairy milk",
+      "milk"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Nutritious calcium drink produced on dairy farms",
+    "emoji": "🥛"
+  },
+  {
+    "id": "rid-0221",
+    "riddle": "What dark brewed morning beverage perks people up with caffeine?",
+    "answer": "Coffee",
+    "synonyms": [
+      "a coffee",
+      "coffee"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Brewed roasted bean beverage in a ceramic mug",
+    "emoji": "☕"
+  },
+  {
+    "id": "rid-0222",
+    "riddle": "What hot herbal brew is steeped from dried leaves in hot water?",
+    "answer": "Tea",
+    "synonyms": [
+      "hot tea",
+      "tea"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Steeped beverage enjoyed with honey or lemon",
+    "emoji": "🍵"
+  },
+  {
+    "id": "rid-0223",
+    "riddle": "What sweet bee nectar is harvested from honeycombs inside a hive?",
+    "answer": "Honey",
+    "synonyms": [
+      "honey"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Golden viscous sweetener that never spoils",
+    "emoji": "🍯"
+  },
+  {
+    "id": "rid-0224",
+    "riddle": "What dark sweet tree sap is tapped from Vermont maples in spring?",
+    "answer": "Maple Syrup",
+    "synonyms": [
+      "maple syrup",
+      "syrup"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Poured lavishly over hot pancakes and waffles",
+    "emoji": "🥞"
+  },
+  {
+    "id": "rid-0225",
+    "riddle": "What yellow spicy paste is spread on hot dogs and deli pastrami?",
+    "answer": "Mustard",
+    "synonyms": [
+      "mustard",
+      "yellow mustard"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Ground mustard seed condiment with tangy bite",
+    "emoji": "🌭"
+  },
+  {
+    "id": "rid-0226",
+    "riddle": "What creamy white emulsion of oil and egg yolks is spread on sandwiches?",
+    "answer": "Mayonnaise",
+    "synonyms": [
+      "mayo",
+      "mayonnaise"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Hellmann's sandwich spread binding potato salad",
+    "emoji": "🥪"
+  },
+  {
+    "id": "rid-0227",
+    "riddle": "What fermented soy sauce liquid adds salty umami to sushi and fried rice?",
+    "answer": "Soy Sauce",
+    "synonyms": [
+      "soy sauce"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Dark savory condiment in small glass bottles",
+    "emoji": "🥢"
+  },
+  {
+    "id": "rid-0228",
+    "riddle": "What fiery red pepper sauce adds burning heat to chicken wings?",
+    "answer": "Hot Sauce",
+    "synonyms": [
+      "hot sauce",
+      "tabasco"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Chili condiment spiced with habanero or cayenne",
+    "emoji": "🌶️"
+  },
+  {
+    "id": "rid-0229",
+    "riddle": "What dark rich dessert sauce is drizzled over vanilla sundaes?",
+    "answer": "Fudge",
+    "synonyms": [
+      "chocolate fudge",
+      "fudge",
+      "hot fudge"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Warm thick chocolate sauce topping ice cream",
+    "emoji": "🍨"
+  },
+  {
+    "id": "rid-0230",
+    "riddle": "What fluffy white spun sugar sweet is melted over campfires between crackers?",
+    "answer": "Marshmallow",
+    "synonyms": [
+      "marshmallow",
+      "marshmallows"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Puffy white sugar pillow roasted on a stick",
+    "emoji": "🏕️"
+  },
+  {
+    "id": "rid-0231",
+    "riddle": "What sweet mint candy is shaped like a shepherd's hook at Christmas?",
+    "answer": "Candy Cane",
+    "synonyms": [
+      "candy cane",
+      "candycane"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Peppermint striped red and white holiday treat",
+    "emoji": "🦯"
+  },
+  {
+    "id": "rid-0232",
+    "riddle": "What chewy candy drops come in gummy bear and gummy worm shapes?",
+    "answer": "Gummy Bears",
+    "synonyms": [
+      "gummies",
+      "gummy",
+      "gummy bears"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Gelatin colorful fruit candy bears",
+    "emoji": "🐻"
+  },
+  {
+    "id": "rid-0233",
+    "riddle": "What hard candy ball is mounted on a stick and licked until finished?",
+    "answer": "Lollipop",
+    "synonyms": [
+      "lollipop",
+      "sucker"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Sweet fruit hard candy on a paper stick",
+    "emoji": "🍭"
+  },
+  {
+    "id": "rid-0234",
+    "riddle": "What elastic confectionery is chewed for flavor and blown into big pink bubbles?",
+    "answer": "Bubblegum",
+    "synonyms": [
+      "bubblegum",
+      "chewing gum",
+      "gum"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Chewing confection blown into round bubbles",
+    "emoji": "🫧"
+  },
+  {
+    "id": "rid-0235",
+    "riddle": "What crispy golden waffle wafer sandwich is filled with hazelnut cocoa?",
+    "answer": "Kit Kat",
+    "synonyms": [
+      "kit kat",
+      "kitkat"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Breakable chocolate bar with four fingers",
+    "emoji": "🍫"
+  },
+  {
+    "id": "rid-0236",
+    "riddle": "What peanut butter cup confection is made by Hershey in orange wrappers?",
+    "answer": "Reeses",
+    "synonyms": [
+      "peanut butter cup",
+      "reese's",
+      "reeses"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Chocolate cup filled with creamy peanut butter",
+    "emoji": "🥜"
+  },
+  {
+    "id": "rid-0237",
+    "riddle": "What chocolate bar has nougat, caramel, peanuts, and milk chocolate?",
+    "answer": "Snickers",
+    "synonyms": [
+      "snickers"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Candy bar famous for 'You're not you when hungry'",
+    "emoji": "🍫"
+  },
+  {
+    "id": "rid-0238",
+    "riddle": "What twin cookie biscuit bars are coated in caramel and chocolate?",
+    "answer": "Twix",
+    "synonyms": [
+      "twix"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Two finger biscuit bars in gold packaging",
+    "emoji": "🍫"
+  },
+  {
+    "id": "rid-0239",
+    "riddle": "What chocolate candy buttons have colorful candy shells with an M printed on top?",
+    "answer": "M&Ms",
+    "synonyms": [
+      "m and ms",
+      "m&ms",
+      "mms"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Candy that melts in your mouth, not in your hand",
+    "emoji": "🍬"
+  },
+  {
+    "id": "rid-0240",
+    "riddle": "What rainbow fruit candy buttons invite you to 'Taste the Rainbow'?",
+    "answer": "Skittles",
+    "synonyms": [
+      "skittles"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Fruit candy discs with an S stamped on each",
+    "emoji": "🌈"
+  },
+  {
+    "id": "rid-0241",
+    "riddle": "What fluffy carnival sweet is spun from pure melted pink sugar?",
+    "answer": "Cotton Candy",
+    "synonyms": [
+      "cotton candy",
+      "cottoncandy",
+      "fairy floss"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Pink cloud sweet wound onto a paper cone",
+    "emoji": "🎡"
+  },
+  {
+    "id": "rid-0242",
+    "riddle": "What spicy red tomato dip is scooped up with tortilla chips?",
+    "answer": "Salsa",
+    "synonyms": [
+      "salsa"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Diced tomato, onion, and cilantro Mexican dip",
+    "emoji": "🌶️"
+  },
+  {
+    "id": "rid-0243",
+    "riddle": "What warm melted cheese dip is served in Tex-Mex restaurants with chips?",
+    "answer": "Queso",
+    "synonyms": [
+      "cheese dip",
+      "queso"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Melted spicy cheese dip kept warm in a bowl",
+    "emoji": "🫕"
+  },
+  {
+    "id": "rid-0244",
+    "riddle": "What chickpea and tahini spread is scooped with warm pita bread?",
+    "answer": "Hummus",
+    "synonyms": [
+      "hummus"
+    ],
+    "category": "Food & Kitchen",
+    "difficulty": "Easy",
+    "hint": "Middle Eastern mashed garbanzo bean spread",
+    "emoji": "🧆"
+  },
+  {
+    "id": "rid-0245",
+    "riddle": "What black and white bird cannot fly but swims like a torpedo?",
+    "answer": "Penguin",
+    "synonyms": [
+      "penguin"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Slides down snowy Antarctic slopes",
+    "emoji": "🐧"
+  },
+  {
+    "id": "rid-0246",
+    "riddle": "What animal has a horn on its nose and thick armor-like skin?",
+    "answer": "Rhinoceros",
+    "synonyms": [
+      "rhino",
+      "rhinoceros"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Large African pachyderm with a keratin snout horn",
+    "emoji": "🦏"
+  },
+  {
+    "id": "rid-0247",
+    "riddle": "What big cat rules the pride while lionesses do the hunting?",
+    "answer": "Lion",
+    "synonyms": [
+      "lion"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Regal carnivore with a heavy golden mane",
+    "emoji": "🦁"
+  },
+  {
+    "id": "rid-0248",
+    "riddle": "What striped orange feline stalks deer in Siberian snow?",
+    "answer": "Tiger",
+    "synonyms": [
+      "tiger"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Largest cat species on planet Earth",
+    "emoji": "🐅"
+  },
+  {
+    "id": "rid-0249",
+    "riddle": "What black and white bear munches bamboo in Chinese mountain mist?",
+    "answer": "Panda",
+    "synonyms": [
+      "giant panda",
+      "panda"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Docile bear symbol of the World Wildlife Fund",
+    "emoji": "🐼"
+  },
+  {
+    "id": "rid-0250",
+    "riddle": "What bear is pure white and swims between floating icebergs?",
+    "answer": "Polar Bear",
+    "synonyms": [
+      "polar bear"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Apex carnivore hunting bearded seals on arctic ice",
+    "emoji": "🐻‍❄️"
+  },
+  {
+    "id": "rid-0251",
+    "riddle": "What tiny rodent nibbles cheese and runs from house cats?",
+    "answer": "Mouse",
+    "synonyms": [
+      "mouse"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Small squeaking rodent with long tail and whiskers",
+    "emoji": "🐭"
+  },
+  {
+    "id": "rid-0252",
+    "riddle": "What long-eared hopper loves carrots and thumps its hind feet?",
+    "answer": "Rabbit",
+    "synonyms": [
+      "bunny",
+      "rabbit"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Furry warren burrower associated with Easter",
+    "emoji": "🐰"
+  },
+  {
+    "id": "rid-0253",
+    "riddle": "What tree rodent hides acorns in the ground for winter storage?",
+    "answer": "Squirrel",
+    "synonyms": [
+      "squirrel"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Bushy-tailed acrobat leaping across telephone wires",
+    "emoji": "🐿️"
+  },
+  {
+    "id": "rid-0254",
+    "riddle": "What bird with iridescent tail feathers fans out a dazzling eye pattern?",
+    "answer": "Peacock",
+    "synonyms": [
+      "peacock"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Splendid blue and green bird displaying royal plumage",
+    "emoji": "🦚"
+  },
+  {
+    "id": "rid-0255",
+    "riddle": "What nocturnal bird hoots from tall trees and turns its head 270 degrees?",
+    "answer": "Owl",
+    "synonyms": [
+      "owl"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Symbol of wisdom perched on nighttime branches",
+    "emoji": "🦉"
+  },
+  {
+    "id": "rid-0256",
+    "riddle": "What scavenger bird circles high in thermal updrafts over desert carcasses?",
+    "answer": "Vulture",
+    "synonyms": [
+      "vulture"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Bald-headed carrion bird soaring in wide circles",
+    "emoji": "🦅"
+  },
+  {
+    "id": "rid-0257",
+    "riddle": "What ocean bird has a giant pouch under its bill for scooping fish?",
+    "answer": "Pelican",
+    "synonyms": [
+      "pelican"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Coastline bird diving beak-first into harbor waves",
+    "emoji": "🪶"
+  },
+  {
+    "id": "rid-0258",
+    "riddle": "What graceful white water bird has an S-shaped neck and mates for life?",
+    "answer": "Swan",
+    "synonyms": [
+      "swan"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Elegant aquatic bird gliding across palace moats",
+    "emoji": "🦢"
+  },
+  {
+    "id": "rid-0259",
+    "riddle": "What web-footed pond bird says quack and paddles across lakes?",
+    "answer": "Duck",
+    "synonyms": [
+      "duck"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Mallard with green head swimming in city parks",
+    "emoji": "🦆"
+  },
+  {
+    "id": "rid-0260",
+    "riddle": "What migratory water bird flies in a V-formation and honks in autumn?",
+    "answer": "Goose",
+    "synonyms": [
+      "geese",
+      "goose"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Canadian bird with black neck flying south for winter",
+    "emoji": "🪿"
+  },
+  {
+    "id": "rid-0261",
+    "riddle": "What domestic bird lays brown eggs in coops and scratches the dirt?",
+    "answer": "Chicken",
+    "synonyms": [
+      "chicken",
+      "hen"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Barnyard fowl that gives fresh eggs every morning",
+    "emoji": "🐔"
+  },
+  {
+    "id": "rid-0262",
+    "riddle": "What male fowl crows cock-a-doodle-doo when sunrise appears?",
+    "answer": "Rooster",
+    "synonyms": [
+      "rooster"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Red-combed barnyard sentinel greeting the dawn",
+    "emoji": "🐓"
+  },
+  {
+    "id": "rid-0263",
+    "riddle": "What large bird is roasted with stuffing on American Thanksgiving?",
+    "answer": "Turkey",
+    "synonyms": [
+      "turkey"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Big bird that gobbles with a red wattle",
+    "emoji": "🦃"
+  },
+  {
+    "id": "rid-0264",
+    "riddle": "What flightless Australian bird is second in height only to the ostrich?",
+    "answer": "Emu",
+    "synonyms": [
+      "emu"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Fast running grey bird roaming outback pastures",
+    "emoji": "🦤"
+  },
+  {
+    "id": "rid-0265",
+    "riddle": "What giant African bird lays the largest eggs in the animal kingdom?",
+    "answer": "Ostrich",
+    "synonyms": [
+      "ostrich"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Fastest running two-legged creature on Earth",
+    "emoji": "🦤"
+  },
+  {
+    "id": "rid-0266",
+    "riddle": "What green lizard catches flies with a tongue twice as long as its body?",
+    "answer": "Chameleon",
+    "synonyms": [
+      "chameleon"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Master of camouflage with eyes moving independently",
+    "emoji": "🦎"
+  },
+  {
+    "id": "rid-0267",
+    "riddle": "What sea creature has five arms and can regenerate lost limbs?",
+    "answer": "Starfish",
+    "synonyms": [
+      "sea star",
+      "starfish"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Radial echinoderm clinging to ocean tide pools",
+    "emoji": "⭐"
+  },
+  {
+    "id": "rid-0268",
+    "riddle": "What spiny ocean creature looks like a prickly ball on the seabed?",
+    "answer": "Sea Urchin",
+    "synonyms": [
+      "sea urchin"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Purple or black spiky ball harvested for uni sushi",
+    "emoji": "🦔"
+  },
+  {
+    "id": "rid-0269",
+    "riddle": "What creature changes its skin texture and color in less than a second?",
+    "answer": "Cuttlefish",
+    "synonyms": [
+      "cuttlefish",
+      "octopus"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Cephalopod flashing pulsing patterns across its skin",
+    "emoji": "🦑"
+  },
+  {
+    "id": "rid-0270",
+    "riddle": "What glowing organism lights up dark caves and deep ocean trenches?",
+    "answer": "Bioluminescence",
+    "synonyms": [
+      "bioluminescence",
+      "glow"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Medium",
+    "hint": "Living light produced by chemical luciferin",
+    "emoji": "✨"
+  },
+  {
+    "id": "rid-0271",
+    "riddle": "What insect was worshipped as a sacred symbol of rebirth in Ancient Egypt?",
+    "answer": "Scarab",
+    "synonyms": [
+      "beetle",
+      "dung beetle",
+      "scarab"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Medium",
+    "hint": "Dung beetle rolling balls of earth in the desert",
+    "emoji": "🪲"
+  },
+  {
+    "id": "rid-0272",
+    "riddle": "What blood-sucking insect buzzes near ears and leaves itchy red bumps?",
+    "answer": "Mosquito",
+    "synonyms": [
+      "mosquito"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Pesky summer insect swatted at dusk",
+    "emoji": "🦟"
+  },
+  {
+    "id": "rid-0273",
+    "riddle": "What striped buzzing insect builds hanging paper nests under roof eaves?",
+    "answer": "Wasp",
+    "synonyms": [
+      "hornet",
+      "wasp",
+      "yellowjacket"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Aggressive stinger with a narrow waist",
+    "emoji": "🐝"
+  },
+  {
+    "id": "rid-0274",
+    "riddle": "What beautiful winged insect emerges from a cocoon after being a caterpillar?",
+    "answer": "Moth",
+    "synonyms": [
+      "moth"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Nocturnal flyer attracted to outdoor porch lights",
+    "emoji": "🦋"
+  },
+  {
+    "id": "rid-0275",
+    "riddle": "What buzzing green insect jumps high and makes chirping songs with its legs?",
+    "answer": "Grasshopper",
+    "synonyms": [
+      "cricket",
+      "grasshopper"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Meadow insect with powerful spring-loaded thighs",
+    "emoji": "🦗"
+  },
+  {
+    "id": "rid-0276",
+    "riddle": "What harmless insect looks like a green praying stick on garden stems?",
+    "answer": "Praying Mantis",
+    "synonyms": [
+      "praying mantis"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Stealthy ambush predator holding folded front claws",
+    "emoji": "🦗"
+  },
+  {
+    "id": "rid-0277",
+    "riddle": "What tree pest chews through wooden house beams and furniture?",
+    "answer": "Termite",
+    "synonyms": [
+      "termite",
+      "termites"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Wood-eating insect that causes structural home damage",
+    "emoji": "🐜"
+  },
+  {
+    "id": "rid-0278",
+    "riddle": "What tiny jumping parasite lives on dog and cat fur and causes scratching?",
+    "answer": "Flea",
+    "synonyms": [
+      "flea",
+      "fleas"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Tiny wingless pest treated with flea collars",
+    "emoji": "🐕"
+  },
+  {
+    "id": "rid-0279",
+    "riddle": "What small eight-legged bloodsucker burrows into skin during forest hikes?",
+    "answer": "Tick",
+    "synonyms": [
+      "tick",
+      "ticks"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Lyme disease vector removed with tweezers",
+    "emoji": "🕷️"
+  },
+  {
+    "id": "rid-0280",
+    "riddle": "What flower turns its bright yellow face to track the sun across the sky?",
+    "answer": "Sunflower",
+    "synonyms": [
+      "sunflower"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Tall field flower harvested for crunchy edible seeds",
+    "emoji": "🌻"
+  },
+  {
+    "id": "rid-0281",
+    "riddle": "What red romantic flower has delicate petals and sharp thorns on its stem?",
+    "answer": "Rose",
+    "synonyms": [
+      "red rose",
+      "rose"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Classic flower gifted on Valentine's Day",
+    "emoji": "🌹"
+  },
+  {
+    "id": "rid-0282",
+    "riddle": "What spring bulb flower comes in vibrant cups and is famous in Holland?",
+    "answer": "Tulip",
+    "synonyms": [
+      "tulip",
+      "tulips"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Dutch bloom that caused historical economic mania",
+    "emoji": "🌷"
+  },
+  {
+    "id": "rid-0283",
+    "riddle": "What white bell-shaped wild flower grows in shady woodlands in early spring?",
+    "answer": "Snowdrop",
+    "synonyms": [
+      "snowdrop"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Medium",
+    "hint": "First delicate bloom pushing through melted winter snow",
+    "emoji": "🌱"
+  },
+  {
+    "id": "rid-0284",
+    "riddle": "What sweet purple flower carpets mountain valleys in France and calms sleep?",
+    "answer": "Lavender",
+    "synonyms": [
+      "lavender"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Fragrant herb dried in sachets to scent pillows",
+    "emoji": "🪻"
+  },
+  {
+    "id": "rid-0285",
+    "riddle": "What desert succulent plant stores soothing gel used for sunburn relief?",
+    "answer": "Aloe Vera",
+    "synonyms": [
+      "aloe",
+      "aloe vera"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Medicinal green plant with thick fleshy pointed leaves",
+    "emoji": "🪴"
+  },
+  {
+    "id": "rid-0286",
+    "riddle": "What green climbing vine covers ivy league university brick walls?",
+    "answer": "Ivy",
+    "synonyms": [
+      "ivy"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Clinging evergreen vine climbing old stone walls",
+    "emoji": "🌿"
+  },
+  {
+    "id": "rid-0287",
+    "riddle": "What giant redwood tree in California is the tallest living organism on Earth?",
+    "answer": "Sequoia",
+    "synonyms": [
+      "redwood",
+      "sequoia"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Ancient towering tree with fire-resistant red bark",
+    "emoji": "🌲"
+  },
+  {
+    "id": "rid-0288",
+    "riddle": "What tree produces acorns that feed forest squirrels every autumn?",
+    "answer": "Oak",
+    "synonyms": [
+      "oak",
+      "oak tree"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Symbol of strength and longevity in northern forests",
+    "emoji": "🌳"
+  },
+  {
+    "id": "rid-0289",
+    "riddle": "What Japanese flowering cherry tree showers cities with pale pink petals in spring?",
+    "answer": "Sakura",
+    "synonyms": [
+      "cherry blossom",
+      "sakura"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Famous spring hanami blossom across Tokyo",
+    "emoji": "🌸"
+  },
+  {
+    "id": "rid-0290",
+    "riddle": "What evergreen tree produces aromatic brown cones and needles for winter wreaths?",
+    "answer": "Pine Tree",
+    "synonyms": [
+      "pine",
+      "pine tree"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Fragrant resinous tree harvested for lumber",
+    "emoji": "🌲"
+  },
+  {
+    "id": "rid-0291",
+    "riddle": "What tropical tree with fan-shaped fronds yields sweet dates and coconuts?",
+    "answer": "Palm Tree",
+    "synonyms": [
+      "palm",
+      "palm tree"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Beach icon swaying along Miami and Caribbean shores",
+    "emoji": "🌴"
+  },
+  {
+    "id": "rid-0292",
+    "riddle": "What parasitic green mistletoe plant is hung over doorways for Christmas kisses?",
+    "answer": "Mistletoe",
+    "synonyms": [
+      "mistletoe"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Holiday foliage hung above couples in doorways",
+    "emoji": "🌿"
+  },
+  {
+    "id": "rid-0293",
+    "riddle": "What spiky green plant protects itself with needles and blooms rare desert flowers?",
+    "answer": "Cactus",
+    "synonyms": [
+      "cactus"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Saguaro giant surviving scorching Arizona heat",
+    "emoji": "🌵"
+  },
+  {
+    "id": "rid-0294",
+    "riddle": "What water plant floats flat circular pads on ponds for frogs to rest upon?",
+    "answer": "Lily Pad",
+    "synonyms": [
+      "lily pad",
+      "water lily"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Aquatic green platform blooming lotus blossoms",
+    "emoji": "🪷"
+  },
+  {
+    "id": "rid-0295",
+    "riddle": "What carnivorous bog plant snaps its jaws shut when a fly touches its sensitive hairs?",
+    "answer": "Venus Flytrap",
+    "synonyms": [
+      "venus flytrap"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Insect-eating plant native to North Carolina wetlands",
+    "emoji": "🪴"
+  },
+  {
+    "id": "rid-0296",
+    "riddle": "What underwater plant forms massive ocean forests off the California coast?",
+    "answer": "Kelp",
+    "synonyms": [
+      "kelp",
+      "seaweed"
+    ],
+    "category": "Nature & Animals",
+    "difficulty": "Easy",
+    "hint": "Fast growing brown algae swaying in cold ocean currents",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0297",
+    "riddle": "What letter of the alphabet has the most water?",
+    "answer": "Letter C",
+    "synonyms": [
+      "c",
+      "letter c",
+      "sea",
+      "the letter c"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds identical to the vast blue ocean",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0298",
+    "riddle": "What occurs once in every minute, twice in every moment, but never in a thousand years?",
+    "answer": "Letter M",
+    "synonyms": [
+      "letter m",
+      "m"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Examine the spelling of the words in the riddle",
+    "emoji": "🔤"
+  },
+  {
+    "id": "rid-0299",
+    "riddle": "What starts with the letter T, is filled with T, and ends with T?",
+    "answer": "Teapot",
+    "synonyms": [
+      "teapot"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Contains hot boiling Earl Grey or green brew",
+    "emoji": "🫖"
+  },
+  {
+    "id": "rid-0300",
+    "riddle": "What 5-letter word becomes shorter when you add two letters to it?",
+    "answer": "Short",
+    "synonyms": [
+      "short"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Add 'er' to the end to spell shorter",
+    "emoji": "📏"
+  },
+  {
+    "id": "rid-0301",
+    "riddle": "I am an odd number. Take away one letter and I become even. What number am I?",
+    "answer": "Seven",
+    "synonyms": [
+      "7",
+      "seven"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Remove the 's' and you are left with 'even'",
+    "emoji": "7️⃣"
+  },
+  {
+    "id": "rid-0302",
+    "riddle": "What letter is always looking for a reason?",
+    "answer": "Letter Y",
+    "synonyms": [
+      "letter y",
+      "the letter y",
+      "why",
+      "y"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds identical to the question 'Why?'",
+    "emoji": "❓"
+  },
+  {
+    "id": "rid-0303",
+    "riddle": "What letter is a buzzing insect?",
+    "answer": "Letter B",
+    "synonyms": [
+      "b",
+      "bee",
+      "letter b"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds just like the honey maker",
+    "emoji": "🐝"
+  },
+  {
+    "id": "rid-0304",
+    "riddle": "What letter is a hot cup of herbal brew?",
+    "answer": "Letter T",
+    "synonyms": [
+      "letter t",
+      "t",
+      "tea"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds like afternoon peppermint drink",
+    "emoji": "🍵"
+  },
+  {
+    "id": "rid-0305",
+    "riddle": "What letter is an organ of sight on your face?",
+    "answer": "Letter I",
+    "synonyms": [
+      "eye",
+      "i",
+      "letter i"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds like the eye you see with",
+    "emoji": "👁️"
+  },
+  {
+    "id": "rid-0306",
+    "riddle": "What letter is a deep blue body of water?",
+    "answer": "Letter C",
+    "synonyms": [
+      "c",
+      "letter c",
+      "sea"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds like the Pacific or Atlantic",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0307",
+    "riddle": "What letter is a row of people waiting in line?",
+    "answer": "Letter Q",
+    "synonyms": [
+      "letter q",
+      "q",
+      "queue"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds like a British queue",
+    "emoji": "🚶"
+  },
+  {
+    "id": "rid-0308",
+    "riddle": "What letter is a vegetable that rolls off your spoon?",
+    "answer": "Letter P",
+    "synonyms": [
+      "letter p",
+      "p",
+      "pea"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds like a sweet green pea",
+    "emoji": "🫛"
+  },
+  {
+    "id": "rid-0309",
+    "riddle": "What letter is an exclamation of surprise and discovery?",
+    "answer": "Letter O",
+    "synonyms": [
+      "letter o",
+      "o",
+      "oh"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Sounds like 'Oh!' when you figure something out",
+    "emoji": "😮"
+  },
+  {
+    "id": "rid-0310",
+    "riddle": "What four-letter word can be written forward, backward or upside down, and still reads the same?",
+    "answer": "NOON",
+    "synonyms": [
+      "noon"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Midday hour when the sun is directly overhead",
+    "emoji": "🕛"
+  },
+  {
+    "id": "rid-0311",
+    "riddle": "What word contains all five vowels in alphabetical order: A, E, I, O, U?",
+    "answer": "Facetious",
+    "synonyms": [
+      "facetious"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Adjective meaning flippant or humorous in tone",
+    "emoji": "🔠"
+  },
+  {
+    "id": "rid-0312",
+    "riddle": "What word begins and ends with an E, but only has one single letter inside it?",
+    "answer": "Envelope",
+    "synonyms": [
+      "envelope"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Paper sleeve holding a postage letter",
+    "emoji": "✉️"
+  },
+  {
+    "id": "rid-0313",
+    "riddle": "What kind of cheese is made backward?",
+    "answer": "Edam",
+    "synonyms": [
+      "edam"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Spell M-A-D-E in reverse",
+    "emoji": "🧀"
+  },
+  {
+    "id": "rid-0314",
+    "riddle": "What do you call a bear with no teeth?",
+    "answer": "Gummy Bear",
+    "synonyms": [
+      "gummy",
+      "gummy bear"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Squishy candy bear or toothless mammal",
+    "emoji": "🍬"
+  },
+  {
+    "id": "rid-0315",
+    "riddle": "What kind of room has no doors, no windows, and no walls?",
+    "answer": "Mushroom",
+    "synonyms": [
+      "mushroom"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Edible button fungus sauteed in a pan",
+    "emoji": "🍄"
+  },
+  {
+    "id": "rid-0316",
+    "riddle": "What kind of tree can you comfortably fit in your hand?",
+    "answer": "Palm Tree",
+    "synonyms": [
+      "palm",
+      "palm tree"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "The inside surface of your hand",
+    "emoji": "🌴"
+  },
+  {
+    "id": "rid-0317",
+    "riddle": "What kind of bow can never be tied with string?",
+    "answer": "Rainbow",
+    "synonyms": [
+      "rainbow"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Colorful optical arch after a sun shower",
+    "emoji": "🌈"
+  },
+  {
+    "id": "rid-0318",
+    "riddle": "What kind of cup never holds liquids?",
+    "answer": "Cupcake",
+    "synonyms": [
+      "cupcake"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Miniature frosted sponge cake",
+    "emoji": "🧁"
+  },
+  {
+    "id": "rid-0319",
+    "riddle": "What kind of coat is always applied completely wet?",
+    "answer": "Paint",
+    "synonyms": [
+      "coat of paint",
+      "paint"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Fresh latex coat brushed across drywall",
+    "emoji": "🎨"
+  },
+  {
+    "id": "rid-0320",
+    "riddle": "What has ears but cannot hear a single whisper?",
+    "answer": "Corn",
+    "synonyms": [
+      "corn"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Ears of sweet yellow maize on a stalk",
+    "emoji": "🌽"
+  },
+  {
+    "id": "rid-0321",
+    "riddle": "What has an eye but cannot see where it is stitching?",
+    "answer": "Needle",
+    "synonyms": [
+      "needle"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Thread eyelet pushed through denim fabric",
+    "emoji": "🪡"
+  },
+  {
+    "id": "rid-0322",
+    "riddle": "What has a heart of stone and lives on a fruit tree?",
+    "answer": "Peach",
+    "synonyms": [
+      "cherry",
+      "peach",
+      "plum"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Hard pit stone inside summer fruit",
+    "emoji": "🍑"
+  },
+  {
+    "id": "rid-0323",
+    "riddle": "What has a spine but no nervous system or brain?",
+    "answer": "Book",
+    "synonyms": [
+      "book"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Glued hardcover binding on a shelf",
+    "emoji": "📚"
+  },
+  {
+    "id": "rid-0324",
+    "riddle": "What running thing has no legs, feet, or toes?",
+    "answer": "Faucet",
+    "synonyms": [
+      "faucet",
+      "river",
+      "water"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Leaking sink tap dripping into the basin",
+    "emoji": "🚰"
+  },
+  {
+    "id": "rid-0325",
+    "riddle": "What kind of band plays no instruments and wears no suits?",
+    "answer": "Rubber Band",
+    "synonyms": [
+      "rubber band"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Stretchy loop holding documents together",
+    "emoji": "🎗️"
+  },
+  {
+    "id": "rid-0326",
+    "riddle": "What kind of key cannot unlock a padlock?",
+    "answer": "Piano Key",
+    "synonyms": [
+      "donkey",
+      "monkey",
+      "piano key"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Ivory key producing middle C pitch",
+    "emoji": "🎹"
+  },
+  {
+    "id": "rid-0327",
+    "riddle": "What is so easy to get into, but so hard to get out of?",
+    "answer": "Trouble",
+    "synonyms": [
+      "trouble"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Hot water caused by mischievous antics",
+    "emoji": "⚠️"
+  },
+  {
+    "id": "rid-0328",
+    "riddle": "What goes up white and comes down yellow?",
+    "answer": "Egg",
+    "synonyms": [
+      "egg"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Tossed in the air and cracked in a skillet",
+    "emoji": "🍳"
+  },
+  {
+    "id": "rid-0329",
+    "riddle": "What has a bottom at the top of its legs?",
+    "answer": "Legs",
+    "synonyms": [
+      "legs"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Anatomy puzzle about where trousers sit",
+    "emoji": "👖"
+  },
+  {
+    "id": "rid-0330",
+    "riddle": "What starts with an E, ends with an E, and usually contains just one letter?",
+    "answer": "Envelope",
+    "synonyms": [
+      "envelope"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Mailed greeting card sealed with glue",
+    "emoji": "✉️"
+  },
+  {
+    "id": "rid-0331",
+    "riddle": "What kind of driver has no steering wheel or automobile?",
+    "answer": "Screwdriver",
+    "synonyms": [
+      "screwdriver"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Tool turning screws with clockwise torque",
+    "emoji": "🪛"
+  },
+  {
+    "id": "rid-0332",
+    "riddle": "What kind of table can you eat for lunch?",
+    "answer": "Vegetable",
+    "synonyms": [
+      "vegetable"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Healthy plant food grown in garden plots",
+    "emoji": "🥗"
+  },
+  {
+    "id": "rid-0333",
+    "riddle": "What has two hands, a round face, and runs without moving an inch?",
+    "answer": "Clock",
+    "synonyms": [
+      "clock"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Hour and minute hands sweeping past 12 numbers",
+    "emoji": "⏰"
+  },
+  {
+    "id": "rid-0334",
+    "riddle": "What word becomes an odd number when you take away the letter S?",
+    "answer": "Seven",
+    "synonyms": [
+      "seven"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "7 is odd, even is the remainder",
+    "emoji": "7️⃣"
+  },
+  {
+    "id": "rid-0335",
+    "riddle": "What three letters turn a boy into an adult man?",
+    "answer": "A-G-E",
+    "synonyms": [
+      "a-g-e",
+      "age"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "The passing of time across birthdays",
+    "emoji": "🎂"
+  },
+  {
+    "id": "rid-0336",
+    "riddle": "What word starts with IS, ends with AND, and has an L in the middle?",
+    "answer": "ISLAND",
+    "synonyms": [
+      "island"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Isolated land surrounded by ocean water",
+    "emoji": "🏝️"
+  },
+  {
+    "id": "rid-0337",
+    "riddle": "What letter is always in the middle of water?",
+    "answer": "Letter T",
+    "synonyms": [
+      "letter t",
+      "t"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "W-A-T-E-R has T in the middle position",
+    "emoji": "💧"
+  },
+  {
+    "id": "rid-0338",
+    "riddle": "What word begins with T, ends with T, and is full of tea?",
+    "answer": "Teapot",
+    "synonyms": [
+      "teapot"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Porcelain kitchen vessel with spout",
+    "emoji": "🫖"
+  },
+  {
+    "id": "rid-0339",
+    "riddle": "What seven-letter word has hundreds of letters inside it?",
+    "answer": "Mailbox",
+    "synonyms": [
+      "mailbox",
+      "post office"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Curbside container stuffed with postal mail",
+    "emoji": "📬"
+  },
+  {
+    "id": "rid-0340",
+    "riddle": "What has eighteen legs and catches flies on summer afternoons?",
+    "answer": "Baseball Team",
+    "synonyms": [
+      "baseball team"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Hard",
+    "hint": "Nine players fielding pop fly baseballs",
+    "emoji": "⚾"
+  },
+  {
+    "id": "rid-0341",
+    "riddle": "What kind of shoes are made of banana skins?",
+    "answer": "Slippers",
+    "synonyms": [
+      "slippers"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Because banana peels make you slide across floors",
+    "emoji": "🍌"
+  },
+  {
+    "id": "rid-0342",
+    "riddle": "What has four legs, a back, but no head, arms, or brain?",
+    "answer": "Chair",
+    "synonyms": [
+      "chair"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Wooden seat pulled up to the kitchen table",
+    "emoji": "🪑"
+  },
+  {
+    "id": "rid-0343",
+    "riddle": "What can you catch without ever using your hands or a net?",
+    "answer": "Cold",
+    "synonyms": [
+      "a cold",
+      "cold"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Winter viral infection cured with chicken soup",
+    "emoji": "🤧"
+  },
+  {
+    "id": "rid-0344",
+    "riddle": "What gets wetter the more it dries yourself off?",
+    "answer": "Towel",
+    "synonyms": [
+      "towel"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Terrycloth fabric hung on a bathroom hook",
+    "emoji": "🧖"
+  },
+  {
+    "id": "rid-0345",
+    "riddle": "What can fill an entire auditorium without occupying any physical space?",
+    "answer": "Music",
+    "synonyms": [
+      "light",
+      "music",
+      "sound"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Symphony notes played by an orchestra",
+    "emoji": "🎶"
+  },
+  {
+    "id": "rid-0346",
+    "riddle": "What has a head and a tail, but no body between them?",
+    "answer": "Coin",
+    "synonyms": [
+      "coin"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Silver quarter flipped before a football game",
+    "emoji": "🪙"
+  },
+  {
+    "id": "rid-0347",
+    "riddle": "What goes through cities and over hills without taking a single step?",
+    "answer": "Highway",
+    "synonyms": [
+      "highway",
+      "road"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Asphalt expressway with yellow line dividers",
+    "emoji": "🛣️"
+  },
+  {
+    "id": "rid-0348",
+    "riddle": "What has teeth that never chew food?",
+    "answer": "Saw",
+    "synonyms": [
+      "comb",
+      "saw",
+      "zipper"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Steel carpenter blade tearing through pine planks",
+    "emoji": "🪚"
+  },
+  {
+    "id": "rid-0349",
+    "riddle": "What runs all day around the clock without ever stopping for breath?",
+    "answer": "Time",
+    "synonyms": [
+      "time"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Seconds and minutes marching forward eternally",
+    "emoji": "⏳"
+  },
+  {
+    "id": "rid-0350",
+    "riddle": "What has a neck, a body, and six strings, but cannot sing?",
+    "answer": "Guitar",
+    "synonyms": [
+      "guitar"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Acoustic musical instrument strummed with fingers",
+    "emoji": "🎸"
+  },
+  {
+    "id": "rid-0351",
+    "riddle": "What has eighty-eight keys that can open no doors, but produce sweet music?",
+    "answer": "Piano",
+    "synonyms": [
+      "piano"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Grand Steinway instrument on a concert stage",
+    "emoji": "🎹"
+  },
+  {
+    "id": "rid-0352",
+    "riddle": "What belongs exclusively to you, but your friends use it constantly?",
+    "answer": "Your Name",
+    "synonyms": [
+      "name",
+      "your name"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "What is typed on your driver license and ID card",
+    "emoji": "📛"
+  },
+  {
+    "id": "rid-0353",
+    "riddle": "What goes up into the sky and never returns back to the ground?",
+    "answer": "Your Age",
+    "synonyms": [
+      "age",
+      "your age"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Ticks higher by one on every anniversary of birth",
+    "emoji": "🎂"
+  },
+  {
+    "id": "rid-0354",
+    "riddle": "What kind of coat is best put on while dripping wet?",
+    "answer": "Paint",
+    "synonyms": [
+      "paint",
+      "coat of paint"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Liquid color rolled onto kitchen walls",
+    "emoji": "🎨"
+  },
+  {
+    "id": "rid-0355",
+    "riddle": "What is full of holes yet retains water inside without leaking?",
+    "answer": "Sponge",
+    "synonyms": [
+      "sponge"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Cellular porous scrubber used on dirty dishes",
+    "emoji": "🧽"
+  },
+  {
+    "id": "rid-0356",
+    "riddle": "What gets larger and deeper the more dirt you remove from it?",
+    "answer": "Hole",
+    "synonyms": [
+      "hole"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Pit dug into a garden with a round spade",
+    "emoji": "🕳️"
+  },
+  {
+    "id": "rid-0357",
+    "riddle": "What is always coming closer, but never actually arrives today?",
+    "answer": "Tomorrow",
+    "synonyms": [
+      "tomorrow"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "The upcoming calendar dawn",
+    "emoji": "🌅"
+  },
+  {
+    "id": "rid-0358",
+    "riddle": "What can you easily break without ever touching or dropping it?",
+    "answer": "Promise",
+    "synonyms": [
+      "promise"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Breaking trust given to a close friend",
+    "emoji": "🤝"
+  },
+  {
+    "id": "rid-0359",
+    "riddle": "The more of this there is in the room, the less you are able to see. What is it?",
+    "answer": "Fog",
+    "synonyms": [
+      "darkness",
+      "fog",
+      "smoke"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Thick misty vapor blanketing morning streets",
+    "emoji": "🌫️"
+  },
+  {
+    "id": "rid-0360",
+    "riddle": "What is always right in front of your eyes, but cannot be seen?",
+    "answer": "Future",
+    "synonyms": [
+      "future"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "All moments that have not occurred yet",
+    "emoji": "🔮"
+  },
+  {
+    "id": "rid-0361",
+    "riddle": "What has a thumb and four fingers, but contains no pulse or blood?",
+    "answer": "Glove",
+    "synonyms": [
+      "glove"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Wool mitten slipped over cold hands in winter",
+    "emoji": "🧤"
+  },
+  {
+    "id": "rid-0362",
+    "riddle": "What can travel across the entire globe while glued in a tiny corner?",
+    "answer": "Stamp",
+    "synonyms": [
+      "stamp"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Postal label affixed to the top right of an envelope",
+    "emoji": "📮"
+  },
+  {
+    "id": "rid-0363",
+    "riddle": "What has many needles, but never does any stitching?",
+    "answer": "Pine Tree",
+    "synonyms": [
+      "pine tree"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Evergreen conifer in the winter woods",
+    "emoji": "🌲"
+  },
+  {
+    "id": "rid-0364",
+    "riddle": "What loses its head at dawn and regains it at nightfall?",
+    "answer": "Pillow",
+    "synonyms": [
+      "pillow"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Feather cushion rested on when sleeping",
+    "emoji": "🛌"
+  },
+  {
+    "id": "rid-0365",
+    "riddle": "What can be told, cracked, played, and laughed at?",
+    "answer": "Joke",
+    "synonyms": [
+      "joke"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Humorous riddle shared with friends",
+    "emoji": "😄"
+  },
+  {
+    "id": "rid-0366",
+    "riddle": "What flies without feathers and cries raindrops without eyes?",
+    "answer": "Cloud",
+    "synonyms": [
+      "cloud"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Cumulus vapor bank floating across blue sky",
+    "emoji": "☁️"
+  },
+  {
+    "id": "rid-0367",
+    "riddle": "What kind of room has no windows, doors, floor, or ceiling?",
+    "answer": "Mushroom",
+    "synonyms": [
+      "mushroom"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Portobello or shiitake forest fungus",
+    "emoji": "🍄"
+  },
+  {
+    "id": "rid-0368",
+    "riddle": "What kind of dog never barks, bites, or wags its tail?",
+    "answer": "Hot Dog",
+    "synonyms": [
+      "hot dog"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Grilled sausage in a bun topped with mustard",
+    "emoji": "🌭"
+  },
+  {
+    "id": "rid-0369",
+    "riddle": "What has teeth along its spine, but never takes a bite of food?",
+    "answer": "Comb",
+    "synonyms": [
+      "comb"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Grooming rake smoothed through tangled hair",
+    "emoji": "🪮"
+  },
+  {
+    "id": "rid-0370",
+    "riddle": "You walk into a dark room with a candle, a kerosene lamp, and a fireplace. You have only one match. What do you light first?",
+    "answer": "Match",
+    "synonyms": [
+      "match",
+      "the match"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "You need fire before you can ignite anything else",
+    "emoji": "🔥"
+  },
+  {
+    "id": "rid-0371",
+    "riddle": "Before Mount Everest was discovered, what was the highest mountain in the world?",
+    "answer": "Mount Everest",
+    "synonyms": [
+      "everest",
+      "mount everest"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "It was always the tallest mountain, even before humans found it",
+    "emoji": "🏔️"
+  },
+  {
+    "id": "rid-0372",
+    "riddle": "If you have three apples and you take away two, how many apples do you have?",
+    "answer": "Two",
+    "synonyms": [
+      "2",
+      "two",
+      "two apples"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "You literally took two apples into your hands",
+    "emoji": "🍎"
+  },
+  {
+    "id": "rid-0373",
+    "riddle": "How many birthdays does the average human celebrate in a lifetime?",
+    "answer": "One",
+    "synonyms": [
+      "1",
+      "one",
+      "one birthday"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "You are only born on one specific calendar day",
+    "emoji": "🎂"
+  },
+  {
+    "id": "rid-0374",
+    "riddle": "Some months have 30 days, some have 31. How many have 28 days?",
+    "answer": "All Twelve",
+    "synonyms": [
+      "12",
+      "all 12",
+      "all of them",
+      "all twelve",
+      "twelve"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Every month on the calendar contains at least 28 days",
+    "emoji": "📅"
+  },
+  {
+    "id": "rid-0375",
+    "riddle": "What number do you get when you multiply all the numbers on a telephone keypad together?",
+    "answer": "Zero",
+    "synonyms": [
+      "0",
+      "zero"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Multiplying by the zero key reduces the whole product to zero",
+    "emoji": "☎️"
+  },
+  {
+    "id": "rid-0376",
+    "riddle": "What five-letter word becomes one letter when two are removed?",
+    "answer": "Stone",
+    "synonyms": [
+      "stone"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Hard",
+    "hint": "Remove 'st' to leave 'one'",
+    "emoji": "🪨"
+  },
+  {
+    "id": "rid-0377",
+    "riddle": "A clerk at a butcher shop stands five feet ten inches tall and wears size 11 shoes. What does he weigh?",
+    "answer": "Meat",
+    "synonyms": [
+      "meat"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "A butcher's job is weighing pork, beef, and poultry cuts",
+    "emoji": "🥩"
+  },
+  {
+    "id": "rid-0378",
+    "riddle": "If you were running a race and passed the person in second place, what place are you in now?",
+    "answer": "Second Place",
+    "synonyms": [
+      "2nd",
+      "second",
+      "second place"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "You took over their position in second, behind first",
+    "emoji": "🥈"
+  },
+  {
+    "id": "rid-0379",
+    "riddle": "What common English word has three consecutive sets of double letters?",
+    "answer": "Bookkeeper",
+    "synonyms": [
+      "bookkeeper",
+      "bookkeeping"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "B-O-O-K-K-E-E-P-E-R has oo, kk, and ee",
+    "emoji": "📚"
+  },
+  {
+    "id": "rid-0380",
+    "riddle": "What has six faces, twenty-one eyes, but cannot see a single thing?",
+    "answer": "Die",
+    "synonyms": [
+      "a die",
+      "dice",
+      "die"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "A six-sided gaming cube with pips summing to 21",
+    "emoji": "🎲"
+  },
+  {
+    "id": "rid-0381",
+    "riddle": "What can travel from New York to London without moving an inch?",
+    "answer": "Telephone Cable",
+    "synonyms": [
+      "cable",
+      "internet",
+      "telephone cable",
+      "telephone line",
+      "wire"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Transatlantic undersea fiber cables carrying data",
+    "emoji": "🌐"
+  },
+  {
+    "id": "rid-0382",
+    "riddle": "If you drop a yellow hat in the Red Sea, what does it become?",
+    "answer": "Wet",
+    "synonyms": [
+      "wet"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Dropping anything into water makes it soaked",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0383",
+    "riddle": "If there are six sheep in a field and all but three run away, how many sheep are left?",
+    "answer": "Three",
+    "synonyms": [
+      "3",
+      "three",
+      "three sheep"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "'All but three' means exactly three remained",
+    "emoji": "🐑"
+  },
+  {
+    "id": "rid-0384",
+    "riddle": "How many times can you subtract the number 5 from 25?",
+    "answer": "Only once",
+    "synonyms": [
+      "1",
+      "once",
+      "one time",
+      "only once"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "After the first subtraction, you are subtracting from 20",
+    "emoji": "🔢"
+  },
+  {
+    "id": "rid-0385",
+    "riddle": "What English word starts with 'e', ends with 'e', but usually has only one letter in it?",
+    "answer": "Envelope",
+    "synonyms": [
+      "envelope"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Paper sleeve holding a single written letter",
+    "emoji": "✉️"
+  },
+  {
+    "id": "rid-0386",
+    "riddle": "What word is always pronounced wrong by even the best speakers?",
+    "answer": "Wrong",
+    "synonyms": [
+      "wrong"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Literally the word W-R-O-N-G",
+    "emoji": "❌"
+  },
+  {
+    "id": "rid-0387",
+    "riddle": "What gets wetter and wetter the more the rain falls on it?",
+    "answer": "Ground",
+    "synonyms": [
+      "dirt",
+      "earth",
+      "ground",
+      "soil"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Lawn absorbing storm runoff",
+    "emoji": "🌧️"
+  },
+  {
+    "id": "rid-0388",
+    "riddle": "A man looks at a painting and says: 'Brothers and sisters I have none, but that man's father is my father's son.' Who is in the painting?",
+    "answer": "His Son",
+    "synonyms": [
+      "his son",
+      "son"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "'My father's son' is himself, so it is his own son",
+    "emoji": "🖼️"
+  },
+  {
+    "id": "rid-0389",
+    "riddle": "What is so light that a feather can weigh more, yet nobody can hold it for ten minutes?",
+    "answer": "Breath",
+    "synonyms": [
+      "breath",
+      "your breath"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Holding your breath underwater requires air lungs",
+    "emoji": "🫁"
+  },
+  {
+    "id": "rid-0390",
+    "riddle": "What word looks the same right-side up as it does upside-down on a calculator?",
+    "answer": "NOON",
+    "synonyms": [
+      "8008",
+      "noon",
+      "swims"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Four letter midday palindrome",
+    "emoji": "🕛"
+  },
+  {
+    "id": "rid-0391",
+    "riddle": "What English word has five letters, but sounds like just one letter when pronounced?",
+    "answer": "Queue",
+    "synonyms": [
+      "queue"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Q-U-E-U-E sounds like the single letter Q",
+    "emoji": "🚶"
+  },
+  {
+    "id": "rid-0392",
+    "riddle": "What 8-letter word can have a letter taken away and it still makes a word, until one letter remains?",
+    "answer": "Starting",
+    "synonyms": [
+      "starting"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Hard",
+    "hint": "Starting -> staring -> string -> sting -> sing -> sin -> in -> I",
+    "emoji": "🏁"
+  },
+  {
+    "id": "rid-0393",
+    "riddle": "If you take two apples from three apples, how many apples do you hold?",
+    "answer": "Two",
+    "synonyms": [
+      "2",
+      "two"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "You picked up and held two apples",
+    "emoji": "🍎"
+  },
+  {
+    "id": "rid-0394",
+    "riddle": "How far can a dog run into the woods?",
+    "answer": "Halfway",
+    "synonyms": [
+      "half way",
+      "halfway"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "After the midpoint, the dog is running out of the woods",
+    "emoji": "🌲"
+  },
+  {
+    "id": "rid-0395",
+    "riddle": "What has four legs in the morning, two legs at noon, and three legs in the evening?",
+    "answer": "Human",
+    "synonyms": [
+      "a human",
+      "human",
+      "man",
+      "person"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Sphinx riddle: crawl as baby, walk as adult, cane as elder",
+    "emoji": "🧑"
+  },
+  {
+    "id": "rid-0396",
+    "riddle": "A house has four walls and all four walls face south. A bear walks past. What color is the bear?",
+    "answer": "White",
+    "synonyms": [
+      "polar bear",
+      "white"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "If all walls face south, the house is at the North Pole",
+    "emoji": "🐻‍❄️"
+  },
+  {
+    "id": "rid-0397",
+    "riddle": "What has a thumb and four fingers, but is not alive?",
+    "answer": "Glove",
+    "synonyms": [
+      "glove"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Leather winter hand apparel",
+    "emoji": "🧤"
+  },
+  {
+    "id": "rid-0398",
+    "riddle": "What English word retains the same pronunciation even after four of its five letters are removed?",
+    "answer": "Queue",
+    "synonyms": [
+      "queue"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Remove 'ueue' and the letter 'Q' sounds the same",
+    "emoji": "🔤"
+  },
+  {
+    "id": "rid-0399",
+    "riddle": "What occurs twice in a week, once in a year, but never in a day?",
+    "answer": "Letter E",
+    "synonyms": [
+      "e",
+      "letter e"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Check the spelling of week, year, and day",
+    "emoji": "🔤"
+  },
+  {
+    "id": "rid-0400",
+    "riddle": "What five-letter word becomes shorter when you append two letters?",
+    "answer": "Short",
+    "synonyms": [
+      "short"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Add 'er' to form the comparative word 'shorter'",
+    "emoji": "📏"
+  },
+  {
+    "id": "rid-0401",
+    "riddle": "What can go up a chimney down, but cannot go down a chimney up?",
+    "answer": "Umbrella",
+    "synonyms": [
+      "umbrella"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Folded umbrella carried inside a flue",
+    "emoji": "☂️"
+  },
+  {
+    "id": "rid-0402",
+    "riddle": "What has no weight, no color, no shape, but can be heard by thousands?",
+    "answer": "Voice",
+    "synonyms": [
+      "sound",
+      "voice"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Singing into a microphone on stage",
+    "emoji": "🎤"
+  },
+  {
+    "id": "rid-0403",
+    "riddle": "What has a ring of gold and a tail of silver, but cannot crawl?",
+    "answer": "Coin",
+    "synonyms": [
+      "coin"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Commemorative bimetallic coin",
+    "emoji": "🪙"
+  },
+  {
+    "id": "rid-0404",
+    "riddle": "How many sides does a circle have?",
+    "answer": "Two",
+    "synonyms": [
+      "2",
+      "inside and outside",
+      "two"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "An inside side and an outside side",
+    "emoji": "⭕"
+  },
+  {
+    "id": "rid-0405",
+    "riddle": "What heavy metal tool can be used to fasten a screw, but is made for nails?",
+    "answer": "Hammer",
+    "synonyms": [
+      "hammer"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Swung by carpenters on construction framing",
+    "emoji": "🔨"
+  },
+  {
+    "id": "rid-0406",
+    "riddle": "If you throw a blue stone into the Red Sea, what does it become?",
+    "answer": "Wet",
+    "synonyms": [
+      "wet"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Submerged beneath seawater waves",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0407",
+    "riddle": "What runs faster: hot water or cold water?",
+    "answer": "Hot water",
+    "synonyms": [
+      "hot",
+      "hot water"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Because anyone can catch a cold",
+    "emoji": "🚰"
+  },
+  {
+    "id": "rid-0408",
+    "riddle": "What has 13 hearts, but no other organs or bones?",
+    "answer": "Playing Cards",
+    "synonyms": [
+      "playing cards",
+      "cards",
+      "deck of cards"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Thirteen heart suit cards from Ace to King",
+    "emoji": "♥️"
+  },
+  {
+    "id": "rid-0409",
+    "riddle": "What has four wheels and carries garbage, but has no steering wheel?",
+    "answer": "Wheelbarrow",
+    "synonyms": [
+      "dumpster",
+      "wheelbarrow"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Rollable green dumpster pushed by hand",
+    "emoji": "🗑️"
+  },
+  {
+    "id": "rid-0410",
+    "riddle": "What begins with an E and only contains one letter?",
+    "answer": "Envelope",
+    "synonyms": [
+      "envelope"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Mailing sleeve holding a sheet of paper",
+    "emoji": "✉️"
+  },
+  {
+    "id": "rid-0411",
+    "riddle": "What word contains the letters A, B, C, D, E, F?",
+    "answer": "Feedback",
+    "synonyms": [
+      "feedback"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Hard",
+    "hint": "Contains F-E-E-D-B-A-C-K",
+    "emoji": "💬"
+  },
+  {
+    "id": "rid-0412",
+    "riddle": "What has six legs, two arms, and flies?",
+    "answer": "Garbage Truck",
+    "synonyms": [
+      "garbage truck"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Classic riddle play on winged insects and waste",
+    "emoji": "🚛"
+  },
+  {
+    "id": "rid-0413",
+    "riddle": "What can you hold without touching it with your physical fingers?",
+    "answer": "Conversation",
+    "synonyms": [
+      "breath",
+      "conversation",
+      "temper"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Talking back and forth with a friend",
+    "emoji": "🗣️"
+  },
+  {
+    "id": "rid-0414",
+    "riddle": "What breaks the moment you speak its name?",
+    "answer": "Silence",
+    "synonyms": [
+      "silence"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Peaceful absence of noise in a room",
+    "emoji": "🤫"
+  },
+  {
+    "id": "rid-0415",
+    "riddle": "What has a spine but cannot walk or read?",
+    "answer": "Book",
+    "synonyms": [
+      "book"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Glued library volume standing upright",
+    "emoji": "📚"
+  },
+  {
+    "id": "rid-0416",
+    "riddle": "What has holes on every side, top and bottom, but holds water tight?",
+    "answer": "Sponge",
+    "synonyms": [
+      "sponge"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Cleaning sponge lathered in soapy water",
+    "emoji": "🧽"
+  },
+  {
+    "id": "rid-0417",
+    "riddle": "What can travel across the world while staying in a corner?",
+    "answer": "Stamp",
+    "synonyms": [
+      "stamp"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Postage sticker pasted on an envelope",
+    "emoji": "📮"
+  },
+  {
+    "id": "rid-0418",
+    "riddle": "What is full of holes, yet holds liquid safely?",
+    "answer": "Sponge",
+    "synonyms": [
+      "sponge"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Porous kitchen scrubber",
+    "emoji": "🧽"
+  },
+  {
+    "id": "rid-0419",
+    "riddle": "What has hands but cannot wave to friends?",
+    "answer": "Clock",
+    "synonyms": [
+      "clock"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Minute and hour arrows pointing to numbers",
+    "emoji": "⏰"
+  },
+  {
+    "id": "rid-0420",
+    "riddle": "What gets wetter the more you dry off after a swim?",
+    "answer": "Towel",
+    "synonyms": [
+      "towel"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Bath cloth absorbing moisture",
+    "emoji": "🧖"
+  },
+  {
+    "id": "rid-0421",
+    "riddle": "What has many keys, but cannot turn in a keyhole?",
+    "answer": "Piano",
+    "synonyms": [
+      "piano"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Keyboard with ivory and ebony keys",
+    "emoji": "🎹"
+  },
+  {
+    "id": "rid-0422",
+    "riddle": "What has a neck, but no head to put a hat on?",
+    "answer": "Bottle",
+    "synonyms": [
+      "bottle"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Glass soda or wine vessel",
+    "emoji": "🍾"
+  },
+  {
+    "id": "rid-0423",
+    "riddle": "What has teeth along its edge, but cannot chew dinner?",
+    "answer": "Comb",
+    "synonyms": [
+      "comb"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Hair styling teeth",
+    "emoji": "🪮"
+  },
+  {
+    "id": "rid-0424",
+    "riddle": "What has an eye at one end, but cannot see the thread?",
+    "answer": "Needle",
+    "synonyms": [
+      "needle"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Slender tailor's pin",
+    "emoji": "🪡"
+  },
+  {
+    "id": "rid-0425",
+    "riddle": "What begins with T, ends with T, and holds hot tea?",
+    "answer": "Teapot",
+    "synonyms": [
+      "teapot"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Ceramic brewing pot with spout",
+    "emoji": "🫖"
+  },
+  {
+    "id": "rid-0426",
+    "riddle": "What kind of band plays no tunes on musical instruments?",
+    "answer": "Rubber Band",
+    "synonyms": [
+      "rubber band"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Stretchy packaging elastic",
+    "emoji": "🎗️"
+  },
+  {
+    "id": "rid-0427",
+    "riddle": "What goes up, but never returns down?",
+    "answer": "Age",
+    "synonyms": [
+      "age"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Years since your date of birth",
+    "emoji": "🎂"
+  },
+  {
+    "id": "rid-0428",
+    "riddle": "What can run without legs and has a mouth without teeth?",
+    "answer": "River",
+    "synonyms": [
+      "river"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Rushing waterway flowing into the ocean",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0429",
+    "riddle": "What comes once in a minute, twice in a moment, but never in a century?",
+    "answer": "Letter M",
+    "synonyms": [
+      "letter m"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Letter M in the spelling of minute and moment",
+    "emoji": "🔤"
+  },
+  {
+    "id": "rid-0430",
+    "riddle": "What gets larger the more dirt you dig out of it?",
+    "answer": "Hole",
+    "synonyms": [
+      "hole"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Cavity dug into soil",
+    "emoji": "🕳️"
+  },
+  {
+    "id": "rid-0431",
+    "riddle": "What is dark when lights are out, and vanishes when lamps turn on?",
+    "answer": "Darkness",
+    "synonyms": [
+      "darkness"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Absence of illumination",
+    "emoji": "🌑"
+  },
+  {
+    "id": "rid-0432",
+    "riddle": "What is always ahead of you, yet cannot be observed today?",
+    "answer": "Future",
+    "synonyms": [
+      "future"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Tomorrow and the years ahead",
+    "emoji": "🔮"
+  },
+  {
+    "id": "rid-0433",
+    "riddle": "What invention allows you to see right through a solid wall?",
+    "answer": "Window",
+    "synonyms": [
+      "window"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Clear glass window pane",
+    "emoji": "🪟"
+  },
+  {
+    "id": "rid-0434",
+    "riddle": "What has a head and a tail, but no body in between?",
+    "answer": "Coin",
+    "synonyms": [
+      "coin"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Heads or tails coin toss",
+    "emoji": "🪙"
+  },
+  {
+    "id": "rid-0435",
+    "riddle": "What loses its head in the morning and finds it again at night?",
+    "answer": "Pillow",
+    "synonyms": [
+      "pillow"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Resting head cushion",
+    "emoji": "🛌"
+  },
+  {
+    "id": "rid-0436",
+    "riddle": "What flies without feathers, and rains tears without eyes?",
+    "answer": "Cloud",
+    "synonyms": [
+      "cloud"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Storm cloud in the sky",
+    "emoji": "☁️"
+  },
+  {
+    "id": "rid-0437",
+    "riddle": "What has a bark on its trunk, but no bite?",
+    "answer": "Tree",
+    "synonyms": [
+      "tree"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Woodland tree trunk",
+    "emoji": "🌳"
+  },
+  {
+    "id": "rid-0438",
+    "riddle": "What falls from storm skies, but never gets bruised or hurt?",
+    "answer": "Rain",
+    "synonyms": [
+      "rain"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Precipitation drops",
+    "emoji": "🌧️"
+  },
+  {
+    "id": "rid-0439",
+    "riddle": "What kind of apple has prickly green leaves on top?",
+    "answer": "Pineapple",
+    "synonyms": [
+      "pineapple"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Tropical golden fruit",
+    "emoji": "🍍"
+  },
+  {
+    "id": "rid-0440",
+    "riddle": "What arch in the sky has seven colors after rain?",
+    "answer": "Rainbow",
+    "synonyms": [
+      "rainbow"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Spectrum optical arch",
+    "emoji": "🌈"
+  },
+  {
+    "id": "rid-0441",
+    "riddle": "What has a tail and a head, is grey and brown, and has no legs?",
+    "answer": "Penny",
+    "synonyms": [
+      "cent",
+      "coin",
+      "penny"
+    ],
+    "category": "Fun & Silly",
+    "difficulty": "Easy",
+    "hint": "Copper or zinc 1-cent coin",
+    "emoji": "🪙"
+  },
+  {
+    "id": "rid-0442",
+    "riddle": "What kind of music do mummies listen to on Halloween?",
+    "answer": "Wrap Music",
+    "synonyms": [
+      "rap",
+      "rap music",
+      "wrap music"
+    ],
+    "category": "Fun & Silly",
+    "difficulty": "Easy",
+    "hint": "Sounds like hip-hop rap beats",
+    "emoji": "🧟"
+  },
+  {
+    "id": "rid-0443",
+    "riddle": "What do you call a sleeping dinosaur that snores loudly?",
+    "answer": "Dino-Snore",
+    "synonyms": [
+      "dino-snore",
+      "dinosaur",
+      "dinosnore"
+    ],
+    "category": "Fun & Silly",
+    "difficulty": "Easy",
+    "hint": "Play on words for slumbering ancient beasts",
+    "emoji": "🦖"
+  },
+  {
+    "id": "rid-0444",
+    "riddle": "What do elves learn in school during December?",
+    "answer": "Elf-abet",
+    "synonyms": [
+      "alphabet",
+      "elf-abet",
+      "elfabet",
+      "the elf-abet",
+      "the elfabet"
+    ],
+    "category": "Fun & Silly",
+    "difficulty": "Easy",
+    "hint": "Sounds like the 26 letters of the alphabet",
+    "emoji": "🧝"
+  },
+  {
+    "id": "rid-0445",
+    "riddle": "What falls in winter but never gets a scrape or bruise?",
+    "answer": "Snow",
+    "synonyms": [
+      "snow",
+      "snowflake"
+    ],
+    "category": "Fun & Silly",
+    "difficulty": "Easy",
+    "hint": "Fluffy white winter precipitation",
+    "emoji": "❄️"
+  },
+  {
+    "id": "rid-0446",
+    "riddle": "What do you call a snowman in July?",
+    "answer": "Puddle",
+    "synonyms": [
+      "puddle",
+      "water"
+    ],
+    "category": "Fun & Silly",
+    "difficulty": "Easy",
+    "hint": "Melted pool of liquid on the driveway",
+    "emoji": "💧"
+  },
+  {
+    "id": "rid-0447",
+    "riddle": "What has one eye and a horn, but is not a monster?",
+    "answer": "Garbage Truck",
+    "synonyms": [
+      "garbage truck",
+      "semi truck"
+    ],
+    "category": "Fun & Silly",
+    "difficulty": "Easy",
+    "hint": "Truck with a single yellow rooftop light and horn",
+    "emoji": "🚛"
+  },
+  {
+    "id": "rid-0448",
+    "riddle": "What instrument can you hear, but never see or touch?",
+    "answer": "Your Voice",
+    "synonyms": [
+      "voice",
+      "your voice"
+    ],
+    "category": "Fun & Silly",
+    "difficulty": "Easy",
+    "hint": "Vocal cords singing a chorus",
+    "emoji": "🎤"
+  },
+  {
+    "id": "rid-0449",
+    "riddle": "What goes up and down the Empire State building without taking steps?",
+    "answer": "Elevator",
+    "synonyms": [
+      "elevator",
+      "lift"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Vertical transport cabin on steel cables",
+    "emoji": "🛗"
+  },
+  {
+    "id": "rid-0450",
+    "riddle": "What device counts your daily steps as you walk?",
+    "answer": "Pedometer",
+    "synonyms": [
+      "fitbit",
+      "pedometer",
+      "smartwatch"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Fitness tracker strapped to your wrist",
+    "emoji": "⌚"
+  },
+  {
+    "id": "rid-0451",
+    "riddle": "What dense center of an atom contains protons and neutrons?",
+    "answer": "Nucleus",
+    "synonyms": [
+      "nucleus"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Core held together by strong nuclear force",
+    "emoji": "⚛️"
+  },
+  {
+    "id": "rid-0452",
+    "riddle": "What chemical element has the symbol O and is essential for breathing?",
+    "answer": "Oxygen",
+    "synonyms": [
+      "oxygen"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Life sustaining gas comprising 21% of Earth's air",
+    "emoji": "🫁"
+  },
+  {
+    "id": "rid-0453",
+    "riddle": "What chemical element has the symbol Au and is prized in jewelry?",
+    "answer": "Gold",
+    "synonyms": [
+      "gold"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Shiny precious yellow metal",
+    "emoji": "🥇"
+  },
+  {
+    "id": "rid-0454",
+    "riddle": "What chemical element has the symbol Fe and is forged into steel?",
+    "answer": "Iron",
+    "synonyms": [
+      "iron"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Magnetic metal found in red blood cells and tools",
+    "emoji": "🧲"
+  },
+  {
+    "id": "rid-0455",
+    "riddle": "What precious gem is formed under intense pressure from pure carbon?",
+    "answer": "Diamond",
+    "synonyms": [
+      "diamond"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Hardest natural mineral on the Mohs scale",
+    "emoji": "💎"
+  },
+  {
+    "id": "rid-0456",
+    "riddle": "What green gemstone is a variety of the mineral beryl?",
+    "answer": "Emerald",
+    "synonyms": [
+      "emerald"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Vibrant green jewel beloved by Cleopatra",
+    "emoji": "💚"
+  },
+  {
+    "id": "rid-0457",
+    "riddle": "What precious red gemstone is a variety of the mineral corundum?",
+    "answer": "Ruby",
+    "synonyms": [
+      "ruby"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Deep red jewel symbolizing passion and kings",
+    "emoji": "❤️"
+  },
+  {
+    "id": "rid-0458",
+    "riddle": "What precious blue gemstone is associated with royalty?",
+    "answer": "Sapphire",
+    "synonyms": [
+      "sapphire"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Deep ocean-blue gemstone",
+    "emoji": "💙"
+  },
+  {
+    "id": "rid-0459",
+    "riddle": "What state of matter has a definite shape and volume?",
+    "answer": "Solid",
+    "synonyms": [
+      "solid"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Ice cubes, rocks, and steel bars",
+    "emoji": "🧊"
+  },
+  {
+    "id": "rid-0460",
+    "riddle": "What state of matter flows to take the shape of its container?",
+    "answer": "Liquid",
+    "synonyms": [
+      "liquid"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Water, juice, and cooking oil",
+    "emoji": "💧"
+  },
+  {
+    "id": "rid-0461",
+    "riddle": "What state of matter expands freely to fill any available container?",
+    "answer": "Gas",
+    "synonyms": [
+      "gas",
+      "vapor"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Air, helium, and steam",
+    "emoji": "💨"
+  },
+  {
+    "id": "rid-0462",
+    "riddle": "What fourth state of matter makes up lightning bolts and neon signs?",
+    "answer": "Plasma",
+    "synonyms": [
+      "plasma"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Medium",
+    "hint": "Ionized high-energy gas shining in the sun",
+    "emoji": "⚡"
+  },
+  {
+    "id": "rid-0463",
+    "riddle": "What process do green plants use to convert sunlight into food?",
+    "answer": "Photosynthesis",
+    "synonyms": [
+      "photosynthesis"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Medium",
+    "hint": "Chlorophyll converting carbon dioxide into glucose",
+    "emoji": "🌱"
+  },
+  {
+    "id": "rid-0464",
+    "riddle": "What molecule carries genetic instructions for all living organisms?",
+    "answer": "DNA",
+    "synonyms": [
+      "dna"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Double helix blueprint discovered by Watson and Crick",
+    "emoji": "🧬"
+  },
+  {
+    "id": "rid-0465",
+    "riddle": "What unit measures electrical potential between two points?",
+    "answer": "Volt",
+    "synonyms": [
+      "volt",
+      "voltage"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "120V household outlets or 9V batteries",
+    "emoji": "⚡"
+  },
+  {
+    "id": "rid-0466",
+    "riddle": "What unit measures electrical current flow?",
+    "answer": "Ampere",
+    "synonyms": [
+      "amp",
+      "ampere",
+      "amps"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Current rating on circuit breaker fuses",
+    "emoji": "🔌"
+  },
+  {
+    "id": "rid-0467",
+    "riddle": "What unit measures electrical resistance?",
+    "answer": "Ohm",
+    "synonyms": [
+      "ohm",
+      "ohms"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Named after German physicist Georg Ohm",
+    "emoji": "Ω"
+  },
+  {
+    "id": "rid-0468",
+    "riddle": "What scale measures the acidity or alkalinity of a liquid?",
+    "answer": "pH Scale",
+    "synonyms": [
+      "ph",
+      "ph scale"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Ranges from 0 acid to 14 base with 7 neutral",
+    "emoji": "🧪"
+  },
+  {
+    "id": "rid-0469",
+    "riddle": "What white crystal seasoning has the chemical formula NaCl?",
+    "answer": "Table Salt",
+    "synonyms": [
+      "salt",
+      "sodium chloride",
+      "table salt"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Sodium chloride sprinkled on french fries",
+    "emoji": "🧂"
+  },
+  {
+    "id": "rid-0470",
+    "riddle": "What gas makes party balloons float high in the air?",
+    "answer": "Helium",
+    "synonyms": [
+      "helium"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Lighter-than-air noble gas that makes your voice high",
+    "emoji": "🎈"
+  },
+  {
+    "id": "rid-0471",
+    "riddle": "What continent at the South Pole is covered in thick sheets of ice?",
+    "answer": "Antarctica",
+    "synonyms": [
+      "antarctica"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Frozen desert continent where penguins breed",
+    "emoji": "🇦🇶"
+  },
+  {
+    "id": "rid-0472",
+    "riddle": "What longest river in South America flows through the rainforest?",
+    "answer": "Amazon River",
+    "synonyms": [
+      "amazon",
+      "amazon river"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Mightiest river by water volume on Earth",
+    "emoji": "🌊"
+  },
+  {
+    "id": "rid-0473",
+    "riddle": "What highest mountain peak on Earth stands 8,848 meters tall in Nepal?",
+    "answer": "Mount Everest",
+    "synonyms": [
+      "everest",
+      "mount everest"
+    ],
+    "category": "Science & Space",
+    "difficulty": "Easy",
+    "hint": "Himalayan peak summited by Edmund Hillary",
+    "emoji": "🏔️"
+  },
+  {
+    "riddle": "What has a head, a foot, and four legs?",
+    "answer": "Bed",
+    "synonyms": [
+      "bed",
+      "a bed",
+      "the bed"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "You sleep on it every night",
+    "emoji": "🛏️",
+    "id": "rid-0474"
+  },
+  {
+    "riddle": "What has a tongue, but cannot taste, and runs, but cannot walk?",
+    "answer": "Wagon",
+    "synonyms": [
+      "wagon",
+      "a wagon",
+      "red wagon",
+      "cart"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Medium",
+    "hint": "Children pull it by its handle",
+    "emoji": "🛒",
+    "id": "rid-0475"
+  },
+  {
+    "riddle": "What has 13 hearts, but no other organs?",
+    "answer": "Playing Cards",
+    "synonyms": [
+      "playing cards",
+      "cards",
+      "deck of cards",
+      "card deck"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Shuffled and dealt in poker",
+    "emoji": "🃏",
+    "id": "rid-0476"
+  },
+  {
+    "riddle": "What kind of room has no doors or windows?",
+    "answer": "Mushroom",
+    "synonyms": [
+      "mushroom",
+      "a mushroom",
+      "mushrooms",
+      "toadstool"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "A fungal growth in the forest",
+    "emoji": "🍄",
+    "id": "rid-0477"
+  },
+  {
+    "riddle": "What runs all around a backyard without ever moving?",
+    "answer": "Fence",
+    "synonyms": [
+      "fence",
+      "a fence",
+      "the fence",
+      "backyard fence"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Encloses your yard with pickets",
+    "emoji": "🏡",
+    "id": "rid-0478"
+  },
+  {
+    "riddle": "What can you break without picking it up or touching it?",
+    "answer": "Promise",
+    "synonyms": [
+      "promise",
+      "a promise",
+      "trust",
+      "heart"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Made with your word of honor",
+    "emoji": "🤝",
+    "id": "rid-0479"
+  },
+  {
+    "riddle": "What can fill an entire room without occupying any physical space?",
+    "answer": "Light",
+    "synonyms": [
+      "light",
+      "sunlight",
+      "daylight",
+      "darkness"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Medium",
+    "hint": "Flick on a switch to create it",
+    "emoji": "💡",
+    "id": "rid-0480"
+  },
+  {
+    "riddle": "What can you hold in your right hand, but never in your left hand?",
+    "answer": "Left Hand",
+    "synonyms": [
+      "left hand",
+      "your left hand",
+      "my left hand",
+      "left palm"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Look at both of your arms",
+    "emoji": "✋",
+    "id": "rid-0481"
+  },
+  {
+    "riddle": "What goes up when rain comes down?",
+    "answer": "Umbrella",
+    "synonyms": [
+      "umbrella",
+      "an umbrella",
+      "parasol"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Shields your clothes from raindrops",
+    "emoji": "☂️",
+    "id": "rid-0482"
+  },
+  {
+    "riddle": "What has roots as nobody sees, is taller than trees, up it goes, yet never grows?",
+    "answer": "Mountain",
+    "synonyms": [
+      "mountain",
+      "a mountain",
+      "mountains",
+      "peak"
+    ],
+    "category": "Nature & Elements",
+    "difficulty": "Medium",
+    "hint": "Has a rocky snow-covered summit",
+    "emoji": "🏔️",
+    "id": "rid-0483"
+  },
+  {
+    "riddle": "What goes through glass without breaking it?",
+    "answer": "Light",
+    "synonyms": [
+      "light",
+      "sunlight",
+      "sunbeam",
+      "ray of light"
+    ],
+    "category": "What Am I?",
+    "difficulty": "Easy",
+    "hint": "Illuminates a window",
+    "emoji": "☀️",
+    "id": "rid-0484"
+  },
+  {
+    "riddle": "What has a crown, but is not a king?",
+    "answer": "Tooth",
+    "synonyms": [
+      "tooth",
+      "a tooth",
+      "teeth"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Dentists place caps on it",
+    "emoji": "🦷",
+    "id": "rid-0485"
+  },
+  {
+    "riddle": "What has teeth on its head, but no mouth?",
+    "answer": "Comb",
+    "synonyms": [
+      "comb",
+      "a comb",
+      "hair comb"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Detangles messy hair",
+    "emoji": "🪮",
+    "id": "rid-0486"
+  },
+  {
+    "riddle": "What has a bridge, but no water underneath?",
+    "answer": "Eyeglasses",
+    "synonyms": [
+      "eyeglasses",
+      "glasses",
+      "spectacles",
+      "nose"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Medium",
+    "hint": "Rests on the bridge of your nose",
+    "emoji": "👓",
+    "id": "rid-0487"
+  },
+  {
+    "riddle": "What is clean when black, but dirty when white?",
+    "answer": "Chalkboard",
+    "synonyms": [
+      "chalkboard",
+      "blackboard",
+      "a chalkboard",
+      "slate"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Written on with dusty chalk",
+    "emoji": "🧑‍🏫",
+    "id": "rid-0488"
+  },
+  {
+    "riddle": "What can you serve, but never eat?",
+    "answer": "Tennis Ball",
+    "synonyms": [
+      "tennis ball",
+      "volleyball",
+      "ping pong ball"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Hit over a net with a racket",
+    "emoji": "🎾",
+    "id": "rid-0489"
+  },
+  {
+    "riddle": "What can you swallow that can also swallow you?",
+    "answer": "Water",
+    "synonyms": [
+      "water",
+      "the ocean",
+      "pride"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Hard",
+    "hint": "Fills oceans and drinking glasses",
+    "emoji": "🌊",
+    "id": "rid-0490"
+  },
+  {
+    "riddle": "What word becomes shorter when you add two letters to it?",
+    "answer": "Short",
+    "synonyms": [
+      "short",
+      "the word short"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Add 'er' to make shorter",
+    "emoji": "📏",
+    "id": "rid-0491"
+  },
+  {
+    "riddle": "What has arms, but no hands, and a back, but no spine?",
+    "answer": "Armchair",
+    "synonyms": [
+      "armchair",
+      "chair",
+      "sofa",
+      "couch"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Cozy furniture to sit in",
+    "emoji": "🪑",
+    "id": "rid-0492"
+  },
+  {
+    "riddle": "What can you crack without touching it?",
+    "answer": "Joke",
+    "synonyms": [
+      "joke",
+      "a joke",
+      "smile",
+      "code"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Told by a comedian to make you laugh",
+    "emoji": "😂",
+    "id": "rid-0493"
+  },
+  {
+    "riddle": "What has a cap, but no head, and a stem, but no flower?",
+    "answer": "Mushroom",
+    "synonyms": [
+      "mushroom",
+      "toadstool",
+      "fungus"
+    ],
+    "category": "Nature & Elements",
+    "difficulty": "Easy",
+    "hint": "Sprouts from damp soil",
+    "emoji": "🍄",
+    "id": "rid-0494"
+  },
+  {
+    "riddle": "What has wings, but cannot fly, and swims, but is not a fish?",
+    "answer": "Penguin",
+    "synonyms": [
+      "penguin",
+      "a penguin",
+      "penguins"
+    ],
+    "category": "Nature & Elements",
+    "difficulty": "Easy",
+    "hint": "Waddles in black and white in Antarctica",
+    "emoji": "🐧",
+    "id": "rid-0495"
+  },
+  {
+    "riddle": "What has a zipper, but wears no clothes?",
+    "answer": "Sleeping Bag",
+    "synonyms": [
+      "sleeping bag",
+      "backpack",
+      "suitcase",
+      "pencil case"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Medium",
+    "hint": "Used for camping under the stars",
+    "emoji": "⛺",
+    "id": "rid-0496"
+  },
+  {
+    "riddle": "What has a bonnet, but no head, and a boot, but no feet?",
+    "answer": "Car",
+    "synonyms": [
+      "car",
+      "automobile",
+      "vehicle"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "British terms for the hood and trunk",
+    "emoji": "🚗",
+    "id": "rid-0497"
+  },
+  {
+    "riddle": "What is light as a feather, yet the strongest person cannot hold it for 5 minutes?",
+    "answer": "Breath",
+    "synonyms": [
+      "breath",
+      "their breath",
+      "air"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Inhale and exhale it constantly",
+    "emoji": "🫁",
+    "id": "rid-0498"
+  },
+  {
+    "riddle": "What can run without legs, whisper without words, and fall without hurting?",
+    "answer": "Snow",
+    "synonyms": [
+      "snow",
+      "rain",
+      "snowflake",
+      "water"
+    ],
+    "category": "Nature & Elements",
+    "difficulty": "Medium",
+    "hint": "Covers rooftops in white in winter",
+    "emoji": "❄️",
+    "id": "rid-0499"
+  },
+  {
+    "riddle": "What goes in dry, comes out wet, and the longer it stays in, the stronger it gets?",
+    "answer": "Tea Bag",
+    "synonyms": [
+      "tea bag",
+      "teabag",
+      "tea",
+      "herbal tea"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Medium",
+    "hint": "Steeped in boiling hot water",
+    "emoji": "🫖",
+    "id": "rid-0500"
+  },
+  {
+    "riddle": "What can burn without fire, and freeze without ice?",
+    "answer": "Dry Ice",
+    "synonyms": [
+      "dry ice",
+      "frostbite",
+      "acid",
+      "salt"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Hard",
+    "hint": "Solid carbon dioxide gas",
+    "emoji": "🧊",
+    "id": "rid-0501"
+  },
+  {
+    "riddle": "What can you steal without breaking any laws?",
+    "answer": "Base",
+    "synonyms": [
+      "base",
+      "second base",
+      "a base",
+      "glance"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Done in a game of baseball",
+    "emoji": "⚾",
+    "id": "rid-0502"
+  },
+  {
+    "riddle": "What has teeth, but cannot eat bread?",
+    "answer": "Saw",
+    "synonyms": [
+      "saw",
+      "a saw",
+      "handsaw",
+      "chainsaw"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Carpentry tool used to cut lumber",
+    "emoji": "🪚",
+    "id": "rid-0503"
+  },
+  {
+    "riddle": "What gets wetter and wetter the more it cries?",
+    "answer": "Raincoat",
+    "synonyms": [
+      "raincoat",
+      "towel",
+      "umbrella"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Worn over clothes in a thunderstorm",
+    "emoji": "🧥",
+    "id": "rid-0504"
+  },
+  {
+    "riddle": "What can you keep after giving it away?",
+    "answer": "Your Word",
+    "synonyms": [
+      "your word",
+      "word",
+      "promise",
+      "secret"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Keep your honor and trust",
+    "emoji": "🤝",
+    "id": "rid-0505"
+  },
+  {
+    "riddle": "What has ribbons, but no hair?",
+    "answer": "Typewriter",
+    "synonyms": [
+      "typewriter",
+      "gift",
+      "medal"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Hard",
+    "hint": "Ink ribbon stamped by metal keys",
+    "emoji": "⌨️",
+    "id": "rid-0506"
+  },
+  {
+    "riddle": "What has legs on the outside and skin on the inside?",
+    "answer": "Pants",
+    "synonyms": [
+      "pants",
+      "trousers",
+      "jeans"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Medium",
+    "hint": "Your bare skin is inside the denim",
+    "emoji": "👖",
+    "id": "rid-0507"
+  },
+  {
+    "riddle": "What has an eye that never blinks, but a thread that always drinks?",
+    "answer": "Needle",
+    "synonyms": [
+      "needle",
+      "a needle",
+      "sewing needle"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Used for stitching fabric",
+    "emoji": "🪡",
+    "id": "rid-0508"
+  },
+  {
+    "riddle": "What has a head of gold, a tail of silver, and spins in the air?",
+    "answer": "Coin",
+    "synonyms": [
+      "coin",
+      "a coin",
+      "quarter",
+      "penny"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Flipped before a football match",
+    "emoji": "🪙",
+    "id": "rid-0509"
+  },
+  {
+    "riddle": "What has a lock, but no key, and water, but no sea?",
+    "answer": "Canal",
+    "synonyms": [
+      "canal",
+      "a canal",
+      "river lock"
+    ],
+    "category": "Nature & Elements",
+    "difficulty": "Hard",
+    "hint": "Panama or Suez waterway",
+    "emoji": "🚢",
+    "id": "rid-0510"
+  },
+  {
+    "riddle": "What is full of holes, yet holds water like a pail?",
+    "answer": "Sponge",
+    "synonyms": [
+      "sponge",
+      "a sponge",
+      "sea sponge"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Wipes down soapy kitchen dishes",
+    "emoji": "🧽",
+    "id": "rid-0511"
+  },
+  {
+    "riddle": "What has a heart, but no blood?",
+    "answer": "Artichoke",
+    "synonyms": [
+      "artichoke",
+      "palm",
+      "celery",
+      "cabbage"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Eaten leaf by leaf down to its center",
+    "emoji": "🥗",
+    "id": "rid-0512"
+  },
+  {
+    "riddle": "What has a bottom at the very top of it?",
+    "answer": "Legs",
+    "synonyms": [
+      "legs",
+      "your legs",
+      "pant legs"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Your hips and backside sit atop them",
+    "emoji": "🦵",
+    "id": "rid-0513"
+  },
+  {
+    "riddle": "What is black when you buy it, red when you use it, and gray when you throw it away?",
+    "answer": "Charcoal",
+    "synonyms": [
+      "charcoal",
+      "coal",
+      "coals",
+      "match"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Briquettes burned in a barbecue grill",
+    "emoji": "🔥",
+    "id": "rid-0514"
+  },
+  {
+    "riddle": "What starts with T, ends with T, and is full of T?",
+    "answer": "Teapot",
+    "synonyms": [
+      "teapot",
+      "a teapot",
+      "tea kettle"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Steeps hot Earl Grey or chamomile",
+    "emoji": "🫖",
+    "id": "rid-0515"
+  },
+  {
+    "riddle": "What kind of band never plays musical instruments?",
+    "answer": "Rubber Band",
+    "synonyms": [
+      "rubber band",
+      "elastic band",
+      "headband"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Stretches to hold rolled papers together",
+    "emoji": "🪢",
+    "id": "rid-0516"
+  },
+  {
+    "riddle": "What has a single foot on each side and one in the middle?",
+    "answer": "Yardstick",
+    "synonyms": [
+      "yardstick",
+      "ruler",
+      "a yardstick"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Measures 36 inches or three feet",
+    "emoji": "📏",
+    "id": "rid-0517"
+  },
+  {
+    "riddle": "What has a face that never frowns and hands that never hold?",
+    "answer": "Clock",
+    "synonyms": [
+      "clock",
+      "a clock",
+      "watch",
+      "timepiece"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Tells hours and minutes on the wall",
+    "emoji": "⏰",
+    "id": "rid-0518"
+  },
+  {
+    "riddle": "What has a tongue, but never says a word?",
+    "answer": "Shoe",
+    "synonyms": [
+      "shoe",
+      "a shoe",
+      "sneaker",
+      "boot"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Padded flap tucked under your shoelaces",
+    "emoji": "👟",
+    "id": "rid-0519"
+  },
+  {
+    "riddle": "What can you make that nobody else can ever see?",
+    "answer": "Noise",
+    "synonyms": [
+      "noise",
+      "a sound",
+      "sound",
+      "thoughts"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Heard through your ears, not eyes",
+    "emoji": "🔊",
+    "id": "rid-0520"
+  },
+  {
+    "riddle": "What can travel all around the world while remaining in its corner?",
+    "answer": "Stamp",
+    "synonyms": [
+      "stamp",
+      "postage stamp",
+      "a stamp"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Stuck to the upper right corner of an envelope",
+    "emoji": "📬",
+    "id": "rid-0521"
+  },
+  {
+    "riddle": "What has cities without houses, forests without trees, and oceans without water?",
+    "answer": "Map",
+    "synonyms": [
+      "map",
+      "a map",
+      "atlas",
+      "globe"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Paper guide showing roads and continents",
+    "emoji": "🗺️",
+    "id": "rid-0522"
+  },
+  {
+    "riddle": "What goes up, but never ever comes back down?",
+    "answer": "Age",
+    "synonyms": [
+      "age",
+      "your age",
+      "my age"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Increases by one every birthday",
+    "emoji": "🎂",
+    "id": "rid-0523"
+  },
+  {
+    "riddle": "What is tall when it is young, and short when it is old?",
+    "answer": "Candle",
+    "synonyms": [
+      "candle",
+      "a candle",
+      "pencil",
+      "wax candle"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Melts down to a puddle as its wick burns",
+    "emoji": "🕯️",
+    "id": "rid-0524"
+  },
+  {
+    "riddle": "What has many keys, but cannot unlock a single door?",
+    "answer": "Piano",
+    "synonyms": [
+      "piano",
+      "a piano",
+      "keyboard",
+      "grand piano"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Played with black and white ebony keys",
+    "emoji": "🎹",
+    "id": "rid-0525"
+  },
+  {
+    "riddle": "What gets wetter and wetter the more it dries?",
+    "answer": "Towel",
+    "synonyms": [
+      "towel",
+      "a towel",
+      "bath towel",
+      "paper towel"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Dries your wet skin after swimming or a shower",
+    "emoji": "🧖",
+    "id": "rid-0526"
+  },
+  {
+    "riddle": "What has to be broken before anyone can use it?",
+    "answer": "Egg",
+    "synonyms": [
+      "egg",
+      "an egg",
+      "eggs",
+      "glowstick"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Cracked into a hot skillet for breakfast",
+    "emoji": "🥚",
+    "id": "rid-0527"
+  },
+  {
+    "riddle": "I have no voice, but I can tell you all the secrets of the world. Open me and I speak, close me and I am silent. What am I?",
+    "answer": "Book",
+    "synonyms": [
+      "book",
+      "a book",
+      "novel",
+      "diary"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Full of printed pages and ink",
+    "emoji": "📖",
+    "id": "rid-0528"
+  },
+  {
+    "riddle": "I run without legs, murmur without a voice, have a bed but never sleep, and have a mouth but never eat. What am I?",
+    "answer": "River",
+    "synonyms": [
+      "river",
+      "a river",
+      "stream",
+      "creek"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Flows downstream into the sea",
+    "emoji": "🌊",
+    "id": "rid-0529"
+  },
+  {
+    "riddle": "The more you take from me, the larger I become. What am I?",
+    "answer": "Hole",
+    "synonyms": [
+      "hole",
+      "a hole",
+      "pit"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Dug out with a shovel",
+    "emoji": "🕳️",
+    "id": "rid-0530"
+  },
+  {
+    "riddle": "What gets wetter the more you dry with it?",
+    "answer": "Towel",
+    "synonyms": [
+      "towel",
+      "a towel",
+      "bath towel"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Hangs on a bathroom rack",
+    "emoji": "🧖",
+    "id": "rid-0531"
+  },
+  {
+    "riddle": "What has hands, but cannot clap or hold anything?",
+    "answer": "Clock",
+    "synonyms": [
+      "clock",
+      "a clock",
+      "watch",
+      "timepiece"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Tells the hour and minute",
+    "emoji": "⏰",
+    "id": "rid-0532"
+  },
+  {
+    "riddle": "I never was, am always to be, no one ever saw me, nor ever will see, yet I am the hope of all who live. What am I?",
+    "answer": "Tomorrow",
+    "synonyms": [
+      "tomorrow",
+      "the future"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Hard",
+    "hint": "The day after today",
+    "emoji": "🌅",
+    "id": "rid-0533"
+  },
+  {
+    "riddle": "What can you hold without ever touching it with your hands?",
+    "answer": "Breath",
+    "synonyms": [
+      "breath",
+      "your breath",
+      "a conversation"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Inhaled into your lungs",
+    "emoji": "🫁",
+    "id": "rid-0534"
+  },
+  {
+    "riddle": "What goes up and down the stairs without moving an inch?",
+    "answer": "Carpet",
+    "synonyms": [
+      "carpet",
+      "stair carpet",
+      "rug",
+      "banister"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Medium",
+    "hint": "Fabric runner covering the staircase",
+    "emoji": "🪜",
+    "id": "rid-0535"
+  },
+  {
+    "riddle": "What has a single eye, but cannot see a thing?",
+    "answer": "Needle",
+    "synonyms": [
+      "needle",
+      "a needle",
+      "sewing needle"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Thread passes through its hole",
+    "emoji": "🪡",
+    "id": "rid-0536"
+  },
+  {
+    "riddle": "What has teeth, but cannot eat or bite?",
+    "answer": "Comb",
+    "synonyms": [
+      "comb",
+      "a comb",
+      "hair comb"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Styles your hair",
+    "emoji": "🪮",
+    "id": "rid-0537"
+  },
+  {
+    "riddle": "What has a neck, but cannot turn its head?",
+    "answer": "Bottle",
+    "synonyms": [
+      "bottle",
+      "a bottle",
+      "glass bottle"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Holds water, juice, or wine",
+    "emoji": "🍾",
+    "id": "rid-0538"
+  },
+  {
+    "riddle": "What starts with T, ends with T, and has T in it?",
+    "answer": "Teapot",
+    "synonyms": [
+      "teapot",
+      "a teapot",
+      "kettle"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Brews hot morning tea",
+    "emoji": "🫖",
+    "id": "rid-0539"
+  },
+  {
+    "riddle": "What can travel all around the world while staying in one corner?",
+    "answer": "Stamp",
+    "synonyms": [
+      "stamp",
+      "postage stamp",
+      "a stamp"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Licked and stuck on an envelope",
+    "emoji": "📬",
+    "id": "rid-0540"
+  },
+  {
+    "riddle": "What is full of holes, yet still holds water?",
+    "answer": "Sponge",
+    "synonyms": [
+      "sponge",
+      "a sponge"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Used to wash dishes in the sink",
+    "emoji": "🧽",
+    "id": "rid-0541"
+  },
+  {
+    "riddle": "What has four fingers and a thumb, but is not alive?",
+    "answer": "Glove",
+    "synonyms": [
+      "glove",
+      "a glove",
+      "mitten"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Worn on hands to keep warm",
+    "emoji": "🧤",
+    "id": "rid-0542"
+  },
+  {
+    "riddle": "What has four legs, but cannot walk or run?",
+    "answer": "Table",
+    "synonyms": [
+      "table",
+      "a table",
+      "chair",
+      "desk"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "You eat dinner on top of it",
+    "emoji": "🪑",
+    "id": "rid-0543"
+  },
+  {
+    "riddle": "What has words, but never speaks a sound?",
+    "answer": "Book",
+    "synonyms": [
+      "book",
+      "dictionary",
+      "magazine"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Read silently by viewers",
+    "emoji": "📖",
+    "id": "rid-0544"
+  },
+  {
+    "riddle": "If you feed me, I grow strong, but if you give me a drink of water, I die. What am I?",
+    "answer": "Fire",
+    "synonyms": [
+      "fire",
+      "flame",
+      "campfire",
+      "bonfire"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Burns wood and produces smoke",
+    "emoji": "🔥",
+    "id": "rid-0545"
+  },
+  {
+    "riddle": "I follow you in the sunshine, but when darkness falls, I disappear. What am I?",
+    "answer": "Shadow",
+    "synonyms": [
+      "shadow",
+      "my shadow",
+      "your shadow"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Cast on the pavement by sunlight",
+    "emoji": "👥",
+    "id": "rid-0546"
+  },
+  {
+    "riddle": "I am tall when I am young, and short when I am old. What am I?",
+    "answer": "Candle",
+    "synonyms": [
+      "candle",
+      "a candle",
+      "pencil"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Wax melts down as its wick burns",
+    "emoji": "🕯️",
+    "id": "rid-0547"
+  },
+  {
+    "riddle": "What is so fragile that even saying its name breaks it?",
+    "answer": "Silence",
+    "synonyms": [
+      "silence",
+      "quiet"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Shattered by any sound or voice",
+    "emoji": "🤫",
+    "id": "rid-0548"
+  },
+  {
+    "riddle": "What belongs to you, but other people use it much more than you do?",
+    "answer": "Your Name",
+    "synonyms": [
+      "your name",
+      "name",
+      "my name"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "People call you by it",
+    "emoji": "🏷️",
+    "id": "rid-0549"
+  },
+  {
+    "riddle": "What goes up, but never comes down?",
+    "answer": "Age",
+    "synonyms": [
+      "age",
+      "your age",
+      "my age"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Counts your years on earth",
+    "emoji": "🎂",
+    "id": "rid-0550"
+  },
+  {
+    "riddle": "What gets sharper the more you think with it?",
+    "answer": "Mind",
+    "synonyms": [
+      "mind",
+      "brain",
+      "the mind"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Medium",
+    "hint": "Where ideas and memories live",
+    "emoji": "🧠",
+    "id": "rid-0551"
+  },
+  {
+    "riddle": "What has a bark, but never makes a sound?",
+    "answer": "Tree",
+    "synonyms": [
+      "tree",
+      "a tree",
+      "trunk"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Rough woody skin on an oak or birch",
+    "emoji": "🌳",
+    "id": "rid-0552"
+  },
+  {
+    "riddle": "What has an eye that never blinks and a needle that never pricks?",
+    "answer": "Storm",
+    "synonyms": [
+      "storm",
+      "hurricane",
+      "cyclone"
+    ],
+    "category": "Nature & Elements",
+    "difficulty": "Medium",
+    "hint": "The calm center of a hurricane",
+    "emoji": "🌀",
+    "id": "rid-0553"
+  },
+  {
+    "riddle": "What can you break without ever touching or picking it up?",
+    "answer": "Promise",
+    "synonyms": [
+      "promise",
+      "a promise",
+      "trust"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Easy",
+    "hint": "Given with your sacred word",
+    "emoji": "🤝",
+    "id": "rid-0554"
+  },
+  {
+    "riddle": "What runs around the whole yard without ever taking a step?",
+    "answer": "Fence",
+    "synonyms": [
+      "fence",
+      "a fence"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Wooden boundary around a garden",
+    "emoji": "🏡",
+    "id": "rid-0555"
+  },
+  {
+    "riddle": "What is black when bought, red when used, and gray when discarded?",
+    "answer": "Charcoal",
+    "synonyms": [
+      "charcoal",
+      "coal",
+      "wood"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Burned in barbecue smokers",
+    "emoji": "🔥",
+    "id": "rid-0556"
+  },
+  {
+    "riddle": "What building in every town has the most stories?",
+    "answer": "Library",
+    "synonyms": [
+      "library",
+      "a library"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Lined with fairy tales and histories",
+    "emoji": "📚",
+    "id": "rid-0557"
+  },
+  {
+    "riddle": "What kind of room has no doors, windows, floor, or ceiling?",
+    "answer": "Mushroom",
+    "synonyms": [
+      "mushroom",
+      "toadstool"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "An edible fungus",
+    "emoji": "🍄",
+    "id": "rid-0558"
+  },
+  {
+    "riddle": "What goes up whenever rain comes pouring down?",
+    "answer": "Umbrella",
+    "synonyms": [
+      "umbrella",
+      "an umbrella"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Canopy opened over your head",
+    "emoji": "☂️",
+    "id": "rid-0559"
+  },
+  {
+    "riddle": "What has 13 hearts, yet no brain or lungs?",
+    "answer": "Playing Cards",
+    "synonyms": [
+      "playing cards",
+      "cards",
+      "card deck"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Medium",
+    "hint": "Ace through King of hearts",
+    "emoji": "🃏",
+    "id": "rid-0560"
+  },
+  {
+    "riddle": "What has two hands, a face, and numbers, but never utters a word?",
+    "answer": "Clock",
+    "synonyms": [
+      "clock",
+      "a clock",
+      "watch"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Hang on the classroom wall",
+    "emoji": "⏰",
+    "id": "rid-0561"
+  },
+  {
+    "riddle": "What has a crown, but is neither a king nor a queen?",
+    "answer": "Tooth",
+    "synonyms": [
+      "tooth",
+      "a tooth",
+      "pineapple"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Enamel top of a molar",
+    "emoji": "🦷",
+    "id": "rid-0562"
+  },
+  {
+    "riddle": "What has teeth all along its jaw, but cannot chew bread?",
+    "answer": "Saw",
+    "synonyms": [
+      "saw",
+      "a saw",
+      "handsaw"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Used to cut through timber",
+    "emoji": "🪚",
+    "id": "rid-0563"
+  },
+  {
+    "riddle": "What has a bridge, but no water flows beneath it?",
+    "answer": "Eyeglasses",
+    "synonyms": [
+      "eyeglasses",
+      "glasses",
+      "spectacles"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Medium",
+    "hint": "Piece connecting two optical lenses",
+    "emoji": "👓",
+    "id": "rid-0564"
+  },
+  {
+    "riddle": "What is clean when it looks black, and dirty when it looks white?",
+    "answer": "Chalkboard",
+    "synonyms": [
+      "chalkboard",
+      "blackboard"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Easy",
+    "hint": "Wiped with an eraser at school",
+    "emoji": "🧑‍🏫",
+    "id": "rid-0565"
+  },
+  {
+    "riddle": "What can you serve across a net, but never eat at dinner?",
+    "answer": "Tennis Ball",
+    "synonyms": [
+      "tennis ball",
+      "volleyball"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Fuzzy yellow ball struck with a racket",
+    "emoji": "🎾",
+    "id": "rid-0566"
+  },
+  {
+    "riddle": "What starts with an E, ends with an E, but contains only one letter?",
+    "answer": "Envelope",
+    "synonyms": [
+      "envelope",
+      "an envelope"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Paper sleeve holding a mail letter",
+    "emoji": "✉️",
+    "id": "rid-0567"
+  },
+  {
+    "riddle": "What starts with P, ends with E, and contains thousands of letters?",
+    "answer": "Post Office",
+    "synonyms": [
+      "post office",
+      "the post office"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Government building handling mail",
+    "emoji": "📬",
+    "id": "rid-0568"
+  },
+  {
+    "riddle": "What can you crack without touching it with your fingers?",
+    "answer": "Joke",
+    "synonyms": [
+      "joke",
+      "a joke",
+      "smile"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Told at parties to get a laugh",
+    "emoji": "😂",
+    "id": "rid-0569"
+  },
+  {
+    "riddle": "What has four wheels and flies in the summer heat?",
+    "answer": "Garbage Truck",
+    "synonyms": [
+      "garbage truck",
+      "trash truck"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Easy",
+    "hint": "Flies swarm around its trash bin",
+    "emoji": "🚛",
+    "id": "rid-0570"
+  },
+  {
+    "riddle": "What can burn your skin without any flame, and freeze without any ice?",
+    "answer": "Dry Ice",
+    "synonyms": [
+      "dry ice",
+      "frostbite"
+    ],
+    "category": "Logic & Brain Teasers",
+    "difficulty": "Hard",
+    "hint": "Frozen solid carbon dioxide",
+    "emoji": "🧊",
+    "id": "rid-0571"
+  },
+  {
+    "riddle": "What can you steal in broad daylight without breaking any law?",
+    "answer": "Base",
+    "synonyms": [
+      "base",
+      "second base",
+      "a base"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "A runner sprinting on a diamond",
+    "emoji": "⚾",
+    "id": "rid-0572"
+  },
+  {
+    "riddle": "What has a bottom right at the top of itself?",
+    "answer": "Legs",
+    "synonyms": [
+      "legs",
+      "your legs"
+    ],
+    "category": "Wordplay & Puns",
+    "difficulty": "Medium",
+    "hint": "Your buttocks rest atop them",
+    "emoji": "🦵",
+    "id": "rid-0573"
+  },
+  {
+    "riddle": "What loses its head at dawn and gets it back when you go to sleep?",
+    "answer": "Pillow",
+    "synonyms": [
+      "pillow",
+      "a pillow"
+    ],
+    "category": "Everyday Objects",
+    "difficulty": "Medium",
+    "hint": "Your head rests on it in dreamland",
+    "emoji": "🛌",
+    "id": "rid-0574"
+  },
+  {
+    "riddle": "What has a ring, but cannot be worn on any finger?",
+    "answer": "Telephone",
+    "synonyms": [
+      "telephone",
+      "phone",
+      "bell"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Rings to announce an incoming call",
+    "emoji": "☎️",
+    "id": "rid-0575"
+  },
+  {
+    "riddle": "What can run without legs, fall without hurting, and cover cities in white?",
+    "answer": "Snow",
+    "synonyms": [
+      "snow",
+      "blizzard",
+      "snowfall"
+    ],
+    "category": "Nature & Elements",
+    "difficulty": "Medium",
+    "hint": "Winter precipitation drifting from clouds",
+    "emoji": "❄️",
+    "id": "rid-0576"
+  },
+  {
+    "riddle": "What has a tongue, but never tastes a crumb?",
+    "answer": "Shoe",
+    "synonyms": [
+      "shoe",
+      "a shoe",
+      "sneaker"
+    ],
+    "category": "Classic Riddles",
+    "difficulty": "Easy",
+    "hint": "Tucked neatly under your shoelaces",
+    "emoji": "👟",
+    "id": "rid-0577"
+  }
+]

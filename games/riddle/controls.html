@@ -1,0 +1,129 @@
+<!-- games/riddle/controls.html -->
+<div class="game-controls-container">
+  <!-- Host Secret Cheat Sheet -->
+  <div class="card cheat-card">
+    <div class="card-title">
+      <span>💡 Host Cheat Sheet (Secret Riddle Answer)</span>
+      <span class="badge badge-purple" style="font-size:10px">Ally's Riddles</span>
+    </div>
+    <div class="secret-display" style="flex-direction:column;align-items:stretch;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px">
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Secret Answer</div>
+          <div id="ridHostAnswer" style="font-size:22px;font-weight:900;color:#38bdf8;margin-top:2px;letter-spacing:1px">--</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:#c084fc">Category: <strong id="ridHostCategory">--</strong></div>
+          <div style="font-size:12px;color:#e2e8f0;margin-top:2px">
+            Difficulty: <strong id="ridHostDifficulty">--</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Riddle Question & Clue -->
+      <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px 12px;display:flex;flex-direction:column;gap:6px;">
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;">Riddle Question</div>
+          <div id="ridHostQuestion" style="font-size:12.5px;font-weight:700;color:#ffffff;margin-top:2px;line-height:1.3;">--</div>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;">Clue / Hint</div>
+          <div id="ridHostHint" style="font-size:11.5px;font-weight:600;color:#fef08a;margin-top:2px;">--</div>
+        </div>
+      </div>
+
+      <!-- Multi-Winner Grace Status Indicator -->
+      <div id="ridHostGraceStatus" style="display:none;background:linear-gradient(135deg,rgba(234,179,8,0.2),rgba(202,138,4,0.15));border:1px solid #eab308;border-radius:8px;padding:6px 10px;font-size:11.5px;color:#fef08a;">
+        ⚡ <strong>5s Speed Window Active:</strong> <span id="ridHostGraceDetails">Waiting for bonus solvers...</span>
+      </div>
+
+      <!-- Quick Action Buttons for Host -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <button id="ridBtnHostHint" class="ctrl-btn" style="background:linear-gradient(135deg,#eab308,#ca8a04);color:#000;font-weight:800;padding:7px;border-radius:6px;border:none;cursor:pointer;font-size:11.5px;">
+          <span>💡 Reveal Letter / Clue</span>
+        </button>
+        <button id="ridBtnHostReveal" class="ctrl-btn" style="background:linear-gradient(135deg,#ec4899,#db2777);color:#fff;font-weight:800;padding:7px;border-radius:6px;border:none;cursor:pointer;font-size:11.5px;">
+          <span>👁️ Reveal Answer to Chat</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Round & Flow Actions -->
+  <div class="card">
+    <div class="card-title">Round Flow &amp; Timer Actions</div>
+    <div class="btn-row">
+      <button class="primary" id="ridBtnStartTimer">▶ Start Timer</button>
+      <button class="secondary" id="ridBtnPauseTimer">⏸ Pause Timer</button>
+      <button class="secondary" id="ridBtnNextRound">⏭ Next Riddle</button>
+      <button class="secondary" id="ridBtnPrevRound">⏮ Prev Riddle</button>
+      <button class="secondary" id="ridBtnRandomRound">🎲 Random Riddle</button>
+      <button class="secondary" id="ridBtnHint">💡 Give Hint</button>
+      <button class="secondary" id="ridBtnToggleClue">🧩 Toggle Clue</button>
+      <button class="secondary" id="ridBtnReveal">👁 Reveal Answer</button>
+      <button class="danger" id="ridBtnResetGame">🔄 Reset Game</button>
+    </div>
+  </div>
+
+  <!-- Timer Adjustments & Presets -->
+  <div class="card">
+    <div class="card-title">Timer Presets &amp; Duration</div>
+    <div class="btn-row">
+      <button class="secondary" id="ridBtnTime30">⏱ 30s</button>
+      <button class="secondary" id="ridBtnTime45">⏱ 45s (Default)</button>
+      <button class="secondary" id="ridBtnTime60">⏱ 60s</button>
+      <button class="secondary" id="ridBtnTimePlus10">➕ +10s</button>
+      <button class="secondary" id="ridBtnTimeMinus10">➖ -10s</button>
+    </div>
+  </div>
+
+  <!-- Filter by Category & Difficulty -->
+  <div class="card">
+    <div class="card-title">Riddle Filters &amp; Themed Sessions</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">
+      <div>
+        <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Filter Category</label>
+        <select id="ridCategoryFilter" style="width:100%;padding:6px 10px;background:#131728;border:1px solid #232b4a;border-radius:6px;color:#fff;font-size:12px;">
+          <option value="all">🌟 All Categories (577 Riddles)</option>
+          <option value="Classic Riddles">📜 Classic Riddles</option>
+          <option value="What Am I?">🤔 What Am I?</option>
+          <option value="Wordplay & Puns">🔤 Wordplay & Puns</option>
+          <option value="Everyday Objects">📦 Everyday Objects</option>
+          <option value="Nature & Elements">🌿 Nature & Elements</option>
+          <option value="Logic & Brain Teasers">🧠 Logic & Brain Teasers</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Filter Difficulty</label>
+        <select id="ridDifficultyFilter" style="width:100%;padding:6px 10px;background:#131728;border:1px solid #232b4a;border-radius:6px;color:#fff;font-size:12px;">
+          <option value="all">🎯 All Difficulties</option>
+          <option value="Easy">🟢 Easy</option>
+          <option value="Medium">🟡 Medium</option>
+          <option value="Hard">🔴 Hard</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Direct Riddle Selector -->
+  <div class="card">
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>Library Riddle Selector (620 Riddles)</span>
+      <span class="badge badge-dark" id="ridCountBadge" style="font-size:10px;">620 Riddles</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="position:relative;">
+        <input type="text" id="ridSearchInput" placeholder="🔍 Search riddles or answers..." style="width:100%;padding:7px 10px 7px 30px;background:#131728;border:1px solid #232b4a;border-radius:6px;color:#fff;font-size:12px;">
+        <span style="position:absolute;left:10px;top:8px;font-size:12px;opacity:0.6;">🔍</span>
+        <button id="ridBtnClearSearch" style="display:none;position:absolute;right:8px;top:6px;background:none;border:none;color:#94a3b8;font-size:14px;cursor:pointer;">✕</button>
+      </div>
+
+      <div style="display:flex;gap:8px;">
+        <select id="ridSelect" style="flex:1;padding:6px 10px;background:#131728;border:1px solid #232b4a;border-radius:6px;color:#fff;font-size:12px;overflow:hidden;text-overflow:ellipsis;">
+          <option value="">Loading riddle list...</option>
+        </select>
+        <button class="primary" id="ridBtnLoadRiddle" style="padding:6px 14px;font-size:12px;white-space:nowrap;">Load</button>
+      </div>
+    </div>
+  </div>
+</div>

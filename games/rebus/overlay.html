@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ally's Rebus — Live Stream Overlay</title>
+  <link rel="stylesheet" href="./overlay.css">
+  <link rel="stylesheet" href="/speech-bubble.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+</head>
+<body>
+  <div class="overlay-app">
+    <!-- Top Header: Consistent with Ally Stream Hub -->
+    <header class="glass brand-card">
+      <div class="brand-header-top">
+        <div class="brand-avatar-wrap">
+          <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
+        </div>
+        <div class="avatar-speech-bubble" id="avatarSpeechBubble">
+          <span class="speech-bubble-text" id="speechBubbleText">Can you crack this Rebus? 🎭</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sub Header Row: Game Info Pills + Standalone Timer Pill (Think & Link Style) -->
+    <div class="sub-header-row">
+      <div class="game-info-pill">
+        <div class="meta-pill round-pill" id="roundPill">ROUND 1</div>
+        <div class="meta-pill category-pill" id="categoryPill">IDIOMS</div>
+        <div class="meta-pill difficulty-pill" id="difficultyPill">EASY</div>
+      </div>
+      <div class="timer-pill" id="timerBox">
+        <span class="timer-num" id="timerNum">45</span><span class="timer-unit">s</span>
+      </div>
+    </div>
+
+    <!-- White Pill Rule Banner -->
+    <div class="rule-banner">
+      <span class="rule-icon">🎭</span>
+      <span class="rule-text">GUESS THE VISUAL PUZZLE IN CHAT</span>
+      <span class="rule-heart">✨</span>
+    </div>
+
+    <!-- Main Content Stage -->
+    <main class="main-content">
+      <!-- Big Rebus Puzzle Visual Card -->
+      <section class="rebus-stage-card" id="rebusStageCard">
+        <div class="stage-backdrop-glow"></div>
+        <div class="rebus-canvas" id="rebusCanvas">
+          <!-- Declarative visual layout injected here -->
+          <div class="rebus-loading">Loading Rebus...</div>
+        </div>
+      </section>
+
+      <!-- Clue Banner (Unlocked by host hint or automatic timer) -->
+      <section class="clue-card" id="clueCard" style="display: none;">
+        <span class="clue-tag">💡 CLUE</span>
+        <span class="clue-text" id="clueText">A common phrase</span>
+      </section>
+
+      <!-- Masked Word Slots / Answer Reveal Section -->
+      <section class="slots-container" id="slotsContainer">
+        <!-- Rendered word blocks e.g. _ _ _ _  _ _ _ _ -->
+      </section>
+    </main>
+
+    <!-- Streak Badge (Floating Pill) -->
+    <div class="streak-badge-wrap" id="streakBadgeWrap" style="display: none;">
+      <div class="streak-badge">
+        <span class="streak-fire">🔥</span>
+        <span class="streak-count" id="streakCount">0</span>
+        <span class="streak-label">STREAK</span>
+      </div>
+    </div>
+
+    <!-- Winner Celebration Banner -->
+    <div class="celebration-banner" id="celebrationBanner">
+      <div class="celebration-content">
+        <div class="celebration-avatar-wrap">
+          <img src="" alt="" class="celebration-avatar" id="celebrationAvatar">
+        </div>
+        <div class="celebration-details">
+          <div class="celebration-title">🎉 REBUS CRACKED!</div>
+          <div class="celebration-winner" id="celebrationWinner">@Viewer</div>
+          <div class="celebration-answer" id="celebrationAnswer">HEAD OVER HEELS</div>
+        </div>
+        <div class="celebration-points" id="celebrationPoints">+30 PTS</div>
+      </div>
+    </div>
+
+    <!-- Auto-Advance Leaderboard Podium Overlay -->
+    <div class="podium-modal" id="podiumModal">
+      <div class="podium-card">
+        <div class="podium-header">
+          <span class="podium-icon">🏆</span>
+          <span class="podium-title">ROUND RESULTS</span>
+        </div>
+        <div class="podium-solved-wrap">
+          <div class="podium-solved-label">THE ANSWER WAS:</div>
+          <div class="podium-solved-word" id="podiumAnswer">HEAD OVER HEELS</div>
+        </div>
+        <div class="podium-list" id="podiumList">
+          <!-- Top Chatters -->
+        </div>
+        <div class="podium-footer">
+          <span>NEXT ROUND STARTING IN </span>
+          <strong id="podiumCountdown">5</strong>s...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./overlay.js"></script>
+</body>
+</html>

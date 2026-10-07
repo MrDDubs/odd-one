@@ -1,0 +1,586 @@
+/* games/riddle/overlay.css */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Nunito:wght@700;800;900;1000&family=Outfit:wght@500;600;700;800;900&display=swap');
+
+:root {
+  --bg-dark: #0f0721;
+  --bg-card: rgba(27, 14, 56, 0.88);
+  --bg-card-border: rgba(168, 85, 247, 0.35);
+  --purple-glow: #a855f7;
+  --gold-glow: #eab308;
+  --cyan-glow: #06b6d4;
+  --emerald-glow: #10b981;
+  --text-main: #ffffff;
+  --text-muted: #c084fc;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  font-family: 'Fredoka', 'Nunito', sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+.overlay-app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(8px, 1.4vh, 16px) clamp(4px, 0.8vw, 8px);
+  gap: clamp(6px, 1vh, 10px);
+  background: radial-gradient(circle at 50% 12%, #2d1059 0%, #120527 65%, #080214 100%);
+  color: var(--text-main);
+  overflow: hidden;
+}
+
+/* ================= 1. BRAND HEADER & AVATAR ================= */
+.brand-card {
+  width: 100%;
+  background: rgba(36, 17, 72, 0.75);
+  border: 1.5px solid rgba(168, 85, 247, 0.4);
+  border-radius: clamp(14px, 2vh, 20px);
+  padding: clamp(6px, 1vh, 10px) clamp(10px, 1.4vh, 16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(168, 85, 247, 0.15);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.brand-header-top {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.2vh, 14px);
+}
+
+.brand-avatar-wrap {
+  width: clamp(48px, 6.2vh, 66px);
+  height: clamp(48px, 6.2vh, 66px);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  padding: 2.5px;
+  flex-shrink: 0;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.5);
+}
+
+.brand-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ================= 2. SUB HEADER (ROUND & TIMER) ================= */
+.sub-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.game-info-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(243, 235, 255, 0.94));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 4px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  flex-shrink: 0;
+}
+
+.meta-pill {
+  background: rgba(107, 33, 168, 0.08);
+  border: 1.5px solid rgba(124, 58, 237, 0.35);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: clamp(10px, 1.15vh, 12px);
+  font-weight: 900;
+  color: #4c1d95;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.meta-pill.difficulty-pill {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #065f46;
+}
+
+.timer-pill {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(238, 226, 255, 0.94));
+  border: 2px solid #cbb8ff;
+  border-radius: 999px;
+  padding: 4px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  color: #3b0764;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.timer-num {
+  font-size: 2.2vh;
+  line-height: 1;
+  font-weight: 900;
+  color: #3b0764;
+  font-family: 'Outfit', sans-serif;
+}
+
+.timer-unit {
+  font-size: 1.15vh;
+  font-weight: 800;
+  color: #6b21a8;
+  margin-left: 2px;
+  opacity: 0.9;
+}
+
+.timer-pill.danger {
+  background: linear-gradient(145deg, #fff1f2, #fee2e2);
+  border-color: #f87171;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+  animation: timerWarning 0.8s infinite alternate ease-in-out;
+}
+
+.timer-pill.danger .timer-num {
+  color: #b91c1c;
+}
+
+.timer-pill.danger .timer-unit {
+  color: #dc2626;
+}
+
+@keyframes timerWarning {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+/* ================= 3. RULE BANNER ================= */
+.rule-banner {
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 4px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.rule-icon, .rule-heart {
+  font-size: clamp(12px, 1.4vh, 15px);
+}
+
+.rule-text {
+  font-size: clamp(10px, 1.2vh, 12px);
+  font-weight: 900;
+  color: #1e1b4b;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* ================= 4. MAIN STAGE ================= */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.2vh, 14px);
+  min-height: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* 5-Second Speed Grace Window Alert Banner */
+.grace-alert-banner {
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  border: 2px solid #fef08a;
+  border-radius: 14px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.6), inset 0 0 12px rgba(254, 240, 138, 0.4);
+  animation: graceBannerPulse 0.9s infinite alternate ease-in-out;
+  flex-shrink: 0;
+}
+
+.grace-badge {
+  background: #1e0b3d;
+  color: #facc15;
+  font-size: clamp(10px, 1.2vh, 12px);
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+
+.grace-text {
+  font-size: clamp(12px, 1.4vh, 14px);
+  font-weight: 900;
+  color: #1e0b3d;
+  letter-spacing: 0.4px;
+}
+
+#graceCountdownNum {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2em;
+  font-weight: 1000;
+  color: #ffffff;
+  background: #b45309;
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+
+@keyframes graceBannerPulse {
+  0% { transform: scale(0.99); box-shadow: 0 0 16px rgba(234, 179, 8, 0.4); }
+  100% { transform: scale(1.01); box-shadow: 0 0 30px rgba(234, 179, 8, 0.8); }
+}
+
+/* Riddle Stage Card */
+.riddle-stage-card {
+  flex: 1;
+  background: linear-gradient(155deg, rgba(38, 18, 77, 0.92) 0%, rgba(18, 8, 40, 0.95) 100%);
+  border: 2px solid rgba(168, 85, 247, 0.45);
+  border-radius: 20px;
+  padding: clamp(14px, 2vh, 24px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(168, 85, 247, 0.15);
+  min-height: clamp(120px, 16vh, 200px);
+}
+
+.card-ambient-glow {
+  position: absolute;
+  inset: -15px;
+  background: radial-gradient(circle at 50% 30%, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.riddle-icon-tag {
+  font-size: clamp(28px, 3.8vh, 44px);
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 12px rgba(234, 179, 8, 0.5));
+}
+
+.riddle-text-box {
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.riddle-text {
+  font-size: clamp(17px, 2.3vh, 23px);
+  line-height: 1.35;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.3px;
+}
+
+/* Progressive Mystery Letter Tiles Row */
+.letter-hint-section {
+  background: rgba(22, 10, 48, 0.85);
+  border: 1.5px solid rgba(168, 85, 247, 0.35);
+  border-radius: 16px;
+  padding: clamp(10px, 1.4vh, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.hint-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.hint-label {
+  font-size: clamp(10px, 1.2vh, 12px);
+  font-weight: 900;
+  color: #c084fc;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hint-count {
+  font-size: clamp(10px, 1.2vh, 12px);
+  font-weight: 900;
+  color: #facc15;
+  background: rgba(234, 179, 8, 0.15);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.hint-tiles-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.hint-word {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hint-spacer {
+  display: inline-block;
+  width: 12px;
+}
+
+.hint-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hint-tile.revealed {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.55), rgba(124, 58, 237, 0.5));
+  border: 2px solid rgba(216, 180, 254, 0.9);
+  border-radius: 8px;
+  min-width: clamp(26px, 3.4vh, 36px);
+  height: clamp(34px, 4.4vh, 46px);
+  font-size: clamp(17px, 2.2vh, 24px);
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.5);
+  animation: letterPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hint-tile.blank {
+  color: rgba(216, 180, 254, 0.6);
+  font-size: clamp(20px, 2.6vh, 28px);
+  min-width: clamp(16px, 2.2vh, 24px);
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.hint-tile.punct {
+  color: #facc15;
+  font-size: clamp(18px, 2.4vh, 26px);
+  padding: 0 2px;
+}
+
+@keyframes letterPop {
+  0% { transform: scale(0.5); opacity: 0.5; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Clue Card */
+.clue-card {
+  background: linear-gradient(135deg, rgba(30, 21, 72, 0.95), rgba(76, 43, 148, 0.95));
+  border: 1.5px solid #a855f7;
+  border-radius: 12px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+  animation: fadeInDown 0.3s ease;
+}
+
+.clue-tag {
+  background: #facc15;
+  color: #1e0b3d;
+  font-size: clamp(10px, 1.1vh, 12px);
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.clue-text {
+  font-size: clamp(11.5px, 1.35vh, 13.5px);
+  font-weight: 800;
+  color: #f3e8ff;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Solved Multi-Winner Celebration Podium Card */
+.celebration-podium-card {
+  background: linear-gradient(145deg, rgba(20, 8, 48, 0.96) 0%, rgba(10, 4, 25, 0.98) 100%);
+  border: 2.5px solid #facc15;
+  border-radius: 20px;
+  padding: clamp(12px, 1.8vh, 18px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 35px rgba(250, 204, 21, 0.4), inset 0 0 18px rgba(250, 204, 21, 0.2);
+  flex-shrink: 0;
+  animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleUp {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.podium-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.podium-trophy {
+  font-size: clamp(20px, 2.6vh, 26px);
+}
+
+.podium-title {
+  font-size: clamp(15px, 2vh, 19px);
+  font-weight: 900;
+  color: #facc15;
+  letter-spacing: 0.5px;
+}
+
+.revealed-answer-box {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.revealed-label {
+  font-size: clamp(11px, 1.3vh, 13px);
+  font-weight: 800;
+  color: #c084fc;
+}
+
+.revealed-word {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(16px, 2.2vh, 22px);
+  font-weight: 900;
+  color: #4ade80;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Podium Winner Rows */
+.podium-winners-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.winner-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.winner-row.winner-first {
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.25), rgba(202, 138, 4, 0.2));
+  border-color: #facc15;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.3);
+}
+
+.winner-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.winner-rank {
+  font-size: 14px;
+}
+
+.winner-name {
+  font-size: clamp(12px, 1.4vh, 14px);
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.winner-points-badge {
+  font-size: clamp(11px, 1.3vh, 13px);
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.winner-row.winner-first .winner-points-badge {
+  background: #facc15;
+  color: #1e0b3d;
+}
+
+.winner-row.winner-bonus .winner-points-badge {
+  background: #10b981;
+  color: #064e3b;
+}
+
+/* ================= 5. FOOTER ================= */
+.status-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(20, 8, 42, 0.85);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 999px;
+  padding: 6px 14px;
+  flex-shrink: 0;
+}
+
+.streak-pill {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+  font-size: clamp(10px, 1.15vh, 12px);
+  font-weight: 900;
+  padding: 2px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.status-msg {
+  font-size: clamp(11px, 1.25vh, 13px);
+  font-weight: 800;
+  color: #e9d5ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

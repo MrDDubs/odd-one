@@ -44,6 +44,16 @@ const GAME_OVERLAYS = {
     path: "/games/unscramble/overlay.html",
     name: "Ally's Unscramble",
     icon: "🔤"
+  },
+  "rebus": {
+    path: "/games/rebus/overlay.html",
+    name: "Ally's Rebus",
+    icon: "🎭"
+  },
+  "riddle": {
+    path: "/games/riddle/overlay.html",
+    name: "Ally's Riddles",
+    icon: "🧙‍♂️"
   }
 };
 

@@ -109,6 +109,23 @@ function renderAvatarHTML(avatarUrl, nickname) {
   return `<span class="avatar-letter-circle">${initial}</span>`;
 }
 
+function renderMaskedLettersHTML(maskedText) {
+  if (!maskedText) return `<span class="cs-front-mystery-fallback">? ? ?</span>`;
+  const words = String(maskedText).split(" ");
+  return words.map((w) => {
+    const chars = w.split("").map((ch) => {
+      if (ch === "_") {
+        return `<span class="cs-hint-char cs-blank">_</span>`;
+      } else if (/[a-zA-Z0-9]/.test(ch)) {
+        return `<span class="cs-hint-char cs-revealed">${esc(ch)}</span>`;
+      } else {
+        return `<span class="cs-hint-char cs-punct">${esc(ch)}</span>`;
+      }
+    }).join("");
+    return `<span class="cs-hint-word">${chars}</span>`;
+  }).join(`<span class="cs-hint-spacer"></span>`);
+}
+
 // Render the 3D flipping survey cards board
 function renderBoard(slots = []) {
   if (!answersBoard) return;
@@ -118,10 +135,10 @@ function renderBoard(slots = []) {
     answersBoard.innerHTML = slots.map((s, idx) => `
       <div class="cs-card" id="csCard-${idx}">
         <div class="cs-card-inner">
-          <!-- Front Face: Mystery Hidden Card -->
+          <!-- Front Face: Mystery Hidden Card with Progressive Letter Hints -->
           <div class="cs-card-face cs-card-front">
             <div class="cs-rank-pill">#${s.rank}</div>
-            <div class="cs-front-mystery">? ? ?</div>
+            <div class="cs-front-mystery" id="csMystery-${idx}">${renderMaskedLettersHTML(s.maskedText || s.text)}</div>
             <div class="cs-front-pts">${s.points} PTS</div>
           </div>
           <!-- Back Face: Revealed Answer -->
@@ -140,13 +157,14 @@ function renderBoard(slots = []) {
     `).join("");
   }
 
-  // Update revealed state and winner chips
+  // Update revealed state, mystery letters, and winner chips
   slots.forEach((s, idx) => {
     const cardEl = document.getElementById(`csCard-${idx}`);
     if (!cardEl) return;
 
     const answerEl = document.getElementById(`csAnswer-${idx}`);
     const winnerEl = document.getElementById(`csWinner-${idx}`);
+    const mysteryEl = document.getElementById(`csMystery-${idx}`);
 
     if (answerEl) {
       answerEl.textContent = s.text;
@@ -175,6 +193,12 @@ function renderBoard(slots = []) {
       cardEl.classList.remove("revealed");
       cardEl.classList.remove("missed");
       if (winnerEl) winnerEl.innerHTML = "";
+      if (mysteryEl) {
+        const newHtml = renderMaskedLettersHTML(s.maskedText || s.text);
+        if (mysteryEl.innerHTML !== newHtml) {
+          mysteryEl.innerHTML = newHtml;
+        }
+      }
     }
   });
 

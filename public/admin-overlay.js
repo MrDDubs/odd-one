@@ -86,18 +86,25 @@ function showToast(message, duration = 3000) {
 // --------------------------------------------------------------------------
 // Viewport Scaling Modes
 // --------------------------------------------------------------------------
+function getGameFrameClass(gameId) {
+  if (gameId === "think-and-link") return " game-think-and-link";
+  if (gameId === "crowd-says" || gameId === "chat-feud") return " game-crowd-says";
+  if (gameId === "riddle") return " game-riddle";
+  return "";
+}
+
 btnScaleFit?.addEventListener("click", () => {
-  phoneFrame.className = "phone-frame mode-fit" + (currentActiveGameId === "think-and-link" ? " game-think-and-link" : "");
+  phoneFrame.className = "phone-frame mode-fit" + getGameFrameClass(currentActiveGameId);
   setActiveScaleBtn(btnScaleFit);
 });
 
 btnScale916?.addEventListener("click", () => {
-  phoneFrame.className = "phone-frame" + (currentActiveGameId === "think-and-link" ? " game-think-and-link" : "");
+  phoneFrame.className = "phone-frame" + getGameFrameClass(currentActiveGameId);
   setActiveScaleBtn(btnScale916);
 });
 
 btnScaleFull?.addEventListener("click", () => {
-  phoneFrame.className = "phone-frame mode-wide";
+  phoneFrame.className = "phone-frame mode-wide" + getGameFrameClass(currentActiveGameId);
   setActiveScaleBtn(btnScaleFull);
 });
 
@@ -201,6 +208,16 @@ function updateActiveGameUI(gameId) {
     unscrambleSettingsCard.style.display = (gameId === "unscramble") ? "block" : "none";
   }
 
+  const rebusSettingsCard = document.getElementById("rebusSettingsCard");
+  if (rebusSettingsCard) {
+    rebusSettingsCard.style.display = (gameId === "rebus") ? "block" : "none";
+  }
+
+  const riddleSettingsCard = document.getElementById("riddleSettingsCard");
+  if (riddleSettingsCard) {
+    riddleSettingsCard.style.display = (gameId === "riddle") ? "block" : "none";
+  }
+
   const gameNames = {
     "odd-one-out": { name: "Ally's Odd One Out", icon: "🧩" },
     "think-like-ally": { name: "Think Like Ally", icon: "💡" },
@@ -208,14 +225,23 @@ function updateActiveGameUI(gameId) {
     "word-finder": { name: "Ally's Word Finder", icon: "🔍" },
     "crowd-says": { name: "Ally's Chat Feud", icon: "⚔️" },
     "chat-feud": { name: "Ally's Chat Feud", icon: "⚔️" },
-    "unscramble": { name: "Ally's Unscramble", icon: "🔤" }
+    "unscramble": { name: "Ally's Unscramble", icon: "🔤" },
+    "rebus": { name: "Ally's Rebus", icon: "🎭" },
+    "riddle": { name: "Ally's Riddles", icon: "🧙‍♂️" }
   };
 
   if (phoneFrame) {
     if (gameId === "think-and-link") {
       phoneFrame.classList.add("game-think-and-link");
+      phoneFrame.classList.remove("game-crowd-says", "game-riddle");
+    } else if (gameId === "crowd-says" || gameId === "chat-feud") {
+      phoneFrame.classList.add("game-crowd-says");
+      phoneFrame.classList.remove("game-think-and-link", "game-riddle");
+    } else if (gameId === "riddle") {
+      phoneFrame.classList.add("game-riddle");
+      phoneFrame.classList.remove("game-think-and-link", "game-crowd-says");
     } else {
-      phoneFrame.classList.remove("game-think-and-link");
+      phoneFrame.classList.remove("game-think-and-link", "game-crowd-says", "game-riddle");
     }
   }
 
@@ -763,10 +789,271 @@ fetch("/games/unscramble/words.json")
   .catch((err) => console.log("Note: Could not preload unscramble words:", err.message));
 
 // --------------------------------------------------------------------------
+// Ally's Rebus Controls & Puzzle Selector
+// --------------------------------------------------------------------------
+let rebPuzzles = [];
+let rebCurrentFilteredPuzzles = [];
+const rebOverlayCategoryFilter = document.getElementById("rebOverlayCategoryFilter");
+const rebOverlayDifficultyFilter = document.getElementById("rebOverlayDifficultyFilter");
+const rebOverlaySearchInput = document.getElementById("rebOverlaySearchInput");
+const rebOverlayBtnClearSearch = document.getElementById("rebOverlayBtnClearSearch");
+const rebOverlayPuzzleSelect = document.getElementById("rebOverlayPuzzleSelect");
+const rebOverlayFilteredCountText = document.getElementById("rebOverlayFilteredCountText");
+const rebOverlayCountBadge = document.getElementById("rebOverlayCountBadge");
+const rebOverlayBtnLoadPuzzle = document.getElementById("rebOverlayBtnLoadPuzzle");
+const rebOverlayBtnRandomPuzzle = document.getElementById("rebOverlayBtnRandomPuzzle");
+
+function initRebPuzzles(puzzles) {
+  rebPuzzles = Array.isArray(puzzles) ? puzzles : [];
+  renderRebOverlayFilteredPuzzles();
+}
+
+function renderRebOverlayFilteredPuzzles() {
+  if (!rebPuzzles.length || !rebOverlayPuzzleSelect) return;
+  const selectedCat = rebOverlayCategoryFilter ? rebOverlayCategoryFilter.value : "ALL";
+  const selectedDiff = rebOverlayDifficultyFilter ? rebOverlayDifficultyFilter.value : "ALL";
+  const q = (rebOverlaySearchInput?.value || "").trim().toLowerCase();
+
+  rebCurrentFilteredPuzzles = rebPuzzles.filter((p) => {
+    if (selectedCat !== "ALL" && p.category !== selectedCat) return false;
+    if (selectedDiff !== "ALL" && p.difficulty !== selectedDiff) return false;
+    if (!q) return true;
+    const a = (p.answer || "").toLowerCase();
+    const h = (p.hint || "").toLowerCase();
+    const l = (p.layout || "").toLowerCase();
+    return a.includes(q) || h.includes(q) || l.includes(q);
+  });
+
+  if (rebOverlayFilteredCountText) {
+    rebOverlayFilteredCountText.textContent = `${rebCurrentFilteredPuzzles.length} available`;
+  }
+  if (rebOverlayCountBadge) {
+    rebOverlayCountBadge.textContent = selectedCat === "ALL" && selectedDiff === "ALL" && !q
+      ? `${rebPuzzles.length} Puzzles`
+      : `${rebCurrentFilteredPuzzles.length} Match${rebCurrentFilteredPuzzles.length === 1 ? '' : 'es'}`;
+  }
+
+  if (rebCurrentFilteredPuzzles.length === 0) {
+    rebOverlayPuzzleSelect.innerHTML = `<option value="">No matching puzzles found</option>`;
+  } else {
+    rebOverlayPuzzleSelect.innerHTML = rebCurrentFilteredPuzzles
+      .slice(0, 300)
+      .map((p) => `<option value="${p.id}">${p.emoji || "🎭"} [${p.difficulty}] ${p.answer} (${p.category} • ${p.layout})</option>`)
+      .join("");
+    if (currentGameState?.puzzleId && rebCurrentFilteredPuzzles.some((p) => p.id === currentGameState.puzzleId)) {
+      rebOverlayPuzzleSelect.value = currentGameState.puzzleId;
+    }
+  }
+
+  if (rebOverlayBtnClearSearch) {
+    rebOverlayBtnClearSearch.style.display = q ? "flex" : "none";
+  }
+}
+
+if (rebOverlayCategoryFilter) {
+  rebOverlayCategoryFilter.addEventListener("change", () => {
+    renderRebOverlayFilteredPuzzles();
+    sendGameAction("setCategoryFilter", rebOverlayCategoryFilter.value === "ALL" ? "all" : rebOverlayCategoryFilter.value);
+    showToast(`Category: ${rebOverlayCategoryFilter.value}`);
+  });
+}
+
+if (rebOverlayDifficultyFilter) {
+  rebOverlayDifficultyFilter.addEventListener("change", () => {
+    renderRebOverlayFilteredPuzzles();
+    sendGameAction("setDifficultyFilter", rebOverlayDifficultyFilter.value === "ALL" ? "all" : rebOverlayDifficultyFilter.value);
+    showToast(`Difficulty: ${rebOverlayDifficultyFilter.value}`);
+  });
+}
+
+if (rebOverlaySearchInput) {
+  rebOverlaySearchInput.addEventListener("input", () => {
+    renderRebOverlayFilteredPuzzles();
+  });
+}
+
+if (rebOverlayBtnClearSearch) {
+  rebOverlayBtnClearSearch.addEventListener("click", () => {
+    if (rebOverlaySearchInput) rebOverlaySearchInput.value = "";
+    renderRebOverlayFilteredPuzzles();
+  });
+}
+
+if (rebOverlayBtnLoadPuzzle && rebOverlayPuzzleSelect) {
+  rebOverlayBtnLoadPuzzle.addEventListener("click", () => {
+    const selectedId = rebOverlayPuzzleSelect.value;
+    if (selectedId) {
+      sendGameAction("loadPuzzleById", { id: selectedId });
+      showToast(`🎭 Loading Rebus #${selectedId}...`);
+    }
+  });
+}
+
+if (rebOverlayBtnRandomPuzzle) {
+  rebOverlayBtnRandomPuzzle.addEventListener("click", () => {
+    if (rebCurrentFilteredPuzzles.length === 0) return;
+    const chosen = rebCurrentFilteredPuzzles[Math.floor(Math.random() * rebCurrentFilteredPuzzles.length)];
+    sendGameAction("loadPuzzleById", { id: chosen.id });
+    showToast(`🎲 Random Rebus: ${chosen.answer}`);
+  });
+}
+
+// Pre-load Rebus puzzles
+fetch("/games/rebus/puzzles.json")
+  .then((res) => res.json())
+  .then((puzzles) => {
+    if (Array.isArray(puzzles)) {
+      initRebPuzzles(puzzles);
+    }
+  })
+  .catch((err) => console.log("Note: Could not preload rebus puzzles:", err.message));
+
+// --------------------------------------------------------------------------
+// Riddle Controls (Host Studio)
+// --------------------------------------------------------------------------
+const ridOverlayCategoryFilter = document.getElementById("ridOverlayCategoryFilter");
+const ridOverlayDifficultyFilter = document.getElementById("ridOverlayDifficultyFilter");
+const ridOverlaySearchInput = document.getElementById("ridOverlaySearchInput");
+const ridOverlayBtnClearSearch = document.getElementById("ridOverlayBtnClearSearch");
+const ridOverlayRiddleSelect = document.getElementById("ridOverlayRiddleSelect");
+const ridOverlayFilteredCountText = document.getElementById("ridOverlayFilteredCountText");
+const ridOverlayCountBadge = document.getElementById("ridOverlayCountBadge");
+const ridOverlayBtnLoadRiddle = document.getElementById("ridOverlayBtnLoadRiddle");
+const ridOverlayBtnRandomRiddle = document.getElementById("ridOverlayBtnRandomRiddle");
+const ridOverlayBtnHint = document.getElementById("ridOverlayBtnHint");
+const ridOverlayBtnToggleClue = document.getElementById("ridOverlayBtnToggleClue");
+const ridOverlayGraceStatusBadge = document.getElementById("ridOverlayGraceStatusBadge");
+const ridOverlayGraceTimeText = document.getElementById("ridOverlayGraceTimeText");
+
+let ridRiddles = [];
+let ridCurrentFilteredRiddles = [];
+
+function initRidRiddles(riddles) {
+  if (!Array.isArray(riddles) || riddles.length === 0) return;
+  ridRiddles = riddles;
+  renderRidOverlayFilteredRiddles();
+}
+
+function renderRidOverlayFilteredRiddles() {
+  if (!ridRiddles.length || !ridOverlayRiddleSelect) return;
+  const selectedCat = ridOverlayCategoryFilter ? ridOverlayCategoryFilter.value : "ALL";
+  const selectedDiff = ridOverlayDifficultyFilter ? ridOverlayDifficultyFilter.value : "ALL";
+  const q = (ridOverlaySearchInput?.value || "").trim().toLowerCase();
+
+  ridCurrentFilteredRiddles = ridRiddles.filter((r) => {
+    if (selectedCat !== "ALL" && r.category !== selectedCat) return false;
+    if (selectedDiff !== "ALL" && r.difficulty !== selectedDiff) return false;
+    if (!q) return true;
+    const a = (r.answer || "").toLowerCase();
+    const rd = (r.riddle || "").toLowerCase();
+    const c = (r.clue || "").toLowerCase();
+    return a.includes(q) || rd.includes(q) || c.includes(q);
+  });
+
+  if (ridOverlayFilteredCountText) {
+    ridOverlayFilteredCountText.textContent = `${ridCurrentFilteredRiddles.length} available`;
+  }
+  if (ridOverlayCountBadge) {
+    ridOverlayCountBadge.textContent = selectedCat === "ALL" && selectedDiff === "ALL" && !q
+      ? `${ridRiddles.length} Riddles`
+      : `${ridCurrentFilteredRiddles.length} Match${ridCurrentFilteredRiddles.length === 1 ? '' : 'es'}`;
+  }
+
+  if (ridCurrentFilteredRiddles.length === 0) {
+    ridOverlayRiddleSelect.innerHTML = `<option value="">No matching riddles found</option>`;
+  } else {
+    ridOverlayRiddleSelect.innerHTML = ridCurrentFilteredRiddles
+      .slice(0, 300)
+      .map((r) => `<option value="${r.id}">${r.emoji || "🧙‍♂️"} [${r.difficulty}] ${r.answer} — "${(r.riddle || '').slice(0, 40)}..."</option>`)
+      .join("");
+    if (currentGameState?.riddleId && ridCurrentFilteredRiddles.some((r) => r.id === currentGameState.riddleId)) {
+      ridOverlayRiddleSelect.value = currentGameState.riddleId;
+    }
+  }
+
+  if (ridOverlayBtnClearSearch) {
+    ridOverlayBtnClearSearch.style.display = q ? "flex" : "none";
+  }
+}
+
+if (ridOverlayCategoryFilter) {
+  ridOverlayCategoryFilter.addEventListener("change", () => {
+    renderRidOverlayFilteredRiddles();
+    sendGameAction("setCategoryFilter", ridOverlayCategoryFilter.value === "ALL" ? "all" : ridOverlayCategoryFilter.value);
+    showToast(`Riddle Category: ${ridOverlayCategoryFilter.value}`);
+  });
+}
+
+if (ridOverlayDifficultyFilter) {
+  ridOverlayDifficultyFilter.addEventListener("change", () => {
+    renderRidOverlayFilteredRiddles();
+    sendGameAction("setDifficultyFilter", ridOverlayDifficultyFilter.value === "ALL" ? "all" : ridOverlayDifficultyFilter.value);
+    showToast(`Riddle Difficulty: ${ridOverlayDifficultyFilter.value}`);
+  });
+}
+
+if (ridOverlaySearchInput) {
+  ridOverlaySearchInput.addEventListener("input", () => {
+    renderRidOverlayFilteredRiddles();
+  });
+}
+
+if (ridOverlayBtnClearSearch) {
+  ridOverlayBtnClearSearch.addEventListener("click", () => {
+    if (ridOverlaySearchInput) ridOverlaySearchInput.value = "";
+    renderRidOverlayFilteredRiddles();
+  });
+}
+
+if (ridOverlayBtnLoadRiddle && ridOverlayRiddleSelect) {
+  ridOverlayBtnLoadRiddle.addEventListener("click", () => {
+    const selectedId = ridOverlayRiddleSelect.value;
+    if (selectedId) {
+      sendGameAction("loadRiddleById", { id: selectedId });
+      showToast(`🧙‍♂️ Loading Riddle #${selectedId}...`);
+    }
+  });
+}
+
+if (ridOverlayBtnRandomRiddle) {
+  ridOverlayBtnRandomRiddle.addEventListener("click", () => {
+    if (ridCurrentFilteredRiddles.length === 0) return;
+    const chosen = ridCurrentFilteredRiddles[Math.floor(Math.random() * ridCurrentFilteredRiddles.length)];
+    sendGameAction("loadRiddleById", { id: chosen.id });
+    showToast(`🎲 Random Riddle: ${chosen.answer}`);
+  });
+}
+
+if (ridOverlayBtnHint) {
+  ridOverlayBtnHint.addEventListener("click", () => {
+    sendGameAction("hint");
+    showToast("💡 Revealed next letter in answer!");
+  });
+}
+
+if (ridOverlayBtnToggleClue) {
+  ridOverlayBtnToggleClue.addEventListener("click", () => {
+    sendGameAction("toggleClue");
+    showToast("🔎 Toggled riddle clue visibility");
+  });
+}
+
+// Pre-load Riddle puzzles
+fetch("/games/riddle/riddles.json")
+  .then((res) => res.json())
+  .then((riddles) => {
+    if (Array.isArray(riddles)) {
+      initRidRiddles(riddles);
+    }
+  })
+  .catch((err) => console.log("Note: Could not preload riddles:", err.message));
+
+
+// --------------------------------------------------------------------------
 // Round Flow & Game Actions
 // --------------------------------------------------------------------------
 btnStartRound?.addEventListener("click", () => {
-  sendGameAction("newRound");
+  sendGameAction("startRound");
   showToast("▶ Round started / restarted!");
 });
 
@@ -1086,7 +1373,7 @@ function updateHostCheatSheet(data) {
     cheatStatus.textContent = `Found ${solvedCount}/${slots.length || 5} • ${data.paused ? "Paused ⏸" : (data.isTimerActive ? "Guessing Active ▶" : "Ended 🏁")}`;
   } else if (data.gameId === "unscramble") {
     const word = data.secretWord || data.word || "--";
-    const scrambled = data.scrambled || "--";
+    const scrambled = Array.isArray(data.scrambled) ? data.scrambled.join(" ") : (data.scrambled || "--");
     const isSolved = !!data.solved;
     cheatSecretAnswer.textContent = `${word.toUpperCase()} (Scrambled: ${scrambled})`;
     cheatSecretAnswer.style.fontSize = "13px";
@@ -1094,6 +1381,28 @@ function updateHostCheatSheet(data) {
     cheatStatus.textContent = isSolved
       ? `Solved by @${data.lastWinner?.name || data.lastWinner?.username || "Player"}! 🎉`
       : (data.paused ? "Paused ⏸" : (data.isTimerActive ? "Guessing Active ▶" : "Ended 🏁"));
+  } else if (data.gameId === "rebus") {
+    const ans = data.secretAnswer || data.answer || "--";
+    cheatSecretAnswer.textContent = ans;
+    cheatSecretAnswer.style.fontSize = "14px";
+    cheatCategory.textContent = `${data.emoji || "🎭"} ${data.category || "General"} [${data.difficulty || "Medium"} • ${data.layout || "Layout"}] — Clue: "${data.secretHint || data.hintClue || "Visual wordplay"}"`;
+    cheatStatus.textContent = data.isRevealed
+      ? `Answer Revealed 👁️`
+      : (data.paused ? "Paused ⏸" : (data.isTimerActive ? "Guessing Active ▶" : "Ended 🏁"));
+  } else if (data.gameId === "riddle") {
+    const ans = data.secretAnswer || data.answer || "--";
+    cheatSecretAnswer.textContent = ans;
+    cheatSecretAnswer.style.fontSize = "14px";
+    const clueText = data.secretClue || data.clue || "No clue";
+    cheatCategory.textContent = `${data.emoji || "🧙‍♂️"} [${data.difficulty || "Medium"}] ${data.category || "Classic"} — Clue: "${clueText}"`;
+    if (data.gracePeriodActive) {
+      cheatStatus.textContent = `⚡ SPEED RUN ACTIVE (${data.graceRemainingSec || 0}s left for +50pts bonus!)`;
+    } else if (data.isRevealed) {
+      const winCount = Array.isArray(data.winners) ? data.winners.length : 0;
+      cheatStatus.textContent = `Solved by ${winCount} player${winCount === 1 ? '' : 's'} 🏆`;
+    } else {
+      cheatStatus.textContent = data.paused ? "Paused ⏸" : (data.isTimerActive ? "Guessing Active ▶" : "Ended 🏁");
+    }
   }
 }
 
@@ -1239,6 +1548,76 @@ function updateGameStateUI(data) {
     if (data.wordId && uOverlayWordSelect && document.activeElement !== uOverlayWordSelect) {
       if (uOverlayWordSelect.value !== data.wordId) {
         uOverlayWordSelect.value = data.wordId;
+      }
+    }
+  }
+
+  // Sync Controls for Rebus
+  if (data.gameId === "rebus" || data.activeGameId === "rebus") {
+    const rebOverlayCategoryFilter = document.getElementById("rebOverlayCategoryFilter");
+    const rebOverlayDifficultyFilter = document.getElementById("rebOverlayDifficultyFilter");
+    const rebOverlayPuzzleSelect = document.getElementById("rebOverlayPuzzleSelect");
+
+    if (Array.isArray(data.puzzlesListPreview) && rebPuzzles.length === 0) {
+      initRebPuzzles(data.puzzlesListPreview);
+    }
+    if (data.categoryFilter && rebOverlayCategoryFilter && document.activeElement !== rebOverlayCategoryFilter) {
+      const val = data.categoryFilter === "all" ? "ALL" : data.categoryFilter;
+      if (rebOverlayCategoryFilter.value !== val) {
+        rebOverlayCategoryFilter.value = val;
+        renderRebOverlayFilteredPuzzles();
+      }
+    }
+    if (data.difficultyFilter && rebOverlayDifficultyFilter && document.activeElement !== rebOverlayDifficultyFilter) {
+      const val = data.difficultyFilter === "all" ? "ALL" : data.difficultyFilter;
+      if (rebOverlayDifficultyFilter.value !== val) {
+        rebOverlayDifficultyFilter.value = val;
+        renderRebOverlayFilteredPuzzles();
+      }
+    }
+    if (data.puzzleId && rebOverlayPuzzleSelect && document.activeElement !== rebOverlayPuzzleSelect) {
+      if (rebOverlayPuzzleSelect.value !== data.puzzleId) {
+        rebOverlayPuzzleSelect.value = data.puzzleId;
+      }
+    }
+  }
+
+  // Sync Controls for Riddle
+  if (data.gameId === "riddle" || data.activeGameId === "riddle") {
+    const ridOverlayCategoryFilter = document.getElementById("ridOverlayCategoryFilter");
+    const ridOverlayDifficultyFilter = document.getElementById("ridOverlayDifficultyFilter");
+    const ridOverlayRiddleSelect = document.getElementById("ridOverlayRiddleSelect");
+    const ridOverlayGraceStatusBadge = document.getElementById("ridOverlayGraceStatusBadge");
+    const ridOverlayGraceTimeText = document.getElementById("ridOverlayGraceTimeText");
+
+    if (Array.isArray(data.riddlesListPreview) && ridRiddles.length === 0) {
+      initRidRiddles(data.riddlesListPreview);
+    }
+    if (data.categoryFilter && ridOverlayCategoryFilter && document.activeElement !== ridOverlayCategoryFilter) {
+      const val = data.categoryFilter === "all" ? "ALL" : data.categoryFilter;
+      if (ridOverlayCategoryFilter.value !== val) {
+        ridOverlayCategoryFilter.value = val;
+        renderRidOverlayFilteredRiddles();
+      }
+    }
+    if (data.difficultyFilter && ridOverlayDifficultyFilter && document.activeElement !== ridOverlayDifficultyFilter) {
+      const val = data.difficultyFilter === "all" ? "ALL" : data.difficultyFilter;
+      if (ridOverlayDifficultyFilter.value !== val) {
+        ridOverlayDifficultyFilter.value = val;
+        renderRidOverlayFilteredRiddles();
+      }
+    }
+    if (data.riddleId && ridOverlayRiddleSelect && document.activeElement !== ridOverlayRiddleSelect) {
+      if (ridOverlayRiddleSelect.value !== data.riddleId) {
+        ridOverlayRiddleSelect.value = data.riddleId;
+      }
+    }
+    if (ridOverlayGraceStatusBadge && ridOverlayGraceTimeText) {
+      if (data.gracePeriodActive) {
+        ridOverlayGraceStatusBadge.style.display = "flex";
+        ridOverlayGraceTimeText.textContent = `${data.graceRemainingSec || 0}s (50 PTS Bonus)`;
+      } else {
+        ridOverlayGraceStatusBadge.style.display = "none";
       }
     }
   }

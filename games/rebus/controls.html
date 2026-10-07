@@ -1,0 +1,146 @@
+<!-- games/rebus/controls.html -->
+<div class="game-controls-container">
+  <!-- Host Secret Cheat Sheet -->
+  <div class="card cheat-card">
+    <div class="card-title">
+      <span>💡 Host Cheat Sheet (Secret Rebus Answer)</span>
+      <span class="badge badge-purple" style="font-size:10px">Ally's Rebus</span>
+    </div>
+    <div class="secret-display" style="flex-direction:column;align-items:stretch;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px">
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Secret Answer</div>
+          <div id="rebHostAnswer" style="font-size:22px;font-weight:900;color:#38bdf8;margin-top:2px;letter-spacing:1.5px">--</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:#c084fc">Category: <strong id="rebHostCategory">--</strong></div>
+          <div style="font-size:12px;color:#e2e8f0;margin-top:2px">
+            Difficulty: <strong id="rebHostDifficulty">--</strong> • Layout: <strong id="rebHostLayout">--</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clue & Acceptable Variants Info -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;background:rgba(0,0,0,0.3);border-radius:8px;padding:8px 12px;">
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;">Clue / Meaning</div>
+          <div id="rebHostHint" style="font-size:12px;font-weight:700;color:#fef08a;margin-top:2px">--</div>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;">Acceptable Variations</div>
+          <div id="rebHostAcceptable" style="font-size:11.5px;font-weight:600;color:#cbd5e1;margin-top:2px;word-break:break-word;">--</div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons for Host -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <button id="rebBtnHostHint" class="ctrl-btn" style="background:linear-gradient(135deg,#eab308,#ca8a04);color:#000;font-weight:800;padding:7px;border-radius:6px;border:none;cursor:pointer;font-size:11.5px;">
+          <span>💡 Give Hint (Clue / Blanks / 1st Letter)</span>
+        </button>
+        <button id="rebBtnHostReveal" class="ctrl-btn" style="background:linear-gradient(135deg,#ec4899,#db2777);color:#fff;font-weight:800;padding:7px;border-radius:6px;border:none;cursor:pointer;font-size:11.5px;">
+          <span>👁️ Reveal Answer to Chat</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Round & Flow Actions -->
+  <div class="card">
+    <div class="card-title">Round Flow &amp; Timer Actions</div>
+    <div class="btn-row">
+      <button class="primary" id="rebBtnStartTimer">▶ Start Timer</button>
+      <button class="secondary" id="rebBtnPauseTimer">⏸ Pause Timer</button>
+      <button class="secondary" id="rebBtnNextRound">⏭ Next Puzzle</button>
+      <button class="secondary" id="rebBtnPrevRound">⏮ Prev Puzzle</button>
+      <button class="secondary" id="rebBtnRandomRound">🎲 Random Puzzle</button>
+      <button class="secondary" id="rebBtnHint">💡 Give Hint</button>
+      <button class="secondary" id="rebBtnReveal">👁 Reveal Answer</button>
+      <button class="danger" id="rebBtnResetGame">🔄 Reset Game</button>
+    </div>
+  </div>
+
+  <!-- Timer & Duration Configuration -->
+  <div class="card">
+    <div class="card-title">Timer &amp; Duration Configuration</div>
+    <div class="form-group">
+      <label>Timer Presets (Seconds)</label>
+      <div class="btn-row" id="rebPresetRow">
+        <button type="button" class="chip" data-sec="20">20s</button>
+        <button type="button" class="chip" data-sec="30">30s</button>
+        <button type="button" class="chip active" data-sec="45">45s</button>
+        <button type="button" class="chip" data-sec="60">60s</button>
+        <button type="button" class="chip" data-sec="90">90s</button>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:6px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <label for="rebCustomSecInput" style="margin:0">Custom Duration:</label>
+        <input type="number" id="rebCustomSecInput" min="10" max="240" placeholder="e.g. 45" style="width:90px;padding:6px 10px" />
+        <span style="font-size:12px;color:var(--muted)">seconds</span>
+        <button type="button" class="secondary" id="rebBtnSetCustomSec" style="padding:6px 14px">Set Time</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Puzzle Catalog & Filters -->
+  <div class="card">
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>Puzzle Catalog &amp; Filters</span>
+      <span class="badge badge-purple" id="rebPuzzlesCountBadge">551 Puzzles</span>
+    </div>
+
+    <!-- Category Filter Chips -->
+    <div class="form-group">
+      <label>Filter by Category</label>
+      <div class="btn-row" id="rebCategoryFilterRow">
+        <button type="button" class="chip active" data-cat="all">All</button>
+        <button type="button" class="chip" data-cat="Idioms">Idioms</button>
+        <button type="button" class="chip" data-cat="Sayings">Sayings</button>
+        <button type="button" class="chip" data-cat="Phrases">Phrases</button>
+        <button type="button" class="chip" data-cat="Pop Culture">Pop Culture</button>
+        <button type="button" class="chip" data-cat="Everyday">Everyday</button>
+      </div>
+    </div>
+
+    <!-- Difficulty Filter Chips -->
+    <div class="form-group">
+      <label>Filter by Difficulty</label>
+      <div class="btn-row" id="rebDifficultyFilterRow">
+        <button type="button" class="chip active" data-diff="all">All</button>
+        <button type="button" class="chip" data-diff="Easy">Easy</button>
+        <button type="button" class="chip" data-diff="Medium">Medium</button>
+        <button type="button" class="chip" data-diff="Hard">Hard</button>
+      </div>
+    </div>
+
+    <!-- Instant Search & Quick Select -->
+    <div class="form-group">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <label for="rebSearchInput">Search Puzzles (Answer, Clue, or Layout):</label>
+        <span id="rebFilteredCountText" style="font-size:11px;color:#c084fc;font-weight:700">551 available</span>
+      </div>
+      <div style="position:relative;display:flex;align-items:center;margin-bottom:6px">
+        <input type="text" id="rebSearchInput" placeholder="Filter by phrase or keyword..." style="width:100%;padding:6px 28px 6px 10px;" />
+        <button id="rebBtnClearSearch" type="button" style="position:absolute;right:6px;height:20px;width:20px;border:none;border-radius:50%;background:rgba(255,255,255,0.2);color:#fff;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:11px;">✕</button>
+      </div>
+      <select id="rebPuzzleSelect" style="width:100%;padding:8px 10px;background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:6px;color:#fff;">
+        <option value="">Loading puzzles...</option>
+      </select>
+    </div>
+
+    <div class="btn-row">
+      <button class="primary" id="rebBtnLoadPuzzle">Load Selected Puzzle</button>
+      <button class="secondary" id="rebBtnRandomFromFilter">Pick Random from Filter</button>
+    </div>
+  </div>
+
+  <!-- Chat Guess Simulator -->
+  <div class="card">
+    <div class="card-title">Live Chat Guess Simulator</div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <input type="text" id="rebSimInput" placeholder="Type a guess to test matching..." style="flex:1;padding:8px 12px;" />
+      <button class="secondary" id="rebBtnSimGuess">Test Guess</button>
+    </div>
+    <div id="rebSimResult" style="font-size:12px;margin-top:6px;min-height:18px;"></div>
+  </div>
+</div>

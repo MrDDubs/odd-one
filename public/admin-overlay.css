@@ -360,7 +360,7 @@ body {
 .phone-frame {
   position: relative;
   height: 100%;
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 10 / 16;
   max-height: calc(100vh - 170px);
   background: #000;
   border-radius: 24px;
@@ -377,12 +377,20 @@ body {
 }
 
 .phone-frame.mode-fit {
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 10 / 16;
   max-height: 100%;
 }
 
 .phone-frame.game-think-and-link:not(.mode-wide) {
   aspect-ratio: 11 / 16;
+}
+
+.phone-frame.game-crowd-says:not(.mode-wide) {
+  aspect-ratio: 10 / 16;
+}
+
+.phone-frame.game-riddle:not(.mode-wide) {
+  aspect-ratio: 10 / 16;
 }
 
 .phone-notch {

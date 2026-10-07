@@ -5,6 +5,8 @@ import { ThinkAndLinkEngine } from "./think-and-link/engine.js";
 import { WordFinderEngine } from "./word-finder/engine.js";
 import { CrowdSaysEngine } from "./crowd-says/engine.js";
 import { UnscrambleEngine } from "./unscramble/engine.js";
+import { RebusEngine } from "./rebus/engine.js";
+import { RiddleEngine } from "./riddle/engine.js";
 
 class GameRegistry {
   constructor() {
@@ -83,6 +85,30 @@ class GameRegistry {
       controlsModule: "/games/unscramble/controls.js",
       engine: new UnscrambleEngine()
     });
+
+    this.registerGame({
+      id: "rebus",
+      name: "Ally's Rebus",
+      icon: "🎭",
+      description: "Visual Wordplay Live Game! Viewers in chat guess 500+ Dingbats & Rebus puzzles.",
+      category: "Word / Visual",
+      overlayPath: "/games/rebus/overlay.html",
+      controlsPath: "/games/rebus/controls.html",
+      controlsModule: "/games/rebus/controls.js",
+      engine: new RebusEngine()
+    });
+
+    this.registerGame({
+      id: "riddle",
+      name: "Ally's Riddles",
+      icon: "🧙‍♂️",
+      description: "Live Riddle Brain Teasers! Viewers in chat solve 600+ tricky riddles with 5-second speed grace for bonus winners.",
+      category: "Word / Trivia",
+      overlayPath: "/games/riddle/overlay.html",
+      controlsPath: "/games/riddle/controls.html",
+      controlsModule: "/games/riddle/controls.js",
+      engine: new RiddleEngine()
+    });
   }
 
   registerGame(gameDefinition) {
@@ -153,6 +179,8 @@ class GameRegistry {
 
     switch (action) {
       case "startRound":
+        if (typeof engine.startRound === "function") return engine.startRound(options);
+        return engine.newRound(options);
       case "newRound":
       case "nextRound":
         return engine.newRound(options);
@@ -224,6 +252,9 @@ class GameRegistry {
       case "setCategoryFilter":
         if (typeof engine.setCategoryFilter === "function") return engine.setCategoryFilter(options);
         break;
+      case "setDifficultyFilter":
+        if (typeof engine.setDifficultyFilter === "function") return engine.setDifficultyFilter(options);
+        break;
       case "setLengthFilter":
         if (typeof engine.setLengthFilter === "function") return engine.setLengthFilter(options);
         break;
@@ -271,10 +302,18 @@ class GameRegistry {
 
   getAdminPayload() {
     const active = this.getActiveGame();
+    let activePayload = {};
+    if (active) {
+      if (typeof active.getAdminPayload === "function") {
+        activePayload = active.getAdminPayload();
+      } else if (typeof active.getPublicPayload === "function") {
+        activePayload = active.getPublicPayload();
+      }
+    }
     return {
       activeGameId: this.activeGameId,
       availableGames: this.getAvailableGames(),
-      ...(active ? active.getAdminPayload() : {})
+      ...activePayload
     };
   }
 }
