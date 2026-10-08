@@ -27,10 +27,10 @@
     /* Since the user uploaded JPGs with black backgrounds, we use screen to make the black transparent */
     .top-banner {
       position: absolute;
-      top: 50px;
+      top: 10px; /* Moved up */
       left: 50%;
       transform: translateX(-50%);
-      width: 1000px; /* fills most of top width */
+      width: 750px; /* Made banner much smaller */
       height: auto;
       z-index: 10;
       mix-blend-mode: screen; 
@@ -40,7 +40,7 @@
       position: absolute;
       bottom: 250px;
       right: 50px;
-      width: 380px;
+      width: 250px; /* Shrunk bao a bit too */
       height: auto;
       z-index: 15;
       mix-blend-mode: screen;
@@ -55,21 +55,23 @@
     /* Game and Leaderboard Layer */
     .content-layer {
       position: absolute;
-      top: 500px; /* positioned below the massive top banner */
-      left: 0;
-      width: 1080px;
-      height: 1420px;
+      top: 340px; /* Tucked closer to the banner */
+      left: 30px;
+      width: 1020px;
+      height: 1200px;
       display: flex;
-      justify-content: center;
-      gap: 15px;
+      justify-content: space-between; /* push game to left, leaderboard to right */
+      align-items: flex-start;
       z-index: 5;
     }
 
     .game-wrapper {
       position: relative;
-      width: 710px; /* 1080 * 0.65 scale = ~702px */
-      height: 1260px; /* 1920 * 0.65 = ~1248px */
+      width: 648px; /* 1080 * 0.6 scale */
+      height: 1152px; /* 1920 * 0.6 scale */
       overflow: hidden;
+      border-radius: 40px; /* smooth corners */
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
 
     .game-iframe {
@@ -77,26 +79,23 @@
       height: 1920px;
       border: none;
       transform-origin: 0 0;
-      transform: scale(0.65);
+      transform: scale(0.6);
       background: transparent;
     }
 
     .leaderboard-wrapper {
       position: relative;
-      width: 320px; /* Enough to comfortably fit the 260px leaderboard */
-      height: 1260px;
-      display: flex;
-      justify-content: flex-start;
-      margin-top: 10px; /* slight offset so they align nicely */
+      width: 338px; /* 260 * 1.3 scale */
+      height: 1152px;
     }
 
     .leaderboard-iframe {
-      width: 280px; /* Slightly wider to prevent scrollbars */
-      height: 900px;
+      width: 260px; 
+      height: 850px;
       border: none;
       background: transparent;
       transform-origin: top left;
-      transform: scale(1.1); /* make leaderboard slightly chunkier */
+      transform: scale(1.3); /* scale leaderboard up slightly to match game height */
     }
   </style>
 </head>
