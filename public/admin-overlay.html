@@ -827,5 +827,23 @@
   </div>
 
   <script src="./admin-overlay.js"></script>
+  <script>
+    // OBS 1080p 1:1 Scaling Fix
+    const liveIframe = document.getElementById('liveOverlayIframe');
+    const pFrame = document.getElementById('phoneFrame');
+    if (liveIframe && pFrame) {
+      new ResizeObserver(() => {
+        const fw = pFrame.clientWidth;
+        const fh = pFrame.clientHeight;
+        const scale = Math.min(fw / 1080, fh / 1920);
+        const dx = (fw - 1080 * scale) / 2;
+        const dy = (fh - 1920 * scale) / 2;
+        liveIframe.style.width = '1080px';
+        liveIframe.style.height = '1920px';
+        liveIframe.style.transformOrigin = '0 0';
+        liveIframe.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      }).observe(pFrame);
+    }
+  </script>
 </body>
 </html>
