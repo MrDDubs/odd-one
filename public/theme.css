@@ -1,0 +1,515 @@
+/* ==========================================================================
+   ALLY'S STREAM HUB — UNIFIED DESIGN SYSTEM & THEME
+   Single Source of Truth for Branding, Typography, Colors & Core Components
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
+
+:root {
+  /* --- Brand Color Palette --- */
+  --brand-purple: #a855f7;
+  --brand-purple-dark: #7c3aed;
+  --brand-purple-deep: #4c1d95;
+  --brand-purple-glow: rgba(168, 85, 247, 0.45);
+  --brand-pink: #ec4899;
+  --brand-pink-glow: rgba(236, 72, 153, 0.4);
+  --brand-gold: #f59e0b;
+  --brand-gold-glow: rgba(245, 158, 11, 0.4);
+  --brand-yellow: #fde047;
+  --brand-yellow-light: #fef08a;
+  --brand-cyan: #06b6d4;
+  --brand-emerald: #10b981;
+  --brand-red: #ef4444;
+
+  /* --- Canvas & Backgrounds --- */
+  --bg-deep: #120924;
+  --bg-canvas-gradient:
+    radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.45) 0, transparent 32%),
+    radial-gradient(circle at 85% 25%, rgba(236, 72, 153, 0.38) 0, transparent 34%),
+    linear-gradient(165deg, #1e1548, #3b2a75 48%, #1b1642);
+
+  /* --- Glassmorphism Cards --- */
+  --glass-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(243, 235, 255, 0.94));
+  --glass-border: #cbb8ff;
+  --glass-text: #2e1065;
+  --glass-shadow: 0 0 16px var(--brand-purple-glow), inset 0 0 12px rgba(255, 255, 255, 0.6);
+
+  --dark-glass-bg: linear-gradient(145deg, rgba(30, 21, 72, 0.92), rgba(20, 14, 50, 0.95));
+  --dark-glass-border: rgba(168, 85, 247, 0.35);
+  --dark-glass-text: #ffffff;
+
+  /* --- Typography --- */
+  --font-display: 'Fredoka', 'Outfit', system-ui, sans-serif;
+  --font-body: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Outfit', system-ui, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+
+  /* --- Border Radii --- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+  --radius-pill: 9999px;
+
+  /* --- Transitions --- */
+  --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ==========================================================================
+   GLOBAL RESET & BASE CONTAINER
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-deep);
+  color: #ffffff;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Standard Stream Overlay Stage (10:16 Aspect Ratio) */
+.overlay-app, .app {
+  width: min(100vw, 62.5vh);
+  height: 100vh;
+  aspect-ratio: 10 / 16;
+  margin: auto;
+  padding: 2.2% 1.2%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4%;
+  background: var(--bg-canvas-gradient);
+  position: relative;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.65);
+  box-sizing: border-box;
+}
+
+/* Standard Glass Card */
+.glass {
+  background: var(--glass-bg);
+  color: var(--glass-text);
+  border: 2px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   BRAND HEADER & MASCOT (Ally Avatar + Speech Bubble — Think & Link Style)
+   ========================================================================== */
+
+/* ==========================================================================
+   BRAND HEADER & MASCOT (Ally Avatar + Speech Bubble — Think & Link Style)
+   ========================================================================== */
+
+.brand-card,
+header.brand-card,
+.glass.brand-card {
+  width: 100% !important;
+  padding: 8px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(145deg, #facc15 0%, #eab308 45%, #ca8a04 100%) !important;
+  border: 2px solid #fef08a !important;
+  border-radius: 20px !important;
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.5), inset 0 0 14px rgba(255, 255, 255, 0.35) !important;
+  color: #451a03 !important;
+  text-align: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Subtle Sunflower Pattern */
+.brand-card::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg transform='translate(30,30)'%3E%3Cpath d='M0 -14 C-3 -9 -3 -4 0 0 C3 -4 3 -9 0 -14' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M0 14 C-3 9 -3 4 0 0 C3 4 3 9 0 14' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M-14 0 C-9 -3 -4 -3 0 0 C-4 3 -9 3 -14 0' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M14 0 C9 -3 4 -3 0 0 C4 3 9 3 14 0' fill='%23fef08a' opacity='0.9'/%3E%3Cpath d='M-10 -10 C-8 -4 -4 -8 0 0 C-8 -4 -4 -8 -10 -10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M10 10 C8 4 4 8 0 0 C8 4 4 8 10 10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M-10 10 C-8 -4 -4 8 0 0 C-8 -4 -4 8 -10 10' fill='%23fde047' opacity='0.9'/%3E%3Cpath d='M10 -10 C8 -4 4 -8 0 0 C8 -4 4 -8 10 -10' fill='%23fde047' opacity='0.9'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%23854d0e' opacity='0.95'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%23451a03' opacity='0.95'/%3E%3C/g%3E%3Cg transform='translate(6,6)'%3E%3Ccircle cx='0' cy='0' r='6' fill='none' stroke='%23fef08a' stroke-width='1.8' stroke-dasharray='2,2' opacity='0.75'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%2378350f' opacity='0.85'/%3E%3C/g%3E%3Cg transform='translate(54,54)'%3E%3Ccircle cx='0' cy='0' r='6' fill='none' stroke='%23fef08a' stroke-width='1.8' stroke-dasharray='2,2' opacity='0.75'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%2378350f' opacity='0.85'/%3E%3C/g%3E%3Ccircle cx='50' cy='12' r='1.5' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='12' cy='48' r='1.5' fill='%23ffffff' opacity='0.7'/%3E%3C/svg%3E") !important;
+  background-repeat: repeat !important;
+  background-size: 54px 54px !important;
+  opacity: 0.22 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.brand-header-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  width: 100% !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.brand-avatar-wrap {
+  width: clamp(72px, 10vh, 96px) !important;
+  height: clamp(72px, 10vh, 96px) !important;
+  border-radius: 50% !important;
+  padding: 3px !important;
+  background: linear-gradient(135deg, #fef08a, #f59e0b) !important;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.85), 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  animation: avatarFloat 3.4s ease-in-out infinite alternate, avatarGlow 2.5s ease-in-out infinite alternate !important;
+}
+
+@keyframes avatarFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(1.5deg); }
+  100% { transform: translateY(0) rotate(-1deg); }
+}
+
+@keyframes avatarGlow {
+  from { box-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 2px 6px rgba(0,0,0,0.2); }
+  to { box-shadow: 0 0 26px rgba(245, 158, 11, 0.95), 0 4px 14px rgba(0,0,0,0.35); }
+}
+
+.brand-avatar {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  object-position: center 20% !important;
+  border: 2.5px solid #ffffff !important;
+  display: block !important;
+}
+
+/* Speech Bubble override with design system typography */
+.avatar-speech-bubble {
+  position: relative !important;
+  background: #ffffff !important;
+  border: 2.5px solid #fef08a !important;
+  border-radius: 20px !important;
+  padding: 10px 18px !important;
+  min-height: clamp(52px, 7vh, 72px) !important;
+  max-width: clamp(230px, 34vw, 360px) !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25), 0 0 16px rgba(245, 158, 11, 0.4) !important;
+  animation: speechBubbleFloat 3.6s ease-in-out infinite alternate !important;
+  user-select: none !important;
+  z-index: 2 !important;
+  box-sizing: border-box !important;
+}
+
+/* Pointer tail pointing to the avatar on the left */
+.avatar-speech-bubble::before {
+  content: "" !important;
+  position: absolute !important;
+  left: -11px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-top: 8px solid transparent !important;
+  border-bottom: 8px solid transparent !important;
+  border-right: 12px solid #ffffff !important;
+  z-index: 3 !important;
+}
+
+.avatar-speech-bubble::after {
+  content: "" !important;
+  position: absolute !important;
+  left: -15px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-top: 10px solid transparent !important;
+  border-bottom: 10px solid transparent !important;
+  border-right: 15px solid #fef08a !important;
+  z-index: 2 !important;
+}
+
+.speech-bubble-text {
+  font-family: var(--font-display, 'Fredoka', 'Outfit', sans-serif) !important;
+  font-size: clamp(13px, 1.85vh, 18px) !important;
+  font-weight: 800 !important;
+  color: #2e1065 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0.2px !important;
+  display: inline-block !important;
+  transition: opacity 0.2s ease, transform 0.2s ease !important;
+  word-break: break-word !important;
+}
+
+/* ==========================================================================
+   SUB HEADER ROW (Consistent Standalone White Pills: Round Left, Topic Center, Timer Right)
+   ========================================================================== */
+
+.sub-header-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  gap: 8px !important;
+  position: relative !important;
+  z-index: 2 !important;
+  flex-shrink: 0 !important;
+}
+
+/* Remove any legacy outer double-pill wrapper */
+.game-info-pill {
+  display: contents !important;
+}
+
+/* Base White Pill Style */
+.meta-pill {
+  font-family: var(--font-display, 'Fredoka', sans-serif) !important;
+  font-size: clamp(12px, 1.55vh, 15px) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+  padding: 6px 16px !important;
+  border-radius: var(--radius-pill) !important;
+  background: #ffffff !important;
+  color: #3b1d75 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), 0 0 10px rgba(168, 85, 247, 0.15) !important;
+  border: 2px solid #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+}
+
+/* Left: Round Number White Pill */
+.round-pill,
+.meta-pill.round-pill,
+#roundPill,
+#round {
+  background: #ffffff !important;
+  color: #3b1d75 !important;
+  border: 2px solid #ffffff !important;
+  flex-shrink: 0 !important;
+}
+
+/* Center: Topic / Category White Pill */
+.topic-pill,
+.category-pill,
+.meta-pill.topic-pill,
+.meta-pill.category-pill,
+#categoryPill,
+#topicPill {
+  background: #ffffff !important;
+  color: #4c1d95 !important;
+  border: 2px solid #ffffff !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+  max-width: 52% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  padding: 6px 18px !important;
+}
+
+/* Right: Timer Standalone White Pill */
+.timer-pill,
+.timer-badge,
+#timerBox {
+  font-family: var(--font-display, 'Fredoka', sans-serif) !important;
+  font-size: clamp(18px, 2.5vh, 24px) !important;
+  font-weight: 800 !important;
+  padding: 4px 16px !important;
+  border-radius: var(--radius-pill) !important;
+  background: #ffffff !important;
+  color: #dc2626 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), 0 0 10px rgba(239, 68, 68, 0.2) !important;
+  border: 2px solid #ffffff !important;
+  display: inline-flex !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+  gap: 2px !important;
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast) !important;
+}
+
+.timer-num {
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.5px !important;
+  color: #dc2626 !important;
+}
+
+.timer-unit {
+  font-size: clamp(11px, 1.35vh, 14px) !important;
+  font-weight: 700 !important;
+  color: #ef4444 !important;
+  opacity: 0.9 !important;
+}
+
+/* Danger / Urgent low time state */
+.timer-pill.urgent,
+.timer-pill.danger,
+#timerBox.urgent,
+#timerBox.danger {
+  animation: urgentTimerPulse 0.65s ease-in-out infinite alternate !important;
+  background: #fff1f2 !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.65) !important;
+}
+
+/* ==========================================================================
+   RULE BANNER (Think & Link Pure White Pill Style)
+   ========================================================================== */
+
+.rule-banner {
+  background: #ffffff !important;
+  border-radius: 999px !important;
+  padding: 4px 18px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3) !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: center !important;
+  gap: 6px !important;
+  flex-shrink: 0 !important;
+  width: auto !important;
+}
+
+/* Rotating Carousel Banner (e.g. Word Finder) */
+.rule-banner-carousel,
+#ruleBanner.rule-banner {
+  padding: 0 !important;
+  overflow: hidden !important;
+  height: 28px !important;
+  min-width: 275px !important;
+  position: relative !important;
+  display: block !important;
+}
+
+.rule-text {
+  font-family: 'Outfit', var(--font-body, sans-serif) !important;
+  font-weight: 800 !important;
+  font-size: 12.5px !important;
+  letter-spacing: 0.5px !important;
+  color: #17022d !important;
+  text-transform: uppercase !important;
+}
+
+.rule-heart {
+  font-size: 14px !important;
+  display: inline-block !important;
+}
+
+/* ==========================================================================
+   COMMUNITY STREAK PILL
+   ========================================================================== */
+
+.streak-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, rgba(30, 21, 72, 0.9), rgba(59, 30, 110, 0.95));
+  border: 2px solid var(--brand-purple);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.streak-label {
+  font-family: var(--font-display);
+  font-size: clamp(11px, 1.4vh, 14px);
+  font-weight: 800;
+  color: #e9d5ff;
+  letter-spacing: 0.8px;
+}
+
+.streak-val {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flame-icon {
+  font-size: clamp(14px, 1.8vh, 18px);
+  animation: flameBounce 1.4s ease-in-out infinite;
+}
+
+.streak-num {
+  font-family: var(--font-display);
+  font-size: clamp(14px, 1.9vh, 20px);
+  font-weight: 800;
+  color: #fde047;
+}
+
+/* ==========================================================================
+   ANIMATIONS & KEYFRAMES
+   ========================================================================== */
+
+@keyframes mascotFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(1.5deg); }
+  100% { transform: translateY(2px) rotate(-1deg); }
+}
+
+@keyframes urgentTimerPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.6)); }
+  100% { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(239, 68, 68, 1)); }
+}
+
+@keyframes flameBounce {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.15) translateY(-2px); }
+}
+
+/* ==========================================================================
+   HOST & ADMIN CONTROLS DESIGN SYSTEM
+   ========================================================================== */
+
+.admin-card {
+  background: var(--dark-glass-bg);
+  border: 1px solid var(--dark-glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+.btn-game-action {
+  font-family: var(--font-display);
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-game-action:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.btn-game-action:active {
+  transform: translateY(1px);
+}

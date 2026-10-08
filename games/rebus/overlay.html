@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ally's Rebus — Live Stream Overlay</title>
+  <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="./overlay.css">
   <link rel="stylesheet" href="/speech-bubble.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +15,7 @@
 <body>
   <div class="overlay-app">
     <!-- Top Header: Consistent with Ally Stream Hub -->
-    <header class="glass brand-card">
+    <header class="brand-card">
       <div class="brand-header-top">
         <div class="brand-avatar-wrap">
           <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
@@ -25,13 +26,10 @@
       </div>
     </header>
 
-    <!-- Sub Header Row: Game Info Pills + Standalone Timer Pill (Think & Link Style) -->
+    <!-- Sub Header Row: Standalone White Pills (Round Left, Topic Center, Timer Right) -->
     <div class="sub-header-row">
-      <div class="game-info-pill">
-        <div class="meta-pill round-pill" id="roundPill">ROUND 1</div>
-        <div class="meta-pill category-pill" id="categoryPill">IDIOMS</div>
-        <div class="meta-pill difficulty-pill" id="difficultyPill">EASY</div>
-      </div>
+      <div class="meta-pill round-pill" id="roundPill">ROUND 1</div>
+      <div class="meta-pill topic-pill" id="categoryPill">IDIOMS</div>
       <div class="timer-pill" id="timerBox">
         <span class="timer-num" id="timerNum">45</span><span class="timer-unit">s</span>
       </div>
@@ -39,9 +37,8 @@
 
     <!-- White Pill Rule Banner -->
     <div class="rule-banner">
-      <span class="rule-icon">🎭</span>
-      <span class="rule-text">GUESS THE VISUAL PUZZLE IN CHAT</span>
-      <span class="rule-heart">✨</span>
+      <span class="rule-text">TYPE YOUR ANSWER IN CHAT</span>
+      <span class="rule-heart">💜</span>
     </div>
 
     <!-- Main Content Stage -->

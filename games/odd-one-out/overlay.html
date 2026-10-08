@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ally's Odd One Out — Live Game</title>
 <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+<link rel="stylesheet" href="/theme.css">
 <link rel="stylesheet" href="/speech-bubble.css">
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;background:#120924;color:#fff;display:flex;align-items:center;justify-content:center}
-body{font-family:Arial,sans-serif}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg-deep, #120924);color:#fff;display:flex;align-items:center;justify-content:center}
+body{font-family:var(--font-body, Arial, sans-serif)}
 .app{
-  width:min(100vw,56.25vh);height:100vh;aspect-ratio:9 / 16;margin:auto;padding:2.5% 1%;
+  width:min(100vw,62.5vh);height:100vh;aspect-ratio:10 / 16;margin:auto;padding:2.2% 1.2%;
   display:flex;flex-direction:column;gap:1.5%;
   background:
     radial-gradient(circle at 18% 12%, rgba(139, 92, 246, 0.45) 0, transparent 30%),
@@ -658,7 +659,7 @@ body{font-family:Arial,sans-serif}
 </head>
 <body>
 <div class="app">
-  <header class="glass brand-card">
+  <header class="brand-card">
     <div class="brand-header-top">
       <div class="brand-avatar-wrap">
         <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
@@ -669,13 +670,10 @@ body{font-family:Arial,sans-serif}
     </div>
   </header>
 
-  <!-- Sub Header Row: Game Info + Standalone Timer Pill -->
+  <!-- Sub Header Row: Standalone White Pills (Round Left, Topic Center, Timer Right) -->
   <div class="sub-header-row">
-    <div class="game-info-pill">
-      <div class="meta-pill" id="category">FRUIT</div>
-      <div class="meta-pill" id="level">LVL 1</div>
-      <div class="meta-pill" id="round">ROUND 1</div>
-    </div>
+    <div class="meta-pill round-pill" id="round">ROUND 1</div>
+    <div class="meta-pill topic-pill" id="category">FRUIT</div>
     <div class="timer-pill" id="timerBox">
       <span class="timer-num" id="timer">20</span><span class="timer-unit">s</span>
     </div>

@@ -3,6 +3,7 @@ const socket = io();
 
 // DOM Elements
 const roundPill = document.getElementById("roundPill");
+const categoryPill = document.getElementById("categoryPill");
 const timerBox = document.getElementById("timerBox");
 const timerNum = document.getElementById("timerNum");
 
@@ -139,7 +140,6 @@ function renderBoard(slots = []) {
           <div class="cs-card-face cs-card-front">
             <div class="cs-rank-pill">#${s.rank}</div>
             <div class="cs-front-mystery" id="csMystery-${idx}">${renderMaskedLettersHTML(s.maskedText || s.text)}</div>
-            <div class="cs-front-pts">${s.points} PTS</div>
           </div>
           <!-- Back Face: Revealed Answer -->
           <div class="cs-card-face cs-card-back">
@@ -149,7 +149,6 @@ function renderBoard(slots = []) {
             </div>
             <div class="cs-card-back-right">
               <div id="csWinner-${idx}"></div>
-              <div class="cs-points-pill">+${s.points} PTS</div>
             </div>
           </div>
         </div>
@@ -227,8 +226,9 @@ function handleState(state) {
     }
   }
 
-  // Question Card
+  // Question Card & Header Topic
   if (categoryBadge) categoryBadge.textContent = state.category || "GENERAL";
+  if (categoryPill) categoryPill.textContent = (state.category || "GENERAL").toUpperCase();
   if (questionIcon) questionIcon.textContent = state.icon || "📣";
   if (questionText) questionText.textContent = state.question || "NAME A SURVEY ITEM";
 

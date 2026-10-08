@@ -1,8 +1,12 @@
-// games/unscramble/overlay.js (ESM)
 const socket = io();
+
+if (window.initSpeechBubble) {
+  window.initSpeechBubble({ socket });
+}
 
 // DOM Elements
 const roundPill = document.getElementById("roundPill");
+const categoryPill = document.getElementById("categoryPill");
 const timerBox = document.getElementById("timerBox");
 const timerNum = document.getElementById("timerNum");
 const categoryBadge = document.getElementById("categoryBadge");
@@ -11,13 +15,9 @@ const lengthPill = document.getElementById("lengthPill");
 const hintBanner = document.getElementById("hintBanner");
 const hintText = document.getElementById("hintText");
 const scrambleTiles = document.getElementById("scrambleTiles");
-const solutionSlots = document.getElementById("solutionSlots");
-const winnerBanner = document.getElementById("winnerBanner");
-const winnerAvatarWrap = document.getElementById("winnerAvatarWrap");
-const winnerAvatarFallback = document.getElementById("winnerAvatarFallback");
-const winnerAvatarImg = document.getElementById("winnerAvatarImg");
-const winnerName = document.getElementById("winnerName");
-const winnerPts = document.getElementById("winnerPts");
+const elSolversStage = document.getElementById("solversStage");
+const elSolversList = document.getElementById("solversList");
+const elSolversCountdown = document.getElementById("solversCountdown");
 const streakValue = document.getElementById("streakValue");
 
 // Modal Elements
@@ -157,73 +157,49 @@ function esc(str) {
     .replace(/'/g, "&#39;");
 }
 
+// Authentic Scrabble Letter Point Values
+const SCRABBLE_POINTS = {
+  A: 1, B: 3, C: 3, D: 2, E: 1, F: 4, G: 2, H: 4, I: 1,
+  J: 8, K: 5, L: 1, M: 3, N: 1, O: 1, P: 3, Q: 10, R: 1,
+  S: 1, T: 1, U: 1, V: 4, W: 4, X: 8, Y: 4, Z: 10
+};
+
 let lastScrambledLettersKey = "";
-let lastSlotsKey = "";
 let lastRenderedWordId = null;
 
-// Render Scrambled Tiles (Only updates DOM if letters actually changed)
-function renderScrambleTiles(letters = []) {
+// Render Scrambled Wooden Tiles (Only updates DOM if letters or reveal change)
+function renderScrambleTiles(letters = [], isRevealed = false, hasWinner = false, solvedWord = null) {
   if (!scrambleTiles) return;
-  const lettersKey = Array.isArray(letters) ? letters.join("") : String(letters || "");
+
+  const displayLetters = (isRevealed && solvedWord)
+    ? solvedWord.toUpperCase().split("")
+    : (Array.isArray(letters) ? letters : String(letters || "").split(""));
+
+  const isSolved = isRevealed && hasWinner;
+  const isMissed = isRevealed && !hasWinner;
+  const lettersKey = `${displayLetters.join("")}_${isRevealed ? 1 : 0}_${isSolved ? 1 : 0}`;
   if (lettersKey && lettersKey === lastScrambledLettersKey) {
     return; // Don't wipe DOM if letters are unchanged!
   }
   lastScrambledLettersKey = lettersKey;
 
-  scrambleTiles.innerHTML = letters
-    .map((char) => `
-      <div class="scramble-tile">
-        ${esc(char)}
-      </div>
-    `)
-    .join("");
-}
-
-// Render Solution Slots (Only updates DOM when slots change)
-function renderSolutionSlots(slots = [], isRevealed = false, hasWinner = false) {
-  if (!solutionSlots) return;
-  const slotsKey = `${slots.join("")}_${isRevealed ? 1 : 0}_${hasWinner ? 1 : 0}`;
-  if (slotsKey === lastSlotsKey) {
-    return; // Don't wipe DOM if slot values are unchanged!
-  }
-  lastSlotsKey = slotsKey;
-
-  const existingBoxes = solutionSlots.querySelectorAll(".slot-box");
-  if (existingBoxes.length === slots.length) {
-    slots.forEach((char, idx) => {
-      const box = existingBoxes[idx];
-      let stateClass = "";
-      if (char) {
-        if (isRevealed) {
-          stateClass = hasWinner ? "solved" : "missed";
-        } else {
-          stateClass = "revealed-hint";
-        }
-      }
-      box.className = `slot-box ${stateClass}`.trim();
-      box.textContent = char || "";
-    });
-    return;
-  }
-
-  solutionSlots.innerHTML = slots
+  scrambleTiles.innerHTML = displayLetters
     .map((char) => {
-      let stateClass = "";
-      if (char) {
-        if (isRevealed) {
-          stateClass = hasWinner ? "solved" : "missed";
-        } else {
-          stateClass = "revealed-hint";
-        }
-      }
+      const upper = (char || "").toUpperCase();
+      const pts = SCRABBLE_POINTS[upper] !== undefined ? SCRABBLE_POINTS[upper] : "";
+      const stateClass = isSolved ? "solved" : isMissed ? "missed" : "";
       return `
-        <div class="slot-box ${stateClass}">
-          ${char ? esc(char) : ""}
+        <div class="scramble-tile ${stateClass}">
+          <span class="tile-letter">${esc(upper)}</span>
+          ${pts !== "" ? `<span class="tile-pts">${pts}</span>` : ""}
         </div>
       `;
     })
     .join("");
 }
+
+// Fallback no-op for solution slots (stage removed)
+function renderSolutionSlots() {}
 
 // State Handler
 function handleState(state) {
@@ -237,11 +213,46 @@ function handleState(state) {
     if (elModal) elModal.classList.remove("active");
   }
 
+let lastRenderedSolversKey = "";
+
+function renderSolversList(winners = []) {
+  if (!elSolversList) return;
+  const key = winners.map((w) => `${w.user || w.username}_${w.points || 0}`).join(",");
+  if (key === lastRenderedSolversKey) return;
+  lastRenderedSolversKey = key;
+
+  elSolversList.innerHTML = winners
+    .map((w, idx) => {
+      const place = w.place || (idx + 1);
+      const placeClass = place === 1 ? "place-1" : "";
+      const placeText = place === 1 ? "1st" : place === 2 ? "2nd" : place === 3 ? "3rd" : `${place}th`;
+      const pts = w.points || 25;
+      const initial = (w.nickname || w.user || "?")[0].toUpperCase();
+
+      const avatarHtml = w.avatar
+        ? `<img src="${esc(w.avatar)}" class="solver-avatar-img" alt="${esc(w.nickname || w.user)}">`
+        : `<div class="solver-avatar-fallback">${esc(initial)}</div>`;
+
+      return `
+        <div class="solver-card ${placeClass}">
+          <div class="solver-avatar-wrap">
+            ${avatarHtml}
+            <span class="solver-place-pill">${placeText}</span>
+          </div>
+          <span class="solver-name">@${esc(w.nickname || w.user)}</span>
+          <span class="solver-pts">+${pts} pts</span>
+        </div>
+      `;
+    })
+    .join("");
+}
+
   // Word change detection: resets keys so the new word's tiles mount smoothly
   if (state.wordId && state.wordId !== lastRenderedWordId) {
     lastRenderedWordId = state.wordId;
     lastScrambledLettersKey = "";
-    lastSlotsKey = "";
+    lastRenderedSolversKey = "";
+    if (elSolversStage) elSolversStage.style.display = "none";
   }
 
   // Round & Timer
@@ -259,8 +270,9 @@ function handleState(state) {
     }
   }
 
-  // Meta Row
+  // Meta Row & Header Topic
   if (categoryBadge) categoryBadge.textContent = state.category || "GENERAL";
+  if (categoryPill) categoryPill.textContent = (state.category || "GENERAL").toUpperCase();
   if (categoryIcon) categoryIcon.textContent = state.emoji || "🔤";
   if (lengthPill) lengthPill.textContent = `${state.length || 5} LETTERS`;
 
@@ -274,35 +286,30 @@ function handleState(state) {
     }
   }
 
-  // Scrambled Tiles
-  if (Array.isArray(state.scrambled)) {
-    renderScrambleTiles(state.scrambled);
-  }
-
-  // Solution Slots
+  // Scrambled Wooden Tiles
   const hasWinner = Array.isArray(state.roundWinners) && state.roundWinners.length > 0;
-  if (Array.isArray(state.slots)) {
-    renderSolutionSlots(state.slots, !!state.isRevealed, hasWinner);
+  if (Array.isArray(state.scrambled) || state.isRevealed) {
+    renderScrambleTiles(state.scrambled || [], !!state.isRevealed, hasWinner, state.word);
   }
 
-  // Winner Banner
-  if (winnerBanner) {
-    if (state.isRevealed && hasWinner) {
-      const winner = state.roundWinners[0];
-      winnerBanner.style.display = "flex";
-      if (winnerName) winnerName.textContent = `@${winner.nickname || winner.user}`;
-      if (winnerPts) winnerPts.textContent = `+${winner.points || 25} pts`;
+  // Solvers List / Profile Pictures Below Board
+  if (elSolversStage && elSolversList) {
+    const winners = Array.isArray(state.roundWinners) ? state.roundWinners : [];
+    if (winners.length > 0) {
+      elSolversStage.style.display = "flex";
 
-      if (winner.avatar && winnerAvatarImg) {
-        winnerAvatarImg.src = winner.avatar;
-        winnerAvatarImg.style.display = "block";
-        if (winnerAvatarFallback) winnerAvatarFallback.style.display = "none";
-      } else {
-        if (winnerAvatarImg) winnerAvatarImg.style.display = "none";
-        if (winnerAvatarFallback) winnerAvatarFallback.style.display = "block";
+      if (elSolversCountdown) {
+        if (!state.isRevealed && state.time > 0) {
+          elSolversCountdown.style.display = "inline-block";
+          elSolversCountdown.textContent = `⏱️ ${state.time}s remaining!`;
+        } else {
+          elSolversCountdown.style.display = "none";
+        }
       }
+
+      renderSolversList(winners);
     } else {
-      winnerBanner.style.display = "none";
+      elSolversStage.style.display = "none";
     }
   }
 

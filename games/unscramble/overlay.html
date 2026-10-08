@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ally's Unscramble — Live Stream Overlay</title>
+  <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="./overlay.css">
   <link rel="stylesheet" href="/speech-bubble.css">
   <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
@@ -11,7 +12,7 @@
 <body>
   <div class="overlay-app">
     <!-- Top Header with Ally Avatar & Speech Bubble -->
-    <header class="glass brand-card">
+    <header class="brand-card">
       <div class="brand-header-top">
         <div class="brand-avatar-wrap">
           <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
@@ -22,62 +23,51 @@
       </div>
     </header>
 
-    <!-- Sub Header Row: Round & Timer -->
+    <!-- Sub Header Row: Standalone White Pills (Round Left, Topic Center, Timer Right) -->
     <div class="sub-header-row">
-      <div class="game-info-pill">
-        <div class="meta-pill" id="roundPill">ROUND 1</div>
-      </div>
+      <div class="meta-pill round-pill" id="roundPill">ROUND 1</div>
+      <div class="meta-pill topic-pill" id="categoryPill">ANIMALS</div>
       <div class="timer-pill" id="timerBox">
         <span class="timer-num" id="timerNum">45</span><span class="timer-unit">s</span>
       </div>
     </div>
 
+    <!-- White Pill Rule Banner -->
+    <div class="rule-banner">
+      <span class="rule-text">TYPE YOUR ANSWER IN CHAT</span>
+      <span class="rule-heart">💜</span>
+    </div>
+
     <!-- Main Game Board -->
     <main class="main-content">
-      <!-- Word Meta / Category Header Card -->
-      <section class="meta-card" id="metaBox">
-        <div class="meta-left">
-          <span class="category-badge" id="categoryBadge">ANIMALS</span>
-          <span class="category-icon" id="categoryIcon">🐬</span>
-        </div>
-        <div class="meta-right">
-          <span class="length-pill" id="lengthPill">7 LETTERS</span>
-        </div>
-      </section>
-
       <!-- Optional Topic / Clue Hint Banner -->
       <section class="hint-banner" id="hintBanner" style="display: none;">
         <span class="hint-icon">💡</span>
         <span class="hint-text" id="hintText">Topic: Marine Life</span>
       </section>
 
-      <!-- Scrambled Letter Tiles Stage -->
+      <!-- Wooden Scrabble Tile Stage -->
       <section class="scramble-stage" id="scrambleStage">
-        <div class="scramble-label">SCRAMBLED LETTERS</div>
-        <div class="scramble-tiles" id="scrambleTiles">
-          <!-- Injected via JS (e.g. P L N D O H I) -->
+        <div class="board-marker-title">UNSCRAMBLE</div>
+        <div class="scrabble-rack" id="scrabbleRack">
+          <div class="scramble-tiles" id="scrambleTiles">
+            <!-- Injected via JS (Wooden Scrabble Tiles) -->
+          </div>
         </div>
-      </section>
 
-      <!-- Solution Slots Stage -->
-      <section class="solution-stage" id="solutionStage">
-        <div class="solution-label">YOUR ANSWER</div>
-        <div class="solution-slots" id="solutionSlots">
-          <!-- Injected via JS (_ _ _ _ _ _ _) -->
-        </div>
-      </section>
-
-      <!-- Round Winner Celebration Banner (Appears when solved) -->
-      <section class="winner-banner" id="winnerBanner" style="display: none;">
-        <div class="winner-avatar-wrap" id="winnerAvatarWrap">
-          <div class="winner-avatar-fallback" id="winnerAvatarFallback">🏆</div>
-          <img src="" class="winner-avatar-img" id="winnerAvatarImg" style="display: none;" alt="Winner">
-        </div>
-        <div class="winner-info">
-          <div class="winner-title">UNSCRAMBLED BY</div>
-          <div class="winner-name" id="winnerName">@Chatter</div>
-        </div>
-        <div class="winner-pts" id="winnerPts">+25 pts</div>
+        <!-- Solvers List / Profile Pictures Below Board -->
+        <section class="solvers-stage" id="solversStage" style="display: none;">
+          <div class="solvers-header">
+            <div class="solvers-header-left">
+              <span class="solvers-icon">🏆</span>
+              <span class="solvers-title">UNSCRAMBLED BY</span>
+            </div>
+            <span class="solvers-countdown" id="solversCountdown" style="display: none;"></span>
+          </div>
+          <div class="solvers-list" id="solversList">
+            <!-- Injected via JS: Guesser Profile Picture Cards -->
+          </div>
+        </section>
       </section>
     </main>
 

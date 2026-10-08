@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ally's Chat Feud — Live Stream Overlay</title>
+  <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="./overlay.css">
   <link rel="stylesheet" href="/speech-bubble.css">
   <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
@@ -11,7 +12,7 @@
 <body>
   <div class="overlay-app">
     <!-- Top Header with Ally Avatar & Speech Bubble -->
-    <header class="glass brand-card">
+    <header class="brand-card">
       <div class="brand-header-top">
         <div class="brand-avatar-wrap">
           <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
@@ -22,24 +23,25 @@
       </div>
     </header>
 
-    <!-- Sub Header Row: Round & Timer -->
+    <!-- Sub Header Row: Standalone White Pills (Round Left, Topic Center, Timer Right) -->
     <div class="sub-header-row">
-      <div class="game-info-pill">
-        <div class="meta-pill" id="roundPill">ROUND 1</div>
-      </div>
+      <div class="meta-pill round-pill" id="roundPill">ROUND 1</div>
+      <div class="meta-pill topic-pill" id="categoryPill">FOOD &amp; DRINK</div>
       <div class="timer-pill" id="timerBox">
         <span class="timer-num" id="timerNum">45</span><span class="timer-unit">s</span>
       </div>
+    </div>
+
+    <!-- White Pill Rule Banner -->
+    <div class="rule-banner">
+      <span class="rule-text">TYPE YOUR ANSWER IN CHAT</span>
+      <span class="rule-heart">💜</span>
     </div>
 
     <!-- Main Game Board -->
     <main class="main-content">
       <!-- Question Prompt Card -->
       <section class="question-card" id="questionBox">
-        <div class="question-meta-row">
-          <span class="category-badge" id="categoryBadge">FOOD &amp; DRINK</span>
-          <span class="question-icon" id="questionIcon">🥣</span>
-        </div>
         <div class="question-text" id="questionText">NAME A POPULAR TYPE OF SOUP</div>
       </section>
 

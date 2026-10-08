@@ -50,6 +50,8 @@ export class UnscrambleEngine {
     this.isRevealed = false;
     this.statusMessage = "Press START to begin Unscramble! 🔤";
     this.roundWinners = [];
+    this.firstGuessedAt = null;
+    this.correctGuessers = new Set();
     this.guesses = [];
     this.leaderboard = new Map();
     this.playedWordIndices = [];
@@ -136,6 +138,8 @@ export class UnscrambleEngine {
     this.revealedLetters = [];
     this.isRevealed = false;
     this.roundWinners = [];
+    this.firstGuessedAt = null;
+    this.correctGuessers = new Set();
 
     if (this.customDurationSec && this.customDurationSec > 0) {
       this.roundDurationSec = this.customDurationSec;
@@ -293,18 +297,35 @@ export class UnscrambleEngine {
     const isWordIncluded = normalizedInput.length >= this.word.length && normalizedInput.includes(this.word);
 
     if (isExactMatch || isWordIncluded) {
-      guessEntry.isCorrect = true;
-      this.isRevealed = true;
-      this.isTimerActive = false;
-      this.streak++;
+      const key = username || "anonymous";
 
-      // Points: base points based on length (4 = 15pts, 5 = 20pts, 6 = 25pts, 7 = 30pts, 8 = 35pts, 9 = 40pts) + speed bonus
+      // Prevent duplicate correct guesses by the exact same user in the same round
+      if (this.correctGuessers && this.correctGuessers.has(key)) {
+        return { valid: true, isCorrect: false };
+      }
+      if (!this.correctGuessers) this.correctGuessers = new Set();
+      this.correctGuessers.add(key);
+
+      guessEntry.isCorrect = true;
+
+      const isFirst = !this.firstGuessedAt;
+      if (isFirst) {
+        this.firstGuessedAt = Date.now();
+        this.streak++;
+        // First guess sets a 5-second countdown window if more than 5s remained
+        if (this.timerRemaining > 5) {
+          this.timerRemaining = 5;
+        }
+      }
+
+      // Points: base points based on length + speed bonus
       const basePoints = Math.max(10, this.length * 5);
-      const speedBonus = Math.floor((this.timerRemaining / Math.max(1, this.roundDurationSec)) * 10);
+      const speedBonus = isFirst
+        ? Math.floor((this.timerRemaining / Math.max(1, this.roundDurationSec)) * 10)
+        : Math.max(2, Math.floor((this.timerRemaining / Math.max(1, this.roundDurationSec)) * 8));
       const totalPoints = basePoints + speedBonus;
 
       // Update leaderboard
-      const key = username || "anonymous";
       const current = this.leaderboard.get(key) || {
         username: key,
         nickname: nickname || key,
@@ -317,18 +338,24 @@ export class UnscrambleEngine {
       if (avatar) current.avatar = avatar;
       this.leaderboard.set(key, current);
 
+      const place = this.roundWinners.length + 1;
       const winnerObj = {
-        place: 1,
+        place,
         user: key,
         nickname: nickname || key,
         avatar: avatar || null,
         word: this.word,
         points: totalPoints,
-        speedBonus
+        speedBonus,
+        timestamp: Date.now()
       };
-      this.roundWinners = [winnerObj];
+      this.roundWinners.push(winnerObj);
 
-      this.statusMessage = `🎉 @${nickname || key} UNSCRAMBLED THE WORD: "${this.word}" (+${totalPoints} pts)!`;
+      if (isFirst) {
+        this.statusMessage = `🎉 @${nickname || key} was first! 5s for others to score!`;
+      } else {
+        this.statusMessage = `🎯 @${nickname || key} also unscrambled (+${totalPoints} pts)!`;
+      }
 
       return {
         valid: true,
@@ -336,8 +363,9 @@ export class UnscrambleEngine {
         word: this.word,
         points: totalPoints,
         winner: winnerObj,
+        place,
         newStreak: this.streak,
-        roundComplete: true,
+        roundComplete: false, // Stays open for the 5-second window!
         roundWinners: this.roundWinners,
         guessItem: guessEntry
       };
@@ -365,9 +393,14 @@ export class UnscrambleEngine {
 
       if (this.timerRemaining <= 0) {
         this.isTimerActive = false;
-        this.isRevealed = true;
-        this.streak = 0;
-        this.statusMessage = `⏰ Time expired! The word was "${this.word}".`;
+        this.isRevealed = true; // The words on the board unscramble NOW!
+        if (this.roundWinners.length === 0) {
+          this.streak = 0;
+          this.statusMessage = `⏰ Time expired! The word was "${this.word}".`;
+        } else {
+          const names = this.roundWinners.map((w) => `@${w.nickname || w.user}`).join(", ");
+          this.statusMessage = `🏆 Solved by ${names}!`;
+        }
         return {
           changed: true,
           timeExpired: true,
@@ -376,6 +409,7 @@ export class UnscrambleEngine {
           roundWinners: this.roundWinners
         };
       }
+
       return { changed: true, timeExpired: false };
     }
 

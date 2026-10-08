@@ -1,8 +1,8 @@
 // games/think-like-ally/overlay.js
 const socket = io();
 
-// DOM elements
 const roundPill = document.getElementById("roundPill");
+const categoryPill = document.getElementById("categoryPill");
 const timerBox = document.getElementById("timerBox");
 const timerNum = document.getElementById("timerNum");
 const questionCard = document.getElementById("questionCard");
@@ -140,8 +140,9 @@ function renderState(state) {
   }
   if (state.gameId && state.gameId !== "think-like-ally") return;
 
-  // Round & Timer
+  // Round, Topic & Timer
   if (roundPill) roundPill.textContent = `ROUND ${state.round || 1}`;
+  if (categoryPill) categoryPill.textContent = (state.category || "POPULAR OPINION").toUpperCase();
   if (streakValue) streakValue.textContent = state.streak !== undefined ? state.streak : 0;
   const t = state.timerRemaining !== undefined ? state.timerRemaining : (state.time || 0);
   if (timerNum) timerNum.textContent = t;

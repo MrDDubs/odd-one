@@ -1,5 +1,5 @@
 /* games/unscramble/overlay.css */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Fredoka:wght@400;600;700&family=Nunito:wght@700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap');
 
 :root {
   --bg-gradient: linear-gradient(180deg, #0b0914 0%, #15102a 50%, #0d081a 100%);
@@ -47,43 +47,14 @@ html, body {
 }
 
 /* ================= 1. BRAND HEADER & SPEECH BUBBLE ================= */
-.glass {
+.glass:not(.brand-card) {
   background: var(--panel-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--panel-border);
 }
 
-.brand-card {
-  border-radius: 18px;
-  padding: clamp(6px, 1vh, 12px) clamp(10px, 1.4vw, 16px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-  flex-shrink: 0;
-}
-
-.brand-header-top {
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 1.8vw, 18px);
-}
-
-.brand-avatar-wrap {
-  position: relative;
-  width: clamp(52px, 6.5vh, 76px);
-  height: clamp(52px, 6.5vh, 76px);
-  border-radius: 50%;
-  border: 3px solid var(--accent-cyan);
-  box-shadow: 0 0 16px rgba(6, 182, 212, 0.5);
-  overflow: hidden;
-  flex-shrink: 0;
-  background: #1e1338;
-}
-
-.brand-avatar {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+/* Brand header & speech bubble inherited from /theme.css & /speech-bubble.css (Think & Link style) */
 
 /* ================= 2. SUB-HEADER: ROUND & TIMER ================= */
 .sub-header-row {
@@ -186,50 +157,6 @@ html, body {
   min-height: 0;
 }
 
-/* Word Meta Row */
-.meta-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(30, 20, 56, 0.65);
-  border: 1px solid var(--panel-border);
-  border-radius: 14px;
-  padding: clamp(8px, 1.2vh, 12px) 16px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
-  flex-shrink: 0;
-}
-
-.meta-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.category-badge {
-  background: linear-gradient(135deg, #a855f7, #7c3aed);
-  color: #ffffff;
-  font-size: clamp(11px, 1.3vh, 13px);
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 999px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.category-icon {
-  font-size: clamp(16px, 2vh, 22px);
-}
-
-.length-pill {
-  background: rgba(6, 182, 212, 0.2);
-  border: 1px solid rgba(6, 182, 212, 0.4);
-  color: #67e8f9;
-  font-size: clamp(11px, 1.3vh, 13px);
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 999px;
-  letter-spacing: 0.8px;
-}
 
 /* Hint Banner */
 .hint-banner {
@@ -261,27 +188,86 @@ html, body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ================= 4. SCRAMBLED LETTERS STAGE ================= */
+/* ================= 4. AUTHENTIC WOODEN SCRABBLE STAGE & TILES ================= */
 .scramble-stage {
-  background: radial-gradient(circle at center, rgba(88, 28, 135, 0.35) 0%, rgba(20, 14, 40, 0.85) 100%);
-  border: 1.5px solid rgba(168, 85, 247, 0.4);
-  border-radius: 20px;
-  padding: clamp(16px, 2.5vh, 28px) clamp(12px, 2vw, 20px);
+  flex: 0 0 auto;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(12px, 1.8vh, 20px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 24px rgba(168, 85, 247, 0.15);
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  border: 5px solid #6c3713;
+  border-top: 5px solid #8d4c1d;
+  border-bottom: 7px solid #3d1b06;
+  border-radius: 18px;
+  background-color: #f2e4cc;
+  background-image:
+    linear-gradient(rgba(182, 148, 108, 0.35) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(182, 148, 108, 0.35) 1.5px, transparent 1.5px),
+    radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.4) 0%, transparent 75%),
+    linear-gradient(160deg, #f6ebd8 0%, #ecd9b8 45%, #e1c9a0 100%);
+  background-size: 28px 28px, 28px 28px, 100% 100%, 100% 100%;
+  background-position: center center;
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 2px #b06932,
+    inset 0 6px 16px rgba(0, 0, 0, 0.35);
   flex-shrink: 0;
+  min-height: 280px;
+  padding: clamp(14px, 2vh, 24px) clamp(10px, 1.4vw, 16px);
 }
 
-.scramble-label {
-  font-family: var(--font-display);
-  font-size: clamp(11px, 1.3vh, 13px);
-  font-weight: 700;
-  color: #c084fc;
-  letter-spacing: 2px;
+/* Authentic Board Marker Handwritten Title */
+.board-marker-title {
+  font-family: 'Permanent Marker', cursive, sans-serif;
+  font-size: clamp(24px, 3.6vh, 34px);
+  color: #1a130e;
+  letter-spacing: 3px;
   text-transform: uppercase;
+  margin-bottom: clamp(10px, 1.6vh, 18px);
+  transform: rotate(-1.5deg);
+  opacity: 0.94;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75), 0.5px 0.5px 0 rgba(0, 0, 0, 0.2);
+  user-select: none;
+  z-index: 1;
+}
+
+/* Authentic Wooden Scrabble Rack */
+.scrabble-rack {
+  width: 100%;
+  max-width: 460px;
+  background:
+    linear-gradient(180deg, #9b5322 0%, #7d3f14 25%, #5e2c09 70%, #3e1b04 100%);
+  border: 2px solid #b86e32;
+  border-top: 3px solid #df9552;
+  border-bottom: 5px solid #230d01;
+  border-radius: 12px;
+  padding: clamp(12px, 1.6vh, 18px) clamp(8px, 1.2vw, 14px) clamp(16px, 2.2vh, 22px);
+  box-shadow:
+    0 14px 28px rgba(45, 20, 5, 0.55),
+    inset 0 1.5px 2px rgba(255, 220, 160, 0.45),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Wooden Rack Bottom Ledge & Groove */
+.scrabble-rack::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 6px;
+  height: 6px;
+  background: linear-gradient(180deg, #2b1102 0%, #170701 100%);
+  border-top: 1px solid #75390e;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 210, 150, 0.25);
 }
 
 .scramble-tiles {
@@ -289,178 +275,271 @@ html, body {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: clamp(6px, 1.2vw, 14px);
+  gap: clamp(4px, 0.8vw, 8px);
   width: 100%;
+  z-index: 1;
 }
 
-/* Single Scrambled Letter Tile */
+/* Compact Wooden Scrabble Tile */
 .scramble-tile {
-  width: clamp(38px, 6.2vw, 68px);
-  height: clamp(48px, 7.8vw, 84px);
-  background: linear-gradient(145deg, #3b1d75, #1e0e42);
-  border: 2px solid #a855f7;
-  border-radius: 12px;
+  width: clamp(32px, 5.2vw, 48px);
+  height: clamp(40px, 6.4vw, 58px);
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.5) 0%, transparent 60%),
+    linear-gradient(175deg, #fef4e2 0%, #f6deb2 30%, #ebd7ab 55%, #dfb873 100%);
+  border: 1.5px solid #d4a559;
+  border-bottom: 2.5px solid #9e6924;
+  border-radius: 6px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-size: clamp(22px, 3.8vw, 42px);
+  box-shadow:
+    0 4px 0 #87541b,
+    0 8px 14px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.85),
+    inset 0 -1.5px 2px rgba(120, 60, 10, 0.2);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  animation: tileDrop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes tileDrop {
+  0% { transform: translateY(-12px) scale(0.9); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Wood-Carved Letter (Compact & Readable) */
+.tile-letter {
+  font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
+  font-size: clamp(20px, 3.3vw, 30px);
   font-weight: 900;
-  color: #ffffff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 12px rgba(168, 85, 247, 0.6);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);
-  transform: perspective(600px) rotateY(0deg);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  animation: tileEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  color: #2b1405;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6), 0 -0.5px 0 rgba(0, 0, 0, 0.3);
+  line-height: 1;
+  transform: translateY(-1.5px);
+  user-select: none;
 }
 
-.scramble-tile:hover {
-  transform: translateY(-4px) scale(1.06);
-  box-shadow: 0 10px 24px rgba(168, 85, 247, 0.5);
-  border-color: #c084fc;
+/* Classic Subscript Point Value in Corner */
+.tile-pts {
+  position: absolute;
+  right: clamp(2.5px, 0.4vw, 4.5px);
+  bottom: clamp(2px, 0.35vw, 3.5px);
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(7.5px, 1.1vw, 10.5px);
+  font-weight: 800;
+  color: #4a2608;
+  line-height: 1;
+  opacity: 0.88;
+  user-select: none;
 }
 
-@keyframes tileEntrance {
-  0% { transform: scale(0.9); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
+/* Solved / Victory State (Golden Green Wood Glow) */
+.scramble-tile.solved {
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.65) 0%, transparent 60%),
+    linear-gradient(175deg, #f0fdf4 0%, #dcfce7 30%, #bbf7d0 60%, #86efac 100%);
+  border-color: #34d399;
+  border-bottom-color: #059669;
+  box-shadow:
+    0 5px 0 #047857,
+    0 0 24px rgba(16, 185, 129, 0.55),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95);
+  animation: tileSuccessPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ================= 5. SOLUTION SLOTS STAGE ================= */
-.solution-stage {
-  background: rgba(18, 12, 38, 0.7);
-  border: 1px solid var(--panel-border);
-  border-radius: 16px;
-  padding: clamp(14px, 2vh, 22px) clamp(10px, 1.8vw, 16px);
+.scramble-tile.solved .tile-letter {
+  color: #064e3b;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.scramble-tile.solved .tile-pts {
+  color: #047857;
+}
+
+@keyframes tileSuccessPop {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.12) translateY(-6px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* Missed State */
+.scramble-tile.missed {
+  opacity: 0.8;
+  filter: grayscale(0.2);
+}
+
+/* ================= 6. SOLVERS & PROFILE PICTURES STAGE ================= */
+.solvers-stage {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: clamp(10px, 1.4vh, 14px) clamp(12px, 1.6vw, 16px);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: clamp(10px, 1.4vh, 16px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  gap: 10px;
   flex-shrink: 0;
-}
-
-.solution-label {
-  font-size: clamp(10px, 1.2vh, 12px);
-  font-weight: 800;
-  color: var(--text-muted);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.solution-slots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(5px, 1vw, 12px);
-  width: 100%;
-}
-
-.slot-box {
-  width: clamp(34px, 5.6vw, 58px);
-  height: clamp(44px, 7vw, 72px);
-  background: rgba(0, 0, 0, 0.45);
-  border: 2px dashed rgba(148, 163, 184, 0.45);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: clamp(20px, 3.2vw, 36px);
-  font-weight: 900;
-  color: #ffffff;
-  transition: all 0.3s ease;
-}
-
-.slot-box.revealed-hint {
-  border: 2px solid var(--accent-gold);
-  background: rgba(234, 179, 8, 0.15);
-  color: #fef08a;
-  text-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
-  animation: slotPop 0.3s ease;
-}
-
-.slot-box.solved {
-  border: 2.5px solid var(--accent-emerald);
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(5, 150, 105, 0.4));
-  color: #6ee7b7;
-  text-shadow: 0 0 14px rgba(16, 185, 129, 0.7);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-  animation: slotPop 0.4s ease;
-}
-
-.slot-box.missed {
-  border: 2px solid var(--accent-coral);
-  background: rgba(244, 63, 94, 0.2);
-  color: #fda4af;
-  animation: slotPop 0.3s ease;
-}
-
-@keyframes slotPop {
-  0% { transform: scale(0.8); }
-  60% { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
-
-/* ================= 6. WINNER BANNER ================= */
-.winner-banner {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(5, 150, 105, 0.35));
-  border: 1.5px solid var(--accent-emerald);
-  border-radius: 14px;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 0 24px rgba(16, 185, 129, 0.4);
+  margin-top: auto;
   animation: fadeInDown 0.35s ease;
 }
 
-.winner-avatar-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 2px solid #6ee7b7;
-  overflow: hidden;
+.solvers-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.solvers-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.solvers-icon {
+  font-size: 16px;
+}
+
+.solvers-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #4a2608;
+  text-transform: uppercase;
+}
+
+.solvers-countdown {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #fef08a;
+  background: rgba(234, 179, 8, 0.2);
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  padding: 2px 8px;
+  border-radius: 999px;
+  animation: pulseCountdown 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes pulseCountdown {
+  0% { transform: scale(0.96); opacity: 0.85; }
+  100% { transform: scale(1.04); opacity: 1; }
+}
+
+.solvers-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  width: 100%;
+}
+
+.solver-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  background: #064e3b;
+  background: rgba(0, 0, 0, 0.06);
+  border: 1.5px solid rgba(139, 69, 19, 0.25);
+  border-radius: 12px;
+  padding: 8px 12px;
+  min-width: 76px;
+  max-width: 96px;
+  text-align: center;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: solverPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   flex-shrink: 0;
 }
 
-.winner-avatar-fallback {
-  font-size: 22px;
+@keyframes solverPopIn {
+  0% { transform: scale(0.6) translateY(12px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-.winner-avatar-img {
+/* 1st Place Gold Highlight */
+.solver-card.place-1 {
+  background: linear-gradient(145deg, rgba(234, 179, 8, 0.25) 0%, rgba(161, 98, 7, 0.15) 100%);
+  border-color: #d97706;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+}
+
+.solver-avatar-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.solver-avatar-img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #fff;
+  display: block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-.winner-info {
-  flex: 1;
-}
-
-.winner-title {
-  font-size: 10px;
-  font-weight: 800;
-  color: #6ee7b7;
-  letter-spacing: 1px;
-}
-
-.winner-name {
-  font-family: var(--font-display);
-  font-size: clamp(14px, 1.8vh, 18px);
+.solver-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
   font-weight: 900;
   color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-.winner-pts {
-  font-family: var(--font-display);
-  font-size: clamp(14px, 1.8vh, 18px);
+.solver-place-pill {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #3b0764;
+  color: #facc15;
+  border: 1.5px solid #facc15;
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
   font-weight: 900;
-  color: var(--accent-gold);
-  text-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
+  padding: 1px 4px;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+.solver-card.place-1 .solver-place-pill {
+  background: #ca8a04;
+  color: #ffffff;
+  border-color: #fef08a;
+}
+
+.solver-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11.5px;
+  font-weight: 900;
+  color: #2b1405;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.solver-pts {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10.5px;
+  font-weight: 900;
+  color: #047857;
+  line-height: 1.2;
 }
 
 /* ================= 7. COMMUNITY STREAK PILL ================= */

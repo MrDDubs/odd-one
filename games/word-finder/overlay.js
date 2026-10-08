@@ -36,7 +36,8 @@ const elWordPillsTrack1 = document.getElementById("wordPillsTrack1");
 const elWordPillsTrack2 = document.getElementById("wordPillsTrack2");
 const elConfettiContainer = document.getElementById("confettiContainer");
 
-const elRuleBannerTrack = document.getElementById("ruleBannerTrack");
+const elSlideRules = document.getElementById("ruleSlide1");
+const elSlideProgress = document.getElementById("ruleSlide2");
 const elWordsFoundProgressText = document.getElementById("wordsFoundProgressText");
 const elWordsFoundProgressIcon = document.getElementById("wordsFoundProgressIcon");
 
@@ -46,10 +47,17 @@ let bannerSwipeTimer = null;
 
 function initBannerSwiper() {
   if (bannerSwipeTimer) clearInterval(bannerSwipeTimer);
+  bannerSlideIndex = 0;
   bannerSwipeTimer = setInterval(() => {
     bannerSlideIndex = (bannerSlideIndex + 1) % 2;
-    if (elRuleBannerTrack) {
-      elRuleBannerTrack.classList.toggle("show-progress", bannerSlideIndex === 1);
+    if (elSlideRules && elSlideProgress) {
+      if (bannerSlideIndex === 0) {
+        elSlideRules.classList.add("active");
+        elSlideProgress.classList.remove("active");
+      } else {
+        elSlideRules.classList.remove("active");
+        elSlideProgress.classList.add("active");
+      }
     }
   }, 10000);
 }

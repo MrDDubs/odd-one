@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ally's Word Finder — Live Stream Overlay</title>
+  <link rel="stylesheet" href="/theme.css">
   <link rel="stylesheet" href="./overlay.css">
   <link rel="stylesheet" href="/speech-bubble.css">
   <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
@@ -11,7 +12,7 @@
 <body>
   <div class="overlay-app">
     <!-- Top Header: Consistent with Hub style -->
-    <header class="glass brand-card">
+    <header class="brand-card">
       <div class="brand-header-top">
         <div class="brand-avatar-wrap">
           <img src="/ally-avatar.png" alt="Ally" class="brand-avatar">
@@ -22,28 +23,24 @@
       </div>
     </header>
 
-    <!-- Sub Header Row: Game Info + Timer Pill -->
+    <!-- Sub Header Row: Standalone White Pills (Round Left, Topic Center, Timer Right) -->
     <div class="sub-header-row">
-      <div class="game-info-pill">
-        <div class="meta-pill" id="roundPill">ROUND 1</div>
-        <div class="category-pill" id="categoryPill">🐾 CUTE ANIMALS</div>
-      </div>
+      <div class="meta-pill round-pill" id="roundPill">ROUND 1</div>
+      <div class="meta-pill topic-pill" id="categoryPill">🐾 CUTE ANIMALS</div>
       <div class="timer-pill" id="timerBox">
         <span class="timer-num" id="timerNum">60</span><span class="timer-unit">s</span>
       </div>
     </div>
 
     <!-- White Pill Rule & Progress Banner (Swipes Every 10s) -->
-    <div class="rule-banner" id="ruleBanner">
-      <div class="rule-banner-track" id="ruleBannerTrack">
-        <div class="rule-slide slide-rules">
-          <span class="rule-text">FIND HIDDEN WORDS • TYPE WORD OR COORD (e.g. A1)</span>
-          <span class="rule-heart">🔍</span>
-        </div>
-        <div class="rule-slide slide-progress">
-          <span class="rule-text" id="wordsFoundProgressText">0 OF 6 WORDS FOUND</span>
-          <span class="rule-heart" id="wordsFoundProgressIcon">🎯</span>
-        </div>
+    <div class="rule-banner rule-banner-carousel" id="ruleBanner">
+      <div class="rule-slide slide-rules active" id="ruleSlide1">
+        <span class="rule-text">TYPE YOUR ANSWER IN CHAT</span>
+        <span class="rule-heart">💜</span>
+      </div>
+      <div class="rule-slide slide-progress" id="ruleSlide2">
+        <span class="rule-text" id="wordsFoundProgressText">0 OF 6 WORDS FOUND</span>
+        <span class="rule-heart" id="wordsFoundProgressIcon">🎯</span>
       </div>
     </div>
 
