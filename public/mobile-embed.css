@@ -75,11 +75,11 @@ html body #ruleBanner.rule-banner {
 }
 
 html body .rule-text {
-  font-size: 18px !important;
+  font-size: 24px !important;
 }
 
 html body .rule-heart {
-  font-size: 20px !important;
+  font-size: 26px !important;
 }
 
 /* --- Community streak --- */
@@ -88,13 +88,13 @@ html body .streak-pill {
 }
 
 html body .streak-label {
-  font-size: 15px !important;
+  font-size: 20px !important;
 }
 
 html body .flame-icon {
-  font-size: 22px !important;
+  font-size: 28px !important;
 }
 
 html body .streak-num {
-  font-size: 24px !important;
+  font-size: 30px !important;
 }

@@ -16,19 +16,31 @@ function injectMobileStyles() {
   if (!IS_MOBILE_EMBED) return;
   try {
     const doc = gameFrame.contentDocument;
-    if (!doc || !doc.head || doc.getElementById("mobileEmbedCss")) return;
+    if (!doc || !doc.head) return;
+    if (doc.getElementById("mobileEmbedCss")) {
+      gameFrame.classList.remove("fading");
+      return;
+    }
     const link = doc.createElement("link");
     link.id = "mobileEmbedCss";
     link.rel = "stylesheet";
     link.href = "/mobile-embed.css";
+    // Only reveal the game once the bigger styles are applied (no small->big snap)
+    const reveal = () => requestAnimationFrame(() => gameFrame.classList.remove("fading"));
+    link.onload = reveal;
+    link.onerror = reveal;
     doc.head.appendChild(link);
   } catch (e) {
     console.warn("[Universal Overlay] Could not inject mobile styles", e);
+    gameFrame.classList.remove("fading");
   }
 }
 
+if (IS_MOBILE_EMBED) gameFrame.classList.add("fading");
 gameFrame.addEventListener("load", injectMobileStyles);
-injectMobileStyles();
+if (gameFrame.contentDocument?.readyState === "complete" && gameFrame.contentDocument.head?.childElementCount) {
+  injectMobileStyles();
+}
 
 const GAME_OVERLAYS = {
   "odd-one-out": {
@@ -112,7 +124,8 @@ function loadGame(gameId, gameDef = null) {
   setTimeout(() => {
     gameFrame.src = targetPath;
     gameFrame.onload = () => {
-      gameFrame.classList.remove("fading");
+      // In mobile mode injectMobileStyles() reveals the frame after its CSS loads
+      if (!IS_MOBILE_EMBED) gameFrame.classList.remove("fading");
     };
     showSwitchBanner(config.name, config.icon);
   }, 250);
