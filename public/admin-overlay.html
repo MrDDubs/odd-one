@@ -100,6 +100,11 @@
             <code id="obsLeaderboardDisplay">http://localhost:4000/leaderboard</code>
             <button class="vp-btn-copy" id="btnCopyLeaderboardOverlay" title="Copy Leaderboard URL">📋 Copy</button>
           </div>
+          <div class="obs-hint">
+            <span>📱 Mobile Full Layout:</span>
+            <code id="obsMobileDisplay">http://localhost:4000/mobile.html</code>
+            <button class="vp-btn-copy" id="btnCopyMobileOverlay" title="Copy Mobile Layout URL" onclick="navigator.clipboard.writeText(document.getElementById('obsMobileDisplay').innerText)">📋 Copy</button>
+          </div>
           <div class="obs-toggle-wrap">
             <label class="toggle-switch-label" title="Hide in-game leaderboard when using standalone browser source">
               <input type="checkbox" id="chkHideInGameLeaderboard">
