@@ -2,17 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <title>Ally's Mobile Stream Layout</title>
   <style>
     body, html {
       margin: 0; 
       padding: 0;
-      width: 100vw; 
-      height: 100vh;
+      width: 100%; 
+      height: 100%;
       overflow: hidden;
       background: #000;
       font-family: 'Fredoka', sans-serif;
+    }
+    body {
+      position: fixed;
+      inset: 0;
+      touch-action: none;
     }
     
     .mobile-stage {
@@ -25,6 +30,7 @@
       background-size: cover;
       background-position: center;
       transform-origin: 0 0;
+      visibility: hidden; /* shown once JS has scaled it, prevents zoomed flash */
     }
 
     /* We'll remove mix-blend-mode so it's not transparent, but note this will show the black background if they are JPGs */
@@ -69,25 +75,27 @@
     .game-wrapper {
       position: relative;
       width: 660px; /* Nice proportional width */
-      height: 1100px;
+      height: 1056px; /* 960 * 1.1 */
       overflow: hidden;
       border-radius: 40px; 
       box-shadow: 0 10px 40px rgba(0,0,0,0.5);
       margin-left: 20px;
     }
 
-    /* Render at the native OBS canvas size so every element keeps the exact
-       proportions of overlay.html, then shrink the whole thing uniformly.
-       660 / 1080 = 0.61111 -> scaled width is exactly the wrapper width. */
+    /* The shared template (theme.css) sizes the speech bubble, pills, timer,
+       "type answer" banner and streak with px-capped clamp() values, so their
+       size relative to the grid depends on the viewport. Rendering the overlay
+       in a 600x960 viewport reproduces the overlay.html proportions exactly;
+       we then scale the whole thing uniformly (660 / 600 = 1.1). */
     .game-iframe {
       position: absolute;
       top: 0; 
       left: 0;
-      width: 1080px;
-      height: 1920px;
+      width: 600px;
+      height: 960px;
       border: none;
       background: transparent;
-      transform: scale(0.611111);
+      transform: scale(1.1);
       transform-origin: 0 0;
     }
 
@@ -148,9 +156,12 @@
       const dy = (winH - 1920 * scale) / 2;
       
       stage.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      stage.style.visibility = 'visible';
     }
 
     window.addEventListener('resize', scaleToFit);
+    window.addEventListener('orientationchange', () => setTimeout(scaleToFit, 200));
+    window.addEventListener('load', scaleToFit);
     scaleToFit(); // Initial call
   </script>
 </body>
