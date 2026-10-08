@@ -832,6 +832,10 @@
     const liveIframe = document.getElementById('liveOverlayIframe');
     const pFrame = document.getElementById('phoneFrame');
     if (liveIframe && pFrame) {
+      liveIframe.style.position = 'absolute';
+      liveIframe.style.top = '0';
+      liveIframe.style.left = '0';
+      
       new ResizeObserver(() => {
         const fw = pFrame.clientWidth;
         const fh = pFrame.clientHeight;
