@@ -9,6 +9,27 @@ const bannerGameTitle = document.getElementById("bannerGameTitle");
 let currentActiveGameId = "";
 let bannerTimer = null;
 
+// Mobile layout (/mobile) loads /overlay?mobile=1 -> enlarge template elements
+const IS_MOBILE_EMBED = new URLSearchParams(window.location.search).get("mobile") === "1";
+
+function injectMobileStyles() {
+  if (!IS_MOBILE_EMBED) return;
+  try {
+    const doc = gameFrame.contentDocument;
+    if (!doc || !doc.head || doc.getElementById("mobileEmbedCss")) return;
+    const link = doc.createElement("link");
+    link.id = "mobileEmbedCss";
+    link.rel = "stylesheet";
+    link.href = "/mobile-embed.css";
+    doc.head.appendChild(link);
+  } catch (e) {
+    console.warn("[Universal Overlay] Could not inject mobile styles", e);
+  }
+}
+
+gameFrame.addEventListener("load", injectMobileStyles);
+injectMobileStyles();
+
 const GAME_OVERLAYS = {
   "odd-one-out": {
     path: "/games/odd-one-out/overlay.html",

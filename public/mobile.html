@@ -75,24 +75,22 @@
     .game-wrapper {
       position: relative;
       width: 660px; /* Nice proportional width */
-      height: 1056px; /* 960 * 1.1 */
+      height: 1100px; /* 1000 * 1.1 */
       overflow: hidden;
       border-radius: 40px; 
       box-shadow: 0 10px 40px rgba(0,0,0,0.5);
       margin-left: 20px;
     }
 
-    /* The shared template (theme.css) sizes the speech bubble, pills, timer,
-       "type answer" banner and streak with px-capped clamp() values, so their
-       size relative to the grid depends on the viewport. Rendering the overlay
-       in a 600x960 viewport reproduces the overlay.html proportions exactly;
-       we then scale the whole thing uniformly (660 / 600 = 1.1). */
+    /* Game renders in a 600x1000 viewport, then is scaled uniformly
+       (660 / 600 = 1.1). Template elements are enlarged for mobile by
+       /mobile-embed.css, injected via /overlay?mobile=1. */
     .game-iframe {
       position: absolute;
       top: 0; 
       left: 0;
       width: 600px;
-      height: 960px;
+      height: 1000px;
       border: none;
       background: transparent;
       transform: scale(1.1);
@@ -129,7 +127,7 @@
     <div class="content-layer">
       <!-- Embedded Game -->
       <div class="game-wrapper">
-        <iframe src="/overlay" class="game-iframe"></iframe>
+        <iframe src="/overlay?mobile=1" class="game-iframe"></iframe>
       </div>
       
       <!-- Embedded Leaderboard -->
