@@ -76,14 +76,19 @@
       margin-left: 20px;
     }
 
+    /* Render at the native OBS canvas size so every element keeps the exact
+       proportions of overlay.html, then shrink the whole thing uniformly.
+       660 / 1080 = 0.61111 -> scaled width is exactly the wrapper width. */
     .game-iframe {
       position: absolute;
       top: 0; 
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 1080px;
+      height: 1920px;
       border: none;
       background: transparent;
+      transform: scale(0.611111);
+      transform-origin: 0 0;
     }
 
     .leaderboard-wrapper {
