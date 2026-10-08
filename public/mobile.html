@@ -56,9 +56,9 @@
     /* Game and Leaderboard Layer */
     .content-layer {
       position: absolute;
-      top: 450px; /* Added lots of space below the cloud header */
-      left: 30px;
-      width: 1020px;
+      top: 450px; 
+      left: 0; /* Full width now */
+      width: 1080px;
       height: 1000px;
       display: flex;
       justify-content: space-between; 
@@ -68,47 +68,40 @@
 
     .game-wrapper {
       position: relative;
-      width: 648px; 
-      height: 980px; /* Cropped height to cut off the bottom profile section */
+      width: 750px; /* Width of the crop box */
+      height: 980px; /* Cropped height */
       overflow: hidden;
-      border-radius: 40px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      border-radius: 0 40px 40px 0; /* rounded on right side */
+      box-shadow: 10px 10px 40px rgba(0,0,0,0.5);
     }
 
     .game-iframe {
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0; /* Adjust this if the game needs to move up/down */
+      left: -120px; /* Shift the 1080p iframe left so the game board fits in the 750px wrapper */
       width: 1080px !important;
       height: 1920px !important;
-      min-width: 1080px;
-      min-height: 1920px;
       border: none;
-      transform-origin: 0 0;
-      transform: scale(0.6);
       background: transparent;
     }
 
     .leaderboard-wrapper {
       position: relative;
-      width: 338px; 
-      height: 980px; /* Cropped height */
+      width: 300px; 
+      height: 980px; 
       overflow: hidden;
       border-radius: 30px;
+      margin-right: 15px; /* slight margin from right edge */
     }
 
     .leaderboard-iframe {
       position: absolute;
       top: 0;
-      left: 0;
+      left: 10px; /* Shift slightly to center it in the wrapper */
       width: 260px !important;
-      height: 800px !important;
-      min-width: 260px;
-      min-height: 800px;
+      height: 1920px !important;
       border: none;
       background: transparent;
-      transform-origin: top left;
-      transform: scale(1.3); 
     }
   </style>
 </head>
