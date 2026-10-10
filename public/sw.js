@@ -1,5 +1,5 @@
 // Service Worker for Ally's Stream Hub PWA
-const CACHE_NAME = "ally-stream-hub-v1";
+const CACHE_NAME = "ally-stream-hub-v2";
 const STATIC_ASSETS = [
   "/",
   "/index.html",
@@ -42,10 +42,10 @@ self.addEventListener("activate", (event) => {
 
 // Network-first strategy so live stream updates, sockets, and game changes are always fresh
 self.addEventListener("fetch", (event) => {
-  // Only handle GET requests and skip socket.io or api calls
+  // Only handle GET requests and skip socket.io, api calls, and auth-guard
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
-  if (url.pathname.startsWith("/socket.io") || url.pathname.startsWith("/api/")) {
+  if (url.pathname.startsWith("/socket.io") || url.pathname.startsWith("/api/") || url.pathname.includes("auth-guard")) {
     return;
   }
 

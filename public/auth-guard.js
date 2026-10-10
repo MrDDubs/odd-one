@@ -113,12 +113,21 @@
     // If already marked as authenticated, do not show
     if (window.__ally_authenticated) return;
 
+    if (!document.body) {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", showLoginModal, { once: true });
+      } else {
+        setTimeout(showLoginModal, 20);
+      }
+      return;
+    }
+
     // Ensure auth CSS is loaded
     if (!document.getElementById("allyAuthCss")) {
       const link = document.createElement("link");
       link.id = "allyAuthCss";
       link.rel = "stylesheet";
-      link.href = "/auth-guard.css?v=6";
+      link.href = "/auth-guard.css?v=7";
       document.head.appendChild(link);
     }
 
@@ -147,34 +156,26 @@
           </form>
         </div>
       `;
-
-      if (document.body) {
-        document.body.appendChild(overlay);
-      } else {
-        document.addEventListener("DOMContentLoaded", () => {
-          if (!window.__ally_authenticated && document.body) {
-            document.body.appendChild(overlay);
-          }
-        });
-      }
+      document.body.appendChild(overlay);
     } else {
       overlay.classList.remove("ally-auth-hidden");
     }
 
-    // Wire up interaction
-    const input = document.getElementById("allyAuthInput");
-    const toggleBtn = document.getElementById("allyAuthToggleVis");
-    const submitBtn = document.getElementById("allyAuthSubmit");
-    const errorEl = document.getElementById("allyAuthError");
+    // Wire up interaction directly from overlay element
+    const input = overlay.querySelector("#allyAuthInput");
+    const toggleBtn = overlay.querySelector("#allyAuthToggleVis");
+    const submitBtn = overlay.querySelector("#allyAuthSubmit");
+    const errorEl = overlay.querySelector("#allyAuthError");
     const cardEl = overlay.querySelector(".ally-auth-card");
-    const form = document.getElementById("allyAuthForm");
+    const form = overlay.querySelector("#allyAuthForm");
 
     if (input) {
-      setTimeout(() => input.focus(), 100);
+      setTimeout(() => input.focus(), 80);
     }
 
     if (toggleBtn && input) {
-      toggleBtn.onclick = () => {
+      toggleBtn.onclick = (e) => {
+        e.preventDefault();
         if (input.type === "password") {
           input.type = "text";
           toggleBtn.textContent = "🙈";
@@ -264,11 +265,7 @@
       }
     });
   } else {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", showLoginModal);
-    } else {
-      showLoginModal();
-    }
+    showLoginModal();
   }
 
   window.showAllyLoginPopup = showLoginModal;

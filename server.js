@@ -53,7 +53,7 @@ express.response.sendFile = function (filePath, ...args) {
     try {
       let html = fs.readFileSync(filePath, "utf8");
       if (!html.includes("auth-guard.js")) {
-        const injection = `\n<link rel="stylesheet" href="/auth-guard.css?v=6">\n<script src="/auth-guard.js?v=6"></script>\n`;
+        const injection = `\n<link rel="stylesheet" href="/auth-guard.css?v=7">\n<script src="/auth-guard.js?v=7"></script>\n`;
         if (html.includes("</head>")) {
           html = html.replace("</head>", `${injection}</head>`);
         } else if (html.includes("</body>")) {
@@ -629,7 +629,7 @@ app.get(["/admin-overlay", "/admin-overlay.html", "/host-overlay"], (_req, res) 
 });
 
 // Admin / Dashboard alias
-app.get(["/admin", "/admin.html"], (_req, res) => {
+app.get(["/admin", "/admin/", "/admin.html"], (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
