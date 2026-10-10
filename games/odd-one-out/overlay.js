@@ -506,6 +506,7 @@ function renderLeaderboard(leaderboard) {
 }
 
 function applyGameState(data) {
+  if (!data) return;
   if (data.audioSettings) {
     updateAudioSettings(data.audioSettings);
   }
@@ -514,16 +515,20 @@ function applyGameState(data) {
   level = data.level || 1;
   category = data.category || "fruit";
   streak = data.streak || 0;
-  time = data.time !== undefined ? data.time : 20;
+  time = data.time !== undefined ? data.time : (data.timerRemaining !== undefined ? data.timerRemaining : 20);
   active = !!data.active;
   revealed = !!data.revealed;
-  elRound.textContent = `ROUND ${round}`;
+  if (data.roundWinners) {
+    roundWinners = data.roundWinners;
+  }
+
+  if (elRound) elRound.textContent = `ROUND ${round}`;
   const lvlName = LEVELS[level - 1]?.name || "EASY";
-  elLevel.textContent = `LVL ${level}`;
-  elCategory.textContent = category.toUpperCase();
+  if (elLevel) elLevel.textContent = `LVL ${level}`;
+  if (elCategory) elCategory.textContent = category.toUpperCase();
   if (elStreakValue) elStreakValue.textContent = streak;
   if (elStreak) elStreak.textContent = `🔥 ${streak}`;
-  elTimer.textContent = Math.max(time, 0);
+  if (elTimer) elTimer.textContent = Math.max(time, 0);
 
   const elTimerBox = document.getElementById("timerBox");
   if (time <= 5 && active) {
@@ -536,12 +541,12 @@ function applyGameState(data) {
   renderWinnersBox(roundWinners);
   renderLeaderboard(data.leaderboard || []);
 
-  if (data.statusMessage) {
+  if (data.statusMessage && elStatus) {
     elStatus.textContent = data.statusMessage;
   }
 
   if (roundChanged) {
-    elModal.classList.remove("active");
+    if (elModal) elModal.classList.remove("active");
     clearAllHighlights();
   }
 
@@ -627,7 +632,7 @@ function startLocalGame() {
 }
 
 function newLocalRound() {
-  elModal.classList.remove("active");
+  if (elModal) elModal.classList.remove("active");
   clearAllHighlights();
   round++;
   active = true;
@@ -776,7 +781,7 @@ function initSocket() {
       });
 
       socket.on("roundStarted", (data) => {
-        elModal.classList.remove("active");
+        if (elModal) elModal.classList.remove("active");
         applyGameState(data);
       });
 

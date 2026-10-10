@@ -242,9 +242,13 @@ class GameRegistry {
         }
         break;
       case "setTime":
+      case "setDuration":
         if (typeof engine.setTime === "function") {
           const s = (options && typeof options === "object") ? (options.sec ?? options.seconds ?? options.duration ?? options.time) : options;
           return engine.setTime(s);
+        } else if (typeof engine.setDuration === "function") {
+          const s = (options && typeof options === "object") ? (options.sec ?? options.seconds ?? options.duration ?? options.time) : options;
+          return engine.setDuration(s);
         }
         break;
       case "hint":

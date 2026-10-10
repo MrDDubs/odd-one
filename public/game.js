@@ -334,12 +334,12 @@ function applyGameState(data) {
   target = data.target || target;
   roundWinners = data.roundWinners || [];
 
-  elRound.textContent = `ROUND ${round}`;
+  if (elRound) elRound.textContent = `ROUND ${round}`;
   const lvlName = LEVELS[level - 1]?.name || "EASY";
-  elLevel.textContent = `LEVEL ${level} • ${lvlName}`;
-  elCategory.textContent = category.toUpperCase();
-  elStreak.textContent = `🔥 ${streak}`;
-  elTimer.textContent = `00:${String(Math.max(time, 0)).padStart(2, "0")}`;
+  if (elLevel) elLevel.textContent = `LEVEL ${level} • ${lvlName}`;
+  if (elCategory) elCategory.textContent = category.toUpperCase();
+  if (elStreak) elStreak.textContent = `🔥 ${streak}`;
+  if (elTimer) elTimer.textContent = `00:${String(Math.max(time, 0)).padStart(2, "0")}`;
 
   if (time <= 5 && active) {
     elTimer.classList.add("danger");

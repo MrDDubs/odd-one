@@ -103,11 +103,17 @@ export class OddOneOutEngine {
 
   setOptions(opts = {}) {
     if (opts.duration !== undefined) {
-      const dur = parseInt(opts.duration, 10);
-      if (dur > 0) {
-        this.customDurationSec = dur;
-        this.roundDurationSec = dur;
-        this.time = dur;
+      if (opts.duration === null || opts.duration === 0 || opts.duration === "auto" || opts.duration === "preset") {
+        this.customDurationSec = null;
+        this.roundDurationSec = this.getPresetTime();
+        this.time = this.roundDurationSec;
+      } else {
+        const dur = parseInt(opts.duration, 10);
+        if (dur > 0) {
+          this.customDurationSec = dur;
+          this.roundDurationSec = dur;
+          this.time = dur;
+        }
       }
     }
 
@@ -125,6 +131,10 @@ export class OddOneOutEngine {
       if (this.autoLevel) {
         this.manualLevel = null;
         this.calculateLevel();
+        if (!this.customDurationSec) {
+          this.roundDurationSec = this.getPresetTime();
+          this.time = this.roundDurationSec;
+        }
       }
     }
     if (opts.level !== undefined) {
@@ -133,6 +143,10 @@ export class OddOneOutEngine {
         this.manualLevel = lvl;
         this.autoLevel = false;
         this.level = lvl;
+        if (!this.customDurationSec) {
+          this.roundDurationSec = this.getPresetTime();
+          this.time = this.roundDurationSec;
+        }
       }
     }
 
@@ -194,6 +208,22 @@ export class OddOneOutEngine {
       this.customDurationSec = num;
       this.roundDurationSec = num;
     }
+    return this.getPublicPayload();
+  }
+
+  setDuration(sec) {
+    return this.setTime(sec);
+  }
+
+  startTimer(sec) {
+    if (sec) this.setTime(sec);
+    this.active = true;
+    this.paused = false;
+    return this.getPublicPayload();
+  }
+
+  stopTimer() {
+    this.paused = true;
     return this.getPublicPayload();
   }
 
@@ -343,6 +373,7 @@ export class OddOneOutEngine {
       streak: this.streak,
       category: this.category,
       time: this.time,
+      timerRemaining: this.time,
       roundDurationSec: this.roundDurationSec,
       active: this.active,
       revealed: this.revealed,
