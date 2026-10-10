@@ -178,5 +178,12 @@
     }, durationMs);
   }
 
+  function hideRoundPointsModal() {
+    const elModal = document.getElementById("leaderboardModal");
+    if (elModal) elModal.classList.remove("active");
+    if (modalTimer) clearTimeout(modalTimer);
+  }
+
   window.showRoundPointsModal = showRoundPointsModal;
+  window.hideRoundPointsModal = hideRoundPointsModal;
 })();

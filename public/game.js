@@ -354,8 +354,9 @@ function applyGameState(data) {
     elStatus.textContent = data.statusMessage;
   }
 
-  if (roundChanged) {
-    elModal.classList.remove("active");
+  if (roundChanged || (active && !revealed)) {
+    if (window.hideRoundPointsModal) window.hideRoundPointsModal();
+    if (elModal) elModal.classList.remove("active");
     clearAllHighlights();
   }
 
@@ -383,23 +384,35 @@ function applyGameState(data) {
 }
 
 // Button actions
-btnStart.onclick = () => {
-  if (socket && isServerConnected) socket.emit("startRound");
-  else resetLocalGame();
-};
+if (btnStart) {
+  btnStart.onclick = () => {
+    if (socket && isServerConnected) {
+      socket.emit("gameAction", { gameId: "odd-one-out", action: "startRound" });
+      socket.emit("startRound");
+    } else resetLocalGame();
+  };
+}
 
-btnReveal.onclick = () => {
-  if (socket && isServerConnected) socket.emit("reveal");
-  else {
-    revealed = true;
-    highlightTarget(target);
-  }
-};
+if (btnReveal) {
+  btnReveal.onclick = () => {
+    if (socket && isServerConnected) {
+      socket.emit("gameAction", { gameId: "odd-one-out", action: "reveal" });
+      socket.emit("reveal");
+    } else {
+      revealed = true;
+      highlightTarget(target);
+    }
+  };
+}
 
-btnNext.onclick = () => {
-  if (socket && isServerConnected) socket.emit("nextRound");
-  else newLocalRound();
-};
+if (btnNext) {
+  btnNext.onclick = () => {
+    if (socket && isServerConnected) {
+      socket.emit("gameAction", { gameId: "odd-one-out", action: "nextRound" });
+      socket.emit("nextRound");
+    } else newLocalRound();
+  };
+}
 
 // Standalone Local Logic (Fallback when no server is running)
 let localWinners = [];
@@ -584,7 +597,9 @@ function initSocket() {
       });
 
       socket.on("roundStarted", (data) => {
-        elModal.classList.remove("active");
+        if (window.hideRoundPointsModal) window.hideRoundPointsModal();
+        if (elModal) elModal.classList.remove("active");
+        clearAllHighlights();
         applyGameState(data);
       });
 

@@ -439,8 +439,7 @@ app.post("/api/switch-game", (req, res) => {
 
 app.post("/api/game-action", (req, res) => {
   const { gameId, action, options } = req.body || {};
-  const updated = gameRegistry.handleGameAction(gameId, action, options);
-  broadcastState();
+  const updated = executeGameAction(gameId, action, options);
   res.json({ ok: true, state: updated });
 });
 
@@ -535,6 +534,20 @@ app.get(["/admin", "/admin.html"], (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// Socket.IO Namespaces
+const adminNSP = io.of("/admin");
+
+function executeGameAction(gameId, action, options) {
+  const result = gameRegistry.handleGameAction(gameId, action, options);
+  broadcastState();
+
+  if (action === "startRound" || action === "newRound" || action === "nextRound" || action === "prevRound" || action === "previousRound") {
+    io.emit("roundStarted", gameRegistry.getPublicPayload());
+    adminNSP.emit("roundStarted", gameRegistry.getAdminPayload());
+  }
+  return result;
+}
+
 // Socket.IO: Public / Overlay Namespace
 io.on("connection", (socket) => {
   socket.emit("gameState", {
@@ -555,9 +568,18 @@ io.on("connection", (socket) => {
   });
 
   socket.on("gameAction", ({ gameId, action, options }) => {
-    gameRegistry.handleGameAction(gameId, action, options);
-    broadcastState();
+    executeGameAction(gameId, action, options);
   });
+
+  // Direct socket event listeners for maximum resilience
+  socket.on("startRound", (options) => executeGameAction(null, "startRound", options));
+  socket.on("newRound", (options) => executeGameAction(null, "newRound", options));
+  socket.on("nextRound", (options) => executeGameAction(null, "nextRound", options));
+  socket.on("prevRound", (options) => executeGameAction(null, "prevRound", options));
+  socket.on("reveal", () => executeGameAction(null, "reveal"));
+  socket.on("togglePause", () => executeGameAction(null, "togglePause"));
+  socket.on("setTime", (options) => executeGameAction(null, "setTime", options));
+  socket.on("adjustTime", (options) => executeGameAction(null, "adjustTime", options));
 
   socket.on("setAudioSettings", ({ volume, muted }) => {
     if (typeof volume === "number") currentAudioSettings.volume = Math.max(0, Math.min(100, Math.round(volume)));
@@ -569,7 +591,6 @@ io.on("connection", (socket) => {
 });
 
 // Socket.IO: Admin Namespace
-const adminNSP = io.of("/admin");
 adminNSP.on("connection", (socket) => {
   console.log("[Admin] Host connected to Stream Hub");
   socket.emit("gameState", {
@@ -610,17 +631,24 @@ adminNSP.on("connection", (socket) => {
 
   socket.on("switchGame", ({ gameId }) => {
     if (gameRegistry.setActiveGame(gameId)) {
-      gameRegistry.handleGameAction(gameId, "startRound");
-      broadcastState();
+      executeGameAction(gameId, "startRound");
       io.emit("gameSwitched", { gameId, def: gameRegistry.getActiveGameDefinition() });
       adminNSP.emit("gameSwitched", { gameId, def: gameRegistry.getActiveGameDefinition() });
     }
   });
 
   socket.on("gameAction", ({ gameId, action, options }) => {
-    gameRegistry.handleGameAction(gameId, action, options);
-    broadcastState();
+    executeGameAction(gameId, action, options);
   });
+
+  socket.on("startRound", (options) => executeGameAction(null, "startRound", options));
+  socket.on("newRound", (options) => executeGameAction(null, "newRound", options));
+  socket.on("nextRound", (options) => executeGameAction(null, "nextRound", options));
+  socket.on("prevRound", (options) => executeGameAction(null, "prevRound", options));
+  socket.on("reveal", () => executeGameAction(null, "reveal"));
+  socket.on("togglePause", () => executeGameAction(null, "togglePause"));
+  socket.on("setTime", (options) => executeGameAction(null, "setTime", options));
+  socket.on("adjustTime", (options) => executeGameAction(null, "adjustTime", options));
 
   socket.on("toggleInGameLeaderboard", ({ hide }) => {
     io.emit("toggleInGameLeaderboard", { hide: !!hide });

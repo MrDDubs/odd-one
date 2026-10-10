@@ -36,6 +36,9 @@ export class OddOneOutEngine {
     this.roundWinners = [];
     this.guesses = [];
     this.leaderboard = new Map();
+
+    // Initialize round 1 immediately
+    this.newRound();
   }
 
   calculateLevel() {
@@ -193,10 +196,37 @@ export class OddOneOutEngine {
     return this.newRound(options);
   }
 
+  startRound(options = {}) {
+    if (this.round === 0 || !this.target || this.revealed || !this.active || this.time <= 0 || this.roundWinners.length >= 2) {
+      return this.newRound(options);
+    }
+    if (options && (options.duration || options.sec)) {
+      const dur = parseInt(options.duration || options.sec, 10);
+      if (dur > 0) {
+        this.customDurationSec = dur;
+        this.roundDurationSec = dur;
+        this.time = dur;
+      }
+    }
+    this.active = true;
+    this.paused = false;
+    this.revealed = false;
+    if (this.time <= 0) {
+      this.time = this.roundDurationSec || this.getPresetTime();
+    }
+    const lvlObj = LEVELS.find((l) => l.level === this.level) || LEVELS[0];
+    this.statusMessage = `${lvlObj.name}: First 2 to find the odd ${this.category} get points! 👀`;
+    return this.getPublicPayload();
+  }
+
   adjustTime(delta) {
     const raw = (delta && typeof delta === "object") ? (delta.delta ?? delta.deltaSec ?? delta.d ?? delta.sec) : delta;
     const num = parseInt(raw, 10) || 0;
     this.time = Math.max(0, this.time + num);
+    if (!this.active && !this.revealed && this.round > 0) {
+      this.active = true;
+      this.paused = false;
+    }
     return this.getPublicPayload();
   }
 
@@ -204,9 +234,19 @@ export class OddOneOutEngine {
     const raw = (sec && typeof sec === "object") ? (sec.sec ?? sec.seconds ?? sec.duration ?? sec.time) : sec;
     const num = parseInt(raw, 10);
     if (!isNaN(num) && num > 0) {
-      this.time = num;
       this.customDurationSec = num;
       this.roundDurationSec = num;
+      this.time = num;
+
+      // If round hasn't started yet, or previous round finished/revealed/won, start a fresh round with this duration
+      if (this.round === 0 || !this.target || this.revealed || !this.active || this.roundWinners.length >= 2) {
+        return this.newRound({ duration: num });
+      }
+
+      // If round is currently active or paused, resume/activate with the new duration
+      this.active = true;
+      this.paused = false;
+      this.revealed = false;
     }
     return this.getPublicPayload();
   }
