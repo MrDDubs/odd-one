@@ -9,6 +9,7 @@ const STATIC_ASSETS = [
   "/theme.css",
   "/hub.js",
   "/manifest.json",
+  "/manifest-mobile.json",
   "/icon-192.png",
   "/icon-512.png"
 ];
