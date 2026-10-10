@@ -3,6 +3,7 @@ import express from "express";
 import http from "http";
 import path from "path";
 import fs from "fs";
+import crypto from "crypto";
 import { fileURLToPath } from "url";
 import { Server as SocketIOServer } from "socket.io";
 import cors from "cors";
@@ -19,6 +20,54 @@ const __dirname = path.dirname(__filename);
 const envPath = path.join(__dirname, ".env");
 const PORT = process.env.PORT || 4000;
 
+// Stream Hub Authentication Helpers
+function getExpectedPassword() {
+  return process.env.SITE_PASSWORD || process.env.ADMIN_PASSWORD || process.env.ADMIN_KEY || "admin123";
+}
+
+function generateAuthToken(password) {
+  return crypto.createHash("sha256").update(String(password).trim() + "_ally_salt_2026").digest("hex");
+}
+
+function isValidAuthToken(token) {
+  if (!token) return false;
+  const expected = generateAuthToken(getExpectedPassword());
+  return String(token).trim() === expected;
+}
+
+function getRequestAuthToken(req) {
+  const cookieHeader = req.headers.cookie || "";
+  const match = cookieHeader.match(/(^|;\s*)ally_auth=([^;]*)/);
+  const cookieToken = match ? decodeURIComponent(match[2]) : null;
+  const authHeader = req.headers.authorization || "";
+  const bearerToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : null;
+  const queryKey = req.query.key || req.query.auth || req.query.password;
+  const queryToken = queryKey ? generateAuthToken(queryKey) : null;
+  return req.body?.token || cookieToken || bearerToken || queryToken;
+}
+
+// Auto-inject Auth Guard scripts and styles into all HTML page responses
+const originalSendFile = express.response.sendFile;
+express.response.sendFile = function (filePath, ...args) {
+  if (typeof filePath === "string" && filePath.endsWith(".html")) {
+    try {
+      let html = fs.readFileSync(filePath, "utf8");
+      if (!html.includes("auth-guard.js")) {
+        const injection = `\n<link rel="stylesheet" href="/auth-guard.css">\n<script src="/auth-guard.js"></script>\n`;
+        if (html.includes("</head>")) {
+          html = html.replace("</head>", `${injection}</head>`);
+        } else if (html.includes("</body>")) {
+          html = html.replace("</body>", `${injection}</body>`);
+        } else {
+          html = injection + html;
+        }
+      }
+      return this.type("html").send(html);
+    } catch (e) {}
+  }
+  return originalSendFile.call(this, filePath, ...args);
+};
+
 const app = express();
 const server = http.createServer(app);
 const io = new SocketIOServer(server, {
@@ -27,6 +76,18 @@ const io = new SocketIOServer(server, {
 
 app.use(cors());
 app.use(express.json());
+
+// Intercept direct .html static files to ensure auth injection applies to minigame overlays
+app.get(/\.html$/, (req, res, next) => {
+  let targetPath = path.join(__dirname, "public", req.path);
+  if (req.path.startsWith("/games/")) {
+    targetPath = path.join(__dirname, req.path);
+  }
+  if (fs.existsSync(targetPath)) {
+    return res.sendFile(targetPath);
+  }
+  next();
+});
 
 // Serve static assets from public and games directories
 app.use(express.static(path.join(__dirname, "public")));
@@ -419,6 +480,31 @@ app.get("/api/state", (_req, res) => {
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
     tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar
   });
+});
+
+// Authentication API Routes
+app.post("/api/auth/login", (req, res) => {
+  const { password } = req.body || {};
+  const expected = getExpectedPassword();
+  if (password && String(password).trim() === String(expected).trim()) {
+    const token = generateAuthToken(expected);
+    res.setHeader("Set-Cookie", `ally_auth=${encodeURIComponent(token)}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`);
+    return res.json({ ok: true, token });
+  }
+  return res.status(401).json({ ok: false, error: "Incorrect password" });
+});
+
+app.post("/api/auth/verify", (req, res) => {
+  const token = getRequestAuthToken(req);
+  if (isValidAuthToken(token)) {
+    return res.json({ ok: true });
+  }
+  return res.json({ ok: false });
+});
+
+app.post("/api/auth/logout", (_req, res) => {
+  res.setHeader("Set-Cookie", "ally_auth=; Path=/; Max-Age=0; SameSite=Lax");
+  res.json({ ok: true });
 });
 
 app.post("/api/switch-game", (req, res) => {

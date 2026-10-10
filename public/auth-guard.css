@@ -1,0 +1,233 @@
+/* public/auth-guard.css - Ally's Stream Hub Password Popup Modal */
+
+#allyAuthOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2147483647; /* Maximum possible z-index */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  background: radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.35) 0%, rgba(15, 10, 30, 0.94) 70%, rgba(8, 4, 18, 0.98) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  opacity: 1;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+  visibility: visible;
+}
+
+#allyAuthOverlay.ally-auth-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ally-auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(145deg, rgba(30, 21, 60, 0.85) 0%, rgba(18, 12, 38, 0.92) 100%);
+  border: 1.5px solid rgba(250, 204, 21, 0.4);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 30px rgba(234, 179, 8, 0.15);
+  border-radius: 24px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  animation: allyCardPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes allyCardPop {
+  0% {
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.ally-auth-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ec4899, #facc15, #a855f7);
+}
+
+.ally-auth-avatar-wrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #facc15, #eab308, #ca8a04);
+  box-shadow: 0 6px 20px rgba(234, 179, 8, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.ally-auth-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+}
+
+.ally-auth-fallback-icon {
+  font-size: 36px;
+}
+
+.ally-auth-title {
+  margin: 0 0 6px 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  background: linear-gradient(135deg, #ffffff 40%, #fef08a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ally-auth-subtitle {
+  margin: 0 0 24px 0;
+  font-size: 13px;
+  color: #c4b5fd;
+  font-weight: 500;
+}
+
+.ally-auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ally-auth-input-wrap {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ally-auth-input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 16px;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.ally-auth-input {
+  width: 100%;
+  padding: 13px 42px 13px 40px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1.5px solid rgba(196, 181, 253, 0.25);
+  border-radius: 14px;
+  font-size: 15px;
+  color: #ffffff;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.ally-auth-input:focus {
+  border-color: #facc15;
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.ally-auth-input::placeholder {
+  color: #8b80b6;
+}
+
+.ally-auth-toggle-vis {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #c4b5fd;
+  cursor: pointer;
+  padding: 6px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: color 0.15s;
+}
+
+.ally-auth-toggle-vis:hover {
+  color: #facc15;
+}
+
+.ally-auth-error {
+  min-height: 20px;
+  font-size: 12px;
+  color: #f87171;
+  font-weight: 600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.ally-auth-error.visible {
+  display: flex;
+}
+
+.ally-auth-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #facc15 0%, #eab308 50%, #ca8a04 100%);
+  border: none;
+  border-radius: 14px;
+  color: #451a03;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ally-auth-submit:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 20px rgba(234, 179, 8, 0.5);
+  transform: translateY(-1px);
+}
+
+.ally-auth-submit:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(234, 179, 8, 0.3);
+}
+
+.ally-auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Shake animation on invalid password */
+.ally-auth-shake {
+  animation: allyShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes allyShake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
