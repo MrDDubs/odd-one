@@ -427,6 +427,8 @@ app.post("/api/switch-game", (req, res) => {
 
   const switched = gameRegistry.setActiveGame(gameId);
   if (switched) {
+    // Automatically start a fresh round on switch
+    gameRegistry.handleGameAction(gameId, "startRound");
     broadcastState();
     io.emit("gameSwitched", { gameId, def: gameRegistry.getActiveGameDefinition() });
     io.of("/admin").emit("gameSwitched", { gameId, def: gameRegistry.getActiveGameDefinition() });
@@ -608,6 +610,7 @@ adminNSP.on("connection", (socket) => {
 
   socket.on("switchGame", ({ gameId }) => {
     if (gameRegistry.setActiveGame(gameId)) {
+      gameRegistry.handleGameAction(gameId, "startRound");
       broadcastState();
       io.emit("gameSwitched", { gameId, def: gameRegistry.getActiveGameDefinition() });
       adminNSP.emit("gameSwitched", { gameId, def: gameRegistry.getActiveGameDefinition() });

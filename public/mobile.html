@@ -125,9 +125,358 @@
       border: none;
       background: transparent;
     }
+
+    /* =========================================
+       Top Right Floating Hamburger Button
+       ========================================= */
+    .mobile-menu-btn {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(18, 12, 36, 0.85);
+      border: 1.5px solid rgba(139, 92, 246, 0.5);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .mobile-menu-btn:active {
+      transform: scale(0.92);
+    }
+    .mobile-menu-btn span {
+      display: block;
+      width: 20px;
+      height: 2.5px;
+      background: #f1f0ff;
+      border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .mobile-menu-btn.active span:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg);
+    }
+    .mobile-menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-menu-btn.active span:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg);
+    }
+
+    /* =========================================
+       Slide-out Drawer & Backdrop
+       ========================================= */
+    .menu-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1001;
+    }
+    .menu-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slide-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(340px, 86vw);
+      background: #120c24;
+      border-left: 1px solid rgba(139, 92, 246, 0.3);
+      box-shadow: -8px 0 35px rgba(0, 0, 0, 0.85);
+      z-index: 1002;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 24px 20px;
+      box-sizing: border-box;
+      font-family: 'Fredoka', system-ui, sans-serif;
+    }
+    .slide-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .drawer-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .drawer-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #cbd5e1;
+      font-size: 20px;
+      line-height: 1;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* TikTok Connection Box */
+    .drawer-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #a78bfa;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tiktok-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 22px;
+    }
+    .tiktok-status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .tiktok-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .tiktok-status-badge.connected {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+    .tiktok-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .tiktok-user-input-wrap {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .tiktok-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 10px;
+      padding: 9px 12px;
+      color: #fff;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .tiktok-input:focus {
+      border-color: #8b5cf6;
+    }
+    .tiktok-btn {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .tiktok-btn:active {
+      opacity: 0.8;
+    }
+    .tiktok-btn.disconnect {
+      background: #ef4444;
+    }
+
+    /* Game List */
+    .game-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .game-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #f1f0ff;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .game-nav-btn:hover, .game-nav-btn:active {
+      background: rgba(139, 92, 246, 0.16);
+      border-color: rgba(139, 92, 246, 0.45);
+      transform: translateX(3px);
+    }
+    .game-nav-btn.active {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.28), rgba(236, 72, 153, 0.22));
+      border-color: #8b5cf6;
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.25);
+    }
+    .game-nav-icon {
+      font-size: 22px;
+      width: 32px;
+      text-align: center;
+    }
+    .game-nav-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .game-nav-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .game-nav-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .game-active-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: #8b5cf6;
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    /* Toast Notification inside Drawer */
+    .mobile-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: rgba(18, 12, 36, 0.95);
+      border: 1px solid #8b5cf6;
+      color: #fff;
+      padding: 9px 18px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 1100;
+    }
+    .mobile-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
   </style>
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
 </head>
 <body>
+  <!-- Floating Hamburger Menu Button (Top Right) -->
+  <button id="btnMobileMenu" class="mobile-menu-btn" aria-label="Open Game & Settings Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Slide-out Backdrop -->
+  <div id="menuBackdrop" class="menu-backdrop"></div>
+
+  <!-- Slide-out Drawer -->
+  <aside id="slideDrawer" class="slide-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span>🎮</span>
+        <span>Stream Hub Menu</span>
+      </div>
+      <button id="btnCloseDrawer" class="drawer-close" aria-label="Close menu">&times;</button>
+    </div>
+
+    <!-- TikTok Connection Card -->
+    <div class="drawer-section-title">
+      <span>TikTok Live Status</span>
+    </div>
+    <div class="tiktok-card">
+      <div class="tiktok-status-row">
+        <span style="font-size:12px;color:#cbd5e1" id="labelCurrentStreamer">@not_set</span>
+        <span id="badgeTikTokStatus" class="tiktok-status-badge">
+          <span class="tiktok-status-dot"></span>
+          <span id="textTikTokStatus">Disconnected</span>
+        </span>
+      </div>
+      <div class="tiktok-user-input-wrap">
+        <input type="text" id="inputDrawerTikTokUser" placeholder="TikTok username" class="tiktok-input" />
+        <button id="btnDrawerConnectTikTok" class="tiktok-btn">CONNECT</button>
+      </div>
+    </div>
+
+    <!-- Games List -->
+    <div class="drawer-section-title">
+      <span>Select Game (Auto Starts)</span>
+      <span style="font-size:10px;color:#94a3b8" id="countGames">8 Games</span>
+    </div>
+    <div class="game-nav-list" id="gamesNavList">
+      <!-- Populated dynamically via JS -->
+    </div>
+  </aside>
+
+  <!-- Toast -->
+  <div id="mobileToast" class="mobile-toast">Game Started!</div>
+
   <div class="mobile-stage">
     <!-- Background is set in CSS -->
 
@@ -151,15 +500,13 @@
   </div>
 
   <script>
+    // Responsive stage scaling
     function scaleToFit() {
       const stage = document.querySelector('.mobile-stage');
       const winW = window.innerWidth;
       const winH = window.innerHeight;
       
-      // Calculate scale to fit 1080x1920 inside current window
       const scale = Math.min(winW / 1080, winH / 1920);
-      
-      // Center the stage
       const dx = (winW - 1080 * scale) / 2;
       const dy = (winH - 1920 * scale) / 2;
       
@@ -170,13 +517,239 @@
     window.addEventListener('resize', scaleToFit);
     window.addEventListener('orientationchange', () => setTimeout(scaleToFit, 200));
     window.addEventListener('load', scaleToFit);
-    scaleToFit(); // Initial call
+    scaleToFit();
 
+    // PWA Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration error:', err));
       });
     }
+
+    // =========================================
+    // Hamburger Menu & Game Launcher Controller
+    // =========================================
+    const btnMobileMenu = document.getElementById('btnMobileMenu');
+    const menuBackdrop = document.getElementById('menuBackdrop');
+    const slideDrawer = document.getElementById('slideDrawer');
+    const btnCloseDrawer = document.getElementById('btnCloseDrawer');
+    const gamesNavList = document.getElementById('gamesNavList');
+    const mobileToast = document.getElementById('mobileToast');
+
+    const badgeTikTokStatus = document.getElementById('badgeTikTokStatus');
+    const textTikTokStatus = document.getElementById('textTikTokStatus');
+    const labelCurrentStreamer = document.getElementById('labelCurrentStreamer');
+    const inputDrawerTikTokUser = document.getElementById('inputDrawerTikTokUser');
+    const btnDrawerConnectTikTok = document.getElementById('btnDrawerConnectTikTok');
+
+    let isTikTokConnected = false;
+    let currentActiveGameId = '';
+    let toastTimeout = null;
+
+    function showToast(msg) {
+      if (!mobileToast) return;
+      mobileToast.textContent = msg;
+      mobileToast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        mobileToast.classList.remove('show');
+      }, 2500);
+    }
+
+    function toggleMenu(open) {
+      const isOpen = open !== undefined ? open : !slideDrawer.classList.contains('open');
+      if (isOpen) {
+        slideDrawer.classList.add('open');
+        menuBackdrop.classList.add('open');
+        btnMobileMenu.classList.add('active');
+      } else {
+        slideDrawer.classList.remove('open');
+        menuBackdrop.classList.remove('open');
+        btnMobileMenu.classList.remove('active');
+      }
+    }
+
+    btnMobileMenu.addEventListener('click', () => toggleMenu());
+    menuBackdrop.addEventListener('click', () => toggleMenu(false));
+    btnCloseDrawer.addEventListener('click', () => toggleMenu(false));
+
+    // Connect to Hub Admin Socket
+    const adminSocket = (typeof io !== 'undefined') ? io('/admin') : null;
+
+    // Games catalog
+    const GAMES_CATALOG = [
+      { id: 'odd-one-out', name: "Ally's Odd One Out", icon: '🧩', desc: 'Find the different tile' },
+      { id: 'think-like-ally', name: 'Think Like Ally', icon: '💡', desc: 'MCQ Live Trivia & Voting' },
+      { id: 'think-and-link', name: 'Think & Link', icon: '💜', desc: '6 Word Association puzzle' },
+      { id: 'word-finder', name: "Ally's Word Finder", icon: '🔍', desc: '6x6 Grid hidden word search' },
+      { id: 'crowd-says', name: "Ally's Chat Feud", icon: '⚔️', desc: 'Survey answers showdown' },
+      { id: 'unscramble', name: "Ally's Unscramble", icon: '🔤', desc: 'Unscramble letters in chat' },
+      { id: 'rebus', name: "Ally's Rebus", icon: '🎭', desc: 'Visual emoji & dingbat puzzles' },
+      { id: 'riddle', name: "Ally's Riddles", icon: '🧙‍♂️', desc: 'Solve tricky riddles' }
+    ];
+
+    function renderGames(activeId) {
+      if (!gamesNavList) return;
+      gamesNavList.innerHTML = GAMES_CATALOG.map(g => {
+        const isActive = g.id === activeId;
+        return `
+          <button class="game-nav-btn ${isActive ? 'active' : ''}" data-game-id="${g.id}">
+            <span class="game-nav-icon">${g.icon}</span>
+            <div class="game-nav-info">
+              <span class="game-nav-name">${g.name}</span>
+              <span class="game-nav-desc">${g.desc}</span>
+            </div>
+            ${isActive ? '<span class="game-active-badge">ACTIVE</span>' : ''}
+          </button>
+        `;
+      }).join('');
+
+      gamesNavList.querySelectorAll('.game-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const gameId = btn.getAttribute('data-game-id');
+          launchGame(gameId);
+        });
+      });
+    }
+
+    async function launchGame(gameId) {
+      currentActiveGameId = gameId;
+      renderGames(gameId);
+
+      // Auto start and switch game
+      if (adminSocket && adminSocket.connected) {
+        adminSocket.emit('switchGame', { gameId });
+        adminSocket.emit('gameAction', { gameId, action: 'startRound' });
+      } else {
+        try {
+          await fetch('/api/switch-game', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ gameId })
+          });
+        } catch (e) {
+          console.warn('Error switching game:', e);
+        }
+      }
+
+      showToast(`🎮 Started ${GAMES_CATALOG.find(g => g.id === gameId)?.name || gameId}!`);
+      setTimeout(() => toggleMenu(false), 350);
+    }
+
+    function updateTikTokUI(status) {
+      const isConnected = !!status?.connected;
+      const isConnecting = !!status?.connecting;
+      const username = (status?.username || '').trim();
+
+      isTikTokConnected = isConnected;
+
+      if (username) {
+        labelCurrentStreamer.textContent = `@${username.replace(/^@/, '')}`;
+        if (!inputDrawerTikTokUser.value) {
+          inputDrawerTikTokUser.value = username.replace(/^@/, '');
+        }
+      } else {
+        labelCurrentStreamer.textContent = '@not_set';
+      }
+
+      if (isConnected) {
+        badgeTikTokStatus.className = 'tiktok-status-badge connected';
+        textTikTokStatus.textContent = 'Connected';
+        btnDrawerConnectTikTok.textContent = 'DISCONNECT';
+        btnDrawerConnectTikTok.className = 'tiktok-btn disconnect';
+      } else if (isConnecting) {
+        badgeTikTokStatus.className = 'tiktok-status-badge';
+        textTikTokStatus.textContent = 'Connecting...';
+        btnDrawerConnectTikTok.textContent = 'CONNECT';
+        btnDrawerConnectTikTok.className = 'tiktok-btn';
+      } else {
+        badgeTikTokStatus.className = 'tiktok-status-badge';
+        textTikTokStatus.textContent = 'Disconnected';
+        btnDrawerConnectTikTok.textContent = 'CONNECT';
+        btnDrawerConnectTikTok.className = 'tiktok-btn';
+      }
+    }
+
+    // Connect/Disconnect TikTok Button
+    if (btnDrawerConnectTikTok) {
+      btnDrawerConnectTikTok.addEventListener('click', async () => {
+        if (isTikTokConnected) {
+          // Disconnect
+          if (adminSocket && adminSocket.connected) {
+            adminSocket.emit('disconnectTikTok');
+          } else {
+            await fetch('/admin/disconnect-tiktok', { method: 'POST' }).catch(() => {});
+          }
+          showToast('TikTok Disconnected');
+        } else {
+          // Connect
+          const rawUser = (inputDrawerTikTokUser.value || '').trim();
+          if (!rawUser) {
+            alert('Please enter a TikTok username');
+            return;
+          }
+          const username = rawUser.replace(/^@/, '');
+          if (adminSocket && adminSocket.connected) {
+            adminSocket.emit('connectTikTok', { username });
+          } else {
+            await fetch('/admin/connect-tiktok', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username })
+            }).catch(() => {});
+          }
+          showToast(`Connecting to @${username}...`);
+        }
+      });
+    }
+
+    // Initial load & Socket listeners
+    renderGames('odd-one-out');
+
+    if (adminSocket) {
+      adminSocket.on('connect', () => {
+        console.log('[Mobile Drawer] Connected to /admin namespace');
+      });
+
+      adminSocket.on('gameState', (data) => {
+        if (data?.activeGameId) {
+          currentActiveGameId = data.activeGameId;
+          renderGames(data.activeGameId);
+        }
+        updateTikTokUI({
+          connected: data?.tiktokConnected,
+          connecting: data?.tiktokConnecting,
+          username: data?.tiktokLiveUsername
+        });
+      });
+
+      adminSocket.on('gameSwitched', ({ gameId }) => {
+        if (gameId) {
+          currentActiveGameId = gameId;
+          renderGames(gameId);
+        }
+      });
+
+      adminSocket.on('tiktokConnectionStatus', (status) => {
+        updateTikTokUI(status);
+      });
+    }
+
+    // Fetch initial state fallback
+    fetch('/api/state')
+      .then(res => res.json())
+      .then(data => {
+        if (data?.activeGameId) {
+          currentActiveGameId = data.activeGameId;
+          renderGames(data.activeGameId);
+        }
+        updateTikTokUI({
+          connected: data?.tiktokConnected,
+          connecting: data?.tiktokConnecting,
+          username: data?.tiktokLiveUsername
+        });
+      })
+      .catch(err => console.warn('Could not fetch initial /api/state:', err));
   </script>
 </body>
 </html>
