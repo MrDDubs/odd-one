@@ -19,8 +19,13 @@
       padding: 0;
       width: 100%; 
       height: 100%;
+      height: 100dvh;
       overflow: hidden;
-      background: #000;
+      background-color: #0d0a1a;
+      background-image: url('./assets/mobile-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       font-family: 'Fredoka', sans-serif;
     }
     body {
@@ -34,10 +39,12 @@
       top: 0;
       left: 0;
       width: 1080px;
+      min-height: 1920px;
       height: 1920px;
       background-image: url('./assets/mobile-bg.jpg');
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
       transform-origin: 0 0;
       visibility: hidden; /* shown once JS has scaled it, prevents zoomed flash */
     }
@@ -132,7 +139,9 @@
     .mobile-menu-btn {
       position: fixed;
       top: 18px;
+      top: max(18px, env(safe-area-inset-top, 18px) + 8px);
       right: 18px;
+      right: max(18px, env(safe-area-inset-right, 18px));
       width: 48px;
       height: 48px;
       border-radius: 50%;
@@ -207,6 +216,8 @@
       flex-direction: column;
       overflow-y: auto;
       padding: 24px 20px;
+      padding-top: max(24px, env(safe-area-inset-top, 24px) + 12px);
+      padding-bottom: max(20px, env(safe-area-inset-bottom, 20px) + 12px);
       box-sizing: border-box;
       font-family: 'Fredoka', system-ui, sans-serif;
     }
@@ -500,24 +511,76 @@
   </div>
 
   <script>
-    // Responsive stage scaling
+    // Responsive stage scaling: dynamically fills phone screens edge-to-edge with no black bars
     function scaleToFit() {
       const stage = document.querySelector('.mobile-stage');
-      const winW = window.innerWidth;
-      const winH = window.innerHeight;
+      if (!stage) return;
+      const banner = document.querySelector('.top-banner');
+      const content = document.querySelector('.content-layer');
+      const bao = document.querySelector('.bao-mascot');
+
+      const winW = window.innerWidth || document.documentElement.clientWidth;
+      const winH = window.innerHeight || document.documentElement.clientHeight;
       
-      const scale = Math.min(winW / 1080, winH / 1920);
-      const dx = (winW - 1080 * scale) / 2;
-      const dy = (winH - 1920 * scale) / 2;
-      
-      stage.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+      const stageWidth = 1080;
+      const isPortraitPhone = (winW / winH) <= (stageWidth / 1920);
+
+      if (isPortraitPhone) {
+        // Taller phone screens (19.5:9, 20:9, etc.):
+        // Scale width to 100% and extend stage height to cover 100% of vertical screen
+        const scale = winW / stageWidth;
+        const stageHeight = Math.max(1920, Math.round(winH / scale));
+        const extraY = stageHeight - 1920;
+
+        stage.style.width = stageWidth + 'px';
+        stage.style.height = stageHeight + 'px';
+        stage.style.transform = `translate(0px, 0px) scale(${scale})`;
+
+        // Adaptively position elements across the extended vertical canvas
+        if (banner) {
+          // Push banner down slightly on tall screens to clear notch / Dynamic Island
+          const bannerTop = Math.max(10, Math.round(extraY * 0.18));
+          banner.style.top = bannerTop + 'px';
+        }
+
+        if (content) {
+          // Center game + leaderboard comfortably between banner and bottom
+          const contentTop = Math.round(450 + extraY * 0.45);
+          content.style.top = contentTop + 'px';
+        }
+
+        if (bao) {
+          // Keep mascot anchored near bottom right with safe spacing
+          const baoBottom = Math.max(20, Math.round(extraY * 0.08));
+          bao.style.bottom = baoBottom + 'px';
+        }
+      } else {
+        // Landscape / wider screens (PC, tablets): scale by height and center horizontally
+        const scale = winH / 1920;
+        const stageHeight = 1920;
+        const dx = (winW - stageWidth * scale) / 2;
+
+        stage.style.width = stageWidth + 'px';
+        stage.style.height = stageHeight + 'px';
+        stage.style.transform = `translate(${dx}px, 0px) scale(${scale})`;
+
+        if (banner) banner.style.top = '10px';
+        if (content) content.style.top = '450px';
+        if (bao) bao.style.bottom = '20px';
+      }
+
       stage.style.visibility = 'visible';
     }
 
     window.addEventListener('resize', scaleToFit);
     window.addEventListener('orientationchange', () => setTimeout(scaleToFit, 200));
     window.addEventListener('load', scaleToFit);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', scaleToFit);
+    }
+    document.addEventListener('DOMContentLoaded', scaleToFit);
     scaleToFit();
+    setTimeout(scaleToFit, 150);
 
     // PWA Service Worker
     if ('serviceWorker' in navigator) {
