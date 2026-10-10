@@ -66,33 +66,43 @@
 
   // Initialize
   async function initAuthGuard() {
-    // 1. If quickKey is provided in URL, automatically attempt login
+    // 1. NEVER show login popup inside any iframe (prevents nested iframe popups)
+    if (window.self !== window.top) {
+      return;
+    }
+
+    // 2. NEVER show login popup on OBS overlays (/overlay, /leaderboard, /mobile)
+    // Overlays must render freely for OBS browser sources without stream interruptions
+    const path = window.location.pathname.toLowerCase();
+    const isOverlayRoute = path.includes("/overlay") || path.includes("/leaderboard") || path.includes("/mobile");
+    const isHostControlRoute = path === "/" || path === "/index.html" || path.includes("admin") || path.includes("controls");
+
+    if (isOverlayRoute || !isHostControlRoute) {
+      return;
+    }
+
+    // 3. If quickKey is provided in URL, automatically attempt login
     if (quickKey) {
       const res = await submitPassword(quickKey);
       if (res.success) {
         window.__ally_authenticated = true;
-        return; // Successfully unlocked via URL key
+        return;
       }
     }
 
-    // 2. If parent window is unlocked, bypass
-    if (isParentUnlocked()) {
-      window.__ally_authenticated = true;
-      return;
-    }
-
-    // 3. If stored token exists, verify with server
-    if (existingToken) {
-      const valid = await verifyToken(existingToken);
+    // 4. If stored token exists, verify with server
+    const currentToken = localStorage.getItem(STORAGE_KEY) || getCookie("ally_auth");
+    if (currentToken) {
+      const valid = await verifyToken(currentToken);
       if (valid) {
         window.__ally_authenticated = true;
-        return; // Valid session
+        return; // Already unlocked
       } else {
         localStorage.removeItem(STORAGE_KEY);
       }
     }
 
-    // 4. Show Login Popup Modal
+    // 5. Show Login Popup Modal on Admin / Host / Dashboard pages
     showLoginModal();
   }
 
