@@ -104,8 +104,36 @@
       <div class="streak-pill" id="streakPill">🔥 STREAK 0</div>
       <div class="status-msg" id="statusMessage">Solve the riddle in chat!</div>
     </footer>
+
+    <!-- 4-Second Round Results Modal -->
+    <div class="modal-overlay" id="leaderboardModal">
+      <div class="modal-content">
+        <div class="modal-title">🏆 THIS ROUND'S POINTS</div>
+        
+        <!-- Round Winners Podium -->
+        <div class="round-winners-row" id="modalPodium">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Also Scored (Below Top 3 Scorers) -->
+        <div class="also-scored-section" id="modalAlsoScored" style="display: none;">
+          <div class="also-scored-title">✨ ALSO SCORED THIS ROUND</div>
+          <div class="also-scored-list" id="modalAlsoScoredList">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- 4-Second Countdown bar -->
+        <div class="countdown-bar-wrap">
+          <div class="countdown-bar" id="modalProgressBar"></div>
+        </div>
+        <div class="countdown-txt">Next riddle starting automatically...</div>
+      </div>
+    </div>
   </div>
 
+  <script src="/speech-bubble.js"></script>
+  <script src="/round-modal.js"></script>
   <script type="module" src="./overlay.js"></script>
 </body>
 </html>

@@ -451,89 +451,10 @@ function renderWinnersBox(winners) {
 }
 
 function showLeaderboardPopup(data) {
-  if (!elModal || !elModalPodium) return;
-  const rawWinners = data.roundWinners || [];
-  const topList = data.leaderboard || [];
-
-  // Deduplicate unique winners so a user never appears more than once
-  const seenUsers = new Set();
-  const winners = [];
-  for (const w of rawWinners) {
-    if (!w || !w.user) continue;
-    const key = String(w.user).toLowerCase();
-    if (!seenUsers.has(key)) {
-      seenUsers.add(key);
-      winners.push(w);
-    }
+  if (typeof window.showRoundPointsModal === "function") {
+    window.showRoundPointsModal(data);
+    return;
   }
-
-  let podiumHTML = "";
-  if (winners.length > 0) {
-    const first = winners[0];
-    podiumHTML += `
-      <div class="podium-card first">
-        <div class="podium-rank">🥇 1st Place</div>
-        <div class="avatar-wrap">${renderAvatarHTML(first.avatar, first.nickname)}</div>
-        <div class="podium-name">@${esc(first.nickname)}</div>
-        <div class="podium-pts">+${first.points} Points</div>
-      </div>
-    `;
-  } else {
-    podiumHTML += `
-      <div class="podium-card empty-winners">
-        <div class="podium-rank" style="color:#6b21a8; font-size:1.35vh;">⏰ No Winners This Round</div>
-        <div style="font-size:1.2vh; color:#4c1d95; font-weight:700; margin-top:4px;">Time expired!</div>
-      </div>
-    `;
-  }
-
-  if (winners.length > 1) {
-    const second = winners[1];
-    podiumHTML += `
-      <div class="podium-card second">
-        <div class="podium-rank">🥈 2nd Place</div>
-        <div class="avatar-wrap">${renderAvatarHTML(second.avatar, second.nickname)}</div>
-        <div class="podium-name">@${esc(second.nickname)}</div>
-        <div class="podium-pts">+${second.points} Point</div>
-      </div>
-    `;
-  }
-
-  elModalPodium.innerHTML = podiumHTML;
-
-  // Render Also Scored list below Top Winners
-  const alsoScored = winners.slice(2);
-  if (elModalAlsoScored && elModalAlsoScoredList) {
-    if (alsoScored.length > 0) {
-      elModalAlsoScored.style.display = "flex";
-      elModalAlsoScoredList.innerHTML = alsoScored.map((p, idx) => `
-        <div class="also-scored-row">
-          <div class="also-scored-left">
-            <span class="also-scored-rank">#${idx + 3}</span>
-            <div class="top-avatar-wrap">${renderAvatarHTML(p.avatar, p.nickname)}</div>
-            <span class="also-scored-name">@${esc(p.nickname)}</span>
-          </div>
-          <span class="also-scored-pts">+${p.points || 1} pts</span>
-        </div>
-      `).join("");
-    } else {
-      elModalAlsoScored.style.display = "none";
-      elModalAlsoScoredList.innerHTML = "";
-    }
-  }
-
-  elModalProgressBar.style.transition = "none";
-  elModalProgressBar.style.width = "100%";
-  void elModalProgressBar.offsetWidth;
-  elModalProgressBar.style.transition = "width 4s linear";
-  elModalProgressBar.style.width = "0%";
-
-  elModal.classList.add("active");
-
-  if (modalTimer) clearTimeout(modalTimer);
-  modalTimer = setTimeout(() => {
-    elModal.classList.remove("active");
-  }, 4000);
 }
 
 function renderLeaderboard(leaderboard) {

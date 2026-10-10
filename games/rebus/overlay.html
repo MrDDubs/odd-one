@@ -88,28 +88,35 @@
       </div>
     </div>
 
-    <!-- Auto-Advance Leaderboard Podium Overlay -->
-    <div class="podium-modal" id="podiumModal">
-      <div class="podium-card">
-        <div class="podium-header">
-          <span class="podium-icon">🏆</span>
-          <span class="podium-title">ROUND RESULTS</span>
+    <!-- 4-Second Round Results Modal -->
+    <div class="modal-overlay" id="leaderboardModal">
+      <div class="modal-content">
+        <div class="modal-title">🏆 THIS ROUND'S POINTS</div>
+        
+        <!-- Round Winners Podium -->
+        <div class="round-winners-row" id="modalPodium">
+          <!-- Injected via JS -->
         </div>
-        <div class="podium-solved-wrap">
-          <div class="podium-solved-label">THE ANSWER WAS:</div>
-          <div class="podium-solved-word" id="podiumAnswer">HEAD OVER HEELS</div>
+
+        <!-- Also Scored (Below Top 3 Scorers) -->
+        <div class="also-scored-section" id="modalAlsoScored" style="display: none;">
+          <div class="also-scored-title">✨ ALSO SCORED THIS ROUND</div>
+          <div class="also-scored-list" id="modalAlsoScoredList">
+            <!-- Injected via JS -->
+          </div>
         </div>
-        <div class="podium-list" id="podiumList">
-          <!-- Top Chatters -->
+
+        <!-- 4-Second Countdown bar -->
+        <div class="countdown-bar-wrap">
+          <div class="countdown-bar" id="modalProgressBar"></div>
         </div>
-        <div class="podium-footer">
-          <span>NEXT ROUND STARTING IN </span>
-          <strong id="podiumCountdown">5</strong>s...
-        </div>
+        <div class="countdown-txt">Next puzzle starting automatically...</div>
       </div>
     </div>
   </div>
 
+  <script src="/speech-bubble.js"></script>
+  <script src="/round-modal.js"></script>
   <script src="./overlay.js"></script>
 </body>
 </html>

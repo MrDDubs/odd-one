@@ -319,76 +319,10 @@ function renderSolversList(winners = []) {
 
 // 4-Second Round Results Modal (Top 3 Podium + Also Scored)
 function showLeaderboardPopup(payload) {
-  if (!elModal || !elModalPodium) return;
-
-  const winners = (payload?.roundWinners && Array.isArray(payload.roundWinners)) ? payload.roundWinners : [];
-  const durationMs = payload?.durationMs || 4000;
-
-  // Render Top 3 Podium
-  if (winners.length === 0) {
-    elModalPodium.innerHTML = `
-      <div style="font-size:13px;color:#cbd5e1;padding:12px;font-style:italic">
-        Word missed this round! Next scrambled word coming up...
-      </div>
-    `;
-    if (elModalAlsoScored) elModalAlsoScored.style.display = "none";
-  } else {
-    const top3 = winners.slice(0, 3);
-    elModalPodium.innerHTML = top3.map((w, idx) => {
-      const rank = idx + 1;
-      const rankClass = rank === 1 ? "first" : rank === 2 ? "second" : "third";
-      const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉";
-      const pts = w.points || 25;
-      const avatarImg = w.avatar
-        ? `<img src="${esc(w.avatar)}" class="podium-avatar" alt="${esc(w.nickname)}">`
-        : `<div class="podium-avatar" style="background:#7c3aed;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff">${(w.nickname || "?")[0].toUpperCase()}</div>`;
-
-      return `
-        <div class="podium-card ${rankClass}">
-          <div class="podium-medal">${medal}</div>
-          ${avatarImg}
-          <div class="podium-name">@${esc(w.nickname || w.user)}</div>
-          <div class="podium-pts">+${pts} pts</div>
-        </div>
-      `;
-    }).join("");
-
-    // Render Also Scored (4th Place and below)
-    const alsoScored = winners.slice(3);
-    if (alsoScored.length > 0 && elModalAlsoScored && elModalAlsoScoredList) {
-      elModalAlsoScored.style.display = "block";
-      elModalAlsoScoredList.innerHTML = alsoScored.map((w, idx) => `
-        <span style="font-size:11px;background:rgba(255,255,255,0.08);padding:3px 8px;border-radius:6px;color:#e2e8f0">
-          #${idx + 4} @${esc(w.nickname || w.user)} (+${w.points || 10})
-        </span>
-      `).join("");
-    } else if (elModalAlsoScored) {
-      elModalAlsoScored.style.display = "none";
-    }
+  if (typeof window.showRoundPointsModal === "function") {
+    window.showRoundPointsModal(payload);
+    return;
   }
-
-  // Countdown Progress Bar
-  if (elModalProgressBar) {
-    elModalProgressBar.style.width = "100%";
-    const startTime = Date.now();
-    clearInterval(modalProgressInterval);
-    modalProgressInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const remainingPct = Math.max(0, 100 - (elapsed / durationMs) * 100);
-      elModalProgressBar.style.width = `${remainingPct}%`;
-      if (elapsed >= durationMs) {
-        clearInterval(modalProgressInterval);
-      }
-    }, 50);
-  }
-
-  // Show modal
-  elModal.classList.add("active");
-
-  clearTimeout(modalTimer);
-  modalTimer = setTimeout(() => {
-    if (elModal) elModal.classList.remove("active");
-  }, durationMs);
 }
 
 // Socket Events

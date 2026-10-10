@@ -14,7 +14,7 @@
   align-items: center !important;
   justify-content: center !important;
   text-align: center !important;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25), 0 0 16px rgba(245, 158, 11, 0.4) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
   animation: speechBubbleFloat 3.6s ease-in-out infinite alternate !important;
   user-select: none !important;
   z-index: 2 !important;

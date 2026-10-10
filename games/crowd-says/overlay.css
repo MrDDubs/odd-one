@@ -65,7 +65,7 @@ html, body {
   border: 2px solid #cbb8ff;
   border-radius: 999px;
   padding: 5px 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 1;
   flex-shrink: 0;
@@ -92,7 +92,7 @@ html, body {
   border: 2px solid #cbb8ff;
   border-radius: 999px;
   padding: 4px 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   color: #3b0764;
   flex-shrink: 0;
   transition: all 0.3s ease;
@@ -117,7 +117,7 @@ html, body {
 .timer-pill.danger, .timer-badge.danger {
   background: linear-gradient(145deg, #fff1f2, #fee2e2);
   border-color: #f87171;
-  box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
   animation: timerWarning 0.8s infinite alternate ease-in-out;
 }
 
@@ -156,14 +156,7 @@ html, body {
   font-size: 15px;
 }
 
-/* ================= 4. MAIN CONTENT ================= */
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(8px, 1.2vh, 14px);
-  min-height: 0;
-}
+
 
 /* Question Prompt Marquee Card */
 .question-card {
@@ -171,7 +164,7 @@ html, body {
   border: 2px solid rgba(234, 179, 8, 0.6);
   border-radius: clamp(14px, 2vh, 22px);
   padding: clamp(10px, 1.5vh, 16px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(234, 179, 8, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -265,7 +258,7 @@ html, body {
 .cs-card-front {
   background: linear-gradient(135deg, #1e0b3d 0%, #2f125e 100%);
   border: 2px solid rgba(168, 85, 247, 0.45);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(168, 85, 247, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   justify-content: space-between;
 }
 
@@ -280,7 +273,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   flex-shrink: 0;
 }
 
@@ -330,7 +323,7 @@ html, body {
   min-width: clamp(16px, 2.2vh, 22px);
   height: clamp(24px, 3.2vh, 32px);
   font-size: clamp(13px, 1.8vh, 17px);
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   animation: letterPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -374,7 +367,7 @@ html, body {
 .cs-card-back {
   background: linear-gradient(135deg, #065f46 0%, #047857 60%, #059669 100%);
   border: 2px solid #34d399;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), inset 0 0 15px rgba(52, 211, 153, 0.3);
+  box-shadow: 0 6px 20px rgba(4, 120, 87, 0.4);
   transform: rotateX(180deg);
   justify-content: space-between;
   gap: 8px;
@@ -384,7 +377,7 @@ html, body {
 .cs-card.missed .cs-card-back {
   background: linear-gradient(135deg, #475569 0%, #334155 100%);
   border-color: #94a3b8;
-  box-shadow: 0 0 10px rgba(148, 163, 184, 0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .cs-card-back-left {
@@ -499,206 +492,7 @@ html, body {
   color: #7c3aed;
 }
 
-/* ================= 7. LEADERBOARD / PODIUM MODAL ================= */
-.modal-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 4, 25, 0.94);
-  backdrop-filter: blur(12px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  padding: 16px;
-}
 
-.modal-overlay.active {
-  display: flex;
-  animation: modalFadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes modalFadeIn {
-  0% { opacity: 0; transform: scale(0.92); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-.modal-content {
-  background: linear-gradient(145deg, #1f0b3d 0%, #130526 100%);
-  border: 2px solid #a855f7;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8), 0 0 30px rgba(168, 85, 247, 0.3);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 440px;
-  padding: 20px 16px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.modal-title {
-  font-size: clamp(18px, 2.4vh, 24px);
-  font-weight: 1000;
-  color: #facc15;
-  text-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
-  letter-spacing: 0.5px;
-}
-
-/* Podium 3 Cards */
-.round-winners-row {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 8px;
-  margin: 6px 0;
-}
-
-.podium-card {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 10px 6px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.podium-card.first {
-  order: 2;
-  border-color: #facc15;
-  background: linear-gradient(180deg, rgba(250, 204, 21, 0.15) 0%, rgba(250, 204, 21, 0.03) 100%);
-  transform: translateY(-8px);
-}
-
-.podium-card.second {
-  order: 1;
-  border-color: #cbd5e1;
-}
-
-.podium-card.third {
-  order: 3;
-  border-color: #f97316;
-}
-
-.podium-medal {
-  font-size: 20px;
-}
-
-.podium-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #fff;
-}
-
-.podium-name {
-  font-size: 11.5px;
-  font-weight: 800;
-  color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 90px;
-}
-
-.podium-pts {
-  font-size: 12px;
-  font-weight: 900;
-  color: #facc15;
-}
-
-/* Also Scored Section (4th and below) */
-.also-scored-section {
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 8px 12px;
-  max-height: 110px;
-  overflow-y: auto;
-}
-
-.also-scored-title {
-  font-size: 10.5px;
-  font-weight: 800;
-  color: #c084fc;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
-
-.also-scored-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.also-scored-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 11px;
-  padding: 2px 0;
-}
-
-.also-scored-left {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.also-scored-rank {
-  font-weight: 800;
-  color: #94a3b8;
-  width: 18px;
-}
-
-.also-scored-avatar {
-  width: 22px !important;
-  height: 22px !important;
-  border-radius: 50% !important;
-  object-fit: cover !important;
-  border: 1px solid #fff !important;
-}
-
-.also-scored-name {
-  font-weight: 700;
-  color: #e2e8f0;
-  max-width: 140px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.also-scored-pts {
-  font-weight: 800;
-  color: #facc15;
-}
-
-/* Countdown bar */
-.countdown-bar-wrap {
-  width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 4px;
-}
-
-.countdown-bar {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #a855f7, #facc15);
-  transition: width 0.1s linear;
-}
-
-.countdown-txt {
-  font-size: 10.5px;
-  color: #94a3b8;
-  font-style: italic;
-}
 
 /* ================= 8. CONFETTI CONTAINER ================= */
 .confetti-container {

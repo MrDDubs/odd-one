@@ -1,4 +1,4 @@
-﻿/* public/leaderboard.css - Standalone Stream Leaderboard Overlay */
+/* public/leaderboard.css - Standalone Stream Leaderboard Overlay */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap');
 
 * {
@@ -26,6 +26,32 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Align to top (for mobile embed or ?align=top) */
+html.align-top,
+html.align-top body,
+body.align-top,
+.align-top {
+  align-items: flex-start !important;
+}
+
+html.align-top .leaderboard-overlay-container,
+body.align-top .leaderboard-overlay-container,
+.leaderboard-overlay-container.align-top {
+  align-items: flex-start !important;
+  justify-content: flex-start;
+  width: 100%;
+  padding-top: 18px; /* Visually aligns with the top of the gameboard header */
+  padding-left: 2px;
+}
+
+/* 20% Bigger Leaderboard (+44% total over default, scale 1.44) */
+html.mobile-leaderboard .leaderboard-card,
+body.mobile-leaderboard .leaderboard-card,
+.leaderboard-card.scale-144 {
+  transform: scale(1.44);
+  transform-origin: top left;
 }
 
 /* Base Card (Purple Glass Theme by Default) */
@@ -126,7 +152,7 @@ html, body {
 
 @keyframes cardPulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.12); box-shadow: 0 0 18px rgba(168, 85, 247, 0.6); }
+  50% { transform: scale(1.08); box-shadow: 0 6px 18px rgba(124, 58, 237, 0.35); }
   100% { transform: scale(1); }
 }
 

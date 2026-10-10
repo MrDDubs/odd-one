@@ -4,6 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <title>Ally's Mobile Stream Layout</title>
+  <!-- PWA & Standalone App Config -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0d0a1a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mobile Stream">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
   <style>
     body, html {
       margin: 0; 
@@ -67,7 +76,8 @@
       width: 1080px;
       height: 1000px;
       display: flex;
-      justify-content: space-between; 
+      justify-content: flex-start; 
+      gap: 5px;
       align-items: flex-start;
       z-index: 5;
     }
@@ -99,11 +109,11 @@
 
     .leaderboard-wrapper {
       position: relative;
-      width: 320px; 
+      width: 375px; 
       height: 1100px; 
       overflow: hidden;
       border-radius: 30px;
-      margin-right: 20px;
+      margin-right: 0;
     }
 
     .leaderboard-iframe {
@@ -132,7 +142,7 @@
       
       <!-- Embedded Leaderboard -->
       <div class="leaderboard-wrapper">
-        <iframe src="/leaderboard" class="leaderboard-iframe"></iframe>
+        <iframe src="/leaderboard?mobile=1" class="leaderboard-iframe"></iframe>
       </div>
     </div>
 
@@ -161,6 +171,12 @@
     window.addEventListener('orientationchange', () => setTimeout(scaleToFit, 200));
     window.addEventListener('load', scaleToFit);
     scaleToFit(); // Initial call
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration error:', err));
+      });
+    }
   </script>
 </body>
 </html>

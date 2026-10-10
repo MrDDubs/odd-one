@@ -55,6 +55,7 @@ export class RiddleEngine {
 
     // Multi-Winner 5-Second Grace Window
     this.winners = []; // [{ place: 1, user, nickname, avatar, points: 100, timestamp }]
+    this.roundWinners = this.winners;
     this.gracePeriodActive = false;
     this.graceRemainingSec = 0;
     this.firstSolvedTimestamp = null;
@@ -173,6 +174,7 @@ export class RiddleEngine {
     this.isRevealed = false;
     this.clueRevealed = false;
     this.winners = [];
+    this.roundWinners = this.winners;
     this.gracePeriodActive = false;
     this.graceRemainingSec = 0;
     this.firstSolvedTimestamp = null;
@@ -560,6 +562,7 @@ export class RiddleEngine {
 
       // Multi-Winners
       winners: this.winners,
+      roundWinners: this.winners,
       winnerCount: this.winners.length,
       lastWinner: this.winners.length > 0 ? this.winners[0] : null,
 

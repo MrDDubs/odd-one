@@ -177,6 +177,8 @@ function renderState(state) {
     if (mcqGrid) {
       mcqGrid.style.display = "grid";
       const normTarget = normStr(revealedAnswer);
+      const percentages = state.percentages || [0, 0, 0, 0];
+      const votes = state.optionVotes || [0, 0, 0, 0];
 
       mcqGrid.innerHTML = state.options
         .map((opt, idx) => {
@@ -184,9 +186,12 @@ function renderState(state) {
           const isCorrect = isRevealed && (
             normStr(opt) === normTarget ||
             normStr(letter) === normTarget ||
-            (normTarget && normTarget.includes(normStr(opt)))
+            (normTarget && normTarget.includes(normStr(opt))) ||
+            (normStr(opt) && normTarget.includes(normStr(opt)))
           );
           const isDimmed = isRevealed && !isCorrect;
+          const pct = percentages[idx] || 0;
+          const voteCount = votes[idx] || 0;
 
           let optionClasses = "mcq-option";
           if (isCorrect) optionClasses += " correct";
@@ -195,9 +200,13 @@ function renderState(state) {
           const badgeContent = isCorrect ? "✓" : letter;
 
           return `
-            <div class="${optionClasses}">
-              <span class="mcq-badge">${badgeContent}</span>
-              <span>${esc(opt)}</span>
+            <div class="${optionClasses}" id="mcq-opt-${idx}">
+              <div class="mcq-fill-bar" style="width: ${pct}%"></div>
+              <div class="mcq-content-left">
+                <span class="mcq-badge">${badgeContent}</span>
+                <span class="mcq-text">${esc(opt).toUpperCase()}</span>
+              </div>
+              <span class="mcq-vote-pill">${pct}%</span>
             </div>
           `;
         })
@@ -305,105 +314,10 @@ function renderAvatarHTML(url, name) {
 }
 
 function showLeaderboardPopup(data) {
-  if (!elModal || !elModalPodium) return;
-
-  const rawWinners = data.roundWinners || [];
-  const topList = data.leaderboard || [];
-  const targetAnswer = data.target || "";
-
-  // Deduplicate unique winners so a user never appears more than once
-  const seenUsers = new Set();
-  const winners = [];
-  for (const w of rawWinners) {
-    if (!w || !w.user) continue;
-    const key = String(w.user).toLowerCase();
-    if (!seenUsers.has(key)) {
-      seenUsers.add(key);
-      winners.push(w);
-    }
+  if (typeof window.showRoundPointsModal === "function") {
+    window.showRoundPointsModal(data);
+    return;
   }
-
-  let podiumHTML = "";
-  if (winners.length > 0) {
-    const first = winners[0];
-    podiumHTML += `
-      <div class="podium-card first">
-        <div class="podium-rank">🥇 1st Place</div>
-        <div class="avatar-wrap">${renderAvatarHTML(first.avatar, first.nickname || first.user)}</div>
-        <div class="podium-name">@${esc(first.nickname || first.user)}</div>
-        <div class="podium-pts">+${first.points || 3} Points</div>
-      </div>
-    `;
-
-    if (winners.length > 1) {
-      const second = winners[1];
-      podiumHTML += `
-        <div class="podium-card second">
-          <div class="podium-rank">🥈 2nd Place</div>
-          <div class="avatar-wrap">${renderAvatarHTML(second.avatar, second.nickname || second.user)}</div>
-          <div class="podium-name">@${esc(second.nickname || second.user)}</div>
-          <div class="podium-pts">+${second.points || 2} Points</div>
-        </div>
-      `;
-    }
-
-    if (winners.length > 2) {
-      const third = winners[2];
-      podiumHTML += `
-        <div class="podium-card third">
-          <div class="podium-rank">🥉 3rd Place</div>
-          <div class="avatar-wrap">${renderAvatarHTML(third.avatar, third.nickname || third.user)}</div>
-          <div class="podium-name">@${esc(third.nickname || third.user)}</div>
-          <div class="podium-pts">+${third.points || 1} Point</div>
-        </div>
-      `;
-    }
-  } else {
-    podiumHTML += `
-      <div class="podium-card empty-winners">
-        <div class="podium-rank" style="color:#6b21a8; font-size:1.35vh;">⏰ No Winners This Round</div>
-        <div style="font-size:1.2vh; color:#4c1d95; font-weight:700; margin-top:4px;">${targetAnswer ? `Answer was: <strong>${esc(targetAnswer)}</strong>` : "Time expired!"}</div>
-      </div>
-    `;
-  }
-
-  elModalPodium.innerHTML = podiumHTML;
-
-  // Render Also Scored list below Top 3 scorers
-  const alsoScored = winners.slice(3);
-  if (elModalAlsoScored && elModalAlsoScoredList) {
-    if (alsoScored.length > 0) {
-      elModalAlsoScored.style.display = "flex";
-      elModalAlsoScoredList.innerHTML = alsoScored.map((p, idx) => `
-        <div class="also-scored-row">
-          <div class="also-scored-left">
-            <span class="also-scored-rank">#${idx + 4}</span>
-            <div class="top-avatar-wrap">${renderAvatarHTML(p.avatar, p.nickname || p.user)}</div>
-            <span class="also-scored-name">@${esc(p.nickname || p.user)}</span>
-          </div>
-          <span class="also-scored-pts">+${p.points || 1} pts</span>
-        </div>
-      `).join("");
-    } else {
-      elModalAlsoScored.style.display = "none";
-      elModalAlsoScoredList.innerHTML = "";
-    }
-  }
-
-  if (elModalProgressBar) {
-    elModalProgressBar.style.transition = "none";
-    elModalProgressBar.style.width = "100%";
-    void elModalProgressBar.offsetWidth;
-    elModalProgressBar.style.transition = "width 4s linear";
-    elModalProgressBar.style.width = "0%";
-  }
-
-  elModal.classList.add("active");
-
-  if (modalTimer) clearTimeout(modalTimer);
-  modalTimer = setTimeout(() => {
-    elModal.classList.remove("active");
-  }, 4000);
 }
 
 // Socket Listeners

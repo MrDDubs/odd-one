@@ -642,11 +642,32 @@ socket.on("speechMessagesUpdated", (data) => {
   applySpeechData(data);
 });
 
-// Fetch initial speech messages
-fetch("/api/speech-messages")
-  .then((res) => res.json())
-  .then((data) => {
-    if (data && data.messages) applySpeechData(data);
-  })
-  .catch((e) => console.warn("[Hub] Error fetching speech messages:", e));
+// PWA Install Prompt Support
+let deferredPrompt = null;
+const btnInstallPwa = document.getElementById("btnInstallPwa");
 
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (btnInstallPwa) {
+    btnInstallPwa.style.display = "inline-flex";
+  }
+});
+
+if (btnInstallPwa) {
+  btnInstallPwa.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log("[PWA] User response to install prompt:", outcome);
+    deferredPrompt = null;
+    btnInstallPwa.style.display = "none";
+  });
+}
+
+window.addEventListener("appinstalled", () => {
+  console.log("[PWA] Ally's Stream Hub was installed successfully");
+  if (btnInstallPwa) {
+    btnInstallPwa.style.display = "none";
+  }
+});

@@ -34,19 +34,23 @@
 
     <!-- White Pill Rule Banner -->
     <div class="rule-banner">
-      <span class="rule-text">TYPE YOUR ANSWER IN CHAT</span>
+      <span class="rule-text">TYPE A, B, C, D OR YOUR ANSWER IN CHAT</span>
       <span class="rule-heart">💜</span>
     </div>
 
-    <!-- Main Question / Secret Answer Card -->
-    <section class="glass question-card" id="questionCard">
-      <div class="question-icon-wrap" id="questionIcon">💡</div>
-      <div class="question-label" id="questionLabel">QUESTION</div>
-      <h1 class="question-text" id="questionText">NAME A PIZZA TOPPING</h1>
+    <!-- Main Question & MCQ Options -->
+    <main class="main-content">
+      <section class="glass question-card" id="questionCard">
+        <div class="question-label" id="questionLabel">QUESTION</div>
+        <div class="question-text-wrap">
+          <h1 class="question-text" id="questionText">NAME A PIZZA TOPPING</h1>
+          <span class="question-icon-wrap" id="questionIcon">🍕</span>
+        </div>
+      </section>
       
-      <!-- MCQ Options (if applicable) -->
-      <div class="mcq-grid" id="mcqGrid" style="display:none"></div>
-    </section>
+      <!-- 4 MCQ Option Boxes styled like Think & Link answer blocks -->
+      <section class="mcq-grid" id="mcqGrid"></section>
+    </main>
 
     <!-- Community Streak Pill (Full Width Across Screen) -->
     <div class="streak-pill" id="streakCard">
@@ -92,6 +96,7 @@
   </div>
 
   <script src="/speech-bubble.js"></script>
+  <script src="/round-modal.js"></script>
   <script src="./overlay.js"></script>
 </body>
 </html>

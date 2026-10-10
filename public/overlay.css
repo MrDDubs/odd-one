@@ -41,7 +41,7 @@ iframe.fading {
   border: 2px solid #a855f7;
   padding: 10px 24px;
   border-radius: 999px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   color: #fff;
   opacity: 0;
   pointer-events: none;

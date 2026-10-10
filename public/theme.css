@@ -32,7 +32,7 @@
   --glass-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(243, 235, 255, 0.94));
   --glass-border: #cbb8ff;
   --glass-text: #2e1065;
-  --glass-shadow: 0 0 16px var(--brand-purple-glow), inset 0 0 12px rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 
   --dark-glass-bg: linear-gradient(145deg, rgba(30, 21, 72, 0.92), rgba(20, 14, 50, 0.95));
   --dark-glass-border: rgba(168, 85, 247, 0.35);
@@ -94,6 +94,33 @@ html, body {
   box-sizing: border-box;
 }
 
+/* Unified Main Content Area (Between Header and Footer) */
+.main-content {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 10px;
+}
+
+/* Standardized Zone 1 (Question/Clue) - Fixed proportional height */
+.main-content > .zone-1,
+.main-content > .question-zone {
+  flex: 0 0 clamp(80px, 15vh, 140px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Standardized Zone 2 (Answers/Board) - Takes remaining space */
+.main-content > .zone-2,
+.main-content > .board-zone {
+  flex: 1 1 0%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Standard Glass Card */
 .glass {
   background: var(--glass-bg);
@@ -123,7 +150,7 @@ header.brand-card,
   background: linear-gradient(145deg, #facc15 0%, #eab308 45%, #ca8a04 100%) !important;
   border: 2px solid #fef08a !important;
   border-radius: 20px !important;
-  box-shadow: 0 0 20px rgba(234, 179, 8, 0.5), inset 0 0 14px rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
   color: #451a03 !important;
   text-align: center !important;
   position: relative !important;
@@ -162,23 +189,18 @@ header.brand-card,
   border-radius: 50% !important;
   padding: 3px !important;
   background: linear-gradient(135deg, #fef08a, #f59e0b) !important;
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.85), 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   flex-shrink: 0 !important;
-  animation: avatarFloat 3.4s ease-in-out infinite alternate, avatarGlow 2.5s ease-in-out infinite alternate !important;
+  animation: avatarFloat 3.4s ease-in-out infinite alternate !important;
 }
 
 @keyframes avatarFloat {
   0% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-4px) rotate(1.5deg); }
   100% { transform: translateY(0) rotate(-1deg); }
-}
-
-@keyframes avatarGlow {
-  from { box-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 2px 6px rgba(0,0,0,0.2); }
-  to { box-shadow: 0 0 26px rgba(245, 158, 11, 0.95), 0 4px 14px rgba(0,0,0,0.35); }
 }
 
 .brand-avatar {
@@ -206,7 +228,7 @@ header.brand-card,
   align-items: center !important;
   justify-content: center !important;
   text-align: center !important;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25), 0 0 16px rgba(245, 158, 11, 0.4) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
   animation: speechBubbleFloat 3.6s ease-in-out infinite alternate !important;
   user-select: none !important;
   z-index: 2 !important;
@@ -285,7 +307,7 @@ header.brand-card,
   border-radius: var(--radius-pill) !important;
   background: #ffffff !important;
   color: #3b1d75 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), 0 0 10px rgba(168, 85, 247, 0.15) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
   border: 2px solid #ffffff !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -334,7 +356,7 @@ header.brand-card,
   border-radius: var(--radius-pill) !important;
   background: #ffffff !important;
   color: #dc2626 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), 0 0 10px rgba(239, 68, 68, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
   border: 2px solid #ffffff !important;
   display: inline-flex !important;
   align-items: baseline !important;
@@ -366,7 +388,7 @@ header.brand-card,
   animation: urgentTimerPulse 0.65s ease-in-out infinite alternate !important;
   background: #fff1f2 !important;
   border-color: #ef4444 !important;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.65) !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35) !important;
 }
 
 /* ==========================================================================
@@ -469,8 +491,8 @@ header.brand-card,
 }
 
 @keyframes urgentTimerPulse {
-  0% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.6)); }
-  100% { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(239, 68, 68, 1)); }
+  0% { transform: scale(1); }
+  100% { transform: scale(1.06); }
 }
 
 @keyframes flameBounce {
@@ -513,3 +535,387 @@ header.brand-card,
 .btn-game-action:active {
   transform: translateY(1px);
 }
+
+/* ==========================================================================
+   UNIFIED "THIS ROUND'S POINTS" MODAL (DESIGN SYSTEM)
+   ========================================================================== */
+
+.modal-overlay {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(36, 12, 70, 0.88) !important;
+  backdrop-filter: blur(12px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(130%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5% !important;
+  z-index: 1000 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.modal-overlay.active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.modal-content {
+  width: 100% !important;
+  max-width: 92% !important;
+  max-height: 94vh !important;
+  background: radial-gradient(circle at 50% 0%, #8b5cf6 0%, #6d28d9 45%, #4c1d95 100%) !important;
+  border: 3px solid #d8b4fe !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 48px rgba(15, 3, 35, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+  padding: 3% 4% !important;
+  text-align: center !important;
+  transform: scale(0.9) !important;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) !important;
+}
+
+.modal-title {
+  font-family: 'Fredoka', 'Outfit', sans-serif !important;
+  font-size: clamp(18px, 2.4vh, 24px) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.5px !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45) !important;
+  margin-bottom: 2% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+.round-winners-row {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  gap: 8px !important;
+  margin: 6px 0 !important;
+  width: 100% !important;
+}
+
+.modal-content .podium-card {
+  flex: 1 !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%) !important;
+  border: 2px solid #c4b5fd !important;
+  border-radius: 16px !important;
+  padding: 5px 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 2px !important;
+  position: relative !important;
+  min-width: 0 !important;
+  max-width: 155px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16) !important;
+}
+
+.modal-content .podium-card.first {
+  border: 2.5px solid #f59e0b !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fef3c7 100%) !important;
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25) !important;
+  animation: modalSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s both !important;
+}
+
+.modal-content .podium-card.second {
+  border: 2.5px solid #94a3b8 !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%) !important;
+  box-shadow: 0 6px 16px rgba(100, 116, 139, 0.2) !important;
+  animation: modalSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s both !important;
+}
+
+.modal-content .podium-card.third {
+  border: 2.5px solid #d97706 !important;
+  background: linear-gradient(180deg, #ffffff 0%, #ffedd5 100%) !important;
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.2) !important;
+  animation: modalSpringIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.28s both !important;
+}
+
+@keyframes modalSpringIn {
+  0% { transform: translateY(22px) scale(0.85); opacity: 0; }
+  60% { transform: translateY(-4px) scale(1.05); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal-content .podium-rank {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 1.35vh !important;
+  font-weight: 900 !important;
+  color: #4c1d95 !important;
+  letter-spacing: 0.2px !important;
+  white-space: nowrap !important;
+}
+
+.modal-content .podium-card.first .podium-rank {
+  color: #b45309 !important;
+  display: inline-block !important;
+  animation: modalCrownWobble 2s ease-in-out infinite alternate !important;
+}
+
+.modal-content .podium-card.second .podium-rank {
+  color: #475569 !important;
+}
+
+.modal-content .podium-card.third .podium-rank {
+  color: #9a3412 !important;
+}
+
+@keyframes modalCrownWobble {
+  0% { transform: rotate(-3deg) scale(1); }
+  50% { transform: rotate(3deg) scale(1.08); }
+  100% { transform: rotate(-3deg) scale(1); }
+}
+
+.modal-content .avatar-wrap {
+  position: relative !important;
+  width: clamp(32px, 3.8vh, 44px) !important;
+  height: clamp(32px, 3.8vh, 44px) !important;
+  max-width: 44px !important;
+  max-height: 44px !important;
+  margin: 2px auto !important;
+  flex-shrink: 0 !important;
+}
+
+.modal-content .avatar-img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  display: block !important;
+}
+
+.modal-content .avatar-letter {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: clamp(13px, 1.6vh, 18px) !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.modal-content .podium-name {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 1.25vh !important;
+  font-weight: 800 !important;
+  max-width: 95% !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  color: #1e1b4b !important;
+  margin: 1px 0 !important;
+}
+
+.modal-content .podium-pts {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 1.15vh !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  background: #7c3aed !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+.modal-content .podium-card.first .podium-pts {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+}
+
+.modal-content .podium-card.second .podium-pts {
+  background: #64748b !important;
+  color: #ffffff !important;
+}
+
+.modal-content .podium-card.third .podium-pts {
+  background: #ea580c !important;
+  color: #ffffff !important;
+}
+
+.modal-content .podium-card.empty-winners {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%) !important;
+  border: 2px dashed #c084fc !important;
+  max-width: 240px !important;
+  padding: 10px 16px !important;
+}
+
+/* Also Scored (Runners-Up Below Top 3 in Current Round) */
+.modal-content .also-scored-section {
+  background: rgba(30, 10, 68, 0.55) !important;
+  border: 1.5px solid rgba(216, 180, 254, 0.3) !important;
+  border-radius: 16px !important;
+  padding: 8px 12px !important;
+  margin: 6px 0 4px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  text-align: left !important;
+  max-height: clamp(170px, 25vh, 230px) !important;
+  overflow-y: auto !important;
+}
+
+.modal-content .also-scored-section::-webkit-scrollbar {
+  width: 4px !important;
+}
+
+.modal-content .also-scored-section::-webkit-scrollbar-thumb {
+  background: rgba(216, 180, 254, 0.35) !important;
+  border-radius: 4px !important;
+}
+
+.modal-content .also-scored-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 1.15vh !important;
+  font-weight: 900 !important;
+  color: #f3e8ff !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  text-align: left !important;
+}
+
+.modal-content .also-scored-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+}
+
+.modal-content .also-scored-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 2.5px 0 !important;
+  font-size: clamp(11px, 1.2vh, 13.5px) !important;
+  border-bottom: 1px solid rgba(216, 180, 254, 0.1) !important;
+}
+
+.modal-content .also-scored-row:last-child {
+  border-bottom: none !important;
+}
+
+.modal-content .also-scored-footer {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: clamp(10px, 1.1vh, 12px) !important;
+  font-weight: 800 !important;
+  color: #c4b5fd !important;
+  text-align: center !important;
+  padding-top: 4px !important;
+  opacity: 0.9 !important;
+}
+
+.modal-content .also-scored-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.modal-content .also-scored-rank {
+  font-weight: 900 !important;
+  color: #c084fc !important;
+  font-size: 1.1vh !important;
+  min-width: 18px !important;
+}
+
+.modal-content .also-scored-name {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.modal-content .also-scored-pts {
+  color: #34d399 !important;
+  font-weight: 900 !important;
+  white-space: nowrap !important;
+}
+
+.modal-content .top-avatar-wrap,
+.top-avatar-wrap {
+  width: clamp(20px, 2.2vh, 24px) !important;
+  height: clamp(20px, 2.2vh, 24px) !important;
+  min-width: clamp(20px, 2.2vh, 24px) !important;
+  max-width: clamp(20px, 2.2vh, 24px) !important;
+  min-height: clamp(20px, 2.2vh, 24px) !important;
+  max-height: clamp(20px, 2.2vh, 24px) !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+  border: 1.5px solid #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25) !important;
+}
+
+.modal-content .top-avatar-wrap img,
+.top-avatar-wrap img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  display: block !important;
+}
+
+.modal-content .top-avatar-wrap .avatar-letter,
+.top-avatar-wrap .avatar-letter {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg, #a855f7, #7c3aed) !important;
+  font-size: clamp(9px, 1.1vh, 11px) !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+}
+
+.modal-content .countdown-bar-wrap {
+  width: 100% !important;
+  height: 6px !important;
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+  margin-top: 8px !important;
+}
+
+.modal-content .countdown-bar {
+  height: 100% !important;
+  width: 100% !important;
+  background: linear-gradient(90deg, #facc15, #f472b6, #c084fc) !important;
+  transition: width 4s linear !important;
+}
+
+.modal-content .countdown-txt {
+  font-size: 1.05vh !important;
+  font-weight: 800 !important;
+  color: #f3e8ff !important;
+  letter-spacing: 0.3px !important;
+  margin-top: 4px !important;
+}
+

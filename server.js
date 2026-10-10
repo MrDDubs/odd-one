@@ -188,15 +188,15 @@ function triggerLeaderboardAndNextRound(targetWinnerInfo = null, delayBeforePopu
 
   const active = gameRegistry.getActiveGame();
   const activeId = gameRegistry.getActiveGameId();
-  // In Think & Link and Word Finder, give viewers and host 2 seconds to inspect all words before the popup covers the board
-  const delayMs = delayBeforePopupMs || (activeId === "think-and-link" || activeId === "word-finder" ? 2200 : 0);
+  // Standard reveal delay: 2.2 seconds across all games before the popup covers the board
+  // This ensures the game board itself displays the revealed answer on screen before "This Round's Points" pops up!
+  const delayMs = delayBeforePopupMs || 2200;
 
   const showPopup = () => {
     const payload = {
-      roundWinners: active?.roundWinners || [],
-      leaderboard: active?.getLeaderboard ? active.getLeaderboard(5) : [],
-      durationMs: LEADERBOARD_POPUP_MS,
-      target: targetWinnerInfo?.target || active?.target || active?.allyAnswer || active?.topic || active?.answer || active?.word || ""
+      roundWinners: active?.roundWinners || active?.winners || [],
+      leaderboard: active?.getLeaderboard ? active.getLeaderboard(10) : [],
+      durationMs: LEADERBOARD_POPUP_MS
     };
 
     io.emit("showLeaderboardPopup", payload);
@@ -516,6 +516,11 @@ app.get("/overlay", (_req, res) => {
 // Standalone Leaderboard Overlay Route (Dedicated OBS Browser Source)
 app.get(["/leaderboard", "/leaderboard.html"], (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "leaderboard.html"));
+});
+
+// Mobile Stream Layout Route
+app.get(["/mobile", "/mobile.html"], (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "mobile.html"));
 });
 
 // Admin Overlay Route (Live Overlay Viewport + Control Side Panel)

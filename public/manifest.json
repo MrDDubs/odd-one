@@ -1,0 +1,27 @@
+{
+  "name": "Ally's Stream Hub",
+  "short_name": "Stream Hub",
+  "description": "TikTok Live Interactive Game Suite & Stream Overlay",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "fullscreen"],
+  "orientation": "any",
+  "background_color": "#0d0a1a",
+  "theme_color": "#8b5cf6",
+  "categories": ["games", "entertainment", "utilities"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

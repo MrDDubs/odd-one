@@ -220,3 +220,15 @@ socket.on("chatGuess", (data) => {
     triggerConfetti();
   }
 });
+
+socket.on("showLeaderboardPopup", (data) => {
+  if (typeof window.showRoundPointsModal === "function") {
+    window.showRoundPointsModal(data);
+  }
+});
+
+socket.on("roundStarted", (data) => {
+  const elModal = document.getElementById("leaderboardModal");
+  if (elModal) elModal.classList.remove("active");
+  if (data) updateUI(data);
+});

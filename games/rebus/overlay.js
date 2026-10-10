@@ -431,11 +431,14 @@
     });
 
     socket.on("showLeaderboardPopup", (data) => {
-      showPodium(data);
+      if (typeof window.showRoundPointsModal === "function") {
+        window.showRoundPointsModal(data);
+      }
     });
 
     socket.on("roundStarted", (data) => {
-      hidePodium();
+      const elModal = document.getElementById("leaderboardModal");
+      if (elModal) elModal.classList.remove("active");
       if (data && (data.gameId === "rebus" || data.activeGameId === "rebus" || !data.gameId)) {
         updateGameState(data);
       }

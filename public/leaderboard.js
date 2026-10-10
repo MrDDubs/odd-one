@@ -1,4 +1,4 @@
-﻿// public/leaderboard.js - Standalone Live Stream Leaderboard Controller
+// public/leaderboard.js - Standalone Live Stream Leaderboard Controller
 const socket = io();
 
 // Query Parameters
@@ -9,6 +9,9 @@ const countParam = Math.max(1, Math.min(10, parseInt(urlParams.get("count"), 10)
 const titleParam = urlParams.get("title");
 const noTitleParam = urlParams.get("noTitle") === "true";
 const showNamesParam = urlParams.get("showNames") !== "false";
+const isMobile = urlParams.get("mobile") === "1";
+const alignParam = (urlParams.get("align") || "").toLowerCase();
+const scaleParam = parseFloat(urlParams.get("scale")) || (isMobile ? 1.44 : 1.0);
 
 // DOM Elements
 const elApp = document.getElementById("leaderboardApp");
@@ -26,6 +29,24 @@ if (elApp) {
 
   if (noTitleParam) {
     elApp.classList.add("no-title");
+  }
+
+  if (alignParam === "top" || isMobile) {
+    document.documentElement.classList.add("align-top");
+    document.body.classList.add("align-top");
+    elApp.classList.add("align-top");
+  }
+
+  if (isMobile) {
+    document.documentElement.classList.add("mobile-leaderboard");
+    document.body.classList.add("mobile-leaderboard");
+  }
+}
+
+if (scaleParam && scaleParam !== 1) {
+  if (elCard) {
+    elCard.style.transform = `scale(${scaleParam})`;
+    elCard.style.transformOrigin = (alignParam === "top" || isMobile) ? "top left" : "center center";
   }
 }
 

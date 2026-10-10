@@ -127,6 +127,8 @@ const chkHideInGameLeaderboard = document.getElementById("chkHideInGameLeaderboa
 
 if (obsUrlDisplay) obsUrlDisplay.textContent = `${window.location.origin}/overlay`;
 if (obsLeaderboardDisplay) obsLeaderboardDisplay.textContent = `${window.location.origin}/leaderboard`;
+const obsMobileDisplay = document.getElementById("obsMobileDisplay");
+if (obsMobileDisplay) obsMobileDisplay.textContent = `${window.location.origin}/mobile`;
 
 function copyToClipboard(url, label) {
   navigator.clipboard.writeText(url).then(() => {
@@ -1919,4 +1921,11 @@ fetch("/api/speech-messages")
     if (data && data.messages) applySpeechData(data);
   })
   .catch((e) => console.warn("[Admin Studio] Error fetching speech messages:", e));
+
+// Register Service Worker for PWA Standalone Mode
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch((err) => console.log("SW registration error:", err));
+  });
+}
 

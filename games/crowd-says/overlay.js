@@ -240,91 +240,10 @@ function handleState(state) {
 
 // 4-Second Round Results Modal (Top 3 Podium + Also Scored)
 function showLeaderboardPopup(payload) {
-  if (!elModal || !elModalPodium) return;
-
-  const winners = (payload?.roundWinners && Array.isArray(payload.roundWinners)) ? payload.roundWinners : [];
-  const durationMs = payload?.durationMs || 4000;
-
-  // Render Top 3 Podium
-  if (winners.length === 0) {
-    elModalPodium.innerHTML = `
-      <div style="font-size:13px;color:#cbd5e1;padding:12px;font-style:italic">
-        No answers found this round! Next survey coming up...
-      </div>
-    `;
-  } else {
-    const top3 = winners.slice(0, 3);
-    elModalPodium.innerHTML = top3.map((w, idx) => {
-      const rank = idx + 1;
-      const rankClass = rank === 1 ? "first" : rank === 2 ? "second" : "third";
-      const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉";
-      const pts = w.points || (rank === 1 ? 30 : rank === 2 ? 20 : 10);
-      const avatarImg = w.avatar
-        ? `<img src="${esc(w.avatar)}" class="podium-avatar" alt="${esc(w.nickname)}">`
-        : `<div class="podium-avatar" style="background:#7c3aed;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff">${(w.nickname || "?")[0].toUpperCase()}</div>`;
-
-      return `
-        <div class="podium-card ${rankClass}">
-          <div class="podium-medal">${medal}</div>
-          ${avatarImg}
-          <div class="podium-name">@${esc(w.nickname || w.user)}</div>
-          <div class="podium-pts">+${pts} pts</div>
-        </div>
-      `;
-    }).join("");
+  if (typeof window.showRoundPointsModal === "function") {
+    window.showRoundPointsModal(payload);
+    return;
   }
-
-  // Also Scored List (4th place and below)
-  if (elModalAlsoScored && elModalAlsoScoredList) {
-    const alsoScored = winners.slice(3);
-    if (alsoScored.length > 0) {
-      elModalAlsoScored.style.display = "block";
-      elModalAlsoScoredList.innerHTML = alsoScored.map((w, idx) => {
-        const rank = idx + 4;
-        const pts = w.points || 10;
-        const avatarImg = w.avatar
-          ? `<img src="${esc(w.avatar)}" class="also-scored-avatar" alt="${esc(w.nickname)}">`
-          : `<div class="also-scored-avatar" style="background:#7c3aed;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:10px">${(w.nickname || "?")[0].toUpperCase()}</div>`;
-
-        return `
-          <div class="also-scored-row">
-            <div class="also-scored-left">
-              <span class="also-scored-rank">#${rank}</span>
-              ${avatarImg}
-              <span class="also-scored-name">@${esc(w.nickname || w.user)}</span>
-            </div>
-            <div class="also-scored-pts">+${pts} pts</div>
-          </div>
-        `;
-      }).join("");
-    } else {
-      elModalAlsoScored.style.display = "none";
-      elModalAlsoScoredList.innerHTML = "";
-    }
-  }
-
-  // Activate Modal
-  elModal.classList.add("active");
-
-  // Animate Countdown Progress Bar
-  if (elModalProgressBar) {
-    elModalProgressBar.style.width = "100%";
-    const startTime = Date.now();
-    clearInterval(modalProgressInterval);
-    modalProgressInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const pct = Math.max(0, 100 - (elapsed / durationMs) * 100);
-      elModalProgressBar.style.width = `${pct}%`;
-      if (elapsed >= durationMs) {
-        clearInterval(modalProgressInterval);
-      }
-    }, 50);
-  }
-
-  clearTimeout(modalTimer);
-  modalTimer = setTimeout(() => {
-    elModal.classList.remove("active");
-  }, durationMs);
 }
 
 // Full-screen Falling Confetti Animation

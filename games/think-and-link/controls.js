@@ -340,11 +340,13 @@ export function initThinkAndLinkControls({ socket, showToast }) {
         (document.getElementById("talWord2")?.value || "").trim(),
         (document.getElementById("talWord3")?.value || "").trim(),
         (document.getElementById("talWord4")?.value || "").trim(),
-        (document.getElementById("talWord5")?.value || "").trim()
+        (document.getElementById("talWord5")?.value || "").trim(),
+        (document.getElementById("talWord6")?.value || "").trim(),
+        (document.getElementById("talWord7")?.value || "").trim()
       ].filter(Boolean);
 
       if (!topic || words.length < 6) {
-        alert("Please enter a Topic name and all 6 associated words!");
+        alert("Please enter a Topic name and at least 6 associated words!");
         return;
       }
 

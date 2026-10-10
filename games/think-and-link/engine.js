@@ -44,7 +44,7 @@ export class ThinkAndLinkEngine {
 
     this.slots = [];
     this.foundCount = 0;
-    this.totalWords = 6;
+    this.totalWords = 8;
     this.allFound = false;
 
     this.statusMessage = "Press START to begin Think & Link!";
@@ -125,7 +125,7 @@ export class ThinkAndLinkEngine {
     this.category = p.category || "General";
     this.elapsedSeconds = 0;
 
-    const wordList = Array.isArray(p.words) ? p.words.slice(0, 6) : [];
+    const wordList = Array.isArray(p.words) ? p.words.slice(0, 8) : [];
     while (wordList.length < 6) {
       wordList.push(`WORD${wordList.length + 1}`);
     }
@@ -144,7 +144,7 @@ export class ThinkAndLinkEngine {
     });
 
     this.foundCount = 0;
-    this.totalWords = 6;
+    this.totalWords = this.slots.length;
     this.allFound = false;
     this.roundWinners = [];
     if (this.customDurationSec && this.customDurationSec > 0) {
@@ -153,7 +153,7 @@ export class ThinkAndLinkEngine {
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = startTimerNow;
     this.paused = false;
-    this.statusMessage = `Topic: ${this.topic} ${this.emoji} — Guess the 6 words in chat!`;
+    this.statusMessage = `Topic: ${this.topic} ${this.emoji} — Guess the ${this.totalWords} words in chat!`;
 
     return this.getPublicPayload();
   }
@@ -277,7 +277,7 @@ export class ThinkAndLinkEngine {
     this.puzzleId = `custom-${Date.now()}`;
     this.elapsedSeconds = 0;
 
-    const wordList = words.slice(0, 6);
+    const wordList = words.slice(0, 8);
     while (wordList.length < 6) {
       wordList.push(`WORD${wordList.length + 1}`);
     }
@@ -296,7 +296,7 @@ export class ThinkAndLinkEngine {
     });
 
     this.foundCount = 0;
-    this.totalWords = 6;
+    this.totalWords = this.slots.length;
     this.allFound = false;
     this.roundWinners = [];
     if (duration && Number(duration) > 0) {
@@ -321,7 +321,7 @@ export class ThinkAndLinkEngine {
     this.timerRemaining = this.roundDurationSec;
     this.isTimerActive = true;
     this.paused = false;
-    this.statusMessage = `Timer Started (${this.timerRemaining}s)! Guess 6 associated words!`;
+    this.statusMessage = `Timer Started (${this.timerRemaining}s)! Guess ${this.totalWords} associated words!`;
     return this.getPublicPayload();
   }
 
@@ -343,7 +343,7 @@ export class ThinkAndLinkEngine {
           this.allFound = true;
           this.isTimerActive = false;
           this.streak++;
-          this.statusMessage = `🎉 All 6 words found! Community streak: 🔥 ${this.streak}`;
+          this.statusMessage = `🎉 All ${this.totalWords} words found! Community streak: 🔥 ${this.streak}`;
         } else {
           this.statusMessage = `Revealed: "${slot.word}" (${this.foundCount}/${this.totalWords})`;
         }
@@ -407,7 +407,7 @@ export class ThinkAndLinkEngine {
       const wasPerfect = this.foundCount === this.totalWords;
       if (!wasPerfect) {
         this.streak = 0; // reset streak if puzzle not completed
-        this.statusMessage = `⏰ Time's up! Found ${this.foundCount}/6 words.`;
+        this.statusMessage = `⏰ Time's up! Found ${this.foundCount}/${this.totalWords} words.`;
       } else {
         this.statusMessage = `⏰ Time's up! Perfect round! Streak: 🔥 ${this.streak}`;
       }
@@ -515,7 +515,7 @@ export class ThinkAndLinkEngine {
         this.isTimerActive = false;
         this.streak++;
         existing.puzzlesCleared += 1;
-        this.statusMessage = `🎉 All 6 words found! Last word "${slot.word}" by @${cleanNick}! Streak: 🔥 ${this.streak}`;
+        this.statusMessage = `🎉 All ${this.totalWords} words found! Last word "${slot.word}" by @${cleanNick}! Streak: 🔥 ${this.streak}`;
       } else {
         this.statusMessage = `🎯 @${cleanNick} found "${slot.word}"! (+${pointsAwarded}💜) [${this.foundCount}/${this.totalWords}]`;
       }

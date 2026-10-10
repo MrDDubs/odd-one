@@ -44,10 +44,13 @@ export class ThinkLikeAllyEngine {
     this.currentQuestionIndex = 0;
 
     this.question = "Name a pizza topping";
-    this.allyAnswer = "pineapple";
+    this.allyAnswer = "Pineapple";
     this.questionIcon = "🍕";
-    this.questionType = "open";
-    this.options = [];
+    this.questionType = "mcq";
+    this.options = ["Pepperoni", "Pineapple", "Mushrooms", "Extra Cheese"];
+    this.optionVotes = [0, 0, 0, 0];
+    this.totalVotes = 0;
+    this.votedUsers = new Map();
 
     this.timerRemaining = 15;
     this.roundDurationSec = 15;
@@ -64,6 +67,18 @@ export class ThinkLikeAllyEngine {
     this.leaderboard = new Map();
 
     this.initFirstQuestion();
+  }
+
+  resetVotes() {
+    this.optionVotes = [0, 0, 0, 0];
+    this.totalVotes = 0;
+    this.votedUsers = new Map();
+  }
+
+  getVotePercentages() {
+    const total = this.totalVotes || this.optionVotes.reduce((a, b) => a + b, 0);
+    if (total <= 0) return [0, 0, 0, 0];
+    return this.optionVotes.map((v) => Math.round(((v || 0) / total) * 100));
   }
 
   initFirstQuestion() {
@@ -92,13 +107,14 @@ export class ThinkLikeAllyEngine {
     this.roundWinners = [];
     this.guessedThisRound.clear();
     this.paused = false;
+    this.resetVotes();
 
     // Load custom question or advance pack
     if (options.question && options.answer) {
       this.question = options.question;
       this.allyAnswer = options.answer;
       this.questionIcon = options.icon || "💡";
-      this.questionType = options.type || "open";
+      this.questionType = options.type || "mcq";
       this.options = options.options || [];
     } else {
       this.advanceQuestion();
@@ -119,12 +135,13 @@ export class ThinkLikeAllyEngine {
   }
 
   advanceQuestion() {
+    this.resetVotes();
     if (questionSets.length === 0) {
       const rand = defaultQuestions[Math.floor(Math.random() * defaultQuestions.length)];
       this.question = rand.question;
       this.allyAnswer = rand.answer;
       this.questionIcon = rand.icon || "💡";
-      this.questionType = rand.type || "open";
+      this.questionType = rand.type || "mcq";
       this.options = rand.options || [];
       return;
     }
@@ -139,16 +156,17 @@ export class ThinkLikeAllyEngine {
     this.question = q.question;
     this.allyAnswer = q.answer;
     this.questionIcon = q.icon || "💡";
-    this.questionType = q.type || "open";
+    this.questionType = q.type || "mcq";
     this.options = q.options || [];
   }
 
   setQuestion(qData) {
     if (!qData) return this.getPublicPayload();
+    this.resetVotes();
     if (qData.question) this.question = qData.question;
     if (qData.answer) this.allyAnswer = qData.answer;
     if (qData.icon) this.questionIcon = qData.icon;
-    if (qData.type) this.questionType = qData.type;
+    this.questionType = qData.type || "mcq";
     if (qData.options) this.options = qData.options;
     this.isAnswerRevealed = false;
     this.roundWinners = [];
@@ -431,9 +449,56 @@ export class ThinkLikeAllyEngine {
     const cleanMsg = String(message || "").trim();
     if (!cleanMsg) return { valid: false };
 
-    const isMatch = this.checkAnswerMatch(cleanMsg);
-    const alreadyWon = this.guessedThisRound.has(cleanUser.toLowerCase());
+    // Track MCQ vote if options exist
+    let matchedOptionIdx = -1;
+    if (Array.isArray(this.options) && this.options.length > 0) {
+      const normMsg = this.normalizeString(cleanMsg);
+      // Check A, B, C, D or 1, 2, 3, 4
+      if (/^(a|1)(\.|\b)/i.test(cleanMsg.trim()) || normMsg === "a" || normMsg === "option a" || normMsg === "optiona") {
+        matchedOptionIdx = 0;
+      } else if (/^(b|2)(\.|\b)/i.test(cleanMsg.trim()) || normMsg === "b" || normMsg === "option b" || normMsg === "optionb") {
+        matchedOptionIdx = 1;
+      } else if (/^(c|3)(\.|\b)/i.test(cleanMsg.trim()) || normMsg === "c" || normMsg === "option c" || normMsg === "optionc") {
+        matchedOptionIdx = 2;
+      } else if (/^(d|4)(\.|\b)/i.test(cleanMsg.trim()) || normMsg === "d" || normMsg === "option d" || normMsg === "optiond") {
+        matchedOptionIdx = 3;
+      } else {
+        // Check text match against options
+        for (let i = 0; i < this.options.length; i++) {
+          const optNorm = this.normalizeString(this.options[i]);
+          if (normMsg === optNorm || (optNorm.length >= 3 && (normMsg.includes(optNorm) || optNorm.includes(normMsg)))) {
+            matchedOptionIdx = i;
+            break;
+          }
+        }
+      }
 
+      if (matchedOptionIdx >= 0 && matchedOptionIdx < this.options.length && this.isTimerActive) {
+        const userKey = cleanUser.toLowerCase();
+        if (this.votedUsers.has(userKey)) {
+          const prevIdx = this.votedUsers.get(userKey);
+          if (prevIdx !== matchedOptionIdx) {
+            this.optionVotes[prevIdx] = Math.max(0, (this.optionVotes[prevIdx] || 1) - 1);
+            this.optionVotes[matchedOptionIdx] = (this.optionVotes[matchedOptionIdx] || 0) + 1;
+            this.votedUsers.set(userKey, matchedOptionIdx);
+          }
+        } else {
+          this.votedUsers.set(userKey, matchedOptionIdx);
+          this.optionVotes[matchedOptionIdx] = (this.optionVotes[matchedOptionIdx] || 0) + 1;
+          this.totalVotes = (this.totalVotes || 0) + 1;
+        }
+      }
+    }
+
+    let isMatch = false;
+    if (matchedOptionIdx !== -1 && this.options?.[matchedOptionIdx]) {
+      const optChosen = this.options[matchedOptionIdx];
+      isMatch = this.checkAnswerMatch(optChosen) || this.checkAnswerMatch(cleanMsg);
+    } else {
+      isMatch = this.checkAnswerMatch(cleanMsg);
+    }
+
+    const alreadyWon = this.guessedThisRound.has(cleanUser.toLowerCase());
     const isCorrect = this.isTimerActive && isMatch && !alreadyWon;
 
     const guessItem = {
@@ -488,14 +553,8 @@ export class ThinkLikeAllyEngine {
       existing.lastWonAt = Date.now();
       this.leaderboard.set(userKey, existing);
 
-      const roundComplete = this.roundWinners.length >= 2;
-      if (roundComplete) {
-        this.isTimerActive = false;
-        this.isAnswerRevealed = true;
-        this.statusMessage = `🎉 Top 2 found it! 🥇 @${this.roundWinners[0].nickname} & 🥈 @${cleanNick}`;
-      } else {
-        this.statusMessage = `🎯 Correct guess #${place} by @${cleanNick}! (+${points} pts)`;
-      }
+      // Keep round active until the timer ends (do not end early after 2 winners)
+      this.statusMessage = `🎯 Correct guess #${place} by @${cleanNick}! (+${points} pts)`;
 
       return {
         valid: true,
@@ -503,7 +562,7 @@ export class ThinkLikeAllyEngine {
         winner: winnerData,
         place,
         points,
-        roundComplete,
+        roundComplete: false,
         roundWinners: this.roundWinners,
         target: this.allyAnswer,
         guessItem
@@ -534,6 +593,7 @@ export class ThinkLikeAllyEngine {
     this.roundWinners = [];
     this.guessedThisRound.clear();
     this.guesses = [];
+    this.resetVotes();
     this.initFirstQuestion();
     return this.getPublicPayload();
   }
@@ -549,6 +609,9 @@ export class ThinkLikeAllyEngine {
       questionIcon: this.questionIcon,
       questionType: this.questionType,
       options: this.options,
+      optionVotes: this.optionVotes || [0, 0, 0, 0],
+      totalVotes: this.totalVotes || 0,
+      percentages: this.getVotePercentages(),
       time: this.timerRemaining,
       timerRemaining: this.timerRemaining,
       roundDurationSec: this.roundDurationSec,

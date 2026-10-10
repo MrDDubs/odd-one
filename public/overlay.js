@@ -144,3 +144,11 @@ socket.on("gameState", (data) => {
 socket.on("gameSwitched", ({ gameId, def }) => {
   loadGame(gameId, def);
 });
+
+// Register Service Worker for PWA Standalone Mode
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch((err) => console.log("SW registration error:", err));
+  });
+}
+

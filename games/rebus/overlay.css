@@ -53,7 +53,7 @@ html, body {
   background: linear-gradient(145deg, #facc15 0%, #eab308 45%, #ca8a04 100%);
   border: 2px solid #fef08a;
   border-radius: 20px;
-  box-shadow: 0 0 20px rgba(234, 179, 8, 0.5), inset 0 0 14px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
   color: #451a03;
   text-align: center;
   position: relative;
@@ -88,23 +88,18 @@ html, body {
   border-radius: 50%;
   padding: 3px;
   background: linear-gradient(135deg, #fef08a, #f59e0b);
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.85), 0 4px 12px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  animation: avatarFloat 3.4s ease-in-out infinite alternate, avatarGlow 2.5s ease-in-out infinite alternate;
+  animation: avatarFloat 3.4s ease-in-out infinite alternate;
 }
 
 @keyframes avatarFloat {
   0% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-3px) rotate(1.5deg); }
   100% { transform: translateY(0) rotate(-1deg); }
-}
-
-@keyframes avatarGlow {
-  from { box-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 2px 6px rgba(0,0,0,0.2); }
-  to { box-shadow: 0 0 26px rgba(245, 158, 11, 0.95), 0 4px 14px rgba(0,0,0,0.35); }
 }
 
 .brand-avatar {
@@ -140,7 +135,7 @@ html, body {
   border: 2px solid #cbb8ff;
   border-radius: 999px;
   padding: 5px 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 1;
   flex-shrink: 0;
@@ -186,7 +181,7 @@ html, body {
   border: 2px solid #cbb8ff;
   border-radius: 999px;
   padding: 4px 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(168, 85, 247, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   color: #3b0764;
   flex-shrink: 0;
   transition: all 0.3s ease;
@@ -211,7 +206,7 @@ html, body {
 .timer-pill.danger {
   background: linear-gradient(145deg, #fff1f2, #fee2e2);
   border-color: #f87171;
-  box-shadow: 0 0 16px rgba(239, 68, 68, 0.6);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
   animation: timerWarning 0.8s infinite alternate ease-in-out;
 }
 
@@ -259,28 +254,16 @@ html, body {
 /* ========================================================
    4. Main Content Stage & Rebus Stage Card
    ======================================================== */
-.main-content {
-  width: 100%;
-  max-width: 485px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(12px, 1.6vh, 20px);
-  position: relative;
-  z-index: 1;
-  min-height: 0;
-}
+
 
 .rebus-stage-card {
   width: 100%;
-  aspect-ratio: 1.1 / 1;
-  max-height: 48vh;
+  flex: 1 1 0%;
+  min-height: 0;
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(245, 243, 255, 0.96));
   border: 3.5px solid #a855f7;
   border-radius: 28px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 30px rgba(168, 85, 247, 0.35), inset 0 0 18px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
   position: relative;
   display: flex;
   align-items: center;
@@ -290,10 +273,7 @@ html, body {
 }
 
 .stage-backdrop-glow {
-  position: absolute;
-  inset: -20px;
-  background: radial-gradient(circle at 50% 50%, rgba(192, 132, 252, 0.18) 0%, transparent 70%);
-  pointer-events: none;
+  display: none !important;
 }
 
 .rebus-canvas {
@@ -801,7 +781,7 @@ html, body {
 .char-slot.revealed {
   background: linear-gradient(135deg, #a855f7, #7c3aed);
   border-color: #c084fc;
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.35);
   transform: scale(1.05);
 }
 
@@ -858,7 +838,7 @@ html, body {
   border: 3px solid #6ee7b7;
   border-radius: 24px;
   padding: 16px 20px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(16, 185, 129, 0.7);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
   z-index: 100;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -924,128 +904,4 @@ html, body {
   flex-shrink: 0;
 }
 
-/* ========================================================
-   10. Auto-Advance Leaderboard Podium Overlay
-   ======================================================== */
-.podium-modal {
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 5, 25, 0.85);
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 200;
-  transition: opacity 0.35s ease;
-}
 
-.podium-modal.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.podium-card {
-  width: 100%;
-  max-width: 400px;
-  background: linear-gradient(160deg, #2e1065, #1e1145);
-  border: 2.5px solid #a855f7;
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.4);
-  text-align: center;
-}
-
-.podium-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.podium-icon {
-  font-size: 24px;
-}
-
-.podium-title {
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  color: #fef08a;
-}
-
-.podium-solved-wrap {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  border-radius: 14px;
-  padding: 10px 14px;
-  margin-bottom: 14px;
-}
-
-.podium-solved-label {
-  font-size: 11px;
-  font-weight: 800;
-  color: #cbd5e1;
-  letter-spacing: 0.5px;
-}
-
-.podium-solved-word {
-  font-size: 19px;
-  font-weight: 900;
-  color: #38bdf8;
-  letter-spacing: 1px;
-  margin-top: 2px;
-}
-
-.podium-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.podium-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  padding: 7px 12px;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.podium-rank {
-  color: #facc15;
-  width: 24px;
-  text-align: left;
-}
-
-.podium-user {
-  flex: 1;
-  text-align: left;
-  color: #ffffff;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.podium-pts {
-  color: #c084fc;
-}
-
-.podium-footer {
-  font-size: 12px;
-  font-weight: 700;
-  color: #94a3b8;
-}
-
-.podium-footer strong {
-  color: #facc15;
-}

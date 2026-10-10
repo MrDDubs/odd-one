@@ -4,8 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ally's Stream Hub — Host Control Center</title>
+  <!-- PWA & Standalone Fullscreen App Config -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#8b5cf6">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Stream Hub">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+
   <link rel="stylesheet" href="./hub.css">
   <link rel="stylesheet" href="./speech-bubble.css">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration error:', err));
+      });
+    }
+  </script>
   <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
 </head>
 <body>
@@ -47,6 +64,11 @@
         <a href="/admin-overlay" class="header-overlay-btn" style="background: linear-gradient(135deg, #10b981, #059669); text-decoration:none">
           🎛️ Live Admin Overlay Studio
         </a>
+
+        <!-- Install App Button (hidden until prompt is available or in standalone) -->
+        <button id="btnInstallPwa" class="header-overlay-btn" style="display:none; background: linear-gradient(135deg, #ec4899, #8b5cf6);">
+          📲 Install App
+        </button>
 
         <!-- Stream Overlay Links Button -->
         <button id="btnOpenOverlayLinks" class="header-overlay-btn">
