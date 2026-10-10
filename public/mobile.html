@@ -677,6 +677,7 @@
 
     async function launchGame(gameId) {
       currentActiveGameId = gameId;
+      try { localStorage.setItem('ally_active_game_id', gameId); } catch (e) {}
       renderGames(gameId);
 
       // Auto start and switch game
@@ -767,7 +768,13 @@
     }
 
     // Initial load & Socket listeners
-    renderGames('odd-one-out');
+    let initialGameId = 'odd-one-out';
+    try {
+      const saved = localStorage.getItem('ally_active_game_id');
+      if (saved) initialGameId = saved;
+    } catch (e) {}
+    currentActiveGameId = initialGameId;
+    renderGames(initialGameId);
 
     if (adminSocket) {
       adminSocket.on('connect', () => {
@@ -777,6 +784,7 @@
       adminSocket.on('gameState', (data) => {
         if (data?.activeGameId) {
           currentActiveGameId = data.activeGameId;
+          try { localStorage.setItem('ally_active_game_id', data.activeGameId); } catch (e) {}
           renderGames(data.activeGameId);
         }
         updateTikTokUI({
@@ -789,6 +797,7 @@
       adminSocket.on('gameSwitched', ({ gameId }) => {
         if (gameId) {
           currentActiveGameId = gameId;
+          try { localStorage.setItem('ally_active_game_id', gameId); } catch (e) {}
           renderGames(gameId);
         }
       });
@@ -804,6 +813,7 @@
       .then(data => {
         if (data?.activeGameId) {
           currentActiveGameId = data.activeGameId;
+          try { localStorage.setItem('ally_active_game_id', data.activeGameId); } catch (e) {}
           renderGames(data.activeGameId);
         }
         updateTikTokUI({

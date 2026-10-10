@@ -4,6 +4,10 @@ const socket = io("/admin");
 // State
 let currentGameState = null;
 let currentActiveGameId = "odd-one-out";
+try {
+  const saved = localStorage.getItem("ally_active_game_id");
+  if (saved) currentActiveGameId = saved;
+} catch (e) {}
 let isPaused = false;
 let toastTimer = null;
 
@@ -171,6 +175,7 @@ gameSwitchBtns.forEach((btn) => {
 
 function updateActiveGameUI(gameId) {
   currentActiveGameId = gameId;
+  try { localStorage.setItem("ally_active_game_id", gameId); } catch (e) {}
 
   gameSwitchBtns.forEach((btn) => {
     if (btn.getAttribute("data-game") === gameId) {

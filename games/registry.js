@@ -1,4 +1,8 @@
 // games/registry.js (ESM)
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import { OddOneOutEngine } from "./odd-one-out/engine.js";
 import { ThinkLikeAllyEngine } from "./think-like-ally/engine.js";
 import { ThinkAndLinkEngine } from "./think-and-link/engine.js";
@@ -7,6 +11,41 @@ import { CrowdSaysEngine } from "./crowd-says/engine.js";
 import { UnscrambleEngine } from "./unscramble/engine.js";
 import { RebusEngine } from "./rebus/engine.js";
 import { RiddleEngine } from "./riddle/engine.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const activeGamePath = path.join(__dirname, "..", "data", "active-game.json");
+
+function getSavedActiveGameId() {
+  try {
+    if (fs.existsSync(activeGamePath)) {
+      const raw = fs.readFileSync(activeGamePath, "utf8");
+      const data = JSON.parse(raw);
+      if (data && typeof data.activeGameId === "string" && data.activeGameId.trim()) {
+        return data.activeGameId.trim();
+      }
+    }
+  } catch (err) {
+    console.warn("[GameRegistry] Could not read active-game.json:", err.message);
+  }
+  return "odd-one-out";
+}
+
+function saveActiveGameId(gameId) {
+  try {
+    const dataDir = path.dirname(activeGamePath);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(
+      activeGamePath,
+      JSON.stringify({ activeGameId: gameId, updatedAt: new Date().toISOString() }, null, 2),
+      "utf8"
+    );
+  } catch (err) {
+    console.warn("[GameRegistry] Could not save active-game.json:", err.message);
+  }
+}
 
 class GameRegistry {
   constructor() {
@@ -109,6 +148,13 @@ class GameRegistry {
       controlsModule: "/games/riddle/controls.js",
       engine: new RiddleEngine()
     });
+
+    // Restore saved active game from disk if valid
+    const savedId = getSavedActiveGameId();
+    if (this.games.has(savedId)) {
+      this.activeGameId = savedId;
+      console.log(`[GameRegistry] Restored active game from disk: ${savedId}`);
+    }
   }
 
   registerGame(gameDefinition) {
@@ -147,7 +193,8 @@ class GameRegistry {
     const resolvedId = gameId === "chat-feud" ? "crowd-says" : gameId;
     if (this.games.has(resolvedId)) {
       this.activeGameId = resolvedId;
-      console.log(`[GameRegistry] Switched active game to: ${resolvedId}`);
+      saveActiveGameId(resolvedId);
+      console.log(`[GameRegistry] Switched active game to: ${resolvedId} (saved to disk)`);
       return true;
     }
     return false;
