@@ -53,7 +53,7 @@ express.response.sendFile = function (filePath, ...args) {
     try {
       let html = fs.readFileSync(filePath, "utf8");
       if (!html.includes("auth-guard.js")) {
-        const injection = `\n<link rel="stylesheet" href="/auth-guard.css">\n<script src="/auth-guard.js"></script>\n`;
+        const injection = `\n<link rel="stylesheet" href="/auth-guard.css?v=5">\n<script src="/auth-guard.js?v=5"></script>\n`;
         if (html.includes("</head>")) {
           html = html.replace("</head>", `${injection}</head>`);
         } else if (html.includes("</body>")) {
@@ -76,6 +76,17 @@ const io = new SocketIOServer(server, {
 
 app.use(cors());
 app.use(express.json());
+
+// Never cache auth-guard assets to guarantee clients receive latest authentication logic
+app.get(["/auth-guard.js", "/auth-guard.css"], (req, res, next) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  next();
+});
+
+// Explicit route for root index to ensure sendFile injection runs
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // Intercept direct .html static files to ensure auth injection applies to minigame overlays
 app.get(/\.html$/, (req, res, next) => {
@@ -488,18 +499,20 @@ app.post("/api/auth/login", (req, res) => {
   const expected = getExpectedPassword();
   if (password && String(password).trim() === String(expected).trim()) {
     const token = generateAuthToken(expected);
-    res.setHeader("Set-Cookie", `ally_auth=${encodeURIComponent(token)}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax`);
+    const isHttps = req.secure || req.headers["x-forwarded-proto"] === "https";
+    const secureFlag = isHttps ? "; Secure" : "";
+    res.setHeader("Set-Cookie", `ally_auth=${encodeURIComponent(token)}; Path=/; Max-Age=${30 * 24 * 60 * 60}; SameSite=Lax${secureFlag}`);
     return res.json({ ok: true, token });
   }
   return res.status(401).json({ ok: false, error: "Incorrect password" });
 });
 
-app.post("/api/auth/verify", (req, res) => {
+app.all("/api/auth/verify", (req, res) => {
   const token = getRequestAuthToken(req);
   if (isValidAuthToken(token)) {
     return res.json({ ok: true });
   }
-  return res.json({ ok: false });
+  return res.status(401).json({ ok: false });
 });
 
 app.post("/api/auth/logout", (_req, res) => {

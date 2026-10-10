@@ -1,47 +1,72 @@
-// public/auth-guard.js - Ally's Stream Hub Password Popup Authentication Guard
+// public/auth-guard.js - Ally's Stream Hub Password Authentication Guard
 (function () {
   const STORAGE_KEY = "ally_auth_token";
 
+  // 1. NEVER prompt or show login modals inside any iframe (nested previews / mini-games)
+  if (window.self !== window.top) {
+    return;
+  }
+
+  // 2. Pure OBS livestream overlays NEVER prompt for a password
+  const path = window.location.pathname.toLowerCase();
+  const urlParams = new URLSearchParams(window.location.search);
+  const isOverlay =
+    path === "/overlay" || path === "/overlay.html" ||
+    path === "/leaderboard" || path === "/leaderboard.html" ||
+    path === "/mobile" || path === "/mobile.html" ||
+    path.startsWith("/games/") ||
+    urlParams.has("obs") || urlParams.has("overlay");
+
+  if (isOverlay) {
+    return;
+  }
+
   function getCookie(name) {
-    const match = document.cookie.match(new RegExp("(^|;\\s*)" + name + "=([^;]*)"));
-    return match ? decodeURIComponent(match[2]) : null;
+    try {
+      const match = document.cookie.match(new RegExp("(^|;\\s*)" + name + "=([^;]*)"));
+      return match ? decodeURIComponent(match[2]) : null;
+    } catch (e) {
+      return null;
+    }
   }
 
   function setCookie(name, val, days = 30) {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = `${name}=${encodeURIComponent(val)}; expires=${expires}; path=/; SameSite=Lax`;
-  }
-
-  // Check URL parameters for OBS / direct link quick-pass (e.g. ?key=admin123 or ?auth=admin123)
-  const urlParams = new URLSearchParams(window.location.search);
-  const quickKey = urlParams.get("key") || urlParams.get("auth") || urlParams.get("password");
-
-  // Check if iframe parent is already unlocked
-  function isParentUnlocked() {
     try {
-      if (window.parent && window.parent !== window) {
-        return !!window.parent.__ally_authenticated;
-      }
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      const isHttps = window.location.protocol === "https:";
+      const secure = isHttps ? "; Secure" : "";
+      document.cookie = `${name}=${encodeURIComponent(val)}; expires=${expires}; path=/; SameSite=Lax${secure}`;
     } catch (e) {}
-    return false;
   }
 
-  // Check if locally marked as authenticated
-  const existingToken = localStorage.getItem(STORAGE_KEY) || getCookie("ally_auth");
+  function clearAuth() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    try { document.cookie = "ally_auth=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;"; } catch (e) {}
+    window.__ally_authenticated = false;
+  }
 
-  async function verifyToken(token) {
-    if (!token) return false;
+  function saveAuth(token) {
+    try { localStorage.setItem(STORAGE_KEY, token); } catch (e) {}
+    try { sessionStorage.setItem(STORAGE_KEY, token); } catch (e) {}
+    setCookie("ally_auth", token, 30);
+    window.__ally_authenticated = true;
+  }
+
+  function getSavedToken() {
     try {
-      const res = await fetch("/api/auth/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token })
-      });
-      const data = await res.json();
-      return !!data.ok;
-    } catch (e) {
-      return false;
-    }
+      const local = localStorage.getItem(STORAGE_KEY);
+      if (local && local.trim().length >= 16) return local.trim();
+    } catch (e) {}
+    try {
+      const session = sessionStorage.getItem(STORAGE_KEY);
+      if (session && session.trim().length >= 16) return session.trim();
+    } catch (e) {}
+    try {
+      const cookie = getCookie("ally_auth");
+      if (cookie && cookie.trim().length >= 16) return cookie.trim();
+    } catch (e) {}
+    return null;
   }
 
   async function submitPassword(password) {
@@ -49,13 +74,11 @@
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password })
+        body: JSON.stringify({ password: String(password).trim() })
       });
       const data = await res.json();
       if (data.ok && data.token) {
-        localStorage.setItem(STORAGE_KEY, data.token);
-        setCookie("ally_auth", data.token, 30);
-        window.__ally_authenticated = true;
+        saveAuth(data.token);
         return { success: true };
       }
       return { success: false, error: data.error || "Incorrect password" };
@@ -64,55 +87,39 @@
     }
   }
 
-  // Initialize
-  async function initAuthGuard() {
-    // 1. NEVER show login popup inside any iframe (prevents nested iframe popups)
-    if (window.self !== window.top) {
-      return;
-    }
-
-    // 2. NEVER show login popup on OBS overlays (/overlay, /leaderboard, /mobile)
-    // Overlays must render freely for OBS browser sources without stream interruptions
-    const path = window.location.pathname.toLowerCase();
-    const isOverlayRoute = path.includes("/overlay") || path.includes("/leaderboard") || path.includes("/mobile");
-    const isHostControlRoute = path === "/" || path === "/index.html" || path.includes("admin") || path.includes("controls");
-
-    if (isOverlayRoute || !isHostControlRoute) {
-      return;
-    }
-
-    // 3. If quickKey is provided in URL, automatically attempt login
-    if (quickKey) {
-      const res = await submitPassword(quickKey);
-      if (res.success) {
-        window.__ally_authenticated = true;
+  async function verifyTokenSilently(token) {
+    if (!token) return;
+    try {
+      const res = await fetch("/api/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token })
+      });
+      if (res.status === 401) {
+        clearAuth();
+        showLoginModal();
         return;
       }
-    }
-
-    // 4. If stored token exists, verify with server
-    const currentToken = localStorage.getItem(STORAGE_KEY) || getCookie("ally_auth");
-    if (currentToken) {
-      const valid = await verifyToken(currentToken);
-      if (valid) {
-        window.__ally_authenticated = true;
-        return; // Already unlocked
-      } else {
-        localStorage.removeItem(STORAGE_KEY);
+      const data = await res.json();
+      if (data && data.ok === false) {
+        clearAuth();
+        showLoginModal();
       }
+    } catch (e) {
+      // Network hiccup or temporary offline - KEEP existing session, DO NOT wipe storage!
     }
-
-    // 5. Show Login Popup Modal on Admin / Host / Dashboard pages
-    showLoginModal();
   }
 
   function showLoginModal() {
+    // If already marked as authenticated, do not show
+    if (window.__ally_authenticated) return;
+
     // Ensure auth CSS is loaded
     if (!document.getElementById("allyAuthCss")) {
       const link = document.createElement("link");
       link.id = "allyAuthCss";
       link.rel = "stylesheet";
-      link.href = "/auth-guard.css";
+      link.href = "/auth-guard.css?v=5";
       document.head.appendChild(link);
     }
 
@@ -142,11 +149,14 @@
         </div>
       `;
 
-      // Append as soon as DOM is ready
       if (document.body) {
         document.body.appendChild(overlay);
       } else {
-        document.addEventListener("DOMContentLoaded", () => document.body.appendChild(overlay));
+        document.addEventListener("DOMContentLoaded", () => {
+          if (!window.__ally_authenticated && document.body) {
+            document.body.appendChild(overlay);
+          }
+        });
       }
     } else {
       overlay.classList.remove("ally-auth-hidden");
@@ -240,11 +250,26 @@
     }
   }
 
-  // Start authentication check
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initAuthGuard);
+  // --- INITIALIZATION ---
+  const quickKey = urlParams.get("key") || urlParams.get("auth") || urlParams.get("password");
+  const existingToken = getSavedToken();
+
+  if (existingToken) {
+    // Optimistic authentication: set authenticated immediately, never prompt on refresh!
+    window.__ally_authenticated = true;
+    verifyTokenSilently(existingToken);
+  } else if (quickKey) {
+    submitPassword(quickKey).then((res) => {
+      if (!res.success) {
+        showLoginModal();
+      }
+    });
   } else {
-    initAuthGuard();
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", showLoginModal);
+    } else {
+      showLoginModal();
+    }
   }
 
   window.showAllyLoginPopup = showLoginModal;
