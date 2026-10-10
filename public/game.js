@@ -523,6 +523,9 @@ let directRetry = null;
 
 function connectDirectTikFinity() {
   clearTimeout(directRetry);
+  if (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+    return;
+  }
   try {
     directTikSocket = new WebSocket("ws://localhost:21213/");
     directTikSocket.onopen = () => {

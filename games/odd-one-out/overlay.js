@@ -709,6 +709,10 @@ let directRetry = null;
 
 function connectDirectTikFinity() {
   clearTimeout(directRetry);
+  // Do not attempt connecting to ws://localhost:21213 on public HTTPS domains (prevents browser 'access other apps/services on device' prompt)
+  if (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+    return;
+  }
   try {
     directTikSocket = new WebSocket("ws://localhost:21213/");
     directTikSocket.onopen = () => {
