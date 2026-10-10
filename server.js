@@ -53,7 +53,7 @@ express.response.sendFile = function (filePath, ...args) {
     try {
       let html = fs.readFileSync(filePath, "utf8");
       if (!html.includes("auth-guard.js")) {
-        const injection = `\n<link rel="stylesheet" href="/auth-guard.css?v=5">\n<script src="/auth-guard.js?v=5"></script>\n`;
+        const injection = `\n<link rel="stylesheet" href="/auth-guard.css?v=6">\n<script src="/auth-guard.js?v=6"></script>\n`;
         if (html.includes("</head>")) {
           html = html.replace("</head>", `${injection}</head>`);
         } else if (html.includes("</body>")) {

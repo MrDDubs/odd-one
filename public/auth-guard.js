@@ -13,7 +13,6 @@
   const isOverlay =
     path === "/overlay" || path === "/overlay.html" ||
     path === "/leaderboard" || path === "/leaderboard.html" ||
-    path === "/mobile" || path === "/mobile.html" ||
     path.startsWith("/games/") ||
     urlParams.has("obs") || urlParams.has("overlay");
 
@@ -119,7 +118,7 @@
       const link = document.createElement("link");
       link.id = "allyAuthCss";
       link.rel = "stylesheet";
-      link.href = "/auth-guard.css?v=5";
+      link.href = "/auth-guard.css?v=6";
       document.head.appendChild(link);
     }
 
