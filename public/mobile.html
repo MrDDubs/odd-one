@@ -298,6 +298,18 @@
       color: #34d399;
       border-color: rgba(16, 185, 129, 0.3);
     }
+    .tiktok-status-badge.connecting {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+    .tiktok-status-badge.connecting .tiktok-status-dot {
+      animation: pulseDot 0.8s ease-in-out infinite alternate;
+    }
+    @keyframes pulseDot {
+      0% { opacity: 0.35; transform: scale(0.85); }
+      100% { opacity: 1; transform: scale(1.15); }
+    }
     .tiktok-status-dot {
       width: 7px;
       height: 7px;
@@ -606,6 +618,7 @@
     const btnDrawerConnectTikTok = document.getElementById('btnDrawerConnectTikTok');
 
     let isTikTokConnected = false;
+    let isTikTokConnecting = false;
     let currentActiveGameId = '';
     let toastTimeout = null;
 
@@ -619,25 +632,12 @@
       }, 2500);
     }
 
-    function toggleMenu(open) {
-      const isOpen = open !== undefined ? open : !slideDrawer.classList.contains('open');
-      if (isOpen) {
-        slideDrawer.classList.add('open');
-        menuBackdrop.classList.add('open');
-        btnMobileMenu.classList.add('active');
-      } else {
-        slideDrawer.classList.remove('open');
-        menuBackdrop.classList.remove('open');
-        btnMobileMenu.classList.remove('active');
-      }
-    }
-
-    btnMobileMenu.addEventListener('click', () => toggleMenu());
-    menuBackdrop.addEventListener('click', () => toggleMenu(false));
-    btnCloseDrawer.addEventListener('click', () => toggleMenu(false));
-
     // Connect to Hub Admin Socket
-    const adminSocket = (typeof io !== 'undefined') ? io('/admin') : null;
+    const adminSocket = (typeof io !== 'undefined') ? io('/admin', {
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionAttempts: Infinity
+    }) : null;
 
     // Games catalog
     const GAMES_CATALOG = [
@@ -701,31 +701,51 @@
     }
 
     function updateTikTokUI(status) {
-      const isConnected = !!status?.connected;
-      const isConnecting = !!status?.connecting;
-      const username = (status?.username || '').trim();
+      const isConnected = !!(status?.connected ?? status?.tiktokConnected);
+      const isTikFinity = !isConnected && !!status?.tikfinityConnected;
+      const isConnecting = !isConnected && !isTikFinity && !!(status?.connecting ?? status?.tiktokConnecting);
+      const username = String(status?.username || status?.tiktokLiveUsername || '').trim();
 
-      isTikTokConnected = isConnected;
+      isTikTokConnected = isConnected || isTikFinity;
+      isTikTokConnecting = isConnecting;
 
+      // Update streamer label
       if (username) {
         labelCurrentStreamer.textContent = `@${username.replace(/^@/, '')}`;
-        if (!inputDrawerTikTokUser.value) {
-          inputDrawerTikTokUser.value = username.replace(/^@/, '');
-        }
+      } else if (isTikFinity) {
+        labelCurrentStreamer.textContent = 'TikFinity Live';
       } else {
         labelCurrentStreamer.textContent = '@not_set';
       }
 
+      // Safeguard username input: NEVER overwrite while user is focusing or editing the box!
+      if (inputDrawerTikTokUser) {
+        const isFocused = document.activeElement === inputDrawerTikTokUser;
+        const isDirty = inputDrawerTikTokUser.dataset.dirty === 'true';
+
+        if (!isFocused && !isDirty) {
+          if (username) {
+            inputDrawerTikTokUser.value = username.replace(/^@/, '');
+          }
+        }
+      }
+
+      // Update status badge & action button
       if (isConnected) {
         badgeTikTokStatus.className = 'tiktok-status-badge connected';
         textTikTokStatus.textContent = 'Connected';
         btnDrawerConnectTikTok.textContent = 'DISCONNECT';
         btnDrawerConnectTikTok.className = 'tiktok-btn disconnect';
+      } else if (isTikFinity) {
+        badgeTikTokStatus.className = 'tiktok-status-badge connected';
+        textTikTokStatus.textContent = 'TikFinity OK';
+        btnDrawerConnectTikTok.textContent = 'DISCONNECT';
+        btnDrawerConnectTikTok.className = 'tiktok-btn disconnect';
       } else if (isConnecting) {
-        badgeTikTokStatus.className = 'tiktok-status-badge';
+        badgeTikTokStatus.className = 'tiktok-status-badge connecting';
         textTikTokStatus.textContent = 'Connecting...';
-        btnDrawerConnectTikTok.textContent = 'CONNECT';
-        btnDrawerConnectTikTok.className = 'tiktok-btn';
+        btnDrawerConnectTikTok.textContent = 'DISCONNECT';
+        btnDrawerConnectTikTok.className = 'tiktok-btn disconnect';
       } else {
         badgeTikTokStatus.className = 'tiktok-status-badge';
         textTikTokStatus.textContent = 'Disconnected';
@@ -734,38 +754,138 @@
       }
     }
 
-    // Connect/Disconnect TikTok Button
+    async function handleTikTokButtonClick() {
+      // If currently connected or in the middle of connecting, action is DISCONNECT
+      const shouldDisconnect = isTikTokConnected || isTikTokConnecting || btnDrawerConnectTikTok.classList.contains('disconnect');
+
+      if (shouldDisconnect) {
+        // Optimistically update UI immediately
+        isTikTokConnected = false;
+        isTikTokConnecting = false;
+        if (inputDrawerTikTokUser) inputDrawerTikTokUser.dataset.dirty = 'false';
+        badgeTikTokStatus.className = 'tiktok-status-badge';
+        textTikTokStatus.textContent = 'Disconnected';
+        labelCurrentStreamer.textContent = '@not_set';
+        btnDrawerConnectTikTok.textContent = 'CONNECT';
+        btnDrawerConnectTikTok.className = 'tiktok-btn';
+        showToast('Disconnecting TikTok...');
+
+        // Trigger disconnect via both REST and Socket
+        try {
+          await fetch('/admin/disconnect-tiktok', { method: 'POST' });
+        } catch (e) {
+          console.warn('[Mobile] REST disconnect error:', e);
+        }
+
+        if (adminSocket && adminSocket.connected) {
+          adminSocket.emit('disconnectTikTok');
+        }
+
+        setTimeout(syncState, 600);
+      } else {
+        // Action is CONNECT
+        const rawUser = (inputDrawerTikTokUser?.value || '').trim();
+        if (!rawUser) {
+          alert('Please enter a TikTok username (e.g. mrddubs)');
+          inputDrawerTikTokUser?.focus();
+          return;
+        }
+        const username = rawUser.replace(/^@/, '').trim();
+
+        // Optimistically update UI
+        isTikTokConnecting = true;
+        if (inputDrawerTikTokUser) {
+          inputDrawerTikTokUser.dataset.dirty = 'false';
+          inputDrawerTikTokUser.value = username;
+        }
+        labelCurrentStreamer.textContent = `@${username}`;
+        badgeTikTokStatus.className = 'tiktok-status-badge connecting';
+        textTikTokStatus.textContent = 'Connecting...';
+        btnDrawerConnectTikTok.textContent = 'DISCONNECT';
+        btnDrawerConnectTikTok.className = 'tiktok-btn disconnect';
+        showToast(`Connecting to @${username}...`);
+
+        // Trigger connect via both REST and Socket
+        try {
+          await fetch('/admin/connect-tiktok', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username })
+          });
+        } catch (e) {
+          console.warn('[Mobile] REST connect error:', e);
+        }
+
+        if (adminSocket && adminSocket.connected) {
+          adminSocket.emit('connectTikTok', { username });
+        }
+
+        setTimeout(syncState, 1200);
+      }
+    }
+
     if (btnDrawerConnectTikTok) {
-      btnDrawerConnectTikTok.addEventListener('click', async () => {
-        if (isTikTokConnected) {
-          // Disconnect
-          if (adminSocket && adminSocket.connected) {
-            adminSocket.emit('disconnectTikTok');
-          } else {
-            await fetch('/admin/disconnect-tiktok', { method: 'POST' }).catch(() => {});
-          }
-          showToast('TikTok Disconnected');
-        } else {
-          // Connect
-          const rawUser = (inputDrawerTikTokUser.value || '').trim();
-          if (!rawUser) {
-            alert('Please enter a TikTok username');
-            return;
-          }
-          const username = rawUser.replace(/^@/, '');
-          if (adminSocket && adminSocket.connected) {
-            adminSocket.emit('connectTikTok', { username });
-          } else {
-            await fetch('/admin/connect-tiktok', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username })
-            }).catch(() => {});
-          }
-          showToast(`Connecting to @${username}...`);
+      btnDrawerConnectTikTok.addEventListener('click', handleTikTokButtonClick);
+    }
+
+    if (inputDrawerTikTokUser) {
+      // Mark as dirty as soon as user types or modifies
+      inputDrawerTikTokUser.addEventListener('input', () => {
+        inputDrawerTikTokUser.dataset.dirty = 'true';
+      });
+      inputDrawerTikTokUser.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleTikTokButtonClick();
         }
       });
     }
+
+    // Synchronize latest state from server
+    async function syncState() {
+      try {
+        const res = await fetch('/api/state');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data?.activeGameId && data.activeGameId !== currentActiveGameId) {
+          currentActiveGameId = data.activeGameId;
+          try { localStorage.setItem('ally_active_game_id', data.activeGameId); } catch (e) {}
+          renderGames(data.activeGameId);
+        }
+        updateTikTokUI({
+          connected: data?.tiktokConnected,
+          connecting: data?.tiktokConnecting,
+          tikfinityConnected: data?.tikfinityConnected,
+          username: data?.tiktokLiveUsername
+        });
+      } catch (err) {
+        console.warn('[Mobile] State sync error:', err);
+      }
+    }
+
+    function toggleMenu(open) {
+      const isOpen = open !== undefined ? open : !slideDrawer.classList.contains('open');
+      if (isOpen) {
+        slideDrawer.classList.add('open');
+        menuBackdrop.classList.add('open');
+        btnMobileMenu.classList.add('active');
+        syncState(); // Always refresh state on drawer open
+      } else {
+        slideDrawer.classList.remove('open');
+        menuBackdrop.classList.remove('open');
+        btnMobileMenu.classList.remove('active');
+      }
+    }
+
+    btnMobileMenu.addEventListener('click', () => toggleMenu());
+    menuBackdrop.addEventListener('click', () => toggleMenu(false));
+    btnCloseDrawer.addEventListener('click', () => toggleMenu(false));
+
+    // Re-sync when mobile device wakes up or tab returns to focus
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') syncState();
+    });
+    window.addEventListener('focus', syncState);
 
     // Initial load & Socket listeners
     let initialGameId = 'odd-one-out';
@@ -779,10 +899,16 @@
     if (adminSocket) {
       adminSocket.on('connect', () => {
         console.log('[Mobile Drawer] Connected to /admin namespace');
+        syncState();
+      });
+
+      adminSocket.on('reconnect', () => {
+        console.log('[Mobile Drawer] Reconnected to /admin namespace');
+        syncState();
       });
 
       adminSocket.on('gameState', (data) => {
-        if (data?.activeGameId) {
+        if (data?.activeGameId && data.activeGameId !== currentActiveGameId) {
           currentActiveGameId = data.activeGameId;
           try { localStorage.setItem('ally_active_game_id', data.activeGameId); } catch (e) {}
           renderGames(data.activeGameId);
@@ -790,12 +916,13 @@
         updateTikTokUI({
           connected: data?.tiktokConnected,
           connecting: data?.tiktokConnecting,
+          tikfinityConnected: data?.tikfinityConnected,
           username: data?.tiktokLiveUsername
         });
       });
 
       adminSocket.on('gameSwitched', ({ gameId }) => {
-        if (gameId) {
+        if (gameId && gameId !== currentActiveGameId) {
           currentActiveGameId = gameId;
           try { localStorage.setItem('ally_active_game_id', gameId); } catch (e) {}
           renderGames(gameId);
@@ -807,22 +934,8 @@
       });
     }
 
-    // Fetch initial state fallback
-    fetch('/api/state')
-      .then(res => res.json())
-      .then(data => {
-        if (data?.activeGameId) {
-          currentActiveGameId = data.activeGameId;
-          try { localStorage.setItem('ally_active_game_id', data.activeGameId); } catch (e) {}
-          renderGames(data.activeGameId);
-        }
-        updateTikTokUI({
-          connected: data?.tiktokConnected,
-          connecting: data?.tiktokConnecting,
-          username: data?.tiktokLiveUsername
-        });
-      })
-      .catch(err => console.warn('Could not fetch initial /api/state:', err));
+    // Initial state fetch
+    syncState();
   </script>
 </body>
 </html>

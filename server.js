@@ -414,8 +414,11 @@ function startTikTokConnection(username) {
   if (!targetUsername) return;
 
   if (tiktokLiveClient) {
-    tiktokLiveClient.disconnect();
+    const oldClient = tiktokLiveClient;
     tiktokLiveClient = null;
+    try {
+      oldClient.disconnect();
+    } catch {}
   }
 
   tiktokLiveUsername = targetUsername;
@@ -433,9 +436,10 @@ function startTikTokConnection(username) {
 
   console.log(`[TikTok] Connecting directly to @${targetUsername}...`);
 
-  tiktokLiveClient = connectTikTokLive({
+  const currentClient = connectTikTokLive({
     username: targetUsername,
     onChat: ({ username, nickname, text, avatar }) => {
+      if (tiktokLiveClient !== currentClient) return;
       handleIncomingGuess(username, nickname, text, avatar);
     },
     onLog: (msg) => {
@@ -443,18 +447,21 @@ function startTikTokConnection(username) {
       io.of("/admin").emit("tiktokLog", msg);
     },
     onStatusChange: (status) => {
+      if (tiktokLiveClient !== currentClient) return;
       tiktokLiveStatus = {
         connected: !!status.connected,
         connecting: !!status.connecting,
         nickname: status.nickname || "",
         avatar: status.avatar || "",
-        username: status.username || targetUsername
+        username: status.connected ? (status.username || targetUsername) : (tiktokLiveUsername || targetUsername)
       };
       io.emit("tiktokConnectionStatus", tiktokLiveStatus);
       io.of("/admin").emit("tiktokConnectionStatus", tiktokLiveStatus);
       broadcastState();
     }
   });
+
+  tiktokLiveClient = currentClient;
 }
 
 function disconnectTikTok() {
@@ -462,8 +469,11 @@ function disconnectTikTok() {
   tiktokLiveUsername = "";
 
   if (tiktokLiveClient) {
-    tiktokLiveClient.disconnect();
+    const oldClient = tiktokLiveClient;
     tiktokLiveClient = null;
+    try {
+      oldClient.disconnect();
+    } catch {}
   }
 
   tiktokLiveStatus = {
@@ -477,6 +487,7 @@ function disconnectTikTok() {
   io.emit("tiktokConnectionStatus", tiktokLiveStatus);
   io.of("/admin").emit("tiktokConnectionStatus", tiktokLiveStatus);
   broadcastState();
+  console.log("[TikTok] Disconnected by user.");
 }
 
 // REST Endpoints

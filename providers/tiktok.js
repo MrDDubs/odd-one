@@ -27,12 +27,13 @@ export function connectTikTokLive({ username, onChat, onLog, onStatusChange }) {
   };
 
   const notifyStatus = (connected, connecting = false) => {
+    if (isClosedExplicitly && (connected || connecting)) return;
     onStatusChange?.({
-      connected,
-      connecting,
-      nickname: connected ? (streamerNickname || cleanUsername) : "",
-      avatar: connected ? streamerAvatar : "",
-      username: connected ? cleanUsername : ""
+      connected: isClosedExplicitly ? false : connected,
+      connecting: isClosedExplicitly ? false : connecting,
+      nickname: (connected && !isClosedExplicitly) ? (streamerNickname || cleanUsername) : "",
+      avatar: (connected && !isClosedExplicitly) ? streamerAvatar : "",
+      username: isClosedExplicitly ? "" : cleanUsername
     });
   };
 
@@ -57,6 +58,13 @@ export function connectTikTokLive({ username, onChat, onLog, onStatusChange }) {
       });
 
       const state = await tiktokConn.connect();
+      if (isClosedExplicitly) {
+        try {
+          tiktokConn.disconnect();
+        } catch {}
+        tiktokConn = null;
+        return;
+      }
       log(`Connected to room ID: ${state?.roomId || "unknown"}`);
 
       // Extract streamer information
@@ -144,11 +152,13 @@ export function connectTikTokLive({ username, onChat, onLog, onStatusChange }) {
         tiktokConn = null;
         streamerNickname = "";
         streamerAvatar = "";
-        notifyStatus(false, false);
 
         if (!isClosedExplicitly && cleanUsername) {
           log("Will attempt auto-reconnect in 5s...");
+          notifyStatus(false, true); // Keep connecting: true while auto-reconnecting
           scheduleReconnect(5000);
+        } else {
+          notifyStatus(false, false);
         }
       });
 
@@ -162,11 +172,13 @@ export function connectTikTokLive({ username, onChat, onLog, onStatusChange }) {
       tiktokConn = null;
       streamerNickname = "";
       streamerAvatar = "";
-      notifyStatus(false, false);
 
       if (!isClosedExplicitly && cleanUsername) {
         log("Retrying connection in 5s...");
+        notifyStatus(false, true); // Keep connecting: true while retrying
         scheduleReconnect(5000);
+      } else {
+        notifyStatus(false, false);
       }
     }
   };
