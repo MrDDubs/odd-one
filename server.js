@@ -409,9 +409,13 @@ function disconnectTikFinity() {
 }
 
 // Bootstrap Direct TikTok Live connection
+let currentTikTokConnId = 0;
+
 function startTikTokConnection(username) {
   const targetUsername = String(username || tiktokLiveUsername || "").replace(/^@/, "").trim();
   if (!targetUsername) return;
+
+  const connId = ++currentTikTokConnId;
 
   if (tiktokLiveClient) {
     const oldClient = tiktokLiveClient;
@@ -436,10 +440,10 @@ function startTikTokConnection(username) {
 
   console.log(`[TikTok] Connecting directly to @${targetUsername}...`);
 
-  const currentClient = connectTikTokLive({
+  const client = connectTikTokLive({
     username: targetUsername,
     onChat: ({ username, nickname, text, avatar }) => {
-      if (tiktokLiveClient !== currentClient) return;
+      if (connId !== currentTikTokConnId) return;
       handleIncomingGuess(username, nickname, text, avatar);
     },
     onLog: (msg) => {
@@ -447,7 +451,7 @@ function startTikTokConnection(username) {
       io.of("/admin").emit("tiktokLog", msg);
     },
     onStatusChange: (status) => {
-      if (tiktokLiveClient !== currentClient) return;
+      if (connId !== currentTikTokConnId) return;
       tiktokLiveStatus = {
         connected: !!status.connected,
         connecting: !!status.connecting,
@@ -461,10 +465,11 @@ function startTikTokConnection(username) {
     }
   });
 
-  tiktokLiveClient = currentClient;
+  tiktokLiveClient = client;
 }
 
 function disconnectTikTok() {
+  currentTikTokConnId++;
   updateEnvFile("TIKTOK_USERNAME", "");
   tiktokLiveUsername = "";
 
