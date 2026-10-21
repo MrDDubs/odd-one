@@ -120,6 +120,19 @@ function sendGameAction(action, options = {}) {
 // --------------------------------------------------------------------------
 // Viewport & Scale Controls
 // --------------------------------------------------------------------------
+const btnToggleMobilePreview = document.getElementById("btnToggleMobilePreview");
+const previewStage = document.querySelector(".preview-stage");
+
+btnToggleMobilePreview?.addEventListener("click", () => {
+  if (previewStage) {
+    const isVisible = previewStage.classList.toggle("mobile-visible");
+    btnToggleMobilePreview.textContent = isVisible ? "📱 Hide Preview" : "📱 Preview Stream";
+    if (isVisible) {
+      previewStage.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+});
+
 btnVpPhone?.addEventListener("click", () => {
   btnVpPhone.classList.add("active");
   btnVpFit?.classList.remove("active");

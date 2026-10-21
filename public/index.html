@@ -63,16 +63,19 @@
 
     <!-- Quick Browser Source Shortcuts -->
     <div class="header-actions">
-      <a href="/overlay" target="_blank" class="btn-field-link" title="Open universal overlay in browser">
+      <button id="btnToggleMobilePreview" class="btn-field-link btn-mobile-preview-toggle" title="Toggle live stream overlay preview">
+        📱 Preview Stream
+      </button>
+      <a href="/overlay" target="_blank" class="btn-field-link btn-desktop-only" title="Open universal overlay in browser">
         📺 Universal Overlay ↗
       </a>
-      <a href="/slideshow" target="_blank" class="btn-field-link" title="Open slideshow overlay in browser">
+      <a href="/slideshow" target="_blank" class="btn-field-link btn-desktop-only" title="Open slideshow overlay in browser">
         🖼️ Slideshow ↗
       </a>
       <a href="/admin" class="btn-field-link" style="background:linear-gradient(135deg, var(--sunflower-yellow), var(--sunflower-amber)); color:#2e1a02; font-weight:800; border-color:var(--sunflower-yellow);" title="Open Detailed Settings & Tools">
         ⚙️ Settings &amp; Tools →
       </a>
-      <button id="btnCopyUniversalUrl" class="btn-field-link" title="Copy Universal Overlay URL">
+      <button id="btnCopyUniversalUrl" class="btn-field-link btn-desktop-only" title="Copy Universal Overlay URL">
         📋 Copy URL
       </button>
       <button id="btnInstallPwa" class="btn-field-link" style="display:none">

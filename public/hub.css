@@ -741,3 +741,181 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ── Mobile & Responsive Breakpoints ── */
+.btn-mobile-preview-toggle {
+  display: none;
+  background: var(--sky-blue-tint);
+  border-color: var(--sky-blue);
+  color: #bfdbfe;
+}
+
+@media (max-width: 860px) {
+  body {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .btn-mobile-preview-toggle {
+    display: inline-flex;
+  }
+
+  .btn-desktop-only {
+    display: none !important;
+  }
+
+  /* Compact wrapping header on mobile */
+  .top-header {
+    padding: 10px 14px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .brand-wrap {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .header-center {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tiktok-bar {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .tiktok-input {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .header-actions a, .header-actions button {
+    flex: 1;
+    text-align: center;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Single Column Workspace for Mobile */
+  .workspace {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  /* Game Preview collapsed on mobile unless toggled */
+  .preview-stage {
+    display: none;
+    border-right: none;
+    border-bottom: 2px solid var(--border-card);
+    height: auto;
+    max-height: 520px;
+  }
+
+  .preview-stage.mobile-visible {
+    display: flex;
+    animation: fadeInPreview 0.25s ease forwards;
+  }
+
+  @keyframes fadeInPreview {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .preview-viewport {
+    padding: 12px;
+  }
+
+  .phone-mockup {
+    width: min(100%, 300px);
+    height: 440px;
+    border-radius: 26px;
+  }
+
+  /* Full Width Touch-Friendly Sidebar Cockpit */
+  .sidebar-cockpit {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .field-card {
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+
+  .game-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .game-cute-btn {
+    padding: 10px 4px;
+    border-radius: 10px;
+  }
+
+  .action-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+
+  .btn-action-primary, .btn-action-secondary {
+    min-height: 42px;
+    font-size: 12px;
+  }
+
+  /* iOS Auto-Zoom Prevention on focus */
+  .field-input, input[type="text"], input[type="number"], select {
+    font-size: 16px !important;
+  }
+
+  .chips-row {
+    gap: 6px;
+  }
+
+  .field-chip {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .vol-row {
+    padding: 4px 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .game-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .game-cute-btn {
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+  }
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+}
