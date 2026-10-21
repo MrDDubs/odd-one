@@ -12,6 +12,7 @@ import dotenv from "dotenv";
 import { gameRegistry } from "./games/registry.js";
 import { connectTikFinity } from "./providers/tikfinity.js";
 import { connectTikTokLive, fetchTikTokAvatar } from "./providers/tiktok.js";
+import { getTikTokTTS, TIKTOK_VOICES } from "./providers/tts.js";
 
 dotenv.config();
 
@@ -189,6 +190,68 @@ function saveSpeechMessages(payload) {
 function broadcastSpeechMessages(payload) {
   io.emit("speechMessagesUpdated", payload);
   io.of("/admin").emit("speechMessagesUpdated", payload);
+}
+
+// Slideshow / Banner Persistence & Broadcasts
+const slideshowsPath = path.join(__dirname, "data", "slideshows.json");
+
+function getSlideshowData() {
+  try {
+    if (fs.existsSync(slideshowsPath)) {
+      return JSON.parse(fs.readFileSync(slideshowsPath, "utf8"));
+    }
+  } catch (err) {
+    console.error("[Slideshow] Error reading slideshows.json:", err.message);
+  }
+  return {
+    activeId: "default-banner",
+    slideshows: [
+      {
+        id: "default-banner",
+        name: "Live Stream Banner",
+        width: 1080,
+        height: 220,
+        slides: [
+          {
+            id: "slide-1",
+            title: "Welcome",
+            text: "Welcome to the show! Tap the screen & share the LIVE! 💜",
+            ttsText: "Welcome to the show! Don't forget to double tap the screen and share the live!",
+            ttsVoice: "en_us_001",
+            ttsEnabled: true,
+            fontFamily: "Outfit",
+            fontSize: 42,
+            fontColor: "#ffffff",
+            textAlign: "center",
+            bgType: "color",
+            bgValue: "linear-gradient(135deg, #1e1548, #2e1065)",
+            animation: "slideLeft",
+            animationTime: 0.8,
+            duration: 12
+          }
+        ]
+      }
+    ]
+  };
+}
+
+function saveSlideshowData(data) {
+  try {
+    const dataDir = path.dirname(slideshowsPath);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(slideshowsPath, JSON.stringify(data, null, 2), "utf8");
+    return true;
+  } catch (err) {
+    console.error("[Slideshow] Error saving slideshows.json:", err.message);
+    return false;
+  }
+}
+
+function broadcastSlideshowData(data) {
+  io.emit("slideshowUpdated", data);
+  io.of("/admin").emit("slideshowUpdated", data);
 }
 
 // Audio Settings persistence
@@ -624,6 +687,47 @@ app.post("/admin/disconnect-tikfinity", (_req, res) => {
   res.json({ ok: true });
 });
 
+// Slideshow REST Endpoints
+app.get("/api/slideshows", (_req, res) => {
+  res.json({ ok: true, ...getSlideshowData() });
+});
+
+app.post("/api/slideshows", (req, res) => {
+  const data = req.body || {};
+  if (!Array.isArray(data.slideshows)) {
+    return res.status(400).json({ ok: false, error: "slideshows must be an array" });
+  }
+  const cleanData = {
+    activeId: data.activeId || (data.slideshows[0] ? data.slideshows[0].id : "default-banner"),
+    slideshows: data.slideshows
+  };
+  saveSlideshowData(cleanData);
+  broadcastSlideshowData(cleanData);
+  res.json({ ok: true, ...cleanData });
+});
+
+// TikTok TTS Generator Endpoint (returns base64 mp3)
+app.post("/api/tts", async (req, res) => {
+  const { text, voice } = req.body || {};
+  if (!text || !text.trim()) {
+    return res.status(400).json({ ok: false, error: "Missing text" });
+  }
+  const base64Audio = await getTikTokTTS(text, voice || "en_us_001");
+  if (base64Audio) {
+    return res.json({ ok: true, audio: base64Audio });
+  }
+  return res.status(502).json({ ok: false, error: "TTS generation failed" });
+});
+
+app.get("/api/tts-voices", (_req, res) => {
+  res.json({ ok: true, voices: TIKTOK_VOICES });
+});
+
+// Slideshow Overlay Route (Dedicated OBS Browser Source)
+app.get(["/slideshow", "/slideshow.html", "/banner", "/banner.html"], (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "slideshow.html"));
+});
+
 // Universal Overlay Route (dynamic game loading)
 app.get("/overlay", (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "overlay.html"));
@@ -674,9 +778,11 @@ io.on("connection", (socket) => {
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
     tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
     speechMessages: getSpeechMessages(),
+    slideshowData: getSlideshowData(),
     audioSettings: currentAudioSettings
   });
   socket.emit("audioSettings", currentAudioSettings);
+  socket.emit("slideshowUpdated", getSlideshowData());
 
   socket.on("manualGuess", (code) => {
     if (code) handleIncomingGuess("Host", "Host", code);
@@ -718,9 +824,11 @@ adminNSP.on("connection", (socket) => {
     tiktokLiveStreamerName: tiktokLiveStatus.nickname,
     tiktokLiveStreamerAvatar: tiktokLiveStatus.avatar,
     speechMessages: getSpeechMessages(),
+    slideshowData: getSlideshowData(),
     audioSettings: currentAudioSettings
   });
   socket.emit("audioSettings", currentAudioSettings);
+  socket.emit("slideshowUpdated", getSlideshowData());
 
   socket.on("setAudioSettings", ({ volume, muted }) => {
     if (typeof volume === "number") currentAudioSettings.volume = Math.max(0, Math.min(100, Math.round(volume)));
@@ -741,6 +849,17 @@ adminNSP.on("connection", (socket) => {
       };
       saveSpeechMessages(cleanPayload);
       broadcastSpeechMessages(cleanPayload);
+    }
+  });
+
+  socket.on("updateSlideshows", (payload) => {
+    if (payload && Array.isArray(payload.slideshows)) {
+      const cleanData = {
+        activeId: payload.activeId || (payload.slideshows[0] ? payload.slideshows[0].id : "default-banner"),
+        slideshows: payload.slideshows
+      };
+      saveSlideshowData(cleanData);
+      broadcastSlideshowData(cleanData);
     }
   });
 

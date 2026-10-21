@@ -1,0 +1,47 @@
+{
+  "activeId": "default-banner",
+  "slideshows": [
+    {
+      "id": "default-banner",
+      "name": "Live Stream Banner",
+      "width": 1080,
+      "height": 220,
+      "slides": [
+        {
+          "id": "slide-1",
+          "title": "Welcome",
+          "text": "Welcome to the show! Tap the screen & share the LIVE! 💜",
+          "ttsText": "Welcome to the show! Don't forget to double tap the screen and share the live!",
+          "ttsVoice": "en_us_001",
+          "ttsEnabled": true,
+          "fontFamily": "Outfit",
+          "fontSize": 42,
+          "fontColor": "#ffffff",
+          "textAlign": "center",
+          "bgType": "color",
+          "bgValue": "linear-gradient(135deg, #1e1548, #2e1065)",
+          "animation": "slideLeft",
+          "animationTime": 0.8,
+          "duration": 12
+        },
+        {
+          "id": "slide-2",
+          "title": "Leaderboard Challenge",
+          "text": "Can you take the #1 spot on the leaderboard? 👑",
+          "ttsText": "Can you take the number one spot on the leaderboard today? Let's go!",
+          "ttsVoice": "en_us_001",
+          "ttsEnabled": true,
+          "fontFamily": "Outfit",
+          "fontSize": 44,
+          "fontColor": "#fef08a",
+          "textAlign": "center",
+          "bgType": "color",
+          "bgValue": "linear-gradient(135deg, #311042, #581c87)",
+          "animation": "fade",
+          "animationTime": 0.8,
+          "duration": 10
+        }
+      ]
+    }
+  ]
+}

@@ -140,7 +140,38 @@
           </div>
         </div>
 
-        <!-- 4. TikFinity Connection Settings (Alternative) -->
+        <!-- 4. Live Stream Banner & Slideshow Builder with TTS -->
+        <div class="card slideshow-builder-card" style="margin-top:20px;">
+          <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span>🖼️ Banner &amp; Slideshow Builder</span>
+              <span class="badge badge-purple" style="font-size:10px">TikTok TTS Voice</span>
+            </div>
+            <a href="/slideshow" target="_blank" class="chip" style="text-decoration:none;font-size:11px;padding:4px 10px;background:rgba(139,92,246,0.2);color:#c4b5fd;border:1px solid rgba(139,92,246,0.4);">
+              📺 Open Overlay
+            </a>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
+            Configure rotating stream banners, custom animations, backgrounds, and speak text aloud with TikTok TTS when each slide displays.
+          </p>
+
+          <!-- Slides List Container -->
+          <div id="slideshowBuilderList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px;">
+            <!-- Dynamically populated via hub.js -->
+          </div>
+
+          <!-- Bottom Action Buttons -->
+          <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;">
+            <button id="btnAddSlide" class="secondary" style="font-size:12px;padding:8px 14px;border-radius:8px;">
+              ➕ Add New Slide
+            </button>
+            <button id="btnSaveSlideshow" class="primary" style="font-size:12px;padding:8px 18px;border-radius:8px;font-weight:700;">
+              💾 Save &amp; Broadcast Banner
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. TikFinity Connection Settings (Alternative) -->
         <div class="card">
           <div class="card-title">
             <span>⚙️ TikFinity Connection (Alternative)</span>
@@ -197,6 +228,15 @@
       <p style="font-size:13px;color:var(--muted);margin-bottom:16px">
         Add these URLs as <strong>Browser Sources</strong> in TikTok Live Studio.
       </p>
+
+      <div class="link-item">
+        <div>
+          <div class="link-title">🖼️ Live Slideshow &amp; Banner Overlay (with TTS)</div>
+          <div class="link-desc">Animated stream banner with text, images, videos &amp; TikTok voice speech!</div>
+          <code id="linkSlideshow">http://localhost:4000/slideshow</code>
+        </div>
+        <button class="primary copy-btn" data-copy="linkSlideshow">Copy Link</button>
+      </div>
 
       <div class="link-item">
         <div>

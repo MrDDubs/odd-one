@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ally's Stream Hub — Banner & Slideshow Overlay</title>
+  <!-- Common Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;700;800&family=Montserrat:wght@400;700;900&family=Inter:wght@400;700&family=Bungee&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: transparent;
+      user-select: none;
+    }
+
+    #slideshow-stage {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .slide-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      box-sizing: border-box;
+      transition: opacity 0.3s ease;
+    }
+
+    .slide-layer.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    /* Background Elements */
+    .slide-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }
+
+    .slide-bg-color {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* Content Elements */
+    .slide-content {
+      z-index: 2;
+      width: 100%;
+      padding: 16px 32px;
+      box-sizing: border-box;
+      font-weight: 700;
+      line-height: 1.25;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), 0 4px 20px rgba(0, 0, 0, 0.6);
+      word-break: break-word;
+    }
+
+    /* Entrance Animations */
+    .slide-layer.active.anim-fade { animation: fade var(--anim-time, 0.8s) ease-out; }
+    .slide-layer.active.anim-slideLeft { animation: slideLeft var(--anim-time, 0.8s) cubic-bezier(0.16, 1, 0.3, 1); }
+    .slide-layer.active.anim-slideRight { animation: slideRight var(--anim-time, 0.8s) cubic-bezier(0.16, 1, 0.3, 1); }
+    .slide-layer.active.anim-slideUp { animation: slideUp var(--anim-time, 0.8s) cubic-bezier(0.16, 1, 0.3, 1); }
+    .slide-layer.active.anim-slideDown { animation: slideDown var(--anim-time, 0.8s) cubic-bezier(0.16, 1, 0.3, 1); }
+    .slide-layer.active.anim-zoom { animation: zoomIn var(--anim-time, 0.8s) cubic-bezier(0.16, 1, 0.3, 1); }
+
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideLeft { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideRight { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes zoomIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+
+    /* Audio unlock banner for OBS browser sources if required */
+    .audio-unlock-pill {
+      position: fixed;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.6);
+      color: #cbd5e1;
+      padding: 3px 8px;
+      font-size: 11px;
+      border-radius: 6px;
+      font-family: sans-serif;
+      z-index: 9999;
+      opacity: 0.6;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="slideshow-stage"></div>
+  <audio id="ttsAudio" preload="auto" style="display:none;"></audio>
+
+  <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
+  <script>
+    const socket = (typeof io !== "undefined") ? io() : null;
+    const stage = document.getElementById("slideshow-stage");
+    const ttsAudio = document.getElementById("ttsAudio");
+
+    // Optional query param: ?id=<slideshowId>
+    const params = new URLSearchParams(window.location.search);
+    const targetSlideshowId = params.get("id");
+
+    let currentSlideshowConfig = null;
+    let slideTimer = null;
+    let currentIndex = -1;
+
+    // Cache preloaded audio base64 by text+voice
+    const audioCache = new Map();
+
+    // Unlock browser audio upon first user click (useful for OBS Interact)
+    let audioUnlocked = false;
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      audioUnlocked = true;
+      if (ttsAudio) {
+        ttsAudio.play().then(() => {
+          ttsAudio.pause();
+          ttsAudio.currentTime = 0;
+        }).catch(() => {});
+      }
+    }
+    window.addEventListener("click", unlockAudio, { once: true });
+    window.addEventListener("touchstart", unlockAudio, { once: true });
+
+    // TTS Voice Execution with TikTok API + Browser Speech Synthesis Fallback
+    async function playTTS(text, voice) {
+      if (!text || !text.trim()) return;
+      const clean = text.trim();
+      const voiceKey = `${voice || "en_us_001"}_${clean}`;
+
+      // 1. Try playing cached audio
+      if (audioCache.has(voiceKey)) {
+        playBase64Audio(audioCache.get(voiceKey));
+        return;
+      }
+
+      // 2. Fetch from server TikTok TTS endpoint
+      try {
+        const res = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: clean, voice: voice || "en_us_001" })
+        });
+        const data = await res.json();
+        if (data && data.ok && data.audio) {
+          audioCache.set(voiceKey, data.audio);
+          playBase64Audio(data.audio);
+          return;
+        }
+      } catch (err) {
+        console.warn("[TTS] TikTok TTS API request failed, falling back to Web Speech:", err.message);
+      }
+
+      // 3. Fallback: Browser Web Speech API
+      speakWebSpeech(clean);
+    }
+
+    function playBase64Audio(base64Data) {
+      if (!ttsAudio) return;
+      try {
+        ttsAudio.src = `data:audio/mp3;base64,${base64Data}`;
+        ttsAudio.play().catch(e => {
+          console.warn("[TTS] Autoplay blocked, attempting fallback Web Speech:", e.message);
+          // If blocked, try Web Speech as well
+        });
+      } catch (e) {
+        console.error("[TTS] Playback error:", e);
+      }
+    }
+
+    function speakWebSpeech(text) {
+      if (!("speechSynthesis" in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = 1.0;
+        utter.pitch = 1.0;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {
+        console.warn("[TTS] Web Speech failed:", e);
+      }
+    }
+
+    // Build Slide DOM Elements
+    function createSlideDOM(slide, index) {
+      const layer = document.createElement("div");
+      layer.className = `slide-layer anim-${slide.animation || "fade"}`;
+      layer.id = `slide-item-${index}`;
+      layer.style.setProperty("--anim-time", (slide.animationTime || 0.8) + "s");
+
+      // Background
+      if (slide.bgType === "image" && slide.bgValue) {
+        const img = document.createElement("img");
+        img.className = "slide-bg";
+        img.src = slide.bgValue;
+        layer.appendChild(img);
+      } else if (slide.bgType === "video" && slide.bgValue) {
+        const vid = document.createElement("video");
+        vid.className = "slide-bg";
+        vid.src = slide.bgValue;
+        vid.loop = true;
+        vid.muted = true;
+        vid.playsInline = true;
+        layer.appendChild(vid);
+      } else {
+        // Color / Gradient
+        const bg = document.createElement("div");
+        bg.className = "slide-bg-color";
+        const val = slide.bgValue || "linear-gradient(135deg, #1e1548, #2e1065)";
+        if (val.includes("gradient") || val.includes("rgb") || val.startsWith("#")) {
+          bg.style.background = val;
+        } else {
+          bg.style.backgroundColor = val;
+        }
+        layer.appendChild(bg);
+      }
+
+      // Content
+      const content = document.createElement("div");
+      content.className = "slide-content";
+      content.style.fontFamily = `"${slide.fontFamily || "Outfit"}", sans-serif`;
+      content.style.fontSize = (slide.fontSize || 42) + "px";
+      content.style.color = slide.fontColor || "#ffffff";
+      content.style.textAlign = slide.textAlign || "center";
+      content.innerHTML = slide.text || "";
+
+      layer.appendChild(content);
+      return layer;
+    }
+
+    function playSlide(index) {
+      if (!currentSlideshowConfig || !currentSlideshowConfig.slides || currentSlideshowConfig.slides.length === 0) return;
+      const slides = currentSlideshowConfig.slides;
+      if (index >= slides.length) index = 0;
+
+      // Deactivate all layers & pause videos
+      document.querySelectorAll(".slide-layer").forEach(el => {
+        el.classList.remove("active");
+        const vid = el.querySelector("video");
+        if (vid) {
+          vid.pause();
+          vid.currentTime = 0;
+        }
+      });
+
+      // Activate current slide
+      const targetEl = document.getElementById(`slide-item-${index}`);
+      const slideData = slides[index];
+      if (targetEl && slideData) {
+        targetEl.classList.add("active");
+
+        const vid = targetEl.querySelector("video");
+        if (vid) {
+          vid.play().catch(() => {});
+        }
+
+        // Trigger TTS if enabled
+        if (slideData.ttsEnabled && (slideData.ttsText || slideData.text)) {
+          const phrase = slideData.ttsText && slideData.ttsText.trim() ? slideData.ttsText.trim() : slideData.text.replace(/<[^>]*>?/gm, "").trim();
+          // Small delay so entrance animation begins before speech
+          setTimeout(() => {
+            playTTS(phrase, slideData.ttsVoice);
+          }, 350);
+        }
+      }
+
+      currentIndex = index;
+
+      // Schedule next slide
+      if (slideTimer) clearTimeout(slideTimer);
+      if (slides.length > 1) {
+        const durationSec = slideData && slideData.duration ? Number(slideData.duration) : 10;
+        const durationMs = Math.max(3000, durationSec * 1000);
+        slideTimer = setTimeout(() => {
+          playSlide((currentIndex + 1) % slides.length);
+        }, durationMs);
+      }
+    }
+
+    function initSlideshow(data) {
+      if (!data || !Array.isArray(data.slideshows) || data.slideshows.length === 0) {
+        stage.innerHTML = `<div style="color:white;font-family:sans-serif;padding:20px;">No slideshow configured.</div>`;
+        return;
+      }
+
+      // Pick target by ?id= or by activeId or default first
+      let selected = null;
+      if (targetSlideshowId) {
+        selected = data.slideshows.find(s => s.id === targetSlideshowId);
+      }
+      if (!selected) {
+        selected = data.slideshows.find(s => s.id === data.activeId) || data.slideshows[0];
+      }
+
+      if (!selected) return;
+
+      // Check if config changed
+      const serialized = JSON.stringify(selected);
+      if (JSON.stringify(currentSlideshowConfig) === serialized) {
+        return; // No rebuild needed
+      }
+
+      currentSlideshowConfig = selected;
+      stage.innerHTML = "";
+      if (slideTimer) clearTimeout(slideTimer);
+
+      if (selected.width) stage.style.maxWidth = selected.width + "px";
+      if (selected.height) stage.style.height = selected.height + "px";
+
+      const slides = selected.slides || [];
+      if (slides.length === 0) {
+        stage.innerHTML = `<div style="color:white;font-family:sans-serif;padding:20px;">No slides in this banner.</div>`;
+        return;
+      }
+
+      slides.forEach((slide, idx) => {
+        stage.appendChild(createSlideDOM(slide, idx));
+      });
+
+      playSlide(0);
+    }
+
+    // Load initial config
+    fetch("/api/slideshows")
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.slideshows) initSlideshow(data);
+      })
+      .catch(err => console.warn("[Slideshow] Fetch error:", err));
+
+    // Listen for live updates from Admin Hub
+    if (socket) {
+      socket.on("slideshowUpdated", (data) => {
+        initSlideshow(data);
+      });
+    }
+  </script>
+</body>
+</html>

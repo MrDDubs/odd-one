@@ -671,3 +671,294 @@ window.addEventListener("appinstalled", () => {
     btnInstallPwa.style.display = "none";
   }
 });
+
+// ==========================================
+// Live Stream Banner & Slideshow Builder + TTS
+// ==========================================
+const slideshowBuilderList = document.getElementById("slideshowBuilderList");
+const btnAddSlide = document.getElementById("btnAddSlide");
+const btnSaveSlideshow = document.getElementById("btnSaveSlideshow");
+
+let activeSlideshowData = {
+  activeId: "default-banner",
+  slideshows: [
+    {
+      id: "default-banner",
+      name: "Live Stream Banner",
+      width: 1080,
+      height: 220,
+      slides: []
+    }
+  ]
+};
+
+const TIKTOK_VOICES_OPTIONS = [
+  { id: "en_us_001", name: "English US (Female 1)" },
+  { id: "en_us_002", name: "English US (Female 2)" },
+  { id: "en_us_006", name: "English US (Male 1)" },
+  { id: "en_us_007", name: "English US (Male 2)" },
+  { id: "en_us_009", name: "English US (Male 3)" },
+  { id: "en_uk_001", name: "English UK (Male)" },
+  { id: "en_au_001", name: "English AU (Female)" },
+  { id: "en_male_narration", name: "Story Narrator" },
+  { id: "en_male_funny", name: "Wacky / Funny" },
+  { id: "en_female_emotional", name: "Peaceful / Warm" }
+];
+
+function getActiveSlideshow() {
+  if (!activeSlideshowData.slideshows || activeSlideshowData.slideshows.length === 0) {
+    activeSlideshowData.slideshows = [{ id: "default-banner", name: "Live Stream Banner", width: 1080, height: 220, slides: [] }];
+  }
+  let ss = activeSlideshowData.slideshows.find(s => s.id === activeSlideshowData.activeId);
+  if (!ss) ss = activeSlideshowData.slideshows[0];
+  return ss;
+}
+
+function renderSlideshowBuilder() {
+  if (!slideshowBuilderList) return;
+  const ss = getActiveSlideshow();
+  const slides = ss.slides || [];
+
+  if (slides.length === 0) {
+    slideshowBuilderList.innerHTML = `
+      <div style="color:var(--muted);text-align:center;padding:20px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px dashed rgba(255,255,255,0.1);">
+        No slides yet. Click "Add New Slide" below to get started!
+      </div>
+    `;
+    return;
+  }
+
+  slideshowBuilderList.innerHTML = slides.map((slide, idx) => {
+    const isTtsEnabled = slide.ttsEnabled !== false;
+    return `
+      <div class="slide-config-item" data-index="${idx}" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="background:#8b5cf6;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">Slide #${idx + 1}</span>
+            <input type="text" class="slide-input-title" value="${esc(slide.title || `Slide ${idx + 1}`)}" placeholder="Slide Title" style="background:transparent;border:none;color:#fff;font-size:13px;font-weight:600;outline:none;" />
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button type="button" class="btn-test-tts chip" data-index="${idx}" style="font-size:11px;padding:3px 8px;background:rgba(139,92,246,0.25);color:#c4b5fd;border:1px solid rgba(139,92,246,0.4);" title="Test TTS Voice">
+              🔊 Test TTS
+            </button>
+            <button type="button" class="btn-delete-slide chip" data-index="${idx}" style="font-size:11px;padding:3px 8px;background:rgba(239,68,68,0.2);color:#fca5a5;border:1px solid rgba(239,68,68,0.4);">
+              🗑️
+            </button>
+          </div>
+        </div>
+
+        <!-- Banner Text (Shown on Screen) -->
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;">BANNER TEXT (ON SCREEN)</label>
+          <input type="text" class="slide-input-text" value="${esc(slide.text || "")}" placeholder="e.g. Welcome to the show! Tap the screen & share! 💜" style="width:100%;box-sizing:border-box;font-size:13px;padding:8px 10px;" />
+        </div>
+
+        <!-- TTS Voice Field -->
+        <div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.18);border-radius:8px;padding:10px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <label style="font-size:11px;font-weight:700;color:#c4b5fd;display:flex;align-items:center;gap:6px;">
+              <span>🗣️ TEXT-TO-SPEECH (TTS)</span>
+            </label>
+            <label style="font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" class="slide-check-tts" ${isTtsEnabled ? "checked" : ""} style="cursor:pointer;" />
+              <span>Enable Voice</span>
+            </label>
+          </div>
+          <textarea class="slide-input-tts-text" rows="2" placeholder="Text spoken aloud by TikTok TTS when this slide appears..." style="width:100%;box-sizing:border-box;font-size:12px;padding:6px 10px;resize:vertical;border-radius:6px;">${esc(slide.ttsText || slide.text || "")}</textarea>
+          
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+            <label style="font-size:11px;color:var(--muted);white-space:nowrap;">Voice:</label>
+            <select class="slide-select-tts-voice" style="flex:1;font-size:11px;padding:4px 8px;border-radius:6px;background:#1e1548;color:#fff;border:1px solid rgba(255,255,255,0.15);">
+              ${TIKTOK_VOICES_OPTIONS.map(v => `<option value="${v.id}" ${(slide.ttsVoice || "en_us_001") === v.id ? "selected" : ""}>${v.name}</option>`).join("")}
+            </select>
+          </div>
+        </div>
+
+        <!-- Animation, Duration, Background Row -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:8px;">
+          <div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:2px;">Duration (sec)</label>
+            <input type="number" min="3" max="60" class="slide-input-duration" value="${slide.duration || 10}" style="width:100%;box-sizing:border-box;font-size:12px;padding:4px 8px;" />
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:2px;">Animation</label>
+            <select class="slide-select-animation" style="width:100%;box-sizing:border-box;font-size:12px;padding:4px 8px;background:#1e1548;color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:6px;">
+              <option value="fade" ${(slide.animation || "fade") === "fade" ? "selected" : ""}>Fade</option>
+              <option value="slideLeft" ${slide.animation === "slideLeft" ? "selected" : ""}>Slide Left</option>
+              <option value="slideRight" ${slide.animation === "slideRight" ? "selected" : ""}>Slide Right</option>
+              <option value="slideUp" ${slide.animation === "slideUp" ? "selected" : ""}>Slide Up</option>
+              <option value="slideDown" ${slide.animation === "slideDown" ? "selected" : ""}>Slide Down</option>
+              <option value="zoom" ${slide.animation === "zoom" ? "selected" : ""}>Zoom In</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:2px;">Font Size (px)</label>
+            <input type="number" min="20" max="90" class="slide-input-fontsize" value="${slide.fontSize || 42}" style="width:100%;box-sizing:border-box;font-size:12px;padding:4px 8px;" />
+          </div>
+          <div>
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:2px;">Text Color</label>
+            <input type="color" class="slide-input-fontcolor" value="${slide.fontColor || "#ffffff"}" style="width:100%;height:28px;border-radius:6px;border:none;cursor:pointer;" />
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:2px;">Background (CSS Color, Gradient, or Image URL)</label>
+          <input type="text" class="slide-input-bg" value="${esc(slide.bgValue || "linear-gradient(135deg, #1e1548, #2e1065)")}" placeholder="e.g. #1e1548 or linear-gradient(...) or https://...image.jpg" style="width:100%;box-sizing:border-box;font-size:12px;padding:4px 8px;" />
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  // Attach delete handlers
+  slideshowBuilderList.querySelectorAll(".btn-delete-slide").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      if (!isNaN(idx)) {
+        pullCurrentFormInputs();
+        ss.slides.splice(idx, 1);
+        renderSlideshowBuilder();
+      }
+    });
+  });
+
+  // Attach TTS test handlers
+  slideshowBuilderList.querySelectorAll(".btn-test-tts").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const idx = parseInt(btn.getAttribute("data-index"), 10);
+      pullCurrentFormInputs();
+      const slide = ss.slides[idx];
+      if (!slide) return;
+      const text = (slide.ttsText || slide.text || "").trim();
+      if (!text) {
+        showToast("No TTS text entered to speak.");
+        return;
+      }
+      showToast(`🔊 Generating speech for Slide #${idx + 1}...`);
+      try {
+        const res = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, voice: slide.ttsVoice || "en_us_001" })
+        });
+        const data = await res.json();
+        if (data && data.ok && data.audio) {
+          const snd = new Audio(`data:audio/mp3;base64,${data.audio}`);
+          snd.play();
+          showToast("🔊 Playing TikTok Voice!");
+        } else {
+          // Web speech fallback
+          window.speechSynthesis?.cancel();
+          window.speechSynthesis?.speak(new SpeechSynthesisUtterance(text));
+          showToast("🔊 Playing fallback browser speech.");
+        }
+      } catch (e) {
+        window.speechSynthesis?.cancel();
+        window.speechSynthesis?.speak(new SpeechSynthesisUtterance(text));
+        showToast("🔊 Playing fallback browser speech.");
+      }
+    });
+  });
+}
+
+function pullCurrentFormInputs() {
+  const ss = getActiveSlideshow();
+  const items = slideshowBuilderList.querySelectorAll(".slide-config-item");
+  items.forEach((item, idx) => {
+    if (!ss.slides[idx]) return;
+    const title = item.querySelector(".slide-input-title")?.value || `Slide ${idx + 1}`;
+    const text = item.querySelector(".slide-input-text")?.value || "";
+    const ttsText = item.querySelector(".slide-input-tts-text")?.value || "";
+    const ttsVoice = item.querySelector(".slide-select-tts-voice")?.value || "en_us_001";
+    const ttsEnabled = !!item.querySelector(".slide-check-tts")?.checked;
+    const duration = parseInt(item.querySelector(".slide-input-duration")?.value, 10) || 10;
+    const animation = item.querySelector(".slide-select-animation")?.value || "fade";
+    const fontSize = parseInt(item.querySelector(".slide-input-fontsize")?.value, 10) || 42;
+    const fontColor = item.querySelector(".slide-input-fontcolor")?.value || "#ffffff";
+    const bgValue = item.querySelector(".slide-input-bg")?.value || "linear-gradient(135deg, #1e1548, #2e1065)";
+
+    const isImage = bgValue.match(/\.(jpg|jpeg|png|webp|gif)($|\?)/i);
+    const isVideo = bgValue.match(/\.(mp4|webm)($|\?)/i);
+    const bgType = isVideo ? "video" : (isImage ? "image" : "color");
+
+    ss.slides[idx] = {
+      ...ss.slides[idx],
+      title,
+      text,
+      ttsText,
+      ttsVoice,
+      ttsEnabled,
+      duration,
+      animation,
+      fontSize,
+      fontColor,
+      bgValue,
+      bgType
+    };
+  });
+}
+
+if (btnAddSlide) {
+  btnAddSlide.addEventListener("click", () => {
+    pullCurrentFormInputs();
+    const ss = getActiveSlideshow();
+    ss.slides.push({
+      id: `slide-${Date.now()}`,
+      title: `Slide ${ss.slides.length + 1}`,
+      text: "Type your announcement or reward message here! ✨",
+      ttsText: "Type what Ally should say aloud when this banner is shown!",
+      ttsVoice: "en_us_001",
+      ttsEnabled: true,
+      fontFamily: "Outfit",
+      fontSize: 42,
+      fontColor: "#ffffff",
+      textAlign: "center",
+      bgType: "color",
+      bgValue: "linear-gradient(135deg, #1e1548, #2e1065)",
+      animation: "slideLeft",
+      animationTime: 0.8,
+      duration: 10
+    });
+    renderSlideshowBuilder();
+  });
+}
+
+if (btnSaveSlideshow) {
+  btnSaveSlideshow.addEventListener("click", async () => {
+    pullCurrentFormInputs();
+    showToast("Saving and broadcasting banner...");
+    try {
+      const res = await fetch("/api/slideshows", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(activeSlideshowData)
+      });
+      const data = await res.json();
+      if (data && data.ok) {
+        showToast("Banner Saved & Broadcasted! 📺✨");
+      } else {
+        alert("Failed to save slideshow: " + (data?.error || "Unknown error"));
+      }
+    } catch (err) {
+      console.error("[Hub] Save slideshow error:", err);
+      alert("Error saving slideshow.");
+    }
+  });
+}
+
+// Initial fetch of slideshows
+fetch("/api/slideshows")
+  .then(r => r.json())
+  .then(data => {
+    if (data && data.slideshows) {
+      activeSlideshowData = data;
+      renderSlideshowBuilder();
+    }
+  })
+  .catch(err => console.warn("[Hub] Error fetching slideshows:", err));
+
+socket.on("slideshowUpdated", (data) => {
+  if (data && data.slideshows) {
+    activeSlideshowData = data;
+    renderSlideshowBuilder();
+  }
+});
