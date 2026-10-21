@@ -3,16 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ally's Stream Hub — Host Control Center</title>
+  <title>Ally's Stream Hub — Studio Cockpit</title>
   <!-- PWA & Standalone Fullscreen App Config -->
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#8b5cf6">
+  <meta name="theme-color" content="#121722">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Stream Hub">
   <link rel="apple-touch-icon" href="/icon-192.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="./hub.css">
   <link rel="stylesheet" href="./speech-bubble.css">
@@ -26,296 +30,255 @@
   <script src="/socket.io/socket.io.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdn.socket.io/4.7.5/socket.io.min.js';document.head.appendChild(s);"></script>
 </head>
 <body>
-  <div class="hub-container">
-    <!-- Top Navigation & Compact TikTok Toolbar -->
-    <header class="hub-header">
-      <div class="brand-wrap">
-        <span class="hub-logo">🎮</span>
-        <div>
-          <h1>Ally's Stream Hub</h1>
-          <div class="hub-sub">TikTok Live Game Launcher</div>
-        </div>
-      </div>
-
-      <!-- Compact Direct TikTok Live Connection Toolbar -->
-      <div class="header-tiktok-toolbar">
-        <div class="header-tiktok-input-wrap">
-          <span class="header-tiktok-at">@</span>
-          <input type="text" id="inputTikTokUser" placeholder="TikTok username" class="header-tiktok-input" />
-          <button id="btnConnectTikTok" class="header-btn-connect">CONNECT</button>
-          <button id="btnDisconnectTikTok" class="header-btn-disconnect" style="display:none">DISCONNECT</button>
-        </div>
-
-        <!-- Live Connection Status Pill with Avatar -->
-        <span id="badgeTikTok" class="badge badge-red">
-          <span class="dot"></span>
-          <span id="avatarTikTokMini" style="display:none"></span>
-          <span id="textTikTok">Disconnected</span>
-        </span>
-      </div>
-
-      <div class="header-right-actions">
-        <!-- Active Game Pill -->
-        <span class="badge badge-purple" id="badgeActiveGame">
-          <span>Active: Odd One Out</span>
-        </span>
-
-        <!-- Admin Studio Overlay Button -->
-        <a href="/admin-overlay" class="header-overlay-btn" style="background: linear-gradient(135deg, #10b981, #059669); text-decoration:none">
-          🎛️ Live Admin Overlay Studio
-        </a>
-
-        <!-- Install App Button (hidden until prompt is available or in standalone) -->
-        <button id="btnInstallPwa" class="header-overlay-btn" style="display:none; background: linear-gradient(135deg, #ec4899, #8b5cf6);">
-          📲 Install App
-        </button>
-
-        <!-- Stream Overlay Links Button -->
-        <button id="btnOpenOverlayLinks" class="header-overlay-btn">
-          📺 Overlay Links
-        </button>
-      </div>
-    </header>
-
-    <!-- Main Grid -->
-    <main class="hub-grid">
-      <!-- Left Column: Game Launcher & Active Game Workspace -->
-      <section class="left-col">
-        <!-- 1. Game Catalog & Launcher -->
-        <div class="card game-launcher-card">
-          <div class="card-title">
-            <span>🕹️ Game Suite Catalog</span>
-            <span class="badge badge-purple" style="font-size:10px">1-Click Switch</span>
-          </div>
-          <div class="game-cards-grid" id="gameCardsGrid">
-            <!-- Dynamically populated via hub.js -->
-          </div>
-        </div>
-
-        <!-- 2. Active Game Dynamic Workspace -->
-        <div id="activeGameWorkspace">
-          <!-- Dynamically loaded game controls (Odd One Out or Think Like Ally) -->
-          <div style="color:var(--muted);text-align:center;padding:24px">Loading active game controls...</div>
-        </div>
-
-        <!-- 3. Avatar Speech Bubble Messages Manager -->
-        <div class="card speech-manager-card">
-          <div class="card-title">
-            <span>💬 Avatar Speech Bubble Messages</span>
-            <span class="badge badge-purple" style="font-size:10px">Header Talking Head</span>
-          </div>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
-            Messages Ally speaks in the overlay header. Viewers see these cycle sequentially in real-time.
-          </p>
-
-          <!-- Live Speech Bubble Preview -->
-          <div class="speech-preview-box">
-            <div class="speech-preview-avatar" style="width:48px;height:48px;border-radius:50%;padding:2px;background:linear-gradient(135deg, #fef08a, #f59e0b);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <img src="/ally-avatar.png" alt="Ally" style="width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 20%;border:1.5px solid #fff;">
-            </div>
-            <div class="avatar-speech-bubble" id="speechPreviewBubble" style="min-height:48px;padding:8px 14px">
-              <span class="speech-bubble-text" id="speechPreviewText" style="font-size:13px">Welcome to the show! 💜</span>
-            </div>
-          </div>
-
-          <!-- Add New Message Form -->
-          <div class="speech-add-form" style="margin-top:14px;display:flex;gap:8px">
-            <input type="text" id="inputNewSpeechMsg" placeholder="Type a new speech message..." style="flex:1" maxlength="100">
-            <button id="btnAddSpeechMsg" class="primary" style="white-space:nowrap;padding:8px 14px">➕ Add Message</button>
-          </div>
-
-          <!-- Settings Row: Cycle Interval -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:8px">
-            <label for="inputSpeechCycleSeconds" style="font-size:12px;color:var(--muted);margin:0">Cycle interval:</label>
-            <div style="display:flex;align-items:center;gap:6px">
-              <input type="number" id="inputSpeechCycleSeconds" min="3" max="60" value="8" style="width:60px;padding:4px 8px;text-align:center">
-              <span style="font-size:12px;color:var(--muted)">sec</span>
-              <button id="btnSaveCycleSeconds" class="chip" style="font-size:11px;padding:4px 10px">Save</button>
-            </div>
-          </div>
-
-          <!-- Message Items List -->
-          <div class="speech-messages-list" id="speechMessagesList" style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
-            <!-- Dynamically populated via hub.js -->
-          </div>
-        </div>
-
-        <!-- 4. Live Stream Banner & Slideshow Builder with TTS -->
-        <div class="card slideshow-builder-card" style="margin-top:20px;">
-          <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span>🖼️ Banner &amp; Slideshow Builder</span>
-              <span class="badge badge-purple" style="font-size:10px">TikTok TTS Voice</span>
-            </div>
-            <a href="/slideshow" target="_blank" class="chip" style="text-decoration:none;font-size:11px;padding:4px 10px;background:rgba(139,92,246,0.2);color:#c4b5fd;border:1px solid rgba(139,92,246,0.4);">
-              📺 Open Overlay
-            </a>
-          </div>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
-            Configure rotating stream banners, custom animations, backgrounds, and speak text aloud with TikTok TTS when each slide displays.
-          </p>
-
-          <!-- Slides List Container -->
-          <div id="slideshowBuilderList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px;">
-            <!-- Dynamically populated via hub.js -->
-          </div>
-
-          <!-- Bottom Action Buttons -->
-          <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;">
-            <button id="btnAddSlide" class="secondary" style="font-size:12px;padding:8px 14px;border-radius:8px;">
-              ➕ Add New Slide
-            </button>
-            <button id="btnSaveSlideshow" class="primary" style="font-size:12px;padding:8px 18px;border-radius:8px;font-weight:700;">
-              💾 Save &amp; Broadcast Banner
-            </button>
-          </div>
-        </div>
-
-        <!-- 5. TikFinity Connection Settings (Alternative) -->
-        <div class="card">
-          <div class="card-title">
-            <span>⚙️ TikFinity Connection (Alternative)</span>
-            <span id="badgeTikfinityCard" class="badge badge-red" style="font-size:10px;padding:3px 8px">Disconnected</span>
-          </div>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">
-            Optional: Use TikFinity desktop app WebSocket if you prefer not using direct connection.
-          </p>
-          <div class="form-group">
-            <label for="inputTikfinityUrl">WebSocket URL</label>
-            <div style="display:flex;align-items:center;gap:8px">
-              <input type="text" id="inputTikfinityUrl" value="ws://localhost:21213/" style="flex:1">
-              <button id="btnConnectTikfinity" class="primary" style="padding:8px 16px">CONNECT</button>
-              <button id="btnDisconnectTikfinity" class="danger" style="padding:8px 14px">DISCONNECT</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Right Column: Live Guesses Feed & Community Leaderboard -->
-      <section class="right-col">
-        <!-- Live Incoming Guesses Feed -->
-        <div class="card">
-          <div class="card-title">
-            <span>💬 Live Incoming Guesses</span>
-            <button id="btnClearFeed" class="chip" style="font-size:11px">Clear</button>
-          </div>
-          <div class="guess-feed" id="guessFeed">
-            <div style="color:var(--muted);text-align:center;padding:16px">Waiting for viewer guesses in TikTok chat...</div>
-          </div>
-        </div>
-
-        <!-- Community Leaderboard -->
-        <div class="card">
-          <div class="card-title">
-            <span>🏆 Top Community Winners</span>
-            <button id="btnResetLeaderboard" class="chip" style="font-size:11px">Reset</button>
-          </div>
-          <ul class="leaderboard-list" id="leaderboardList">
-            <li style="color:var(--muted);font-size:12px">No winners yet.</li>
-          </ul>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- Overlay Links Modal -->
-  <div id="overlayModal" class="modal-overlay" style="display:none">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2>📺 Stream Overlay Browser Sources</h2>
-        <button id="btnCloseModal" class="close-btn">&times;</button>
-      </div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">
-        Add these URLs as <strong>Browser Sources</strong> in TikTok Live Studio.
-      </p>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">🖼️ Live Slideshow &amp; Banner Overlay (with TTS)</div>
-          <div class="link-desc">Animated stream banner with text, images, videos &amp; TikTok voice speech!</div>
-          <code id="linkSlideshow">http://localhost:4000/slideshow</code>
-        </div>
-        <button class="primary copy-btn" data-copy="linkSlideshow">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">🌟 Universal Stream Overlay (Recommended)</div>
-          <div class="link-desc">Automatically switches to whichever game is active in the Hub!</div>
-          <code id="linkUniversal">http://localhost:4000/overlay</code>
-        </div>
-        <button class="primary copy-btn" data-copy="linkUniversal">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">🧩 Ally's Odd One Out (Dedicated)</div>
-          <code id="linkOddOne">http://localhost:4000/games/odd-one-out/overlay.html</code>
-        </div>
-        <button class="secondary copy-btn" data-copy="linkOddOne">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">💡 Think Like Ally (Dedicated)</div>
-          <code id="linkThinkLikeAlly">http://localhost:4000/games/think-like-ally/overlay.html</code>
-        </div>
-        <button class="secondary copy-btn" data-copy="linkThinkLikeAlly">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">💜 Think &amp; Link (Dedicated)</div>
-          <code id="linkThinkAndLink">http://localhost:4000/games/think-and-link/overlay.html</code>
-        </div>
-        <button class="secondary copy-btn" data-copy="linkThinkAndLink">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">🔍 Ally's Word Finder (Dedicated)</div>
-          <code id="linkWordFinder">http://localhost:4000/games/word-finder/overlay.html</code>
-        </div>
-        <button class="secondary copy-btn" data-copy="linkWordFinder">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">⚔️ Ally's Chat Feud (Dedicated)</div>
-          <code id="linkCrowdSays">http://localhost:4000/games/crowd-says/overlay.html</code>
-        </div>
-        <button class="secondary copy-btn" data-copy="linkCrowdSays">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">🔤 Ally's Unscramble (Dedicated)</div>
-          <code id="linkUnscramble">http://localhost:4000/games/unscramble/overlay.html</code>
-        </div>
-        <button class="secondary copy-btn" data-copy="linkUnscramble">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">🎭 Ally's Rebus (Dedicated)</div>
-          <code id="linkRebus">http://localhost:4000/games/rebus/overlay.html</code>
-        </div>
-        <button class="secondary copy-btn" data-copy="linkRebus">Copy Link</button>
-      </div>
-
-      <div class="link-item">
-        <div>
-          <div class="link-title">🧙‍♂️ Ally's Riddles (Dedicated)</div>
-          <code id="linkRiddle">http://localhost:4000/games/riddle/overlay.html</code>
-        </div>
-        <button class="secondary copy-btn" data-copy="linkRiddle">Copy Link</button>
-      </div>
-
-      <div class="obs-specs">
-        <strong>Recommended Live Studio / TikTok Settings:</strong>
-        <div>Width: <code>1080</code> | Height: <code>1920</code> (9:16 Portrait) or fit to screen</div>
+  <!-- Top Strip Header with Deep Twilight & Sunflower Gold -->
+  <header class="top-header">
+    <div class="brand-wrap">
+      <div class="brand-avatar">🌻</div>
+      <div>
+        <h1 class="brand-title">Ally's Stream Hub</h1>
+        <div class="brand-subtitle">Sunflower Studio Cockpit</div>
       </div>
     </div>
+
+    <!-- TikTok Connection in Center -->
+    <div class="header-center">
+      <div class="tiktok-bar">
+        <span class="tiktok-prefix">@</span>
+        <input type="text" id="inputTikTokUser" placeholder="TikTok username" class="tiktok-input" />
+        <button id="btnConnectTikTok" class="btn-connect-tiktok">CONNECT</button>
+        <button id="btnDisconnectTikTok" class="btn-connect-tiktok" style="display:none;background:#dc2626;color:#fff;">DISCONNECT</button>
+      </div>
+
+      <span id="badgeTikTok" class="badge-yellow">
+        <span class="dot-live" id="dotTikTok"></span>
+        <span id="avatarTikTokMini" style="display:none"></span>
+        <span id="textTikTok">Disconnected</span>
+      </span>
+
+      <span class="badge-sky" id="badgeActiveGame">
+        <span id="badgeActiveGameIcon">🧩</span>
+        <span id="badgeActiveGameText">Odd One Out</span>
+      </span>
+    </div>
+
+    <!-- Quick Browser Source Shortcuts -->
+    <div class="header-actions">
+      <a href="/overlay" target="_blank" class="btn-field-link" title="Open universal overlay in browser">
+        📺 Universal Overlay ↗
+      </a>
+      <a href="/slideshow" target="_blank" class="btn-field-link" title="Open slideshow overlay in browser">
+        🖼️ Slideshow ↗
+      </a>
+      <button id="btnCopyUniversalUrl" class="btn-field-link" title="Copy Universal Overlay URL">
+        📋 Copy URL
+      </button>
+      <button id="btnInstallPwa" class="btn-field-link" style="display:none">
+        📲 Install App
+      </button>
+    </div>
+  </header>
+
+  <!-- Main 2-Column Cockpit Workspace -->
+  <div class="workspace">
+
+    <!-- LEFT: Live Stream Game Overlay Preview Stage -->
+    <section class="preview-stage">
+      <div class="preview-toolbar">
+        <div class="preview-title">
+          <span style="color:var(--sunflower-yellow);font-size:16px">🌻</span>
+          <span>LIVE OVERLAY VIEWPORT</span>
+          <span class="tag-palette">1:1 REAL-TIME SYNC</span>
+        </div>
+        <div class="preview-controls">
+          <button class="btn-vp-toggle active" id="btnVpPhone" title="Phone 9:16 vertical view">9:16 Phone</button>
+          <button class="btn-vp-toggle" id="btnVpFit" title="Fit height to screen">Fit Height</button>
+          <button class="btn-vp-toggle" id="btnReloadFrame" title="Reload live preview frame">🔄</button>
+        </div>
+      </div>
+
+      <div class="preview-viewport" id="previewViewport">
+        <!-- Phone Frame with real live overlay iframe -->
+        <div class="phone-mockup" id="phoneMockup">
+          <div class="phone-notch"></div>
+          <iframe id="liveOverlayIframe" src="/overlay?admin=true" allow="autoplay"></iframe>
+        </div>
+      </div>
+
+      <div class="preview-footer">
+        <div class="obs-pill">
+          <span style="color:var(--fg-secondary);font-weight:700">OBS Browser Source:</span>
+          <code id="obsUrlCode">https://ally.mrddubs.com/overlay</code>
+          <button id="btnCopyObsCode" class="btn-mini-copy" title="Copy to clipboard">📋</button>
+        </div>
+        <div style="color:var(--fg-muted);font-size:11px">
+          Canvas: <strong style="color:#fff">1080 &times; 1920 (9:16 Portrait)</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Twilight Sunflower Cockpit Sidebar -->
+    <aside class="sidebar-cockpit">
+
+      <!-- 1. 1-Click Game Switcher -->
+      <div class="field-card">
+        <div class="field-card-header">
+          <span class="field-title">🕹️ Switch Game</span>
+          <span class="tag-palette">1-Click</span>
+        </div>
+        <div class="game-grid" id="gameButtonsGrid">
+          <button class="game-cute-btn active" data-game="odd-one-out">
+            <span class="game-icon">🧩</span>
+            <span class="game-name">Odd One</span>
+          </button>
+          <button class="game-cute-btn" data-game="think-like-ally">
+            <span class="game-icon">💡</span>
+            <span class="game-name">Think Like</span>
+          </button>
+          <button class="game-cute-btn" data-game="think-and-link">
+            <span class="game-icon">💜</span>
+            <span class="game-name">Think Link</span>
+          </button>
+          <button class="game-cute-btn" data-game="word-finder">
+            <span class="game-icon">🔍</span>
+            <span class="game-name">Word Finder</span>
+          </button>
+          <button class="game-cute-btn" data-game="crowd-says">
+            <span class="game-icon">⚔️</span>
+            <span class="game-name">Chat Feud</span>
+          </button>
+          <button class="game-cute-btn" data-game="unscramble">
+            <span class="game-icon">🔤</span>
+            <span class="game-name">Unscramble</span>
+          </button>
+          <button class="game-cute-btn" data-game="rebus">
+            <span class="game-icon">🎭</span>
+            <span class="game-name">Rebus</span>
+          </button>
+          <button class="game-cute-btn" data-game="riddle">
+            <span class="game-icon">🧙</span>
+            <span class="game-name">Riddles</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Host Secret Cheat Sheet & Round Actions -->
+      <div class="field-card highlight">
+        <div class="cheat-banner">
+          <div>
+            <div class="cheat-label">Secret Answer</div>
+            <div class="cheat-val" id="cheatSecretAnswer">--</div>
+          </div>
+          <div class="cheat-meta">
+            <div>Category: <strong id="cheatCategory">--</strong></div>
+            <div>Level: <strong id="cheatLevel">--</strong></div>
+            <div>Time Left: <strong id="cheatTimer" style="color:var(--sunflower-yellow)">--</strong></div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-grid">
+          <button class="btn-action-primary" id="btnStartRound">▶ Start Round</button>
+          <button class="btn-action-secondary" id="btnNextRound">⏭ Next</button>
+          <button class="btn-action-secondary" id="btnReveal">👁 Reveal</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <button class="btn-action-secondary" id="btnTogglePause">⏸ Pause Timer</button>
+          <button class="btn-action-secondary" id="btnResetRound" style="border-color:rgba(220,38,38,0.4);color:#fca5a5;background:rgba(220,38,38,0.1)">🔄 Reset Round</button>
+        </div>
+      </div>
+
+      <!-- 3. Comprehensive Time Controls -->
+      <div class="field-card">
+        <div class="field-card-header">
+          <span class="field-title">⏳ Round Timer &amp; Duration</span>
+          <span class="tag-palette" id="tagLiveDuration">Live: 20s</span>
+        </div>
+
+        <!-- Quick Delta Adjusters -->
+        <div>
+          <div class="control-sublabel">Quick Adjust:</div>
+          <div class="chips-row">
+            <button class="field-chip btn-time-delta" data-delta="-10">-10s</button>
+            <button class="field-chip btn-time-delta" data-delta="-5">-5s</button>
+            <button class="field-chip leaf btn-time-delta" data-delta="5">+5s</button>
+            <button class="field-chip leaf btn-time-delta" data-delta="10">+10s</button>
+            <button class="field-chip leaf btn-time-delta" data-delta="15">+15s</button>
+          </div>
+        </div>
+
+        <!-- Duration Presets -->
+        <div>
+          <div class="control-sublabel">Presets:</div>
+          <div class="chips-row" id="timePresetsRow">
+            <button class="field-chip btn-time-preset" data-sec="12">12s</button>
+            <button class="field-chip btn-time-preset" data-sec="15">15s</button>
+            <button class="field-chip active btn-time-preset" data-sec="20">20s</button>
+            <button class="field-chip btn-time-preset" data-sec="30">30s</button>
+            <button class="field-chip btn-time-preset" data-sec="45">45s</button>
+            <button class="field-chip btn-time-preset" data-sec="60">60s</button>
+            <button class="field-chip btn-time-preset" data-sec="90">90s</button>
+          </div>
+        </div>
+
+        <!-- Custom Duration Input -->
+        <div class="custom-time-group">
+          <input type="number" id="inputCustomDuration" placeholder="Custom sec (e.g. 75)" min="5" max="3600" class="field-input" />
+          <button id="btnApplyCustomTime" class="btn-apply-time">Set Time</button>
+        </div>
+      </div>
+
+      <!-- 4. Master Audio & Volume Controls -->
+      <div class="field-card">
+        <div class="field-card-header">
+          <span class="field-title">🔊 Master Audio &amp; Volume</span>
+          <button class="btn-mute-toggle" id="btnMuteAudio">
+            <span id="muteBtnIcon">🔊</span>
+            <span id="muteBtnText">Sound ON</span>
+          </button>
+        </div>
+
+        <!-- Volume Slider -->
+        <div class="vol-row">
+          <span style="font-size:12px">🔈</span>
+          <input type="range" min="0" max="100" value="100" class="vol-slider" id="sliderVolume" />
+          <span style="font-size:12px">🔊</span>
+          <span class="vol-badge" id="volumePercentText">100%</span>
+        </div>
+
+        <!-- Quick Volume Chips -->
+        <div class="chips-row">
+          <button class="field-chip vol-chip" data-vol="0">🔇 Mute</button>
+          <button class="field-chip vol-chip" data-vol="25">25%</button>
+          <button class="field-chip vol-chip" data-vol="50">50%</button>
+          <button class="field-chip vol-chip" data-vol="75">75%</button>
+          <button class="field-chip active vol-chip" data-vol="100">100%</button>
+        </div>
+      </div>
+
+      <!-- 5. Live Incoming Guesses Feed -->
+      <div class="field-card">
+        <div class="field-card-header">
+          <span class="field-title">💬 Live Incoming Guesses</span>
+          <button id="btnClearFeed" style="background:none;border:none;color:var(--fg-muted);font-size:11px;font-weight:700;cursor:pointer">Clear</button>
+        </div>
+        <div class="feed-container" id="guessFeed">
+          <div style="color:var(--fg-muted);text-align:center;padding:20px;font-family:sans-serif">Waiting for viewer guesses in TikTok chat...</div>
+        </div>
+      </div>
+
+      <!-- 6. Leaderboard & Streak Reset Action Strip -->
+      <div class="reset-strip">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#fca5a5">Leaderboard &amp; Streak</div>
+          <div style="font-size:10px;color:var(--fg-muted)">Reset viewer points &amp; winning streak</div>
+        </div>
+        <button id="btnResetLeaderboard" class="btn-reset-cute">
+          <span>🔄</span>
+          <span>Reset All</span>
+        </button>
+      </div>
+
+    </aside>
   </div>
 
   <!-- Toast Notification -->

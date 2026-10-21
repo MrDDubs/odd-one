@@ -1,5 +1,5 @@
 // Service Worker for Ally's Stream Hub PWA
-const CACHE_NAME = "ally-stream-hub-v2";
+const CACHE_NAME = "ally-stream-hub-v3";
 const STATIC_ASSETS = [
   "/",
   "/index.html",
