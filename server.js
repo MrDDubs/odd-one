@@ -750,7 +750,7 @@ app.get(["/admin-overlay", "/admin-overlay.html", "/host-overlay"], (_req, res) 
 
 // Admin / Dashboard alias
 app.get(["/admin", "/admin/", "/admin.html"], (_req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "admin.html"));
 });
 
 // Socket.IO Namespaces
